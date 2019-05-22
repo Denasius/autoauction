@@ -10,6 +10,8 @@ class Cartransmission extends Model
 {
 	use Sluggable;
 
+    protected $fillable = ['title'];
+
     public function lots()
     {
     	return $this->belongsToMany(

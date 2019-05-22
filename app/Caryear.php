@@ -10,6 +10,8 @@ class Caryear extends Model
 {
 	use Sluggable;
 
+    protected $fillable = ['title'];
+
     public function lots()
     {
     	return $this->belongsToMany(

@@ -9,6 +9,8 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Carbrand extends Model
 {
 	use Sluggable;
+
+    protected $fillable = ['title'];
 	
     public function lots()
     {
@@ -17,7 +19,7 @@ class Carbrand extends Model
     		'lot_tags', 
     		'brand_id',  
     		'lot_id'
-    	)
+    	);
     }
 
     public function sluggable()

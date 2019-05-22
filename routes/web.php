@@ -15,7 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::group(['prefix'=>'admin', 'namespace'=>'Admin'], function () {	
-	Route::get('/', 'DashboardController@index');
+	Route::get('/', 'DashboardController@index')->name('admin');
 	Route::resource('/categories', 'CategoriesController');
 	Route::resource('/tags', 'TagsController');
+	Route::resource('/brands', 'CarbrandsController');
+	Route::resource('/cylinders', 'CarcylindersController');
+	Route::resource('/disks', 'CardisksController');
+	Route::resource('/drives', 'CardrivesController');
+	Route::resource('/fuels', 'CardfuelsController');
+	Route::resource('/mileages', 'CarmileagesController');
+	Route::resource('/potencias', 'CarpotenciasController');
+	Route::resource('/transmissions', 'CartransmissionsController');
 });

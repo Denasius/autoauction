@@ -34,17 +34,6 @@ class Lot extends Model
     	);
     }
 
-    // год выпуска
-    public function years()
-    {
-    	return $this->belongsToMany(
-    		Caryear::class,
-    		'lot_years',
-    		'lot_id',
-    		'year_id'
-    	);
-    }
-
     // марка авто
     public function brands()
     {
@@ -108,17 +97,6 @@ class Lot extends Model
     		'lot_mileages',
     		'lot_id',
     		'mileage_id'
-    	);
-    }
-
-    // модель
-    public function models()
-    {
-    	return $this->belongsToMany(
-    		Carmodel::class,
-    		'lot_models',
-    		'lot_id',
-    		'model_id'
     	);
     }
 

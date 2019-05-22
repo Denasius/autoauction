@@ -307,8 +307,6 @@
             <ul class="sub">
               <li><a class="" href="general.html">Теги</a></li>
               <li><a class="" href="buttons.html">Марка авто</a></li>
-              <li><a class="" href="grids.html">Модель авто</a></li>
-              <li><a class="" href="grids.html">Год выпуска</a></li>
               <li><a class="" href="grids.html">Кол-во цилиндров</a></li>
               <li><a class="" href="grids.html">Диски</a></li>
               <li><a class="" href="grids.html">Привод</a></li>

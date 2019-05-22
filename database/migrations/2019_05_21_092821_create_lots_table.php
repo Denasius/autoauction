@@ -18,6 +18,8 @@ class CreateLotsTable extends Migration
             $table->string('title');                        // заголовок
             $table->string('slug');                         // слаг
             $table->text('text');                           // описание
+            $table->date('year');                     // год авто
+            $table->string('car_model')->nullable();
             $table->string('vin')->nullable();              // VIN авто
             $table->string('tyres')->nullable();            // покрышки
             $table->integer('category_id')->nullable();     // идентификатор категории

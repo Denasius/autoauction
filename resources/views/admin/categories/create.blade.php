@@ -9,7 +9,7 @@
           <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa-file-text-o"></i> Добавление категории</h3>
             <ol class="breadcrumb">
-              <li><i class="fa fa-home"></i><a href="index.html">Главная</a></li>
+              <li><i class="fa fa-home"></i><a href="{{route('admin')}}">Главная</a></li>
               <li><i class="fa fa-table"></i><a href="{{route('categories.index')}}">Категории</a></li>
               <li><i class="fa fa-file-text-o"></i>Добавить категорию</li>
             </ol>
