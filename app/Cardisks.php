@@ -5,20 +5,19 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class Tag extends Model
+// диски
+class Cardisks extends Model
 {
 	use Sluggable;
-
-    protected $fillable = ['title'];
 
     public function lots()
     {
     	return $this->belongsToMany(
     		Lot::class, 
     		'lot_tags', 
-    		'tag_id',  
+    		'disk_id',  
     		'lot_id'
-    	);
+    	)
     }
 
     public function sluggable()

@@ -15,6 +15,10 @@ $(document).ready(function() {
 
 	$('select.styled').customSelect();
 
+	$('button[data-attr="delete"]').on('click',function () {
+		return confirm('Вы уверены? Данное действие необратимо.');
+	});
+
 	// $('#map').vectorMap({
  //      map: 'world_mill_en',
  //      series: {

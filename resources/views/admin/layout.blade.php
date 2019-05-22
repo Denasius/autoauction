@@ -9,7 +9,7 @@
   <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
   <link rel="shortcut icon" href="img/favicon.png">
 
-  <title>Creative - Bootstrap Admin Template</title>
+  <title>VIN - авто аукцион</title>
  
   <link href="/css/admin.css" rel="stylesheet">
 </head>
@@ -292,27 +292,30 @@
                           <span>Админ-панель</span>
                       </a>
           </li>
-          <li class="sub-menu">
-            <a href="javascript:;" class="">
-                          <i class="icon_document_alt"></i>
-                          <span>Forms</span>
-                          <span class="menu-arrow arrow_carrot-right"></span>
+          <li>
+            <a href="" class="">
+                          <i class="icon_table"></i>
+                          <span>Категории</span>
                       </a>
-            <ul class="sub">
-              <li><a class="" href="form_component.html">Form Elements</a></li>
-              <li><a class="" href="form_validation.html">Form Validation</a></li>
-            </ul>
           </li>
           <li class="sub-menu">
             <a href="javascript:;" class="">
                           <i class="icon_desktop"></i>
-                          <span>UI Fitures</span>
+                          <span>Опции</span>
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
             <ul class="sub">
-              <li><a class="" href="general.html">Elements</a></li>
-              <li><a class="" href="buttons.html">Buttons</a></li>
-              <li><a class="" href="grids.html">Grids</a></li>
+              <li><a class="" href="general.html">Теги</a></li>
+              <li><a class="" href="buttons.html">Марка авто</a></li>
+              <li><a class="" href="grids.html">Модель авто</a></li>
+              <li><a class="" href="grids.html">Год выпуска</a></li>
+              <li><a class="" href="grids.html">Кол-во цилиндров</a></li>
+              <li><a class="" href="grids.html">Диски</a></li>
+              <li><a class="" href="grids.html">Привод</a></li>
+              <li><a class="" href="grids.html">Вид топлива</a></li>
+              <li><a class="" href="grids.html">Пробег</a></li>
+              <li><a class="" href="grids.html">Объем двигателя</a></li>
+              <li><a class="" href="grids.html">Коробка передач</a></li>
             </ul>
           </li>
           <li>
@@ -332,7 +335,7 @@
 
           <li class="sub-menu">
             <a href="javascript:;" class="">
-                          <i class="icon_table"></i>
+                          <i class="icon_document_alt"></i>
                           <span>Tables</span>
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>

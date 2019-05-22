@@ -18,17 +18,7 @@ class CreateLotsTable extends Migration
             $table->string('title');                        // заголовок
             $table->string('slug');                         // слаг
             $table->text('text');                           // описание
-            $table->date('car_year')->nullable();           // год выпуска
-            $table->string('car_brand')->nullable();        // марка авто
-            $table->string('car_model')->nullable();        // модель авто
             $table->string('vin')->nullable();              // VIN авто
-            $table->string('fuel')->nullable();             // топливо
-            $table->bigInteger('car_mileage')->nullable();  // пробег
-            $table->string('cylinders')->nullable();        // количество цилиндров
-            $table->string('potencia')->nullable();         // объем двиателя
-            $table->string('transmission')->nullable();     // коробка передач
-            $table->string('drive')->nullable();            // привод
-            $table->string('disks')->nullable();            // диски
             $table->string('tyres')->nullable();            // покрышки
             $table->integer('category_id')->nullable();     // идентификатор категории
             $table->integer('status')->default(0);          // статус - черновик/опубликованный
