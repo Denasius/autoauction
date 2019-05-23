@@ -19,7 +19,7 @@ class Carfuel extends Model
     		'lot_tags', 
     		'fuel_id',  
     		'lot_id'
-    	)
+    	);
     }
 
     public function sluggable()

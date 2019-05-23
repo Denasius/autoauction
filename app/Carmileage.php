@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-// пробег
+// пробег - нужно удалить 
 class Carmileage extends Model
 {
 	use Sluggable;

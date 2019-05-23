@@ -19,7 +19,7 @@ class Cardisks extends Model
     		'lot_tags', 
     		'disk_id',  
     		'lot_id'
-    	)
+    	);
     }
 
     public function sluggable()

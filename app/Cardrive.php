@@ -19,7 +19,7 @@ class Cardrive extends Model
     		'lot_tags', 
     		'drive_id',  
     		'lot_id'
-    	)
+    	);
     }
 
     public function sluggable()

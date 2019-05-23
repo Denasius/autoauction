@@ -19,7 +19,7 @@ class Carpotencia extends Model
     		'lot_tags', 
     		'potencia_id',  
     		'lot_id'
-    	)
+    	);
     }
 
     public function sluggable()

@@ -19,7 +19,7 @@ class Cartransmission extends Model
     		'lot_tags', 
     		'transmission_id',  
     		'lot_id'
-    	)
+    	);
     }
 
     public function sluggable()

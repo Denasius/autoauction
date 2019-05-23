@@ -19,7 +19,7 @@ class Carcylinders extends Model
     		'lot_tags', 
     		'cylinder_id',  
     		'lot_id'
-    	)
+    	);
     }
 
     public function sluggable()

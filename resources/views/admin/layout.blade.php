@@ -311,7 +311,6 @@
               <li><a class="" href="grids.html">Диски</a></li>
               <li><a class="" href="grids.html">Привод</a></li>
               <li><a class="" href="grids.html">Вид топлива</a></li>
-              <li><a class="" href="grids.html">Пробег</a></li>
               <li><a class="" href="grids.html">Объем двигателя</a></li>
               <li><a class="" href="grids.html">Коробка передач</a></li>
             </ul>
