@@ -10,3 +10,26 @@
 .table thead > tr > th{
 	padding: 8px 25px;
 }
+
+.tab-bg-info.panel-heading .nav{
+	margin: 0;
+}
+
+.panel .panel-heading{
+	padding: 0 0;
+}
+
+.uploaded_image{
+	max-width: 150px;
+	width: 100%;
+	border-radius: 15px;
+}
+
+.uploaded_image_index{
+	max-width: 90px;
+	width: 100%;
+	border-radius: 15px;
+}
+.td_image{
+	text-align: center;
+}
