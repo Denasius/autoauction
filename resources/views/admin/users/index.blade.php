@@ -52,24 +52,26 @@
 		                    <th style="text-align: center;"><i class="icon_cogs"></i> Действия</th>
 		                  </tr>
 		                  @foreach( $users as $user )
-			                  <tr>
-			                    <td>{{$user->id}}</td>
-			                    <td>{{$user->name}}</td>
-			                    <td>{{$user->email}}</td>
-			                    <td>{{$user->town}}</td>
-			                    <td class="td_image">
-			                    	<img class="uploaded_image_index" src="{{$user->getImage()}}" alt="Avatar">
-			                    </td>
-			                    <td style="text-align: center;">
-			                      <div class="btn-group">
-			                        
-			                        <a class="btn btn-info" href="{{route('users.edit', $user->id)}}"><i class="icon_pencil-edit"></i></a>
-			                        {{Form::open(['route'=>['users.destroy', $user->id], 'method'=>'delete', 'class'=>'inline_block'])}}
-			                           <button type="submit" class="btn btn-danger" data-attr="delete"><i class="icon_close_alt2"></i></button>
-		                          {{Form::close()}}
-			                      </div>
-			                    </td>
-			                  </tr>
+                        @if ( ! $user->is_admin )
+  			                  <tr>
+  			                    <td>{{$user->id}}</td>
+  			                    <td>{{$user->name}}</td>
+  			                    <td>{{$user->email}}</td>
+  			                    <td>{{$user->town}}</td>
+  			                    <td class="td_image">
+  			                    	<img class="uploaded_image_index" src="{{$user->getImage()}}" alt="Avatar">
+  			                    </td>
+  			                    <td style="text-align: center;">
+  			                      <div class="btn-group">
+  			                        
+  			                        <a class="btn btn-info" href="{{route('users.edit', $user->id)}}"><i class="icon_pencil-edit"></i></a>
+  			                        {{Form::open(['route'=>['users.destroy', $user->id], 'method'=>'delete', 'class'=>'inline_block'])}}
+  			                           <button type="submit" class="btn btn-danger" data-attr="delete"><i class="icon_close_alt2"></i></button>
+  		                          {{Form::close()}}
+  			                      </div>
+  			                    </td>
+  			                  </tr>
+                        @endif
 		                  @endforeach
 
 		                  

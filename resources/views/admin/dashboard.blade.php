@@ -1,9 +1,9 @@
 @extends('admin.layout')
 
 @section('content')
-
 <!--main content start-->
 <section id="main-content">
+
   <section class="wrapper">
     <!--overview start-->
     <div class="row">
@@ -17,6 +17,7 @@
 
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        
         Здесь будет находится общая информация, либо виджеты, какие либо плюшки, в общем все, что захочет клиент
       </div>
       <!--/.col-->

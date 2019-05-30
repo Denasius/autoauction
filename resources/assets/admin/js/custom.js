@@ -19,18 +19,28 @@ $(document).ready(function() {
 		return confirm('Вы уверены? Данное действие необратимо.');
 	});
 
+	// $('#reservation').daterangepicker();
+
+	 // Tags Input
+    // $(".tagsinput").tagsInput();
+
+    // Switch
+    //$("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
+
 	// $('#map').vectorMap({
- //      map: 'world_mill_en',
- //      series: {
- //        regions: [{
- //          values: gdpData,
- //          scale: ['#000', '#000'],
- //          normalizeFunction: 'polynomial'
- //        }]
- //      },
- //      backgroundColor: '#eef3f7',
- //      onLabelShow: function(e, el, code) {
- //        el.html(el.html() + ' (GDP - ' + gdpData[code] + ')');
- //      }
- //    });
+	 //      map: 'world_mill_en',
+	 //      series: {
+	 //        regions: [{
+	 //          values: gdpData,
+	 //          scale: ['#000', '#000'],
+	 //          normalizeFunction: 'polynomial'
+	 //        }]
+	 //      },
+	 //      backgroundColor: '#eef3f7',
+	 //      onLabelShow: function(e, el, code) {
+	 //        el.html(el.html() + ' (GDP - ' + gdpData[code] + ')');
+	 //      }
+	 //    });
+
 });
+ 

@@ -33,3 +33,12 @@
 .td_image{
 	text-align: center;
 }
+
+.profile-ava, .profile-ava > img{
+	width: 30px;
+	height: 30px;
+}
+
+.profile-widget img{
+	object-fit: cover;
+}

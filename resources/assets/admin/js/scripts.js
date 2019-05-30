@@ -90,4 +90,5 @@ function initializeJS() {
 
 jQuery(document).ready(function(){
     initializeJS();
+    
 });

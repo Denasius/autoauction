@@ -9,7 +9,7 @@
   <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
   <link rel="shortcut icon" href="img/favicon.png">
 
-  <title>VIN - авто аукцион</title>
+  <title>VIN - страница админа</title>
  
   <link href="/css/admin.css" rel="stylesheet">
 </head>
@@ -45,6 +45,7 @@
         <ul class="nav pull-right top-menu">
 
           <!-- task notificatoin start -->
+          
           <li id="task_notificatoin_bar" class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <i class="icon-task-l"></i>
@@ -244,33 +245,20 @@
           <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="profile-ava">
-                                <img alt="" src="img/avatar1_small.jpg">
+                                <img alt="" src="{{$adminImage}}">
                             </span>
-                            <span class="username">Jenifer Smith</span>
+                            <span class="username">{{$adminName}}</span>
                             <b class="caret"></b>
                         </a>
             <ul class="dropdown-menu extended logout">
               <div class="log-arrow-up"></div>
               <li class="eborder-top">
-                <a href="#"><i class="icon_profile"></i> My Profile</a>
+                <a href="/admin/profile"><i class="icon_profile"></i> Мой профиль</a>
+              </li>
               </li>
               <li>
-                <a href="#"><i class="icon_mail_alt"></i> My Inbox</a>
+                <a href="/logout"><i class="icon_key_alt"></i> Выход</a>
               </li>
-              <li>
-                <a href="#"><i class="icon_clock_alt"></i> Timeline</a>
-              </li>
-              <li>
-                <a href="#"><i class="icon_chat_alt"></i> Chats</a>
-              </li>
-              <li>
-                <a href="login.html"><i class="icon_key_alt"></i> Log Out</a>
-              </li>
-              <li>
-                <a href="documentation.html"><i class="icon_key_alt"></i> Documentation</a>
-              </li>
-              <li>
-                <a href="documentation.html"><i class="icon_key_alt"></i> Documentation</a>
               </li>
             </ul>
           </li>
@@ -286,75 +274,48 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu">
-          <li class="active">
-            <a class="" href="index.html">
+          <li class="{{request()->is('admin') ? 'active' : 'no-active'}}">
+            <a class="" href="/admin">
                           <i class="icon_house_alt"></i>
                           <span>Админ-панель</span>
                       </a>
           </li>
-          <li>
-            <a href="" class="">
+          <li class="{{request()->is('admin/categories') ? 'active' : 'no-active'}}">
+            <a href="/admin/categories" class="">
                           <i class="icon_table"></i>
                           <span>Категории</span>
                       </a>
           </li>
+          <li class="{{request()->is('admin/lots') ? 'active' : 'no-active'}}">
+            <a href="/admin/lots" class="">
+                          <i class="icon_documents_alt"></i>
+                          <span>Лоты</span>
+                      </a>
+          </li>
           <li class="sub-menu">
             <a href="javascript:;" class="">
-                          <i class="icon_desktop"></i>
+                          <i class="icon_tools"></i>
                           <span>Опции</span>
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
             <ul class="sub">
-              <li><a class="" href="general.html">Теги</a></li>
-              <li><a class="" href="buttons.html">Марка авто</a></li>
-              <li><a class="" href="grids.html">Кол-во цилиндров</a></li>
-              <li><a class="" href="grids.html">Диски</a></li>
-              <li><a class="" href="grids.html">Привод</a></li>
-              <li><a class="" href="grids.html">Вид топлива</a></li>
-              <li><a class="" href="grids.html">Объем двигателя</a></li>
-              <li><a class="" href="grids.html">Коробка передач</a></li>
+              <li class="{{request()->is('admin/tags') ? 'active' : 'no-active'}}"><a class="" href="/admin/tags">Состояние</a></li>
+              <li class="{{request()->is('admin/brands') ? 'active' : 'no-active'}}"><a class="" href="/admin/brands">Марка авто</a></li>
+              <li class="{{request()->is('admin/cylinders') ? 'active' : 'no-active'}}"><a class="" href="/admin/cylinders">Кол-во цилиндров</a></li>
+              <li class="{{request()->is('admin/disks') ? 'active' : 'no-active'}}"><a class="" href="/admin/disks">Диски</a></li>
+              <li class="{{request()->is('admin/drives') ? 'active' : 'no-active'}}"><a class="" href="/admin/drives">Привод</a></li>
+              <li class="{{request()->is('admin/fuels') ? 'active' : 'no-active'}}"><a class="" href="/admin/fuels">Вид топлива</a></li>
+              <li class="{{request()->is('admin/potencias') ? 'active' : 'no-active'}}"><a class="" href="/admin/potencias">Объем двигателя</a></li>
+              <li class="{{request()->is('admin/transmissions') ? 'active' : 'no-active'}}"><a class="" href="/admin/transmissions">Коробка передач</a></li>
             </ul>
           </li>
-          <li>
-            <a class="" href="widgets.html">
-                          <i class="icon_genius"></i>
-                          <span>Widgets</span>
+          <li class="{{request()->is('admin/users') ? 'active' : 'no-active'}}">
+            <a class="" href="/admin/users">
+                          <i class="icon_group"></i>
+                          <span>Пользователи</span>
                       </a>
           </li>
-          <li>
-            <a class="" href="chart-chartjs.html">
-                          <i class="icon_piechart"></i>
-                          <span>Charts</span>
-
-                      </a>
-
-          </li>
-
-          <li class="sub-menu">
-            <a href="javascript:;" class="">
-                          <i class="icon_document_alt"></i>
-                          <span>Tables</span>
-                          <span class="menu-arrow arrow_carrot-right"></span>
-                      </a>
-            <ul class="sub">
-              <li><a class="" href="basic_table.html">Basic Table</a></li>
-            </ul>
-          </li>
-
-          <li class="sub-menu">
-            <a href="javascript:;" class="">
-                          <i class="icon_documents_alt"></i>
-                          <span>Pages</span>
-                          <span class="menu-arrow arrow_carrot-right"></span>
-                      </a>
-            <ul class="sub">
-              <li><a class="" href="profile.html">Profile</a></li>
-              <li><a class="" href="login.html"><span>Login Page</span></a></li>
-              <li><a class="" href="contact.html"><span>Contact Page</span></a></li>
-              <li><a class="" href="blank.html">Blank Page</a></li>
-              <li><a class="" href="404.html">404 Error</a></li>
-            </ul>
-          </li>
+          
 
         </ul>
         <!-- sidebar menu end-->
@@ -368,7 +329,8 @@
   <!-- container section start -->
 
   <!-- javascripts -->
-  <script src="/js/admin.js"></script> 
+
+ <script src="/js/admin.js"></script> 
 
 </body>
 

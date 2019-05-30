@@ -16,10 +16,10 @@ class Carmileage extends Model
     {
     	return $this->belongsToMany(
     		Lot::class, 
-    		'lot_tags', 
+    		'lot_mileages', 
     		'mileage_id',  
     		'lot_id'
-    	)
+    	);
     }
 
     public function sluggable()

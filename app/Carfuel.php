@@ -16,7 +16,7 @@ class Carfuel extends Model
     {
     	return $this->belongsToMany(
     		Lot::class, 
-    		'lot_tags', 
+    		'lot_fuels', 
     		'fuel_id',  
     		'lot_id'
     	);

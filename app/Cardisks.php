@@ -16,7 +16,7 @@ class Cardisks extends Model
     {
     	return $this->belongsToMany(
     		Lot::class, 
-    		'lot_tags', 
+    		'lot_disks', 
     		'disk_id',  
     		'lot_id'
     	);

@@ -19,7 +19,7 @@ class Caryear extends Model
     		'lot_tags', 
     		'year_id',  
     		'lot_id'
-    	)
+    	);
     }
 
     public function sluggable()
