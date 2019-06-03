@@ -20809,3 +20809,6 @@ span.customSelect.changed {
 .profile-widget img{
 	object-fit: cover;
 }
+.page-header {
+  color: #000;
+}
