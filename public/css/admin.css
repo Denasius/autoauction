@@ -20810,6 +20810,11 @@ span.customSelect.changed {
 	object-fit: cover;
 }
 
+
 a{
 	color: red;
+}
+
+.page-header {
+  color: #000;
 }
