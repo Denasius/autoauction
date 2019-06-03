@@ -20809,3 +20809,7 @@ span.customSelect.changed {
 .profile-widget img{
 	object-fit: cover;
 }
+
+a{
+	color: red;
+}
