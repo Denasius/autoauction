@@ -2,7 +2,7 @@
 
 @section('content')
 
-	@if ($user->is_admin)
+	@if ($user->role_id == 1)
 		<!--main content start-->
 		<section id="main-content">
 	      <section class="wrapper">

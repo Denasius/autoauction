@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Validation\Rule;
 use Auth;
+use Symfony\Component\Debug\Debug;
+
 
 class ProfileController extends Controller
 {
@@ -16,10 +18,7 @@ class ProfileController extends Controller
 	*/
     public function index()
     {
-        // dd(request()->path);
-    	$user = User::where('is_admin', '=', '1');
-    	$name = $user->first();
-    	return view('admin.profile.index', ['user'=>$name]);
+    	return view('admin.profile.index', ['user'=>Auth::user()]);
     }
 
     /*

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Attribute;
+use App\AttributeType;
+use App\User;
+use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Carcylinders;
 
-class CarcylindersController extends Controller
+class AttributeTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +18,9 @@ class CarcylindersController extends Controller
      */
     public function index()
     {
-        $cylinders = Carcylinders::all();
-        return view('admin.cylinders.index', ['cylinders'=>$cylinders]);
+        $attribyt_model = new AttributeType();
+        $results = $attribyt_model->get_all();
+        return view('admin.attribute_types.index', ['results'=>$results]);
     }
 
     /**
@@ -26,7 +30,7 @@ class CarcylindersController extends Controller
      */
     public function create()
     {
-        return view('admin.cylinders.create');
+        return view('admin.attribute_types.create');
     }
 
     /**
@@ -38,11 +42,25 @@ class CarcylindersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required'
+            'title'      => 'required|unique:attribute_types',
         ]);
 
-        Carcylinders::create($request->all());
-        return redirect()->route('cylinders.index');
+        $attribute_type_model = new AttributeType();
+
+        $results = $attribute_type_model->add($request->all());
+
+        return redirect()->route('attribute_types.index');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
     }
 
     /**
@@ -53,8 +71,8 @@ class CarcylindersController extends Controller
      */
     public function edit($id)
     {
-        $cylinder = Carcylinders::find($id);
-        return view('admin.cylinders.edit', ['cylinder'=>$cylinder]);
+        $attribute_type = AttributeType::find($id);
+        return view('admin.attribute_types.edit', ['attribute_type'=>$attribute_type]);
     }
 
     /**
@@ -66,14 +84,14 @@ class CarcylindersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $attribute_type = AttributeType::find($id);
         $this->validate($request, [
-            'title' => 'required'
+            'title'      => 'required|unique:attribute_types',
         ]);
 
-        $cylinder = Carcylinders::find($id);
-        $cylinder->update($request->all());
+        $attribute_type->edit($request->all());
 
-        return redirect()->route('cylinders.index');
+        return redirect()->route('attribute_types.index');
     }
 
     /**
@@ -84,7 +102,7 @@ class CarcylindersController extends Controller
      */
     public function destroy($id)
     {
-        Carcylinders::find($id)->delete();
-        return redirect()->route('cylinders.index');
+        AttributeType::destroy($id);
+        return redirect()->route('attribute_types.index');
     }
 }
