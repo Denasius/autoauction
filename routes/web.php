@@ -26,7 +26,16 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::resource('/fuels', 'CardfuelsController');					
 	Route::resource('/potencias', 'CarpotenciasController');
 	Route::resource('/transmissions', 'CartransmissionsController');	
-	Route::resource('/users', 'UsersController');	
+	Route::resource('/users', 'UsersController');
+	Route::resource('/pages', 'PagesController');
+
+	//Атрибуты
+	Route::resource('/attributes', 'AttributeController');
+	Route::resource('/attribute_types', 'AttributeTypeController');
+
+	//Категории
+    Route::resource('/categories', 'CategoryController');
+
 	Route::get('/profile', 'ProfileController@index');
 	Route::post('/profile', 'ProfileController@update');
 });
