@@ -24,7 +24,8 @@
               </header>
               <div class="panel-body">
                 {{Form::open(['route'=>['tags.update', $tag->id], 'method'=>'put'])}}
-                  
+
+                <input type="hidden" name="id" value="{{$tag->id}}">
                   <div class="form-group">
                     <label class="col-sm-2 control-label">Название</label>
                     <div class="col-sm-10" style="text-align: right;">

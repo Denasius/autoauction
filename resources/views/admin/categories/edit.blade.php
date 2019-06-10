@@ -26,8 +26,7 @@
                         </header>
                         <div class="panel-body">
                             {{Form::open(['route'=>['categories.update', $category_info->id], 'method'=>'put', 'class'=>'form-horizontal'])}}
-                            <input type="hidden" name="id" value="{{$category_info->id}}">
-
+                                <input type="hidden" name="id" value="{{$category_info->id}}">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Название</label>
                                 <div class="col-sm-10">

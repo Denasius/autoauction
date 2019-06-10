@@ -17,11 +17,19 @@ class Category extends Model
     {
         return $this->hasMany(Pages::class);
     }
-    
+
     public function add($fields) {
         $Category = new Category();
         $Category->fill($fields);
         $Category->save();
+
+    }
+
+    public function edit($fields){
+        $Category = Category::find($fields['id']);
+        $Category->fill($fields);
+        $Category->save();
+
     }
 
     public function edit($fields){
@@ -29,6 +37,7 @@ class Category extends Model
         $Category->fill($fields);
         $Category->save();
     }
+
 
     public function sluggable()
     {

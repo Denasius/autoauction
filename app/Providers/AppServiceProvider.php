@@ -31,17 +31,12 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('admin.layout', function ($view) {
 
-            $attribyte_type_model = new AttributeType();
-
             $data = array();
 
-            $data['adminImage'] = User::where('id', Auth::user()->id)->first()->getImage();
-            $data['adminName'] = User::where('id', Auth::user()->id)->first()->name;
-
-
-
-
-            $data['attribyt_type'] = $attribyte_type_model->get_all();
+            $user_model = new User();
+            $data['adminImage'] =  $user_model->get_avatar(Auth::user()->avatar);
+            $data['adminName'] = Auth::user()->name;
+            $data['attribyt_type'] = AttributeType::all();
 
             $view->with($data);
         });

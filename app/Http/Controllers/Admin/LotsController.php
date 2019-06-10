@@ -35,26 +35,12 @@ class LotsController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('title', 'id')->all();
-        $tags = Tag::pluck('title', 'id')->all();
-        $cylinders = Carcylinders::pluck('title', 'id')->all();
-        $brands = Carbrand::pluck('title', 'id')->all();
-        $disks = Cardisks::pluck('title', 'id')->all();
-        $drives = Cardrive::pluck('title', 'id')->all();
-        $fuels = Carfuel::pluck('title', 'id')->all();
-        $potencias = Carpotencia::pluck('title', 'id')->all();
-        $transmissions = Cartransmission::pluck('title', 'id')->all();
-        return view('admin.lots.create', compact(
-            'categories',
-            'tags',
-            'cylinders',
-            'brands',
-            'disks',
-            'drives',
-            'fuels',
-            'potencias',
-            'transmissions'
-        ));
+        $data = array();
+
+        $data['categories'] = Category::pluck('title', 'id')->all();
+        $data['tags'] = Tag::pluck('title', 'id')->all();
+
+        return view('admin.lots.create', $data);
     }
 
     /**
@@ -66,30 +52,13 @@ class LotsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required', 
-            'car_model' => 'required',
-            'vin' => 'required', 
-            'year' => 'required',
-            'car_mileage' => 'required',
-            'tyres' => 'required',
-            'car_options' => 'nullable'
+            'title' => 'required',
+            'vin' => 'required',
         ]);
 
-        //dd($request->all());
+        $lot_model = new Lot();
         
-        $lot = Lot::add($request->all());
-        $lot->uploadImage($request->file('image'));
-        $lot->setCategory($request->get('category_id'));
-        $lot->setBrands($request->get('category_id'));
-        $lot->setTags($request->get('tags'));
-        $lot->setCylinders($request->get('cylinders'));
-        $lot->setDisks($request->get('disks'));
-        $lot->setDrives($request->get('drives'));
-        $lot->setFuels($request->get('fuels'));
-        $lot->setPotencias($request->get('potencias'));
-        $lot->setTransmissions($request->get('transmissions'));
-
-        $lot->toggleStatus($request->get('status'));
+        $lot_model->add($request->all());
 
         return redirect()->route('lots.index');
     }

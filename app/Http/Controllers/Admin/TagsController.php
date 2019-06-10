@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Tag;
@@ -41,7 +42,8 @@ class TagsController extends Controller
             'title' => 'required'
         ]);
 
-        Tag::create($request->all());
+        $tag_model = new Tag();
+        $tag_model->add($request->all());
         return redirect()->route('tags.index');
     }
 
@@ -53,8 +55,9 @@ class TagsController extends Controller
      */
     public function edit($id)
     {
-        $tag = Tag::find($id);
-        return view('admin.tags.edit', ['tag'=>$tag]);
+        $data = array();
+        $data['tag'] = Tag::find($id);
+        return view('admin.tags.edit', $data);
     }
 
     /**
@@ -84,8 +87,7 @@ class TagsController extends Controller
      */
     public function destroy($id)
     {
-        $tag = Tag::find($id);
-        $tag->delete();
+        Tag::destroy($id);
 
         return redirect()->route('tags.index');
     }
