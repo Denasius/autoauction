@@ -24,17 +24,20 @@
               </header>
               
               <div class="panel-body">
-                {{Form::open(['route'=>'tags.store'])}}
-                  
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Название</label>
-                    <div class="col-sm-10" style="text-align: right;">
-                      <input type="text" name="title" class="form-control round-input" placeholder="Введите название тега">
-	                  <div class="btn-create" style="margin-top: 20px;">
-	                  	<button type="submit" class="btn btn-success" title="Добавить тег">Создать тег</button>
-	                  </div>
-                    </div>
+                {{Form::open(['route'=>'tags.store', 'class'=>'form-horizontal'])}}
+
+                <div class="form-group">
+                  <label class="col-lg-2 control-label">Название</label>
+                  <div class="col-lg-6">
+                    <input type="text" name="title" class="form-control" id="f-name" placeholder="Название типа атрибута" value="{{old('title')}}">
                   </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <button type="submit" class="btn btn-primary">Создать</button>
+                  </div>
+                </div>
 
                 {{Form::close()}}
               </div>

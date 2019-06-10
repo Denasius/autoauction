@@ -9,10 +9,7 @@ class AttributeType extends Model
 {
     use Sluggable;
 
-
-    public function get_all(){
-        return AttributeType::all();
-    }
+    protected $fillable = ['title'];
 
     public function get($type) {
         if (intval($type)) {
@@ -27,14 +24,14 @@ class AttributeType extends Model
     public function add($fields){
 
         $AttributeType = new AttributeType();
-        $AttributeType->title = $fields['title'];
+        $AttributeType->fill($fields);
         $AttributeType->save();
         return true;
     }
 
     public function edit($fields){
         $AttributeType = AttributeType::find($fields['id']);
-        $AttributeType->title = $fields['title'];
+        $AttributeType->fill($fields);
         $AttributeType->save();
     }
 

@@ -65,6 +65,10 @@ class User extends Authenticatable
         return '/uploads/' . $this->avatar;
     }
 
+    public function get_avatar($image){
+        return '/uploads/' . $image;
+    }
+
 
     /*
     * метод для загрузки аватара

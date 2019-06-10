@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\admin;
 
-use App\Attribute;
-use App\AttributeType;
-use App\User;
-use DebugBar\DebugBar;
+use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AttributeTypeController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +15,9 @@ class AttributeTypeController extends Controller
      */
     public function index()
     {
-        $results = AttributeType::all();
-        return view('admin.attribute_types.index', ['results'=>$results]);
+        $data = array();
+        $data['categories'] = Category::all();
+        return view('admin.categories.index', $data);
     }
 
     /**
@@ -29,7 +27,9 @@ class AttributeTypeController extends Controller
      */
     public function create()
     {
-        return view('admin.attribute_types.create');
+        $data = array();
+        $data['categories'] = Category::all();
+        return view('admin.categories.create', $data);
     }
 
     /**
@@ -41,14 +41,14 @@ class AttributeTypeController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title'      => 'required|unique:attribute_types',
+            'title'      => 'required',
         ]);
 
-        $attribute_type_model = new AttributeType();
+        $category_model = new Category();
 
-        $results = $attribute_type_model->add($request->all());
+        $results = $category_model->add($request->all());
 
-        return redirect()->route('attribute_types.index');
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -70,8 +70,13 @@ class AttributeTypeController extends Controller
      */
     public function edit($id)
     {
-        $attribute_type = AttributeType::find($id);
-        return view('admin.attribute_types.edit', ['attribute_type'=>$attribute_type]);
+        $data = array();
+
+
+        $data['categories'] = Category::all();
+        $data['category_info'] = Category::find($id);
+
+        return view('admin.categories.edit', $data);
     }
 
     /**
@@ -83,14 +88,14 @@ class AttributeTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $attribute_type = AttributeType::find($id);
+        $category_model = Category::find($id);
         $this->validate($request, [
-            'title'      => 'required|unique:attribute_types',
+            'title'      => 'required',
         ]);
 
-        $attribute_type->edit($request->all());
+        $category_model->edit($request->all());
 
-        return redirect()->route('attribute_types.index');
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -101,7 +106,7 @@ class AttributeTypeController extends Controller
      */
     public function destroy($id)
     {
-        AttributeType::destroy($id);
-        return redirect()->route('attribute_types.index');
+        Category::destroy($id);
+        return redirect()->back();
     }
 }

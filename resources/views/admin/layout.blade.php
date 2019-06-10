@@ -291,6 +291,12 @@
                         <span>Категории</span>
                     </a>
                 </li>
+                <li class="{{request()->is('admin/tags') ? 'active' : 'no-active'}}">
+                    <a href="/admin/tags">
+                        <i class="fa fa-tags"></i>
+                        <span>Теги</span>
+                    </a>
+                </li>
                 <li class="{{request()->is('admin/lots') ? 'active' : 'no-active'}}">
                     <a href="/admin/lots" class="">
                         <i class="icon_documents_alt"></i>
