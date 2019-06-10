@@ -11,7 +11,7 @@ class Pages extends Model
 {
     use Sluggable;
 
-    protected $fillable = ['title', 'descr', 'meta_title', 'meta_description', 'short_descr'];
+    protected $fillable = ['title', 'descr', 'meta_title', 'meta_description', 'short_descr', 'category_id'];
 
     public function sluggable()
     {
