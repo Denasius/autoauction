@@ -33,7 +33,10 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::resource('/attribute_types', 'AttributeTypeController');
 
 	//Категории
-    Route::resource('/categories', 'CategoryController');
+		Route::resource('/categories', 'CategoryController');
+	
+	//Коменты
+    Route::resource('/comments', 'PageCommentsController');
 
 	Route::get('/profile', 'ProfileController@index');
 	Route::post('/profile', 'ProfileController@update');

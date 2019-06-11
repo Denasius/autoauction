@@ -457,7 +457,11 @@
 <!-- javascripts -->
 
 <script src="/js/admin.js"></script>
-
+{{-- <script>
+    $('#dp1').datepicker({
+      format: 'mm-dd-yyyy'
+    });
+    </script> --}}
 </body>
 
 </html>
