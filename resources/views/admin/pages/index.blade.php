@@ -41,7 +41,7 @@
 	                  <tr>
 	                    <td>{{$post->id}}</td>
                       <td>{{$post->title}}</td>
-                      <td>{{$post->getCategoryTitle()}}</td>
+                      <td>{{$post->cat_title}}</td>
 	                    <td style="text-align: right;">
 	                      <div class="btn-group">
 	                        <a class="btn btn-primary" href="{{route('pages.edit', $post->id)}}"><i class="icon_pencil-edit"></i></a>

@@ -19,7 +19,7 @@ class PagesController extends Controller
      */
     public function index()
     {
-        $posts = Pages::all();
+        $posts = Pages::getAllPagesAndCategories();
         return view('admin.pages.index', ['posts'=> $posts]);
     }
 

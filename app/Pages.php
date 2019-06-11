@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\DB;
 
 class Pages extends Model
 {
@@ -37,13 +37,12 @@ class Pages extends Model
         return $page;
     }
 
-    public function getCategoryTitle()
+    public static function getAllPagesAndCategories()
     {
-
-    	if ( $this->category != null )
-    		return $this->category->title;
-
-    	return 'Нет категории';
+        return DB::table('pages')
+        ->join('categories', 'pages.category_id', 'categories.id')
+        ->select('pages.id', 'pages.title', 'categories.title as cat_title')
+        ->get();
     }
 
     public function uploadImage($image)
