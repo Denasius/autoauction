@@ -26,13 +26,8 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::resource('/fuels', 'CardfuelsController');					
 	Route::resource('/potencias', 'CarpotenciasController');
 	Route::resource('/transmissions', 'CartransmissionsController');	
-<<<<<<< HEAD
 	Route::resource('/users', 'UsersController');
 	Route::resource('/pages', 'PagesController');
-=======
-	Route::resource('/users', 'UsersController');	
->>>>>>> 5126534dc5ef60070b04fff219d2762e6a58680f
-
 	//Атрибуты
 	Route::resource('/attributes', 'AttributeController');
 	Route::resource('/attribute_types', 'AttributeTypeController');

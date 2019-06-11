@@ -32,12 +32,6 @@ class Category extends Model
 
     }
 
-    public function edit($fields){
-        $Category = Category::find($fields['id']);
-        $Category->fill($fields);
-        $Category->save();
-    }
-
 
     public function sluggable()
     {

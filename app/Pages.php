@@ -5,13 +5,14 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 
 class Pages extends Model
 {
     use Sluggable;
 
-    protected $fillable = ['title', 'descr', 'meta_title', 'meta_description', 'short_descr'];
+    protected $fillable = ['title', 'descr', 'meta_title', 'meta_description', 'short_descr', 'category_id'];
 
     public function sluggable()
     {
@@ -51,7 +52,7 @@ class Pages extends Model
 
         $this->removeImage();
 
-        $filename = str_random(10) . '.' . $image->extension(); 
+        $filename = Str::random(10) . '.' . $image->extension(); 
         $image->storeAs('uploads', $filename); 
         $this->image = $filename;
         $this->save(); 
