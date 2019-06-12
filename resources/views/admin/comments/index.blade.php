@@ -41,7 +41,7 @@
                   <td>{{$comment->title}}</td>
                   <td>{{$comment->page_title}}</td>
                   <td>{{$comment->author}}</td>
-                  <td>{{$comment->comment_date}}</td>
+                  <td>{{$date}}</td>
                   <td>
                     <td style="text-align: right;">
                       <div class="btn-group">

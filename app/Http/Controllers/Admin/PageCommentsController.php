@@ -18,7 +18,10 @@ class PageCommentsController extends Controller
     public function index()
     {
         $comments = PageComment::getCommentPageAndAuthor();
-        return view('admin.comments.index', ['comments' => $comments]);
+        foreach ( $comments as $comment ) {
+            $date_comment = date('d-m-Y', strtotime($comment->comment_date));
+        }
+        return view('admin.comments.index', ['comments' => $comments, 'date' => $date_comment]);
     }
 
     /**
@@ -62,10 +65,12 @@ class PageCommentsController extends Controller
         $comment = PageComment::find($id);
         $pages = Pages::pluck('title', 'id')->all();
         $users = User::pluck('email', 'id')->all();
+        $page_date = date('Y-m-d', strtotime($comment->created_at));
         return view('admin.comments.edit', [
             'comment' => $comment,
             'pages' => $pages,
-            'users' => $users
+            'users' => $users,
+            'date' => $page_date
         ]);
     }
 

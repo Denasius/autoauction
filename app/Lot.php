@@ -68,7 +68,7 @@ class Lot extends Model
 
     }
 
-    public function remove($id){
+    public static function remove($id){
         Lot::destroy($id);
         LotAttributes::where('lot_id', $id)->delete();
     }
