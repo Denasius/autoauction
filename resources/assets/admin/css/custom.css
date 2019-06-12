@@ -42,3 +42,27 @@
 .profile-widget img{
 	object-fit: cover;
 }
+
+/**/
+.panel-heading .nav > li > a {
+	background: #394a59;
+}
+.table.hover_black tbody tr {
+	transition: 0.2s;
+}
+.table.hover_black tbody tr:nth-child(even){
+	background: #f7f7f7;
+}
+.table.hover_black tbody tr:hover {
+	background: #1a2732;
+	color: #fff;
+}
+.form-group.images img{
+	width: 75px;
+	height: 75px;
+	object-fit: contain;
+}
+.form-group.images .fas{
+	font-size: 25px;
+	color: #1a2732;
+}

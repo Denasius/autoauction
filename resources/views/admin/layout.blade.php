@@ -127,8 +127,6 @@
                                     </div>
                                 </div>
 
-=======
-
         <!--logo start-->
         <a href="index.html" class="logo">Vin <span class="lite">Admin</span></a>
         <!--logo end-->
@@ -409,6 +407,13 @@
                     <a href="/admin/lots" class="">
                         <i class="icon_documents_alt"></i>
                         <span>Лоты</span>
+                    </a>
+                </li>
+
+                <li class="{{request()->is('admin/bets') ? 'active' : 'no-active'}}">
+                    <a href="/admin/bets" class="">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <span>Ставки</span>
                     </a>
                 </li>
                 <li class="sub-menu">
