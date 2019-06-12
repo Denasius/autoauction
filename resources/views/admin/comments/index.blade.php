@@ -32,6 +32,7 @@
                 <th><i class="icon_menu-square_alt2"></i> К странице</th>
                 <th><i class="icon_profile"></i> Email пользователя</th>
                 <th><i class="icon_calendar"></i> Дата</th>
+                
                 <th><i class="icon_cogs"></i> Действия</th>
               </tr>
               @foreach ($comments as $comment)
