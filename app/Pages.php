@@ -36,6 +36,7 @@ class Pages extends Model
         return $page;
     }
 
+
     public function getCategoryTitle()
     {
 

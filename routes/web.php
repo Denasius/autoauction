@@ -36,6 +36,9 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	//Категории
     Route::resource('/categories', 'CategoryController');
 
+    //Ставки
+    Route::resource('/bets', 'BetsController');
+
 	Route::get('/profile', 'ProfileController@index');
 	Route::post('/profile', 'ProfileController@update');
 });

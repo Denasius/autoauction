@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Attribute;
-use App\AttributeType;
+use App\Bet;
+use App\Lot;
 use App\User;
 use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Pages;
-use App\Category;
 
-class PagesController extends Controller
+class BetsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,9 +18,10 @@ class PagesController extends Controller
      */
     public function index()
     {
-        $posts = Pages::all();
+        $data = [];
+        $data['bets'] = Bet::get_all();
 
-        return view('admin.pages.index', ['posts'=> $posts]);
+        return view('admin.bets.index', $data);
     }
 
     /**
@@ -32,8 +31,13 @@ class PagesController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('title', 'id')->all();
-        return view('admin.pages.create', ['categories' => $categories]);
+        $data = [];
+
+        $data['lots'] = Lot::pluck('title', 'id')->all();
+        $data['users'] = User::pluck('name', 'id')->all();
+
+
+        return view('admin.bets.create', $data);
     }
 
     /**
@@ -45,16 +49,24 @@ class PagesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'short_descr' => 'required',
-            'descr' => 'required'
+            'price' => 'required',
         ]);
 
-        $page = Pages::add($request->all());
-        $page->uploadImage($request->file('image'));
-//        $page->setCategory($request->get('category_id'));
+        $bet_model = new Bet();
+        $bet_model->add($request->all());
 
-        return redirect()->route('pages.index');
+        return redirect()->route('bets.index');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
     }
 
     /**
@@ -65,9 +77,13 @@ class PagesController extends Controller
      */
     public function edit($id)
     {
-        $page = Pages::find($id);
-        $categories = Category::pluck('title', 'id')->all();
-        return view('admin.pages.edit', ['page' => $page, 'categories' => $categories]);
+        $data = [];
+        $data['item_info'] = Bet::find($id);
+        $data['lots'] = Lot::pluck('title', 'id')->all();
+        $data['users'] = User::pluck('name', 'id')->all();
+
+
+        return view('admin.bets.edit', $data);
     }
 
     /**
@@ -79,19 +95,15 @@ class PagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $attribute_type = AttributeType::find($id);
         $this->validate($request, [
-            'title' => 'required',
-            'short_descr' => 'required',
-            'descr' => 'required'
+            'price' => 'required',
         ]);
 
-        $page = Pages::find($id);
-        $page->edit($request->all());
-        $page->uploadImage($request->file('image'));
-        $page->setCategory($request->get('category_id'));
+        $bet = new Bet();
+        $bet->edit($request->all(), $id);
 
-        return redirect()->route('pages.index');
+
+        return redirect()->route('bets.index');
     }
 
     /**
@@ -102,7 +114,7 @@ class PagesController extends Controller
      */
     public function destroy($id)
     {
-        Pages::find($id)->remove();
-        return redirect()->route('pages.index');
+        Bet::destroy($id);
+        return redirect()->route('bets.index');
     }
 }

@@ -411,6 +411,13 @@
                         <span>Лоты</span>
                     </a>
                 </li>
+
+                <li class="{{request()->is('admin/bets') ? 'active' : 'no-active'}}">
+                    <a href="/admin/bets" class="">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <span>Ставки</span>
+                    </a>
+                </li>
                 <li class="sub-menu">
                     <a href="javascript:;" class="">
                         <i class="icon_tools"></i>

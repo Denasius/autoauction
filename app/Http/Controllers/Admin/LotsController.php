@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Attribute;
+use App\AttributeType;
+use App\Bet;
+use App\LotTag;
+use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Lot;
 use App\Category;
 use App\Tag;
-use App\Carcylinders;
-use App\Carbrand;
-use App\Cardisks;
-use App\Cardrive;
-use App\Carfuel;
-use App\Carpotencia;
-use App\Cartransmission;
+use App\LotAttributes;
 
 class LotsController extends Controller
 {
@@ -24,6 +23,7 @@ class LotsController extends Controller
      */
     public function index()
     {
+
         $lots = Lot::all();
         return view('admin.lots.index', ['lots'=>$lots]);
     }
@@ -39,6 +39,18 @@ class LotsController extends Controller
 
         $data['categories'] = Category::pluck('title', 'id')->all();
         $data['tags'] = Tag::pluck('title', 'id')->all();
+
+        //Получаем список атрибутов
+        $data['attrs'] = [];
+        $results = AttributeType::all();
+        foreach ($results as $result) {
+            $items = Attribute::where('type_id', $result->id)->get();
+            $data['attrs'][] = [
+                'id'    => $result->id,
+                'title' => $result->title,
+                'items' => $items,
+            ];
+        }
 
         return view('admin.lots.create', $data);
     }
@@ -71,44 +83,48 @@ class LotsController extends Controller
      */
     public function edit($id)
     {
-        $lot = Lot::find($id);
-        $categories = Category::pluck('title', 'id')->all();
-        $tags = Tag::pluck('title', 'id')->all();
-        $cylinders = Carcylinders::pluck('title', 'id')->all();
-        $brands = Carbrand::pluck('title', 'id')->all();
-        $disks = Cardisks::pluck('title', 'id')->all();
-        $drives = Cardrive::pluck('title', 'id')->all();
-        $fuels = Carfuel::pluck('title', 'id')->all();
-        $potencias = Carpotencia::pluck('title', 'id')->all();
-        $transmissions = Cartransmission::pluck('title', 'id')->all();
-        $selectedBrands = $lot->brands->pluck('id')->all();
-        $selectedTags = $lot->tags->pluck('id')->all();
-        $selectedCylinders = $lot->cylinders->pluck('id')->all();
-        $selectedDisks = $lot->disks->pluck('id')->all();
-        $selectedDrives = $lot->drives->pluck('id')->all();
-        $selectedFuels = $lot->fuels->pluck('id')->all();
-        $selectedPotencias = $lot->potencias->pluck('id')->all();
-        $selectedTransmissions = $lot->transmissions->pluck('id')->all();
-        return view('admin.lots.edit', compact(
-            'categories',
-            'tags',
-            'cylinders',
-            'brands',
-            'disks',
-            'drives',
-            'fuels',
-            'potencias',
-            'transmissions',
-            'lot',
-            'selectedBrands',
-            'selectedTags',
-            'selectedCylinders',
-            'selectedDisks',
-            'selectedDrives',
-            'selectedFuels',
-            'selectedPotencias',
-            'selectedTransmissions'
-        ));
+        $data = array();
+
+        $data['lot'] = Lot::find($id);
+        $data['categories'] = Category::pluck('title', 'id')->all();
+        $data['tags'] = Tag::all();
+
+
+
+        //Получаем список атрибутов
+        $data['lot_attr'] = [];
+        $results = LotAttributes::where('lot_id', $id)->get();
+        if ($results) {
+            foreach ($results as $result) {
+                array_push($data['lot_attr'],$result->attr_id);
+            }
+        }
+        $data['attrs'] = [];
+        $results = AttributeType::all();
+        foreach ($results as $result) {
+            $items = Attribute::where('type_id', $result->id)->get();
+
+            $data['attrs'][] = [
+                'id'    => $result->id,
+                'title' => $result->title,
+                'items' => $items,
+            ];
+        }
+
+        //Получаем Теги
+        $data['lot_tag'] = [];
+        $results = LotTag::where('lot_id', $id)->get();
+        if ($results) {
+            foreach ($results as $result) {
+                array_push($data['lot_tag'],$result->tag_id);
+            }
+        }
+
+        //Получаем ставки
+        $data['bets'] = Bet::get_by_lot($id);
+
+
+        return view('admin.lots.edit', $data);
     }
 
     /**
@@ -121,29 +137,15 @@ class LotsController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'title' => 'required', 
-            'car_model' => 'required',
-            'vin' => 'required', 
-            'year' => 'required',
-            'car_mileage' => 'required',
-            'tyres' => 'required',
-            'car_options' => 'nullable'
+            'title' => 'required',
+            'vin' => 'required',
         ]);
 
-        $lot = Lot::find($id);        
-        $lot->edit($request->all());
-        $lot->uploadImage($request->file('image'));
-        $lot->setCategory($request->get('category_id'));
-        $lot->setBrands($request->get('category_id'));
-        $lot->setTags($request->get('tags'));
-        $lot->setCylinders($request->get('cylinders'));
-        $lot->setDisks($request->get('disks'));
-        $lot->setDrives($request->get('drives'));
-        $lot->setFuels($request->get('fuels'));
-        $lot->setPotencias($request->get('potencias'));
-        $lot->setTransmissions($request->get('transmissions'));
+//        dd($request);
+        $lot = new Lot();
+        $lot->edit($request->all(), $request->file('image'));
 
-        $lot->toggleStatus($request->get('status'));
+        \Debugbar::info($request->file('image'));
 
         return redirect()->route('lots.index');
     }
@@ -157,6 +159,7 @@ class LotsController extends Controller
     public function destroy($id)
     {
         Lot::find($id)->remove();
+
         return redirect()->route('lots.index');
     }
 }

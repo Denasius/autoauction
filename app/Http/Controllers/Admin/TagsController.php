@@ -88,7 +88,6 @@ class TagsController extends Controller
     public function destroy($id)
     {
         Tag::destroy($id);
-
         return redirect()->route('tags.index');
     }
 }
