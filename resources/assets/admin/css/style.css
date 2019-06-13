@@ -6,7 +6,7 @@
 */
 /* Import fonts */
 
-@import url(https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700,900&display=swap&subset=cyrillic);
 
 @import url(line-icons.css);
 
@@ -18,7 +18,8 @@ body {
 
     background: #eeeeee;
 
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    
 
     padding: 0px !important;
 
@@ -248,7 +249,7 @@ table tr th { color: #688a7e;}
 
     font-weight: 300;
 
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
 
 }
 
@@ -266,7 +267,7 @@ table tr th { color: #688a7e;}
 
     font-weight: 300;
 
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
 
 }
 
@@ -358,7 +359,7 @@ table tr th { color: #688a7e;}
 
     font-weight: 300;
 
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
 
     box-shadow: 0 4px #e56b60;
 
@@ -1746,38 +1747,18 @@ div[data-role="editor-toolbar"] {
 
 }
 
-.page-header i {
-
-  color: #acb1b8;
-
-  margin-right: 10px;
-
-  float: left;
-
-  font-size: 30px;
-
-  line-height: 22px;
-
-  opacity: 0.8;
-
-}
 
 .breadcrumb {
-
-  -webkit-border-radius: 0px;
-
-  -moz-border-radius: 0px;
-
-  border-radius: 0px;
-
-  height: 34px;
-
-  position: relative;
-
-  margin: 0 0 19px 0;
-
-  overflow: hidden;
-
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    position: relative;
+    margin: -10px 0 0 0;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
 }
 
 .breadcrumb li {
@@ -3952,7 +3933,7 @@ div[data-role="editor-toolbar"] {
 
     background: #00a0df;
 
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
 
     font-size: 11px;
 
@@ -6448,7 +6429,7 @@ ul.inbox-pagination li {
 
     font-weight: 300;
 
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
 
 }
 
@@ -6458,7 +6439,7 @@ ul.inbox-pagination li {
 
     font-weight: 400;
 
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
 
 }
 
@@ -8668,7 +8649,7 @@ table.sliders tr td {
 
     color: #34495e;
 
-    font-family: "Lato", sans-serif;
+    font-family: "Roboto", sans-serif;
 
     font-size: 14px;
 
@@ -8960,7 +8941,7 @@ table.sliders tr td {
 
 .daterangepicker .calendar th, .daterangepicker .calendar td {
 
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
 
     font-weight: 300;
 

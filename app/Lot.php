@@ -61,9 +61,11 @@ class Lot extends Model
             }
         }
 
-        $path = $file->store('uploads');
-        $lot->image = $path;
-        $lot->save();
+        if ($file) {
+            $path = $file->store('uploads');
+            $lot->image = $path;
+            $lot->save();
+        }
 
 
     }

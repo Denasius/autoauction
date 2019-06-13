@@ -1,48 +1,10 @@
 $(document).ready(function() {
-	$(".knob").knob({
-      'draw': function() {
-        $(this.i).val(this.cv + '%')
-      }
-    });
+	$('.show_next').click(function () {
 
-	$("#owl-slider").owlCarousel({
-	  navigation: true,
-	  slideSpeed: 300,
-	  paginationSpeed: 400,
-	  singleItem: true
-
+		$(this).next().toggle();
 	});
-
-	$('select.styled').customSelect();
-
-	$('button[data-attr="delete"]').on('click',function () {
-		return confirm('Вы уверены? Данное действие необратимо.');
-	});
-
-	// $('#reservation').daterangepicker();
-
-	 // Tags Input
-    // $(".tagsinput").tagsInput();
-
-    // Switch
-    //$("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
-
-	// $('#map').vectorMap({
-	 //      map: 'world_mill_en',
-	 //      series: {
-	 //        regions: [{
-	 //          values: gdpData,
-	 //          scale: ['#000', '#000'],
-	 //          normalizeFunction: 'polynomial'
-	 //        }]
-	 //      },
-	 //      backgroundColor: '#eef3f7',
-	 //      onLabelShow: function(e, el, code) {
-	 //        el.html(el.html() + ' (GDP - ' + gdpData[code] + ')');
-	 //      }
-	 //    });
-
 });
+
 function readURL(input) {
 
 	if (input.files && input.files[0]) {

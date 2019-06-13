@@ -48,7 +48,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Категория</label>
+                                <label class="col-sm-2 control-label">Пользователь</label>
                                 <div class="col-sm-10">
                                     {{ Form::select('user_id',
                                        $users,
