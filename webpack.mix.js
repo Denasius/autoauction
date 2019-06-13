@@ -41,6 +41,8 @@ mix.styles([
 	'resources/assets/admin/css/style-responsive.css',
 ], 'public/css/login.css');
 
+mix.sass('resources/assets/admin/style-custom.scss', 'public/css/custom-admin.css');
+
 mix.scripts([
 	'resources/assets/admin/js/jquery.js',
 	'resources/assets/admin/js/jquery-ui-1.10.4.min.js',
@@ -100,3 +102,4 @@ mix.scripts([
 
 mix.copy('resources/assets/admin/fonts', 'public/fonts');
 mix.copy('resources/assets/admin/img', 'public/img');
+mix.browserSync('autoauction');

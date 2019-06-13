@@ -25,6 +25,9 @@
                                         <a href="#main_tab" aria-controls="main_tab" role="tab" data-toggle="tab">Основное</a>
                                     </li>
                                     <li role="presentation">
+                                    <a href="{{url('admin/uploadImages')}}" aria-controls="arrt_tab" role="tab" >Изображения</a>
+                                        </li>
+                                    <li role="presentation">
                                         <a href="#arrt_tab" aria-controls="arrt_tab" role="tab" data-toggle="tab">Атрибуты</a>
                                     </li>
                                 </ul>
@@ -124,7 +127,8 @@
                                             <input type="text" name="meta_description" class="form-control" placeholder="Meta descr">
                                         </div>
                                     </div>
-                                </div>
+                                </div>                               
+
                                 {{--Атрибуты--}}
                                 <div role="tabpanel" class="tab-pane " id="arrt_tab">
                                     @foreach($attrs as $attr)
@@ -143,11 +147,6 @@
                                     @endforeach
                                 </div>
                             </div>
-
-
-
-
-
 
                             <div class="btn-create" style="margin-top: 20px; text-align: right;">
                                 <button type="submit" class="btn btn-success" href="{{route('lots.create')}}" title="Сохранить">Сохранить</button>

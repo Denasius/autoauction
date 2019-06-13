@@ -24,6 +24,9 @@
                                     <li role="presentation" class="active">
                                         <a href="#main_tab" aria-controls="main_tab" role="tab" data-toggle="tab">Основное</a>
                                     </li>
+                                    <li role="presentation" class="">
+                                        <a href="#image_tab" aria-controls="main_tab" role="tab" data-toggle="tab">Изображения</a>
+                                    </li>
                                     <li role="presentation">
                                         <a href="#arrt_tab" aria-controls="arrt_tab" role="tab" data-toggle="tab">Атрибуты</a>
                                     </li>
@@ -136,6 +139,11 @@
                                             {{Form::text('meta_description', $lot->meta_description, ['class'=>'form-control', 'placeholder' => 'Meta descr'])}}
                                         </div>
                                     </div>
+                                </div>
+
+                                {{-- Изображения --}}
+                                <div class="tab-pane" id="image_tab" role="tabpanel">
+                                  
                                 </div>
 
                                 {{--Атрибуты--}}

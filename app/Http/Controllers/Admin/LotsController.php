@@ -162,4 +162,6 @@ class LotsController extends Controller
 
         return redirect()->route('lots.index');
     }
+
+   
 }

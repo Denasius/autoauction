@@ -43,6 +43,8 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 
 	Route::get('/profile', 'ProfileController@index');
 	Route::post('/profile', 'ProfileController@update');
+
+	Route::get('/uploadImages', 'ImagesController@uploadImages');
 });
 
 Route::get('/register', 'AuthController@registerForm')->name('registerView');

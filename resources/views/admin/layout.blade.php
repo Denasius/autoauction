@@ -12,6 +12,7 @@
     <title>VIN - страница админа</title>
 
     <link href="/css/admin.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/custom-admin.css">
 </head>
 
 <body>
