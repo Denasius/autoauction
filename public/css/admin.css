@@ -15886,38 +15886,38 @@ span.customSelect.changed {
 	align-items: center;
 }
 .header_block {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 .breadcrumb a {
-  color: #000;
+	color: #000;
 }
 .header_block .page-header {
-  margin: 20px 0 5px 0;
+	margin: 20px 0 5px 0;
 }
 .btn-add {
-  background: #07882a;
-  color: #fff;
-  border: solid 1px #07882a;
+	background: #07882a;
+	color: #fff;
+	border: solid 1px #07882a;
 }
 .btn-add:hover {
-  background: #fff;
-  color: #07882a;
+	background: #fff;
+	color: #07882a;
 }
 .btn-back {
-  background: #1a2732;
-  color: #fff;
-  border: solid 1px #1a2732;
+	background: #1a2732;
+	color: #fff;
+	border: solid 1px #1a2732;
 }
 .btn-back:hover {
-  background: #fff;
-  color: #1a2732;
+	background: #fff;
+	color: #1a2732;
 }
 .event_btn_group .btn-primary {
 
 }
 .event_btn_group .btn-danger {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
 }
