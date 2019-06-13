@@ -61,14 +61,16 @@ class Lot extends Model
             }
         }
 
-        $path = $file->store('uploads');
-        $lot->image = $path;
-        $lot->save();
+        if ($file) {
+            $path = $file->store('uploads');
+            $lot->image = $path;
+            $lot->save();
+        }
 
 
     }
 
-    public function remove($id){
+    public static function remove($id){
         Lot::destroy($id);
         LotAttributes::where('lot_id', $id)->delete();
     }

@@ -1,6 +1,5 @@
 {
     "/css/admin.css": "/css/admin.css",
     "/css/login.css": "/css/login.css",
-    "/js/admin.js": "/js/admin.js",
-    "/js/admin-form-component.js": "/js/admin-form-component.js"
+    "/js/admin.js": "/js/admin.js"
 }

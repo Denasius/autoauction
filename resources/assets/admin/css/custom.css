@@ -66,3 +66,25 @@
 	font-size: 25px;
 	color: #1a2732;
 }
+.page-header {
+	font-size: 24px;
+	color: #1a2732;
+	margin: 20px 0 0;
+}
+.d_flex {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.header_block {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.header_block .page-header {
+	margin: 20px 0 5px 0;
+}
+.btn-add {
+	background: #07882a;
+	color: #fff;
+}

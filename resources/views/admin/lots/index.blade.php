@@ -5,21 +5,30 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
+
             <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fa fa-table"></i> Лоты</h3>
+                <div class="col-sm-12">
                     <ol class="breadcrumb">
                         <li><i class="fa fa-home"></i><a href="{{route('admin')}}">Главная</a></li>
-                        <li><i class="fa fa-table"></i>Лоты</li>
+                        <li><i class="fas fa-car"></i>Лоты</li>
                     </ol>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="header_block">
+                        <h1 class="page-header"><i class="fas fa-car"></i> Лоты</h1>
+                        <a class="btn btn-add" href="{{route('pages.create')}}" title="Добавить диск">Добавить</a>
+                    </div>
+                </div>
+            </div>
+
+
             <!-- page start-->
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="add-button" style="margin-bottom:20px;">
-                        <a class="btn btn-success" href="{{route('lots.create')}}" title="Добавить категорию">Добавить лот</a>
-                    </div>
+
                     @if(! empty( $lots ))
                         <section class="panel">
 

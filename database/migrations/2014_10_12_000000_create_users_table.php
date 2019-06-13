@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
     {
 
        Schema::create('user_role', function (Blueprint $table) {
-           $table->increments('id');
+           $table->bigIncrements('id');
            $table->string('title');
        });
 
