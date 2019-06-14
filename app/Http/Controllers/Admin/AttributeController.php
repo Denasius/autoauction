@@ -15,14 +15,23 @@ class AttributeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
-
+        $params = $request->all();
         $attribyt_model = new Attribute();
-        $data['results'] = $attribyt_model->get_all();
-        $data['type'] = false;
+        $data['filter'] = AttributeType::all();
+
+
+        if (isset($params['filter_id']) && $params['filter_id']) {
+            $data['filter_id'] = $params['filter_id'];
+            $data['results'] = $attribyt_model->get_attribute_by_type($params['filter_id']);
+        }else {
+            $data['results'] = $attribyt_model->get_all();
+        }
+
+
         return view('admin.attributes.index', $data);
     }
 

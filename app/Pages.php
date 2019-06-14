@@ -96,4 +96,8 @@ class Pages extends Model
         $this->removeImage();
         $this->delete();
     }
+
+    public static function get_by_title($title) {
+        return Pages::where('title', 'like', '%'.$title.'%')->get();
+    }
 }

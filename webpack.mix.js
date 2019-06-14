@@ -42,7 +42,7 @@ mix.styles([
 ], 'public/css/login.css');
 
 mix.scripts([
-	'resources/assets/admin/js/jquery.js',
+	// 'resources/assets/admin/js/jquery.js',
 	// 'resources/assets/admin/js/jquery-ui-1.10.4.min.js',
 	// 'resources/assets/admin/js/jquery-1.8.3.min.js',
 	// 'resources/assets/admin/js/jquery-ui-1.9.2.custom.min.js',

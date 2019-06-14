@@ -10,6 +10,7 @@ use DebugBar\DebugBar;
 use Illuminate\Support\ServiceProvider;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\SearchController;
 
 class AppServiceProvider extends ServiceProvider
 {

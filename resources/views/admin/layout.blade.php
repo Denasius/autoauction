@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="/img/favicon.png">
     <title>VIN - страница админа</title>
     <link href="/css/admin.css" rel="stylesheet">
+    <script src="/js/jquery.js"></script>
 </head>
 
 <body>
@@ -17,24 +18,30 @@
 <section id="container" class="">
 
     <header class="header dark-bg">
-        <div class="toggle-nav">
-            <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
-        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <a href="{{route('admin')}}" class="logo">Vin <span class="lite">Admin</span></a>
+            </div>
+            <div class="col-sm-6">
+                <div class="nav search-row" id="top_menu">
 
-        <!--logo start-->
-        <a href="{{route('admin')}}" class="logo">Vin <span class="lite">Admin</span></a>
-        <!--logo end-->
-
-        <div class="nav search-row" id="top_menu">
-            <!--  search form start -->
-            <ul class="nav top-menu">
-                <li>
-                    <form class="navbar-form">
-                        <input class="form-control" placeholder="Search" type="text">
+                    <form id="search_form" action="/admin/search" method="POST">
+                        <input type="hidden" name="_method" value="POST">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input class="form-control" placeholder="Поиск" type="text" name="search">
                     </form>
-                </li>
-            </ul>
-            <!--  search form end -->
+                    <div id="search_result"></div>
+                    <!--  search form end -->
+                </div>
+            </div>
+            <div class="col-sm-2">
+
+            </div>
+            <div class="col-sm-2">
+                <div class="go_front">
+                    <a href="{{route('home')}}"><i class="fas fa-igloo"></i> На сайт</a>
+                </div>
+            </div>
         </div>
 
 
@@ -116,16 +123,7 @@
     @yield('content')
 
 </section>
-<!-- container section start -->
-
-<!-- javascripts -->
-
 <script src="/js/admin.js"></script>
-{{-- <script>
-    $('#dp1').datepicker({
-      format: 'mm-dd-yyyy'
-    });
-    </script> --}}
-</body>
 
+</body>
 </html>
