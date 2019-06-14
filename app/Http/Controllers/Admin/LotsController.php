@@ -16,6 +16,7 @@ use App\LotAttributes;
 
 class LotsController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -162,4 +163,6 @@ class LotsController extends Controller
 
         return redirect()->route('lots.index');
     }
+
+
 }

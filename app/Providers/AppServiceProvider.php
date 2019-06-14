@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Attribute;
 use App\AttributeType;
+use DebugBar\DebugBar;
 use Illuminate\Support\ServiceProvider;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -40,5 +41,112 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with($data);
         });
+    }
+
+    protected static function get_breadcrumb_header_result($route, $event){
+
+        $class = [
+            'index'   => [
+                'class' => 'btn-add',
+                'text'  => 'Добавить',
+                'title' => 'Добавить'
+            ],
+            'create'  => [
+                'class' => 'btn-back',
+                'text'  => 'Назад',
+                'title' => 'Добавить'
+            ],
+            'edit'  => [
+                'class' => 'btn-back',
+                'text'  => 'Назад',
+                'title' => 'Редактировать'
+            ],
+            'show'  => [
+                'class' => 'btn-back',
+                'text'  => 'Назад',
+                'title' => 'Редактировать'
+            ],
+        ];
+
+        $info = [
+            'home'          => [
+                'icon'          => '<i class="fas fa-tachometer-alt"></i>',
+                'title'         => 'АДМИН-ПАНЕЛЬ',
+                'title_create'  => '',
+            ],
+            'pages'         => [
+                'icon'          => '<i class="fas fa-file"></i>',
+                'title'         => 'Страницы',
+                'title_create'  => 'страницу',
+            ],
+            'lots'          => [
+                'icon'          => '<i class="fas fa-car"></i>',
+                'title'         => 'Лоты',
+                'title_create'  => 'лот',
+            ],
+            'categories'    => [
+                'icon'          => '<i class="fas fa-th"></i>',
+                'title'         => 'Категории',
+                'title_create'  => 'категорию'
+            ],
+            'tags'          => [
+                'icon'          => '<i class="fas fa-tags"></i>',
+                'title'         => 'Теги',
+                'title_create'  => 'тег',
+            ],
+            'attributes'    => [
+                'icon'          => '<i class="fas fa-tasks"></i>',
+                'title'         => 'Атрибуты',
+                'title_create'  => 'атрибут',
+            ],
+            'attribute_types'    => [
+                'icon'          => '<i class="fas fa-tasks"></i>',
+                'title'         => 'Типы атрибутов',
+                'title_create'  => 'тип',
+            ],
+            'bets'          => [
+                'icon'          => '<i class="fas fa-hand-holding-usd"></i>',
+                'title'         => 'Ставки',
+                'title_create'  => 'ставку',
+            ],
+            'users'         => [
+                'icon'          => '<i class="fas fa-users"></i>',
+                'title'         => 'Пользователи',
+                'title_create'  => 'пользователя',
+            ],
+            'comments'      => [
+                'icon'          => '<i class="fas fa-comments"></i>',
+                'title'         => 'Комментарии',
+                'title_create'  => 'комментарий',
+            ],
+        ];
+
+        $data = [];
+        $data['icon'] = $info[$route]['icon'];
+        $data['title'] = $info[$route]['title'];
+        $data['btn'] = $class[$event];
+        $data['btn_href'] = $route . '.index';
+        $data['breadcrumb'] = [
+            'href'  => false,
+            'title' => $info[$route]['title'],
+        ];
+
+        if ($event == 'index') {
+            $data['btn_href'] = $route . '.create';
+        }else {
+            $data['title'] = $class[$event]['title'] . ' ' . $info[$route]['title_create'];
+            $data['breadcrumb'] = [
+                'href'  => $route . '.index',
+                'title' => $info[$route]['title'],
+            ];
+        }
+
+        return $data;
+    }
+
+    public static function get_breadcrumb_header(){
+        $route = \Request::route()->getName();
+        $arr = explode('.', $route);
+        return AppServiceProvider::get_breadcrumb_header_result($arr[0], $arr[1]);
     }
 }

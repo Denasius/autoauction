@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Bet;
 use App\Lot;
+use App\Providers\AppServiceProvider;
 use App\User;
 use DebugBar\DebugBar;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ class BetsController extends Controller
     public function index()
     {
         $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
         $data['bets'] = Bet::get_all();
 
         return view('admin.bets.index', $data);
@@ -32,6 +34,7 @@ class BetsController extends Controller
     public function create()
     {
         $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
         $data['lots'] = Lot::pluck('title', 'id')->all();
         $data['users'] = User::pluck('name', 'id')->all();
@@ -78,6 +81,8 @@ class BetsController extends Controller
     public function edit($id)
     {
         $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
         $data['item_info'] = Bet::find($id);
         $data['lots'] = Lot::pluck('title', 'id')->all();
         $data['users'] = User::pluck('name', 'id')->all();

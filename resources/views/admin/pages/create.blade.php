@@ -6,23 +6,7 @@
     <section id="main-content">
         <section class="wrapper">
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="{{route('admin')}}">Главная</a></li>
-                        <li><i class="fas fa-file"></i><a href="{{route('pages.index')}}">Страницы</a></li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="header_block">
-                        <h1 class="page-header"><i class="fas fa-file"></i> Создание новой страницы</h1>
-                        <a class="btn btn-back" href="{{route('pages.index')}}" title="Назад">Назад</a>
-                    </div>
-                </div>
-            </div>
+            @include('admin.common.breadcrumb_header')
 
             <div class="row">
                 @include('admin.errors')
@@ -92,9 +76,10 @@
                                     <textarea type="text" name="meta_description" class="form-control"></textarea>
                                 </div>
                             </div>
-
-                            <div class="btn-create" style="margin-top: 20px; text-align: right;">
-                                <button type="submit" class="btn btn-success" href="{{route('pages.create')}}" title="Сохранить">Сохранить</button>
+                            <div class="form-group">
+                                <div class="btn-create text-right col-sm-12">
+                                    <button type="submit" class="btn btn-add" title="Сохранить">Сохранить</button>
+                                </div>
                             </div>
 
                             {{Form::close()}}

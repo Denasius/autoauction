@@ -7,7 +7,7 @@
     <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
     <meta name="author" content="GeeksLabs">
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
-    <link rel="shortcut icon" href="img/favicon.png">
+    <link rel="shortcut icon" href="/img/favicon.png">
     <title>VIN - страница админа</title>
     <link href="/css/admin.css" rel="stylesheet">
 </head>
@@ -76,22 +76,17 @@
                         <span>Теги</span>
                     </a>
                 </li>
-                <li class="sub-menu">
-                    <a href="javascript:;" class="show_next">
+                <li class="{{request()->is('admin/attributes') ? 'active' : 'no-active'}}">
+                    <a href="/admin/attributes">
                         <i class="fas fa-tasks"></i>
                         <span>Атрибуты</span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
                     </a>
-                    <ul class="sub">
-                        @foreach($attribyt_type as $item)
-                            <li class="{{request()->is('admin/attribyt_type/') ? 'active' : false}}">
-                                <a href="/admin/attributes/{{$item->slug}}">{{$item->title}}</a>
-                            </li>
-                        @endforeach
-                        <li class="add_new {{request()->is('admin/attribyt_type/add') ? 'active' : false}}">
-                            <a href="/admin/attribute_types/create"><i class="fa fa-plus"></i> Добавить</a>
-                        </li>
-                    </ul>
+                </li>
+                <li class="{{request()->is('admin/attribute_types') ? 'active' : 'no-active'}}">
+                    <a href="/admin/attribute_types" class="">
+                        <i class="fas fa-tasks"></i>
+                        <span>Типы атрибутов</span>
+                    </a>
                 </li>
                 <li class="{{request()->is('admin/bets') ? 'active' : 'no-active'}}">
                     <a href="/admin/bets" class="">

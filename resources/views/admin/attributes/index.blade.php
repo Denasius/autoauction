@@ -5,84 +5,50 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fa fa-user-md"></i> Атрибуты
-                        @if ($type)<strong>{{$type->title}}</strong>@endif</h3>
-                    <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="{{route('admin')}}">Главная</a></li>
-                        <li><i class="icon_documents_alt"></i>Атрибуты</li>
-                    </ol>
-                </div>
-            </div>
+
+            @include('admin.common.breadcrumb_header')
+
             <div class="row">
                 <!-- page start-->
                 @include('admin.errors')
                 <div class="col-lg-12">
                     <section class="panel">
-                        <header class="panel-heading tab-bg-info">
-                            <ul class="nav nav-tabs">
-                                <li class="active">
-                                    <a href="{{route('attributes.index')}}">
-                                        <i class="icon-home"></i>
-                                        Все атрибуты
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{route('attributes.create')}}">
-                                        <i class="icon-user"></i>
-                                        Создать атрибут
-                                    </a>
-                                </li>
-                            </ul>
-                        </header>
                         <div class="panel-body">
-                            {{-- Все пользователи --}}
-                            <div>
-                                <div id="recent-activity" class="tab-pane active">
-                                    <div class="profile-activity">
-                                        <table class="table table-striped table-advance table-hover">
-                                            <tbody>
-                                            <tr>
-                                                <th><i class="icon_profile"></i> ID</th>
-                                                <th><i class="icon_calendar"></i> Title</th>
-                                                <th style="text-align: center;"><i class="icon_cogs"></i> Действия</th>
-                                            </tr>
-                                            @foreach( $results as $result )
 
-                                                <tr>
-                                                    <td>{{$result->id}}</td>
-                                                    <td>{{$result->title}}</td>
-                                                    <td style="text-align: center;">
-                                                        <div class="btn-group">
+                            <table class="table table-striped table-advance table-hover">
+                                <tbody>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Тип</th>
+                                    <th class="text-right">Действия</th>
+                                </tr>
+                                @foreach( $results as $result )
 
-                                                            <a class="btn btn-info" href="{{route('attributes.edit', $result->id)}}">
-                                                                <i class="icon_pencil-edit"></i>
-                                                            </a>
-                                                            {{Form::open(['route'=>['attributes.destroy', $result->id], 'method'=>'delete', 'class'=>'inline_block'])}}
-                                                            <button type="submit" class="btn btn-danger" data-attr="delete">
-                                                                <i class="icon_close_alt2"></i>
-                                                            </button>
-                                                            {{Form::close()}}
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                    <tr>
+                                        <td>{{$result->id}}</td>
+                                        <td>{{$result->title}}</td>
+                                        <td>{{$result->type_title}}</td>
+                                        <td class="text-right">
+                                            <div class="btn-group event_btn_group">
+                                                <a class="btn btn-primary" href="{{route('attributes.edit', $result->id)}}"><i class="fas fa-edit"></i></a>
+                                                {{Form::open(['route'=>['attributes.destroy', $result->id], 'method'=>'delete', 'class'=>'inline_block'])}}
+                                                <button type="submit" class="btn btn-danger" data-attr="delete"><i class="fas fa-trash-alt"></i></button>
+                                                {{Form::close()}}
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                                            @endforeach
+                                @endforeach
 
 
-                                            </tbody>
-                                        </table>
+                                </tbody>
+                            </table>
 
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </section>
                 </div>
-
-
-                <!-- page end-->
+            </div>
         </section>
     </section>
     <!--main content end-->

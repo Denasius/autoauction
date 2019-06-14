@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Providers\AppServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -16,8 +17,11 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('admin.users.index', ['users'=>$users]);
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();;
+
+        $data['users'] = User::all();
+        return view('admin.users.index', $data);
     }
 
     /**
@@ -27,7 +31,10 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create'); 
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();;
+
+        return view('admin.users.create', $data);
     }
 
     /**
@@ -61,8 +68,11 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        return view('admin.users.edit', ['user'=>$user]);
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();;
+
+        $data['user'] = User::find($id);
+        return view('admin.users.edit', $data);
     }
 
     /**

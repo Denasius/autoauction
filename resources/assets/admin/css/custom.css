@@ -80,12 +80,17 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	padding: 0 15px;
 }
 .breadcrumb a {
 	color: #000;
+	cursor: pointer;
 }
 .header_block .page-header {
 	margin: 20px 0 5px 0;
+}
+.header_block .page-header > i {
+	margin: 0 15px 0 0;
 }
 .btn-add {
 	background: #07882a;

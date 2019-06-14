@@ -12,6 +12,16 @@ class Attribute extends Model
     use Sluggable;
     protected $fillable = ['title', 'type_id'];
 
+
+    //Получаем все атрибуты с их типами
+    public static function get_all(){
+        return DB::table('attributes')
+            ->orderBy('attributes.type_id')
+            ->join('attribute_types', 'attributes.type_id', '=', 'attribute_types.id')
+            ->select('attributes.*', 'attribute_types.title as type_title')
+            ->get();
+    }
+
     //Получаем все атрибутоы по типу
     public function get_attribute_by_type($type) {
 
@@ -19,7 +29,6 @@ class Attribute extends Model
             $results = Attribute::where('type_id', $type)->get();
         }else {
             $type = AttributeType::where('slug', $type)->first();
-
             $results = Attribute::where('type_id', $type['id'])->get();
         }
 

@@ -6,29 +6,11 @@
     <section id="main-content">
         <section class="wrapper">
 
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="{{route('admin')}}">Главная</a></li>
-                        <li><i class="fas fa-file"></i><a href="{{route('pages.index')}}">Страницы</a></li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="header_block">
-                        <h1 class="page-header"><i class="fas fa-file"></i> Редактировать страницу</h1>
-                        <a class="btn btn-back" href="{{route('pages.index')}}" title="Назад">Назад</a>
-                    </div>
-                </div>
-            </div>
-
+            @include('admin.common.breadcrumb_header')
 
             <div class="row">
                 @include('admin.errors')
-                <div class="col-lg-12">
+                <div class="col-sm-12">
                     <section class="panel">
 
                         <div class="panel-body">
@@ -38,6 +20,12 @@
                             'method'  => 'put',
                                 'class' => 'form-horizontal'
                             ])}}
+
+                            <div class="form-group col-sm-12">
+                                <div class="btn-create text-right">
+                                    <button type="submit" class="btn btn-add" title="Обновить">Обновить</button>
+                                </div>
+                            </div>
 
                             <div class="form-group images">
                                 <label class="col-sm-2 control-label">Изображение</label>
@@ -101,8 +89,10 @@
                                 </div>
                             </div>
 
-                            <div class="btn-create" style="margin-top: 20px; text-align: right;">
-                                <button type="submit" class="btn btn-success" title="Обновить">Обновить</button>
+                            <div class="form-group col-sm-12">
+                                <div class="btn-create text-right">
+                                    <button type="submit" class="btn btn-add" title="Обновить">Обновить</button>
+                                </div>
                             </div>
 
                         </div>

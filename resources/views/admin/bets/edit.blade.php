@@ -5,22 +5,13 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fas fa-hand-holding-usd"></i> Редактировать Ставку</h3>
-                    <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="{{route('bets.index')}}">Главная</a></li>
-                        <li><i class="icon_document_alt"></i>Редактировать Ставку</li>
-                    </ol>
-                </div>
-            </div>
+
+            @include('admin.common.breadcrumb_header')
+
             <div class="row">
                 @include('admin.errors')
                 <div class="col-lg-12">
                     <section class="panel">
-                        <header class="panel-heading">
-                            Редактировать страницу
-                        </header>
                         <div class="panel-body">
                             {{Form::open([
                                 'route' => ['bets.update', $item_info->id],
@@ -32,7 +23,8 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Ставка</label>
                                 <div class="col-sm-10">
-                                    <input type="number" name="price" step="0.01" class="form-control" placeholder="Ставка" value="{{$item_info->price}}">
+                                    <input type="number" name="price" step="0.01" class="form-control" placeholder="Ставка"
+                                           value="{{$item_info->price}}">
                                 </div>
                             </div>
 
@@ -58,10 +50,12 @@
                                  }}
                                 </div>
                             </div>
-
-                            <div class="btn-create" style="margin-top: 20px; text-align: right;">
-                                <button type="submit" class="btn btn-success" title="Обновить">Обновить</button>
+                            <div class="form-group">
+                                <div class="btn-create text-right col-sm-12">
+                                    <button type="submit" class="btn btn-add" title="Обновить">Обновить</button>
+                                </div>
                             </div>
+
 
 
                             {{Form::close()}}

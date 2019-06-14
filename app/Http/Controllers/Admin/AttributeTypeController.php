@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Attribute;
 use App\AttributeType;
+use App\Providers\AppServiceProvider;
 use App\User;
 use DebugBar\DebugBar;
 use Illuminate\Http\Request;
@@ -18,8 +19,11 @@ class AttributeTypeController extends Controller
      */
     public function index()
     {
-        $results = AttributeType::all();
-        return view('admin.attribute_types.index', ['results'=>$results]);
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
+        $data['results'] = AttributeType::all();
+        return view('admin.attribute_types.index', $data);
     }
 
     /**
@@ -29,7 +33,9 @@ class AttributeTypeController extends Controller
      */
     public function create()
     {
-        return view('admin.attribute_types.create');
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+        return view('admin.attribute_types.create', $data);
     }
 
     /**
@@ -70,8 +76,11 @@ class AttributeTypeController extends Controller
      */
     public function edit($id)
     {
-        $attribute_type = AttributeType::find($id);
-        return view('admin.attribute_types.edit', ['attribute_type'=>$attribute_type]);
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
+        $data['attribute_type'] = AttributeType::find($id);
+        return view('admin.attribute_types.edit', $data);
     }
 
     /**

@@ -15896,6 +15896,9 @@ span.customSelect.changed {
 .header_block .page-header {
 	margin: 20px 0 5px 0;
 }
+.header_block .page-header > i {
+	margin: 0 15px 0 0;
+}
 .btn-add {
 	background: #07882a;
 	color: #fff;

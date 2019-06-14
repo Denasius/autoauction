@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Attribute;
 use App\AttributeType;
+use App\Providers\AppServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,9 +17,11 @@ class AttributeController extends Controller
      */
     public function index()
     {
-        $data = array();
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
         $attribyt_model = new Attribute();
-        $data['results'] = $attribyt_model->all();
+        $data['results'] = $attribyt_model->get_all();
         $data['type'] = false;
         return view('admin.attributes.index', $data);
     }
@@ -30,7 +33,9 @@ class AttributeController extends Controller
      */
     public function create()
     {
-        $data = array();
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
         $data['types'] = AttributeType::all();
         return view('admin.attributes.create', $data);
     }
@@ -64,7 +69,9 @@ class AttributeController extends Controller
     public function show($id)
     {
 
-        $data = array();
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
         $attribyt_model = new Attribute();
         $attribyt_type_model = new AttributeType();
 
@@ -83,8 +90,8 @@ class AttributeController extends Controller
      */
     public function edit($id)
     {
-        $data = array();
-
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
         $data['attribute'] = Attribute::find($id);
         $data['types'] = AttributeType::all();
