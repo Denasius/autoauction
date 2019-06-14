@@ -22,6 +22,7 @@ class AttributeController extends Controller
         $params = $request->all();
         $attribyt_model = new Attribute();
         $data['filter'] = AttributeType::all();
+        $data['filter_name'] = 'Тип';
 
 
         if (isset($params['filter_id']) && $params['filter_id']) {
