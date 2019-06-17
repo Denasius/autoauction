@@ -11,8 +11,7 @@ class Lot extends Model
 {
     use Sluggable;
 
-    protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id', 'address', 'car_mileage','car_options',
-    'status', 'views', 'meta_title', 'meta_description'];
+    protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id', 'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description'];
 
 
     public function add($fields){

@@ -75,6 +75,7 @@ mix.scripts([
 	// 'resources/assets/admin/ckeditor-dev/ckeditor.js',
 	// 'resources/assets/admin/js/scripts.js',
 	'resources/assets/admin/js/custom.js',
+	'resources/assets/admin/js/custom-dropzone.js',
 ], 'public/js/admin.js');
 
 

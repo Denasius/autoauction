@@ -5,15 +5,23 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fa fa-file-text-o"></i> Создать лот</h3>
-                    <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="index.html">Главная</a></li>
-                        <li><i class="icon_document_alt"></i>Создать лот</li>
-                    </ol>
-                </div>
-            </div>
+                <div class="row">
+                        <div class="col-sm-12">
+                            <ol class="breadcrumb">
+                                <li><i class="fa fa-home"></i><a href="{{route('admin')}}">Главная</a></li>
+                                <li><i class="fas fa-file"></i>Лоты</li>
+                            </ol>
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="header_block">
+                                <h1 class="page-header"><i class="fas fa-file"></i> Страницы</h1>
+                                <a class="btn btn-back" href="{{route('lots.index')}}" title="Добавить">Назад</a>
+                            </div>
+                        </div>
+                    </div>
             <div class="row">
                 @include('admin.errors')
                 <div class="col-lg-12">
@@ -25,7 +33,7 @@
                                         <a href="#main_tab" aria-controls="main_tab" role="tab" data-toggle="tab">Основное</a>
                                     </li>
                                     <li role="presentation">
-                                    <a href="{{url('admin/uploadImages')}}" aria-controls="arrt_tab" role="tab" >Изображения</a>
+                                    <a href="#image_tab" aria-controls="image_tab" role="tab" data-toggle="tab">Изображения</a>
                                         </li>
                                     <li role="presentation">
                                         <a href="#arrt_tab" aria-controls="arrt_tab" role="tab" data-toggle="tab">Атрибуты</a>
@@ -37,7 +45,7 @@
                             {{Form::open([
                                 'route' => 'lots.store',
                                 'files' => true,
-                                'class' => 'form-horizontal'
+                                'class' => 'form-horizontal',
                             ])}}
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="main_tab">
@@ -127,8 +135,20 @@
                                             <input type="text" name="meta_description" class="form-control" placeholder="Meta descr">
                                         </div>
                                     </div>
-                                </div>                               
+                                </div>
 
+                                {{--Изображения--}}
+                                <div role="tabpanel" class="tab-pane" id="image_tab">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div id="drop_element" class="upload">
+                                                <input type="file" multiple id="gallery-photo-add">
+                                                <div class="gallery gallery__images"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                                 {{--Атрибуты--}}
                                 <div role="tabpanel" class="tab-pane " id="arrt_tab">
                                     @foreach($attrs as $attr)

@@ -10,6 +10,7 @@ use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Lot;
+use App\LotImage;
 use App\Category;
 use App\Tag;
 use App\LotAttributes;
@@ -63,12 +64,16 @@ class LotsController extends Controller
      */
     public function store(Request $request)
     {
+        $lot_images = new LotImage();
+        $lot_images->uploadImages($request->get('images'));
+        
         $this->validate($request, [
             'title' => 'required',
             'vin' => 'required',
         ]);
 
         $lot_model = new Lot();
+        // LotImage::add($request->all());
         
         $lot_model->add($request->all());
 
@@ -163,5 +168,8 @@ class LotsController extends Controller
         return redirect()->route('lots.index');
     }
 
-   
+   public function show()
+   {
+       echo '123';
+   }
 }

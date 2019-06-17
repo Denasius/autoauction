@@ -11,6 +11,7 @@
     <title>VIN - страница админа</title>
     <link href="/css/admin.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/custom-admin.css">
+    {{-- <link rel="stylesheet" href="/css/dropzone.css"> --}}
 </head>
 
 <body>
@@ -125,13 +126,13 @@
 <!-- container section start -->
 
 <!-- javascripts -->
-
+{{-- <script src="/js/dropzone.js"></script> --}}
 <script src="/js/admin.js"></script>
+
 {{-- <script>
-    $('#dp1').datepicker({
-      format: 'mm-dd-yyyy'
-    });
-    </script> --}}
+var myDropzone = new Dropzone("div#drop_element", { url: ""});
+</script> --}}
+
 </body>
 
 </html>
