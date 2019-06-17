@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Providers\AppServiceProvider;
 use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,8 +17,12 @@ class TagsController extends Controller
      */
     public function index()
     {
-        $tags = Tag::all();
-        return view('admin.tags.index', ['tags'=>$tags]);
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
+        $data['tags'] = Tag::all();
+
+        return view('admin.tags.index', $data);
     }
 
     /**
@@ -27,7 +32,10 @@ class TagsController extends Controller
      */
     public function create()
     {
-        return view('admin.tags.create');
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
+        return view('admin.tags.create', $data);
     }
 
     /**
@@ -55,7 +63,8 @@ class TagsController extends Controller
      */
     public function edit($id)
     {
-        $data = array();
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();;
         $data['tag'] = Tag::find($id);
         return view('admin.tags.edit', $data);
     }

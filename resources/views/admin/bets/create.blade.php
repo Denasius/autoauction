@@ -5,22 +5,14 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fas fa-hand-holding-usd"></i>Создать Ставку</h3>
-                    <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="{{route('bets.index')}}">Главная</a></li>
-                        <li><i class="icon_document_alt"></i>Создать ставку</li>
-                    </ol>
-                </div>
-            </div>
+
+            @include('admin.common.breadcrumb_header')
+
             <div class="row">
                 @include('admin.errors')
                 <div class="col-lg-12">
                     <section class="panel">
-                        <header class="panel-heading">
-                            Создание новой страницы
-                        </header>
+
                         <div class="panel-body">
                             {{Form::open([
                                 'route' => 'bets.store',
@@ -59,9 +51,10 @@
                             </div>
 
 
-
-                            <div class="btn-create" style="margin-top: 20px; text-align: right;">
-                                <button type="submit" class="btn btn-success" href="{{route('bets.create')}}" title="Сохранить">Сохранить</button>
+                            <div class="form-group">
+                                <div class="btn-create text-right col-sm-12">
+                                    <button type="submit" class="btn btn-add" title="Сохранить">Сохранить</button>
+                                </div>
                             </div>
 
                         </div>

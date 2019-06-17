@@ -7,11 +7,12 @@
     <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
     <meta name="author" content="GeeksLabs">
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
-    <link rel="shortcut icon" href="img/favicon.png">
+    <link rel="shortcut icon" href="/img/favicon.png">
     <title>VIN - страница админа</title>
     <link href="/css/admin.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/custom-admin.css">
     {{-- <link rel="stylesheet" href="/css/dropzone.css"> --}}
+    <script src="/js/jquery.js"></script>
 </head>
 
 <body>
@@ -19,24 +20,30 @@
 <section id="container" class="">
 
     <header class="header dark-bg">
-        <div class="toggle-nav">
-            <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
-        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <a href="{{route('admin')}}" class="logo">Vin <span class="lite">Admin</span></a>
+            </div>
+            <div class="col-sm-6">
+                <div class="nav search-row" id="top_menu">
 
-        <!--logo start-->
-        <a href="{{route('admin')}}" class="logo">Vin <span class="lite">Admin</span></a>
-        <!--logo end-->
-
-        <div class="nav search-row" id="top_menu">
-            <!--  search form start -->
-            <ul class="nav top-menu">
-                <li>
-                    <form class="navbar-form">
-                        <input class="form-control" placeholder="Search" type="text">
+                    <form id="search_form" action="/admin/search" method="POST">
+                        <input type="hidden" name="_method" value="POST">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input class="form-control" placeholder="Поиск" type="text" name="search">
                     </form>
-                </li>
-            </ul>
-            <!--  search form end -->
+                    <div id="search_result"></div>
+                    <!--  search form end -->
+                </div>
+            </div>
+            <div class="col-sm-2">
+
+            </div>
+            <div class="col-sm-2">
+                <div class="go_front">
+                    <a href="{{route('home')}}"><i class="fas fa-igloo"></i> На сайт</a>
+                </div>
+            </div>
         </div>
 
 
@@ -78,22 +85,17 @@
                         <span>Теги</span>
                     </a>
                 </li>
-                <li class="sub-menu">
-                    <a href="javascript:;" class="show_next">
+                <li class="{{request()->is('admin/attributes') ? 'active' : 'no-active'}}">
+                    <a href="/admin/attributes">
                         <i class="fas fa-tasks"></i>
                         <span>Атрибуты</span>
-                        <span class="menu-arrow arrow_carrot-right"></span>
                     </a>
-                    <ul class="sub">
-                        @foreach($attribyt_type as $item)
-                            <li class="{{request()->is('admin/attribyt_type/') ? 'active' : false}}">
-                                <a href="/admin/attributes/{{$item->slug}}">{{$item->title}}</a>
-                            </li>
-                        @endforeach
-                        <li class="add_new {{request()->is('admin/attribyt_type/add') ? 'active' : false}}">
-                            <a href="/admin/attribute_types/create"><i class="fa fa-plus"></i> Добавить</a>
-                        </li>
-                    </ul>
+                </li>
+                <li class="{{request()->is('admin/attribute_types') ? 'active' : 'no-active'}}">
+                    <a href="/admin/attribute_types" class="">
+                        <i class="fas fa-tasks"></i>
+                        <span>Типы атрибутов</span>
+                    </a>
                 </li>
                 <li class="{{request()->is('admin/bets') ? 'active' : 'no-active'}}">
                     <a href="/admin/bets" class="">
@@ -123,16 +125,7 @@
     @yield('content')
 
 </section>
-<!-- container section start -->
-
-<!-- javascripts -->
-{{-- <script src="/js/dropzone.js"></script> --}}
 <script src="/js/admin.js"></script>
 
-{{-- <script>
-var myDropzone = new Dropzone("div#drop_element", { url: ""});
-</script> --}}
-
 </body>
-
 </html>

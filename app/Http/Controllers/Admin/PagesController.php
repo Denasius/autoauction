@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Attribute;
 use App\AttributeType;
+use App\Providers\AppServiceProvider;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -19,8 +20,10 @@ class PagesController extends Controller
      */
     public function index()
     {
-        $posts = Pages::getAllPagesAndCategories();
-        return view('admin.pages.index', ['posts'=> $posts]);
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+        $data['posts'] = Pages::getAllPagesAndCategories();
+        return view('admin.pages.index', $data);
     }
 
     /**
@@ -30,8 +33,10 @@ class PagesController extends Controller
      */
     public function create()
     {
-        $categories = Category::pluck('title', 'id')->all();
-        return view('admin.pages.create', ['categories' => $categories]);
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+        $data['categories'] = Category::pluck('title', 'id')->all();
+        return view('admin.pages.create', $data);
     }
 
     /**
@@ -64,9 +69,12 @@ class PagesController extends Controller
      */
     public function edit($id)
     {
-        $page = Pages::find($id);
-        $categories = Category::pluck('title', 'id')->all();
-        return view('admin.pages.edit', ['page' => $page, 'categories' => $categories]);
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
+        $data['page'] = Pages::find($id);
+        $data['categories'] = Category::pluck('title', 'id')->all();
+        return view('admin.pages.edit', $data);
     }
 
     /**

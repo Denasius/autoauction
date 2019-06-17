@@ -21,3 +21,42 @@ function readURL(input) {
 $(".preview_img").change(function(){
 	readURL(this);
 });
+
+
+//Поиск скрываем на клик в любое место
+$(document).mouseup(function (e){ // событие клика по веб-документу
+	var div = $("#search_result .results"); // тут указываем ID элемента
+	if (!div.is(e.target) // если клик был не по нашему блоку
+		&& div.has(e.target).length === 0) { // и не по его дочерним элементам
+		div.hide(); // скрываем его
+	}
+});
+//Сам поиск
+$('#search_form').submit(function () {
+	var data = $(this).serialize();
+	$.ajax({
+		url: '/admin/search',
+		type: "POST",
+		data: data,
+		success: function (data) {
+			$('#search_result').html(data);
+		}
+	});
+	return false;
+});
+
+$('#search_form .form-control').on('input',function () {
+	var data = $('#search_form').serialize();
+	if ($(this).val()) {
+		$.ajax({
+			url: '/admin/search',
+			type: "POST",
+			data: data,
+			success: function (data) {
+				$('#search_result').html(data);
+			}
+		});
+	}
+	return false;
+
+});

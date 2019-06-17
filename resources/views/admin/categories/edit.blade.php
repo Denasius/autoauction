@@ -5,28 +5,17 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fa fa-file-text-o"></i> Редактирование категории</h3>
-                    <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="{{route('admin')}}">Главная</a></li>
-                        <li><i class="fa fa-table"></i><a href="{{route('categories.index')}}">Категории</a></li>
-                        <li><i class="fa fa-file-text-o"></i>Изменить категорию</li>
-                    </ol>
-                </div>
-            </div>
+
+            @include('admin.common.breadcrumb_header')
+
             <div class="row">
                 @include('admin.errors')
                 <div class="col-lg-12">
                     <section class="panel">
-                        <header class="panel-heading">
-                            <div class="col-sm-12">
-                                Изменение категории
-                            </div>
-                        </header>
                         <div class="panel-body">
                             {{Form::open(['route'=>['categories.update', $category_info->id], 'method'=>'put', 'class'=>'form-horizontal'])}}
                                 <input type="hidden" name="id" value="{{$category_info->id}}">
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Название</label>
                                 <div class="col-sm-10">
@@ -66,12 +55,9 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-lg-offset-2 col-lg-10">
-                                    <button type="submit" class="btn btn-primary">Создать</button>
-                                </div>
+                            <div class="btn-create text-right">
+                                <button type="submit" class="btn btn-add" title="Обновить">Обновить</button>
                             </div>
-
                             {{Form::close()}}
                         </div>
                     </section>

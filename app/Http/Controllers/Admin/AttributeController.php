@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Attribute;
 use App\AttributeType;
+use App\Providers\AppServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,12 +15,24 @@ class AttributeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = array();
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+        $params = $request->all();
         $attribyt_model = new Attribute();
-        $data['results'] = $attribyt_model->all();
-        $data['type'] = false;
+        $data['filter'] = AttributeType::all();
+        $data['filter_name'] = 'Тип';
+
+
+        if (isset($params['filter_id']) && $params['filter_id']) {
+            $data['filter_id'] = $params['filter_id'];
+            $data['results'] = $attribyt_model->get_attribute_by_type($params['filter_id']);
+        }else {
+            $data['results'] = $attribyt_model->get_all();
+        }
+
+
         return view('admin.attributes.index', $data);
     }
 
@@ -30,7 +43,9 @@ class AttributeController extends Controller
      */
     public function create()
     {
-        $data = array();
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
         $data['types'] = AttributeType::all();
         return view('admin.attributes.create', $data);
     }
@@ -64,7 +79,9 @@ class AttributeController extends Controller
     public function show($id)
     {
 
-        $data = array();
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
         $attribyt_model = new Attribute();
         $attribyt_type_model = new AttributeType();
 
@@ -83,8 +100,8 @@ class AttributeController extends Controller
      */
     public function edit($id)
     {
-        $data = array();
-
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
         $data['attribute'] = Attribute::find($id);
         $data['types'] = AttributeType::all();

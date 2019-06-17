@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\admin;
 
 use App\Category;
+use App\Providers\AppServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 
 class CategoryController extends Controller
 {
@@ -13,10 +15,14 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $data = array();
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
         $data['categories'] = Category::all();
+
         return view('admin.categories.index', $data);
     }
 
@@ -28,6 +34,8 @@ class CategoryController extends Controller
     public function create()
     {
         $data = array();
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();;
+
         $data['categories'] = Category::all();
         return view('admin.categories.create', $data);
     }
@@ -71,7 +79,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $data = array();
-
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();;
 
         $data['categories'] = Category::all();
         $data['category_info'] = Category::find($id);

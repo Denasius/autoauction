@@ -13,7 +13,7 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');;
 Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'], function () {	
 	Route::get('/', 'DashboardController@index')->name('admin');
 	Route::resource('/categories', 'CategoriesController');
@@ -33,7 +33,7 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::resource('/attribute_types', 'AttributeTypeController');
 
 	//Категории
-		Route::resource('/categories', 'CategoryController');
+    Route::resource('/categories', 'CategoryController');
 	
 	//Коменты
     Route::resource('/comments', 'PageCommentsController');
@@ -44,7 +44,7 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::get('/profile', 'ProfileController@index');
 	Route::post('/profile', 'ProfileController@update');
 
-	// Route::post('/uploadImages', 'UploadImagesController@uploadImages')->name('uploadImages');
+	Route::post('/search', 'SearchController@get');
 });
 
 Route::get('/register', 'AuthController@registerForm')->name('registerView');

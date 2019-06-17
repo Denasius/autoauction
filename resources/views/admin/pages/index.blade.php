@@ -6,23 +6,7 @@
     <section id="main-content">
         <section class="wrapper">
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="{{route('admin')}}">Главная</a></li>
-                        <li><i class="fas fa-file"></i>Страницы</li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="header_block">
-                        <h1 class="page-header"><i class="fas fa-file"></i> Страницы</h1>
-                        <a class="btn btn-add" href="{{route('pages.create')}}" title="Добавить диск">Добавить</a>
-                    </div>
-                </div>
-            </div>
+        @include('admin.common.breadcrumb_header')
 
             <!-- page start-->
             <div class="row">

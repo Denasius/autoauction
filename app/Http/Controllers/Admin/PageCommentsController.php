@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Providers\AppServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\PageComment;
@@ -17,11 +18,11 @@ class PageCommentsController extends Controller
      */
     public function index()
     {
-        $comments = PageComment::getCommentPageAndAuthor();
-        foreach ( $comments as $comment ) {
-            $date_comment = date('d-m-Y', strtotime($comment->comment_date));
-        }
-        return view('admin.comments.index', ['comments' => $comments, 'date' => $date_comment]);
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
+        $data['comments'] = PageComment::getCommentPageAndAuthor();
+        return view('admin.comments.index', $data);
     }
 
     /**
@@ -31,6 +32,9 @@ class PageCommentsController extends Controller
      */
     public function create()
     {
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
         $data['pages'] = Pages::pluck('title', 'id')->all();
         $data['users'] = User::pluck('email', 'id')->all();
         return view('admin.comments.create', $data);
@@ -62,16 +66,13 @@ class PageCommentsController extends Controller
      */
     public function edit($id)
     {
-        $comment = PageComment::find($id);
-        $pages = Pages::pluck('title', 'id')->all();
-        $users = User::pluck('email', 'id')->all();
-        $page_date = date('Y-m-d', strtotime($comment->created_at));
-        return view('admin.comments.edit', [
-            'comment' => $comment,
-            'pages' => $pages,
-            'users' => $users,
-            'date' => $page_date
-        ]);
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+
+        $data['comment'] = PageComment::find($id);
+        $data['pages'] = Pages::pluck('title', 'id')->all();
+        $data['users'] = User::pluck('email', 'id')->all();
+        return view('admin.comments.edit', $data);
     }
 
     /**
