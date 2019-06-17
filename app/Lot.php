@@ -3,9 +3,11 @@
 namespace App;
 
 use App\LotAttributes;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use DebugBar\DebugBar;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class Lot extends Model
 {
@@ -26,6 +28,24 @@ class Lot extends Model
                 $lot_attr->create([
                     'attr_id'   => $value,
                     'lot_id'    => $lot->id,
+                ]);
+            }
+        }
+
+        //Добавляем картинки
+        if ( $fields['images'] != null ){
+            foreach ( $fields['images']['src'] as $key => $src ) {
+
+                $slug = SlugService::createSlug(LotImage::class, 'slug', $fields['images']['name'][$key], ['unique' => false]);
+                Image::make($src)->save('uploads/'. $slug);
+
+                $image_model = new LotImage();
+                $image_model->create([
+                    'lot_id'        => $lot->id,
+                    'image_src'     => 'uploads/'. $slug,
+                    'image_alt'     => $fields['images']['alt'][$key],
+                    'image_title'   => $fields['images']['title'][$key],
+                    'image_descr'   => $fields['images']['descr'][$key],
                 ]);
             }
         }

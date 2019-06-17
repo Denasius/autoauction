@@ -66,7 +66,7 @@ class LotsController extends Controller
     public function store(Request $request)
     {
         $lot_images = new LotImage();
-        $lot_images->uploadImages($request->get('images'));
+//        $lot_images->uploadImages($request->get('images'));
         
         $this->validate($request, [
             'title' => 'required',
