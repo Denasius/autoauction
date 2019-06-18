@@ -1,0 +1,9 @@
+.tp-leftarrow.preview4::after {
+  font-family: "FontAwesome";
+  content: '\f104';
+}
+
+.tp-rightarrow.preview4::after{
+  font-family: "FontAwesome";
+  content: '\f105';
+}

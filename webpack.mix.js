@@ -36,6 +36,7 @@ mix.styles([
 	'resources/front/assets/css/jquery-ui.css',
 	'resources/front/assets/css/auction.css',
 	'resources/front/assets/rs-plugin/css/settings.css',
+	'resources/front/assets/css/auction-custom.css',
 ], 'public/css/styles.css');
 
 mix.sass('resources/assets/admin/style-custom.scss', 'public/css/custom-admin.css');
@@ -60,4 +61,6 @@ mix.copy('resources/assets/admin/fonts', 'public/fonts');
 mix.copy('resources/assets/admin/img', 'public/img');
 mix.copy('resources/front/assets/images', 'public/assets/images');
 mix.copy('resources/front/assets/fonts', 'public/fonts');
+mix.copy('resources/front/assets/rs-plugin/font', 'public/fonts');
+mix.copy('resources/front/assets/rs-plugin/font', 'public/assets/fonts');
 mix.browserSync('autoauction');

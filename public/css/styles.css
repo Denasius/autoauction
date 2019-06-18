@@ -32849,3 +32849,12 @@ zoom: 1;
 .revicon-equalizer:before { content: '\e83a'} /* 'î º' */
 .revicon-layers-alt:before { content: '\e804'} /* 'î „' */
 .revicon-popup:before { content: '\e828'} /* 'î ¨' */
+.tp-leftarrow.preview4::after {
+  font-family: "FontAwesome";
+  content: '\f104';
+}
+
+.tp-rightarrow.preview4::after{
+  font-family: "FontAwesome";
+  content: '\f105';
+}
