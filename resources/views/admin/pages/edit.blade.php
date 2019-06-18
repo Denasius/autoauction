@@ -17,7 +17,7 @@
                             {{Form::open([
                                 'route' => ['pages.update', $page->id],
                                 'files' => true,
-                            'method'  => 'put',
+                                'method'  => 'put',
                                 'class' => 'form-horizontal'
                             ])}}
 

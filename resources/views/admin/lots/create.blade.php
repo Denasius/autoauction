@@ -5,23 +5,9 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-                <div class="row">
-                        <div class="col-sm-12">
-                            <ol class="breadcrumb">
-                                <li><i class="fa fa-home"></i><a href="{{route('admin')}}">Главная</a></li>
-                                <li><i class="fas fa-file"></i>Лоты</li>
-                            </ol>
-                        </div>
-                    </div>
-        
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="header_block">
-                                <h1 class="page-header"><i class="fas fa-file"></i> Страницы</h1>
-                                <a class="btn btn-back" href="{{route('lots.index')}}" title="Добавить">Назад</a>
-                            </div>
-                        </div>
-                    </div>
+
+            @include('admin.common.breadcrumb_header')
+
             <div class="row">
                 @include('admin.errors')
                 <div class="col-lg-12">
@@ -33,10 +19,13 @@
                                         <a href="#main_tab" aria-controls="main_tab" role="tab" data-toggle="tab">Основное</a>
                                     </li>
                                     <li role="presentation">
-                                    <a href="#image_tab" aria-controls="image_tab" role="tab" data-toggle="tab">Изображения</a>
-                                        </li>
+                                        <a href="#image_tab" aria-controls="image_tab" role="tab" data-toggle="tab">Изображения</a>
+                                    </li>
                                     <li role="presentation">
                                         <a href="#arrt_tab" aria-controls="arrt_tab" role="tab" data-toggle="tab">Атрибуты</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#tag_tab" aria-controls="tag_tab" role="tab" data-toggle="tab">Теги</a>
                                     </li>
                                 </ul>
                             </div>
@@ -49,13 +38,18 @@
                             ])}}
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="main_tab">
-                                    <div class="form-group">
-                                        <label class="col-lg-2 control-label">Изображение</label>
-                                        <div class="col-lg-6">
-                                            <input type="file" name="image" id="image">
-                                            <p class="help-block">Какое-нибудь уведомление о форматах..</p>
+
+                                    <div class="form-group images">
+                                        <label class="col-sm-2 control-label">Изображение</label>
+                                        <div class="col-sm-10">
+                                            <img src="/" alt="">
+                                            <label>
+                                                <input type="file" name="image" class="preview_img hide">
+                                                <i class="fas fa-upload"></i>
+                                            </label>
                                         </div>
                                     </div>
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Название</label>
                                         <div class="col-sm-10">
@@ -114,13 +108,13 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Статус</label>
                                         <div class="col-sm-10">
-                                            <input type="number" name="status" class="form-control" placeholder="Статус">
+                                            <input type="number" name="status" class="form-control" placeholder="Статус" value="1">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Просмотры</label>
                                         <div class="col-sm-10">
-                                            <input type="number" name="views" class="form-control" placeholder="Просмотры">
+                                            <input type="number" name="views" class="form-control" placeholder="Просмотры" value="0">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -148,7 +142,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 {{--Атрибуты--}}
                                 <div role="tabpanel" class="tab-pane " id="arrt_tab">
                                     @foreach($attrs as $attr)
@@ -166,10 +160,31 @@
                                         </div>
                                     @endforeach
                                 </div>
+
+                                {{--Теги--}}
+                                <div role="tabpanel" class="tab-pane " id="tag_tab">
+                                    @foreach($tags as $item)
+                                        <div class="form-group">
+                                            <label style="display:block;">
+                                                <div class="col-sm-2 control-label" data-id="tab_{{$item->id}}">{{$item->title}}</div>
+                                                <div class="col-sm-10">
+                                                    <div class="checkbox">
+                                                        {{ Form::checkbox('tags['.$item->id.']', $item->id, false, [
+                                                        'class' => 'active',
+                                                        'id'    => 'tab_'.$item->id,
+                                                        ]) }}
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
 
-                            <div class="btn-create" style="margin-top: 20px; text-align: right;">
-                                <button type="submit" class="btn btn-success" href="{{route('lots.create')}}" title="Сохранить">Сохранить</button>
+                            <div class="form-group">
+                                <div class="btn-create text-right col-sm-12">
+                                    <button type="submit" class="btn btn-add" title="Сохранить">Сохранить</button>
+                                </div>
                             </div>
 
                         </div>
