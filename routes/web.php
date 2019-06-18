@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');;
+
 Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'], function () {	
 	Route::get('/', 'DashboardController@index')->name('admin');
 	Route::resource('/categories', 'CategoriesController');
@@ -52,3 +50,4 @@ Route::post('/register', 'AuthController@register')->name('register');
 Route::get('/login', 'AuthController@loginForm')->name('login');
 Route::post('/login', 'AuthController@login');
 Route::get('/logout', 'AuthController@logout');
+Route::get('/', 'HomeController@index');
