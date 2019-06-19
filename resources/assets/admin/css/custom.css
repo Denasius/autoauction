@@ -154,3 +154,6 @@ header .go_front a {
 header .go_front a i {
 	font-size: 16px;
 }
+.table-min-padding.table tbody > tr > th {
+	padding: 5px 5px;
+}

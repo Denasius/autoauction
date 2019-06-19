@@ -147,11 +147,10 @@
                                                     @foreach($images as $item)
                                                         <div class="uploadedImage">
                                                             <img src="/{{$item->image_src}}">
-                                                            <input type="text" placeholder="Название (alt)" name="images[alt][]">
-                                                            <input type="text" placeholder="Заголовок (title)" name="images[title][]">
-                                                            <input type="text" placeholder="Описание (description)" name="images[descr][]">
-                                                            <input type="hidden" name="images[src][]" value="">
-                                                            <input type="hidden" name="images[name][]" value="favicon.png">
+                                                            <input type="text" placeholder="Название (alt)" name="images[alt][]" value="{{$item->image_alt}}">
+                                                            <input type="text" placeholder="Заголовок (title)" name="images[title][]" value="{{$item->image_title}}">
+                                                            <input type="text" placeholder="Описание (description)" name="images[descr][]" value="{{$item->image_descr}}">
+                                                            <input type="hidden" name="images[src][]" value="{{$item->image_src}}">
                                                             <a href="javascript:void(0);" class="btn btn-info btn-remove">Удалить</a>
                                                         </div>
                                                     @endforeach
@@ -223,7 +222,7 @@
                                                     <td class="text-right">
                                                         <div class="btn-group">
                                                             <a class="btn btn-primary" href="{{route('bets.edit', $item->id)}}">
-                                                                <i class="icon_pencil-edit"></i>
+                                                                <i class="fas fa-edit"></i>
                                                             </a>
                                                         </div>
                                                     </td>

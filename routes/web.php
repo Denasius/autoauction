@@ -41,10 +41,15 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
     //Ставки
     Route::resource('/bets', 'BetsController');
 
+    //Настройки
+    Route::resource('/settings', 'ControllerSetting');
+
 	Route::get('/profile', 'ProfileController@index');
 	Route::post('/profile', 'ProfileController@update');
 
 	Route::post('/search', 'SearchController@get');
+
+
 });
 
 Route::get('/register', 'AuthController@registerForm')->name('registerView');

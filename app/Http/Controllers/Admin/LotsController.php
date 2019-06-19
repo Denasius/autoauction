@@ -164,7 +164,9 @@ class LotsController extends Controller
      */
     public function destroy($id)
     {
+
         Lot::remove($id);
+
 
         return redirect()->route('lots.index');
     }
