@@ -5,15 +5,9 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fa fa-file-text-o"></i> Создать лот</h3>
-                    <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="index.html">Главная</a></li>
-                        <li><i class="icon_document_alt"></i>Создать лот</li>
-                    </ol>
-                </div>
-            </div>
+
+            @include('admin.common.breadcrumb_header')
+
             <div class="row">
                 @include('admin.errors')
                 <div class="col-lg-12">
@@ -118,13 +112,13 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Статус</label>
                                         <div class="col-sm-10">
-                                            {{Form::text('status', $lot->status, ['class'=>'form-control', 'placeholder' => 'Статус'])}}
+                                            {{Form::number('status', $lot->status, ['class'=>'form-control', 'placeholder' => 'Статус'])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Просмотры</label>
                                         <div class="col-sm-10">
-                                            {{Form::text('views', $lot->views, ['class'=>'form-control', 'placeholder' => 'Просмотры'])}}
+                                            {{Form::number('views', $lot->views, ['class'=>'form-control', 'placeholder' => 'Просмотры'])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -142,8 +136,29 @@
                                 </div>
 
                                 {{-- Изображения --}}
-                                <div class="tab-pane" id="image_tab" role="tabpanel">
-                                  
+                                {{--Изображения--}}
+                                <div role="tabpanel" class="tab-pane" id="image_tab">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div id="drop_element" class="upload">
+                                                <input type="file" multiple id="gallery-photo-add">
+                                                <div class="gallery gallery__images">
+
+                                                    @foreach($images as $item)
+                                                        <div class="uploadedImage">
+                                                            <img src="/{{$item->image_src}}">
+                                                            <input type="text" placeholder="Название (alt)" name="images[alt][]" value="{{$item->image_alt}}">
+                                                            <input type="text" placeholder="Заголовок (title)" name="images[title][]" value="{{$item->image_title}}">
+                                                            <input type="text" placeholder="Описание (description)" name="images[descr][]" value="{{$item->image_descr}}">
+                                                            <input type="hidden" name="images[src][]" value="{{$item->image_src}}">
+                                                            <a href="javascript:void(0);" class="btn btn-info btn-remove">Удалить</a>
+                                                        </div>
+                                                    @endforeach
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {{--Атрибуты--}}
@@ -207,7 +222,7 @@
                                                     <td class="text-right">
                                                         <div class="btn-group">
                                                             <a class="btn btn-primary" href="{{route('bets.edit', $item->id)}}">
-                                                                <i class="icon_pencil-edit"></i>
+                                                                <i class="fas fa-edit"></i>
                                                             </a>
                                                         </div>
                                                     </td>
@@ -219,8 +234,10 @@
                                 @endif
 
 
-                                <div class="btn-create" style="margin-top: 20px; text-align: right;">
-                                    <button type="submit" class="btn btn-success" href="{{route('lots.create')}}" title="Сохранить">Обновить</button>
+                                <div class="form-group">
+                                    <div class="btn-create text-right col-sm-12">
+                                        <button type="submit" class="btn btn-add" title="Обновить">Обновить</button>
+                                    </div>
                                 </div>
 
                             </div>
@@ -236,5 +253,8 @@
     <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
     <script type="text/javascript">
         CKEDITOR.replace('ckeditor');
+        $('.uploadedImage .btn-remove').click(function () {
+            $(this).parent().remove();
+        });
     </script>
 @endsection

@@ -6,6 +6,7 @@ use App\Attribute;
 use App\AttributeType;
 use App\Bet;
 use App\LotTag;
+use App\Providers\AppServiceProvider;
 use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -25,9 +26,11 @@ class LotsController extends Controller
      */
     public function index()
     {
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
-        $lots = Lot::all();
-        return view('admin.lots.index', ['lots'=>$lots]);
+        $data['lots'] = Lot::all();
+        return view('admin.lots.index', $data);
     }
 
     /**
@@ -37,10 +40,12 @@ class LotsController extends Controller
      */
     public function create()
     {
-        $data = array();
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
         $data['categories'] = Category::pluck('title', 'id')->all();
-        $data['tags'] = Tag::pluck('title', 'id')->all();
+        $data['tags'] = Tag::all();
+
 
         //Получаем список атрибутов
         $data['attrs'] = [];
@@ -65,18 +70,13 @@ class LotsController extends Controller
      */
     public function store(Request $request)
     {
-        $lot_images = new LotImage();
-        $lot_images->uploadImages($request->get('images'));
         
         $this->validate($request, [
             'title' => 'required',
             'vin' => 'required',
         ]);
 
-        $lot_model = new Lot();
-        // LotImage::add($request->all());
-        
-        $lot_model->add($request->all());
+        Lot::add($request->all(), $request->file('image'));
 
         return redirect()->route('lots.index');
     }
@@ -89,7 +89,8 @@ class LotsController extends Controller
      */
     public function edit($id)
     {
-        $data = array();
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
         $data['lot'] = Lot::find($id);
         $data['categories'] = Category::pluck('title', 'id')->all();
@@ -126,6 +127,9 @@ class LotsController extends Controller
             }
         }
 
+        //Получаем изображения
+        $data['images'] = LotImage::where('lot_id', $id)->get();
+
         //Получаем ставки
         $data['bets'] = Bet::get_by_lot($id);
 
@@ -147,12 +151,8 @@ class LotsController extends Controller
             'vin' => 'required',
         ]);
 
-//        dd($request);
-        $lot = new Lot();
-        $lot->edit($request->all(), $request->file('image'));
 
-        \Debugbar::info($request->file('image'));
-
+        Lot::edit($id,$request->all(), $request->file('image'));
         return redirect()->route('lots.index');
     }
 
@@ -164,7 +164,9 @@ class LotsController extends Controller
      */
     public function destroy($id)
     {
+
         Lot::remove($id);
+
 
         return redirect()->route('lots.index');
     }

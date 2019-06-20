@@ -51,75 +51,81 @@
     <!--header end-->
 
     <!--sidebar start-->
-    <aside>
-        <div id="sidebar" class="nav-collapse ">
-            <!-- sidebar menu start-->
-            <ul class="sidebar-menu">
-                <li class="{{request()->is('admin') ? 'active' : 'no-active'}}">
-                    <a class="" href="/admin">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Админ-панель</span>
-                    </a>
-                </li>
-                <li class="{{request()->is('admin/pages') ? 'active' : 'no-active'}}">
-                    <a class="" href="/admin/pages">
-                        <i class="fas fa-file"></i>
-                        <span>Страницы</span>
-                    </a>
-                </li>
-                <li class="{{request()->is('admin/lots') ? 'active' : 'no-active'}}">
-                    <a href="/admin/lots" class="">
-                        <i class="fas fa-car"></i>
-                        <span>Лоты</span>
-                    </a>
-                </li>
-                <li class="{{request()->is('admin/categories') ? 'active' : 'no-active'}}">
-                    <a href="/admin/categories" class="">
-                        <i class="fas fa-th"></i>
-                        <span>Категории</span>
-                    </a>
-                </li>
-                <li class="{{request()->is('admin/tags') ? 'active' : 'no-active'}}">
-                    <a href="/admin/tags">
-                        <i class="fas fa-tags"></i>
-                        <span>Теги</span>
-                    </a>
-                </li>
-                <li class="{{request()->is('admin/attributes') ? 'active' : 'no-active'}}">
-                    <a href="/admin/attributes">
-                        <i class="fas fa-tasks"></i>
-                        <span>Атрибуты</span>
-                    </a>
-                </li>
-                <li class="{{request()->is('admin/attribute_types') ? 'active' : 'no-active'}}">
-                    <a href="/admin/attribute_types" class="">
-                        <i class="fas fa-tasks"></i>
-                        <span>Типы атрибутов</span>
-                    </a>
-                </li>
-                <li class="{{request()->is('admin/bets') ? 'active' : 'no-active'}}">
-                    <a href="/admin/bets" class="">
-                        <i class="fas fa-hand-holding-usd"></i>
-                        <span>Ставки</span>
-                    </a>
-                </li>
-                <li class="{{request()->is('admin/users') ? 'active' : 'no-active'}}">
-                    <a class="" href="/admin/users">
-                        <i class="fas fa-users"></i>
-                        <span>Пользователи</span>
-                    </a>
-                </li>
-                <li class="{{request()->is('admin/comments') ? 'active' : 'no-active'}}">
-                    <a href="/admin/comments" class="">
-                        <i class="fas fa-comments"></i>
-                        <span>Комментарии</span>
-                    </a>
-                </li>
 
-            </ul>
-            <!-- sidebar menu end-->
-        </div>
-    </aside>
+    <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu">
+            <li class="{{request()->is('admin') ? 'active' : 'no-active'}}">
+                <a class="" href="/admin">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Админ-панель</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/pages') ? 'active' : 'no-active'}}">
+                <a class="" href="/admin/pages">
+                    <i class="fas fa-file"></i>
+                    <span>Страницы</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/lots') ? 'active' : 'no-active'}}">
+                <a href="/admin/lots" class="">
+                    <i class="fas fa-car"></i>
+                    <span>Лоты</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/categories') ? 'active' : 'no-active'}}">
+                <a href="/admin/categories" class="">
+                    <i class="fas fa-th"></i>
+                    <span>Категории</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/tags') ? 'active' : 'no-active'}}">
+                <a href="/admin/tags">
+                    <i class="fas fa-tags"></i>
+                    <span>Теги</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/attributes') ? 'active' : 'no-active'}}">
+                <a href="/admin/attributes">
+                    <i class="fas fa-tasks"></i>
+                    <span>Атрибуты</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/attribute_types') ? 'active' : 'no-active'}}">
+                <a href="/admin/attribute_types" class="">
+                    <i class="fas fa-tasks"></i>
+                    <span>Типы атрибутов</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/bets') ? 'active' : 'no-active'}}">
+                <a href="/admin/bets" class="">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <span>Ставки</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/users') ? 'active' : 'no-active'}}">
+                <a class="" href="/admin/users">
+                    <i class="fas fa-users"></i>
+                    <span>Пользователи</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/comments') ? 'active' : 'no-active'}}">
+                <a href="/admin/comments" class="">
+                    <i class="fas fa-comments"></i>
+                    <span>Комментарии</span>
+                </a>
+            </li>
+            <li class="{{request()->is('admin/settings') ? 'active' : 'no-active'}}">
+                <a href="/admin/settings" class="">
+                    <i class="fas fa-cogs"></i>
+                    <span>Настройки</span>
+                </a>
+            </li>
+
+        </ul>
+        <!-- sidebar menu end-->
+    </div>
+
     <!--sidebar end-->
 
     @yield('content')
