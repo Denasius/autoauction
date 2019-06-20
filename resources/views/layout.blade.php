@@ -35,7 +35,7 @@
 				<div id="sub-header">
 					<div class="container">
 						<div class="row">
-							<div class="col-md-6 col-sm-12">
+							<div class="col-md-4 col-sm-12">
 								<div class="social-icons">
 									<ul>
 										<li><a href="#"><i class="fa fa-facebook"></i></a></li>
@@ -48,8 +48,16 @@
 									</ul>
 								</div>
 							</div>
-							<div class="col-md-6 hidden-sm">
+
+							<div class="col-md-4 col-sm-12">
+								<div class="informatio">
+									<p>123</p>
+								</div>
+							</div>
+
+							<div class="col-md-4 hidden-sm">
 								<div class="right-info">
+									
 									<ul>
 										<li>Call us: <em>570-694-4002</em></li>
 										<li><a href="#">Get Free Appointment →</a></li>
