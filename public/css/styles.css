@@ -32858,3 +32858,8 @@ zoom: 1;
   font-family: "FontAwesome";
   content: '\f105';
 }
+
+.site-header .main-header .logo{
+  position: relative;
+  z-index: 21;
+}

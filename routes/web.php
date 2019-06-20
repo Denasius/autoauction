@@ -50,4 +50,4 @@ Route::post('/register', 'AuthController@register')->name('register');
 Route::get('/login', 'AuthController@loginForm')->name('login');
 Route::post('/login', 'AuthController@login');
 Route::get('/logout', 'AuthController@logout');
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('home');

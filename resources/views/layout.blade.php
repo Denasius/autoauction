@@ -13,17 +13,6 @@
 	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
 
-	
-
-	{{-- <link rel="stylesheet" href="assets/css/bootstrap.css">
-	<link rel="stylesheet" href="assets/css/animate.css">
-	<link rel="stylesheet" href="assets/css/jquery-ui.css">
-	<link rel="stylesheet" href="assets/css/simple-line-icons.css">
-	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-	<link rel="stylesheet" href="assets/css/icon-font.css">
-	<link rel="stylesheet" href="assets/css/auction.css">
-
-  <link rel="stylesheet" href="assets/rs-plugin/css/settings.css"> --}}
   <link rel="stylesheet" href="css/styles.css">
 
 	<!--[if lt IE 9]>
@@ -337,18 +326,6 @@
 		</nav>
 
 	</div>
-
-
-	
-
-	{{-- <script type="text/javascript" src="assets/js/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-	<!-- SLIDER REVOLUTION 4.x SCRIPTS  -->
-    <script src="assets/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
-    <script src="assets/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
-
-	<script type="text/javascript" src="assets/js/plugins.js"></script>
-  <script type="text/javascript" src="assets/js/custom.js"></script> --}}
   
   <script src="js/scripts.js"></script>
 
