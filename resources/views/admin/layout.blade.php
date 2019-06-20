@@ -30,7 +30,7 @@
                     <form id="search_form" action="/admin/search" method="POST">
                         <input type="hidden" name="_method" value="POST">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input class="form-control" placeholder="Поиск" type="text" name="search">
+                        <input class="form-control" placeholder="Поиск" type="text" name="search" autocomplete="off">
                     </form>
                     <div id="search_result"></div>
                     <!--  search form end -->
