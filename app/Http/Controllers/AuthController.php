@@ -57,7 +57,7 @@ class AuthController extends Controller
     	$result = Auth::attempt([
     		'email' => $request->get('email'), 
     		'password' => $request->get('password')
-    	]);
+    	], $request->get('remember'));
 
     	if ( $result ) {
     		if ( Auth::user()->is_admin ) {
