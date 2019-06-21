@@ -58,6 +58,18 @@ class LotsController extends Controller
                 'items' => $items,
             ];
         }
+        $data['attrs_dop'] = [];
+        // 1 - это дополнительные атрибуты
+        $results = AttributeCategory::where(['type'=> 1])->get();
+        foreach ($results as $result) {
+            $items = Attribute::where('category_id', $result->id)->get();
+
+            $data['attrs_dop'][] = [
+                'id'    => $result->id,
+                'title' => $result->title,
+                'items' => $items,
+            ];
+        }
 
         return view('admin.lots.create', $data);
     }
@@ -107,6 +119,7 @@ class LotsController extends Controller
             }
         }
         $data['attrs'] = [];
+        // 0 - это основые атрибуты
         $results = AttributeCategory::where(['type'=> 0])->get();
         foreach ($results as $result) {
             $items = Attribute::where('category_id', $result->id)->get();
@@ -117,6 +130,21 @@ class LotsController extends Controller
                 'items' => $items,
             ];
         }
+        $data['attrs_dop'] = [];
+        // 1 - это дополнительные атрибуты
+        $results = AttributeCategory::where(['type'=> 1])->get();
+        foreach ($results as $result) {
+            $items = Attribute::where('category_id', $result->id)->get();
+
+            $data['attrs_dop'][] = [
+                'id'    => $result->id,
+                'title' => $result->title,
+                'items' => $items,
+            ];
+        }
+//        dd($data['attrs_dop']);
+
+
 
         //Получаем Теги
         $data['lot_tag'] = [];
