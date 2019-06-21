@@ -16,13 +16,31 @@
                         <div class="panel-body">
 
 
-                            {{Form::open(['route' => 'attribute_types.store', 'files' => true, 'class'=>'form-horizontal', 'role'>'form'])}}
+                            {{Form::open(['route' => 'attribute-category.store', 'files' => true, 'class'=>'form-horizontal', 'role'>'form'])}}
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Название</label>
                                 <div class="col-sm-10">
                                     <input type="text" name="title" class="form-control" id="f-name" placeholder="Название типа атрибута"
                                            value="{{old('name')}}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Тип</label>
+                                <div class="col-sm-10">
+                                    <div class="radio">
+                                        <label>
+                                            {{Form::radio('type', 0, true)}}
+                                            Общие атрибуты (select)
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            {{Form::radio('type', 1, false)}}
+                                            Дополнительные атрибуты (checkbox)
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 

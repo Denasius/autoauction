@@ -2,6 +2,9 @@
 
 @section('content')
 
+
+
+
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
@@ -281,6 +284,7 @@
             </div>
             <!-- page end-->
         </section>
+
     </section>
     <!--main content end-->
 
@@ -328,5 +332,6 @@
             });
         });
     </script>
+
 
 @endsection

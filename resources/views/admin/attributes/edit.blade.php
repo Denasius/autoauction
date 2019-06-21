@@ -33,9 +33,9 @@
                             <div class="form-group">
                                 <label class="col-lg-2 control-label">Тип</label>
                                 <div class="col-lg-6">
-                                    <select name="type_id" class="form-control">
+                                    <select name="category_id" class="form-control">
                                         @foreach($types as $item)
-                                            <option value="{{$item->id}}" {{$item->id == $attribute->type_id ? 'selected' : false}} >{{$item->title}}</option>
+                                            <option value="{{$item->id}}" {{$item->id == $attribute->category_id ? 'selected' : false}} >{{$item->title}}</option>
                                         @endforeach
                                     </select>
                                 </div>

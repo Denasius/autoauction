@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Attribute;
-use App\AttributeType;
+use App\AttributeCategory;
 use App\Bet;
 use App\LotTag;
 use App\Providers\AppServiceProvider;
@@ -49,9 +49,9 @@ class LotsController extends Controller
 
         //Получаем список атрибутов
         $data['attrs'] = [];
-        $results = AttributeType::all();
+        $results = AttributeCategory::where(['type'=> 0])->get();
         foreach ($results as $result) {
-            $items = Attribute::where('type_id', $result->id)->get();
+            $items = Attribute::where('category_id', $result->id)->get();
             $data['attrs'][] = [
                 'id'    => $result->id,
                 'title' => $result->title,
@@ -100,16 +100,16 @@ class LotsController extends Controller
 
         //Получаем список атрибутов
         $data['lot_attr'] = [];
-        $results = LotAttributes::where('lot_id', $id)->get();
+        $results = LotAttributes::where(['lot_id'=> $id])->get();
         if ($results) {
             foreach ($results as $result) {
                 array_push($data['lot_attr'],$result->attr_id);
             }
         }
         $data['attrs'] = [];
-        $results = AttributeType::all();
+        $results = AttributeCategory::where(['type'=> 0])->get();
         foreach ($results as $result) {
-            $items = Attribute::where('type_id', $result->id)->get();
+            $items = Attribute::where('category_id', $result->id)->get();
 
             $data['attrs'][] = [
                 'id'    => $result->id,

@@ -15,18 +15,36 @@
                         <div class="panel-body">
 
                             {{Form::open([
-                              'route' => ['attribute_types.update', $attribute_type->id],
+                              'route' => ['attribute-category.update', $attribute_category->id],
                               'method' => 'put',
                               'class'=>'form-horizontal',
                               'role'>'form'
                               ])}}
-                            <input type="hidden" name="id" value="{{$attribute_type->id}}">
+                            <input type="hidden" name="id" value="{{$attribute_category->id}}">
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Название</label>
                                 <div class="col-sm-10">
                                     <input type="text" name="title" class="form-control" id="f-name" placeholder="Название"
-                                           value="{{$attribute_type->title}}">
+                                           value="{{$attribute_category->title}}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Тип</label>
+                                <div class="col-sm-10">
+                                    <div class="radio">
+                                        <label>
+                                            {{Form::radio('type', 0, ($attribute_category->type == 0)? true : false )}}
+                                            Общие атрибуты (select)
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            {{Form::radio('type', 1, ($attribute_category->type == 1)? true : false)}}
+                                            Дополнительные атрибуты (checkbox)
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 

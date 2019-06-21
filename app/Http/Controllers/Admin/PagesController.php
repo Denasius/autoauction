@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Attribute;
-use App\AttributeType;
+use App\AttributeCategory;
 use App\Providers\AppServiceProvider;
 use App\User;
 use Illuminate\Http\Request;
@@ -86,7 +86,7 @@ class PagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $attribute_type = AttributeType::find($id);
+        $attribute_type = AttributeCategory::find($id);
         $this->validate($request, [
            'title' => 'required',
             'short_descr' => 'required',
