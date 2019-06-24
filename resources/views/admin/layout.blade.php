@@ -91,10 +91,10 @@
                     <span>Атрибуты</span>
                 </a>
             </li>
-            <li class="{{request()->is('admin/attribute_types') ? 'active' : 'no-active'}}">
-                <a href="/admin/attribute_types" class="">
+            <li class="{{request()->is('admin/attribute-category') ? 'active' : 'no-active'}}">
+                <a href="/admin/attribute-category" class="">
                     <i class="fas fa-tasks"></i>
-                    <span>Типы атрибутов</span>
+                    <span>Категории атриб.</span>
                 </a>
             </li>
             <li class="{{request()->is('admin/bets') ? 'active' : 'no-active'}}">

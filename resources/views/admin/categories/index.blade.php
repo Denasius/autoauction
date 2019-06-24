@@ -11,6 +11,9 @@
 
             <!-- page start-->
             <div class="row">
+
+                @include('admin.errors')
+
                 <div class="col-lg-12">
                     @if(! empty( $categories ))
                         <section class="panel">

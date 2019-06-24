@@ -28,7 +28,7 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::resource('/pages', 'PagesController');
 	//Атрибуты
 	Route::resource('/attributes', 'AttributeController');
-	Route::resource('/attribute_types', 'AttributeTypeController');
+	Route::resource('/attribute-category', 'AttributeCategoryController');
 
 	//Категории
     Route::resource('/categories', 'CategoryController');
@@ -40,7 +40,7 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
     Route::resource('/bets', 'BetsController');
 
     //Настройки
-    Route::resource('/settings', 'ControllerSetting');
+    Route::resource('/settings', 'SettingController');
 
 	Route::get('/profile', 'ProfileController@index');
 	Route::post('/profile', 'ProfileController@update');

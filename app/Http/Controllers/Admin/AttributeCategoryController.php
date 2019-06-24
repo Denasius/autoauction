@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Attribute;
-use App\AttributeType;
+use App\AttributeCategory;
 use App\Providers\AppServiceProvider;
 use App\User;
 use DebugBar\DebugBar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AttributeTypeController extends Controller
+class AttributeCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,8 +22,9 @@ class AttributeTypeController extends Controller
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
-        $data['results'] = AttributeType::all();
-        return view('admin.attribute_types.index', $data);
+
+        $data['results'] = AttributeCategory::all()->sortBy('type');
+        return view('admin.attribute-category.index', $data);
     }
 
     /**
@@ -35,7 +36,7 @@ class AttributeTypeController extends Controller
     {
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
-        return view('admin.attribute_types.create', $data);
+        return view('admin.attribute-category.create', $data);
     }
 
     /**
@@ -47,14 +48,14 @@ class AttributeTypeController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title'      => 'required|unique:attribute_types',
+            'title'      => 'required|unique:attribute_categories',
         ]);
 
-        $attribute_type_model = new AttributeType();
+        $attribute_type_model = new AttributeCategory();
 
         $results = $attribute_type_model->add($request->all());
 
-        return redirect()->route('attribute_types.index');
+        return redirect()->route('attribute-category.index');
     }
 
     /**
@@ -79,8 +80,9 @@ class AttributeTypeController extends Controller
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
-        $data['attribute_type'] = AttributeType::find($id);
-        return view('admin.attribute_types.edit', $data);
+        $data['attribute_category'] = AttributeCategory::find($id);
+
+        return view('admin.attribute-category.edit', $data);
     }
 
     /**
@@ -92,14 +94,9 @@ class AttributeTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $attribute_type = AttributeType::find($id);
-        $this->validate($request, [
-            'title'      => 'required|unique:attribute_types',
-        ]);
+        AttributeCategory::edit($request->all(), $id);
 
-        $attribute_type->edit($request->all());
-
-        return redirect()->route('attribute_types.index');
+        return redirect()->route('attribute-category.index');
     }
 
     /**
@@ -110,7 +107,15 @@ class AttributeTypeController extends Controller
      */
     public function destroy($id)
     {
-        AttributeType::destroy($id);
-        return redirect()->route('attribute_types.index');
+
+        $errors = NULL;
+        $arrts = Attribute::where('category_id', $id)->first();
+        if (!$arrts) {
+            AttributeCategory::destroy($id);
+        }else {
+            $errors = 'Существуют атрибуты прикрепленные к этой категории<br>Удалите их и повторите попытку';
+        }
+
+        return redirect()->route('attribute-category.index')->withErrors($errors);
     }
 }

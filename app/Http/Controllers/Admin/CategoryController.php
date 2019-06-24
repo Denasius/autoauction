@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Category;
+use App\Pages;
 use App\Providers\AppServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -114,7 +115,14 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        Category::destroy($id);
-        return redirect()->back();
+        $errors = NULL;
+        $arrts = Pages::where('category_id', $id)->first();
+        if (!$arrts) {
+            Category::destroy($id);
+        }else {
+            $errors = 'Существуют страницы прикрепленные к этой категории<br>Удалите их и повторите попытку';
+        }
+
+        return redirect()->route('categories.index')->withErrors($errors);
     }
 }

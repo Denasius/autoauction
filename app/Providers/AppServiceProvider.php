@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
             $user_model = new User();
             $data['adminImage'] =  $user_model->get_avatar(Auth::user()->avatar);
             $data['adminName'] = Auth::user()->name;
-            $data['attribyt_type'] = AttributeType::all();
+            $data['attribyt_type'] = AttributeCategory::all();
 
             $view->with($data);
         });
@@ -107,7 +107,7 @@ class AppServiceProvider extends ServiceProvider
                 'title'         => 'Атрибуты',
                 'title_create'  => 'атрибут',
             ],
-            'attribute_types'    => [
+            'attribute-category'    => [
                 'icon'          => '<i class="fas fa-tasks"></i>',
                 'title'         => 'Типы атрибутов',
                 'title_create'  => 'тип',

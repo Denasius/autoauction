@@ -7,7 +7,7 @@ use App\Setting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ControllerSetting extends Controller
+class SettingController extends Controller
 {
     public function index(Request $request)
     {

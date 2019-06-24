@@ -14,7 +14,7 @@ class Search extends Model
         $data['categories'] = Category::where('title', 'like', '%'.$fields['search'].'%')->get();
         $data['lots'] = Lot::where('title', 'like', '%'.$fields['search'].'%')->get();
         $data['tags'] = Tag::where('title', 'like', '%'.$fields['search'].'%')->get();
-        $data['attributes'] = AttributeType::where('title', 'like', '%'.$fields['search'].'%')->get();
+        $data['attributes'] = AttributeCategory::where('title', 'like', '%'.$fields['search'].'%')->get();
 
         return $data;
     }

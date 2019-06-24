@@ -145,6 +145,9 @@
 
                                 {{--Атрибуты--}}
                                 <div role="tabpanel" class="tab-pane " id="arrt_tab">
+                                    <div class="col-sm-12 text-center">
+                                        <strong>Основные атрибуты</strong>
+                                    </div>
                                     @foreach($attrs as $attr)
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">{{$attr['title']}}</label>
@@ -156,6 +159,25 @@
                                                         <option value="{{$item->id}}">{{$item->title}}</option>
                                                     @endforeach
                                                 </select>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <div class="col-sm-12 text-center">
+                                        <strong>Дополнительные атрибуты</strong>
+                                    </div>
+                                    @foreach($attrs_dop as $attr)
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">{{$attr['title']}}</label>
+                                            <div class="col-sm-10">
+                                                @foreach($attr['items'] as $item)
+                                                    <div class="radio">
+                                                        <label>
+                                                            {{Form::checkbox('attrs['.$item['id'].']', $item['id'] )}}
+                                                            {{$item->title}}
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+
                                             </div>
                                         </div>
                                     @endforeach

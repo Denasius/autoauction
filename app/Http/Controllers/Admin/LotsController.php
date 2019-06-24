@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Attribute;
-use App\AttributeType;
+use App\AttributeCategory;
 use App\Bet;
 use App\LotTag;
 use App\Providers\AppServiceProvider;
@@ -49,10 +49,22 @@ class LotsController extends Controller
 
         //Получаем список атрибутов
         $data['attrs'] = [];
-        $results = AttributeType::all();
+        $results = AttributeCategory::where(['type'=> 0])->get();
         foreach ($results as $result) {
-            $items = Attribute::where('type_id', $result->id)->get();
+            $items = Attribute::where('category_id', $result->id)->get();
             $data['attrs'][] = [
+                'id'    => $result->id,
+                'title' => $result->title,
+                'items' => $items,
+            ];
+        }
+        $data['attrs_dop'] = [];
+        // 1 - это дополнительные атрибуты
+        $results = AttributeCategory::where(['type'=> 1])->get();
+        foreach ($results as $result) {
+            $items = Attribute::where('category_id', $result->id)->get();
+
+            $data['attrs_dop'][] = [
                 'id'    => $result->id,
                 'title' => $result->title,
                 'items' => $items,
@@ -100,16 +112,17 @@ class LotsController extends Controller
 
         //Получаем список атрибутов
         $data['lot_attr'] = [];
-        $results = LotAttributes::where('lot_id', $id)->get();
+        $results = LotAttributes::where(['lot_id'=> $id])->get();
         if ($results) {
             foreach ($results as $result) {
                 array_push($data['lot_attr'],$result->attr_id);
             }
         }
         $data['attrs'] = [];
-        $results = AttributeType::all();
+        // 0 - это основые атрибуты
+        $results = AttributeCategory::where(['type'=> 0])->get();
         foreach ($results as $result) {
-            $items = Attribute::where('type_id', $result->id)->get();
+            $items = Attribute::where('category_id', $result->id)->get();
 
             $data['attrs'][] = [
                 'id'    => $result->id,
@@ -117,6 +130,21 @@ class LotsController extends Controller
                 'items' => $items,
             ];
         }
+        $data['attrs_dop'] = [];
+        // 1 - это дополнительные атрибуты
+        $results = AttributeCategory::where(['type'=> 1])->get();
+        foreach ($results as $result) {
+            $items = Attribute::where('category_id', $result->id)->get();
+
+            $data['attrs_dop'][] = [
+                'id'    => $result->id,
+                'title' => $result->title,
+                'items' => $items,
+            ];
+        }
+//        dd($data['attrs_dop']);
+
+
 
         //Получаем Теги
         $data['lot_tag'] = [];

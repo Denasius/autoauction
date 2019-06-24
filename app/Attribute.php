@@ -10,15 +10,16 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Attribute extends Model
 {
     use Sluggable;
-    protected $fillable = ['title', 'type_id'];
+    protected $fillable = ['title', 'category_id'];
 
 
     //Получаем все атрибуты с их типами
     public static function get_all(){
         return DB::table('attributes')
-            ->orderBy('attributes.type_id')
-            ->join('attribute_types', 'attributes.type_id', '=', 'attribute_types.id')
-            ->select('attributes.*', 'attribute_types.title as type_title')
+            ->orderBy('attribute_categories.type')
+            ->orderBy('attributes.category_id')
+            ->join('attribute_categories', 'attributes.category_id', '=', 'attribute_categories.id')
+            ->select('attributes.*', 'attribute_categories.title as type_title', 'attribute_categories.type as type_type')
             ->get();
     }
 
@@ -26,10 +27,10 @@ class Attribute extends Model
     public function get_attribute_by_type($type) {
 
         return DB::table('attributes')
-            ->orderBy('attributes.type_id')
-            ->join('attribute_types', 'attributes.type_id', '=', 'attribute_types.id')
-            ->select('attributes.*', 'attribute_types.title as type_title')
-            ->where('attributes.type_id', $type)
+            ->orderBy('attributes.category_id')
+            ->join('attribute_categories', 'attributes.category_id', '=', 'attribute_categories.id')
+            ->select('attributes.*', 'attribute_categories.title as type_title')
+            ->where('attributes.category_id', $type)
             ->get();
     }
 
@@ -41,9 +42,9 @@ class Attribute extends Model
     }
 
     public function edit($fields){
-        $AttributeType = Attribute::find($fields['id']);
-        $AttributeType->fill($fields);
-        $AttributeType->save();
+        $Attribute = Attribute::find($fields['id']);
+        $Attribute->fill($fields);
+        $Attribute->save();
     }
 
 

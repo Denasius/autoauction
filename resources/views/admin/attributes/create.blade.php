@@ -27,7 +27,7 @@
                             <div class="form-group">
                                 <label class="col-lg-2 control-label">Тип</label>
                                 <div class="col-lg-6">
-                                    <select name="type_id" class="form-control">
+                                    <select name="category_id" class="form-control">
                                         @foreach($types as $item)
                                             <option value="{{$item->id}}">{{$item->title}}</option>
                                         @endforeach

@@ -20,6 +20,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Title</th>
+                                    <th>Категория</th>
                                     <th>Тип</th>
                                     <th class="text-right">Действия</th>
                                 </tr>
@@ -29,6 +30,7 @@
                                         <td>{{$result->id}}</td>
                                         <td>{{$result->title}}</td>
                                         <td>{{$result->type_title}}</td>
+                                        <td>@if($result->type_type == 0) Общие @else Дополнительные @endif </td>
                                         <td class="text-right">
                                             <div class="btn-group event_btn_group">
                                                 <a class="btn btn-primary" href="{{route('attributes.edit', $result->id)}}"><i class="fas fa-edit"></i></a>

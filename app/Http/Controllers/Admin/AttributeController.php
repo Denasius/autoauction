@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Attribute;
-use App\AttributeType;
+use App\AttributeCategory;
 use App\Providers\AppServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,7 +21,7 @@ class AttributeController extends Controller
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
         $params = $request->all();
         $attribyt_model = new Attribute();
-        $data['filter'] = AttributeType::all();
+        $data['filter'] = AttributeCategory::all();
         $data['filter_name'] = 'Тип';
 
 
@@ -46,7 +46,7 @@ class AttributeController extends Controller
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
-        $data['types'] = AttributeType::all();
+        $data['types'] = AttributeCategory::all();
         return view('admin.attributes.create', $data);
     }
 
@@ -60,7 +60,7 @@ class AttributeController extends Controller
     {
         $this->validate($request, [
             'title'      => 'required',
-            'type_id'    => 'required',
+            'category_id'    => 'required',
         ]);
 
         $attribute_model = new Attribute();
@@ -83,7 +83,7 @@ class AttributeController extends Controller
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
         $attribyt_model = new Attribute();
-        $attribyt_type_model = new AttributeType();
+        $attribyt_type_model = new AttributeCategory();
 
 
         $data['results'] = $attribyt_model->get_attribute_by_type($id);
@@ -104,7 +104,7 @@ class AttributeController extends Controller
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
         $data['attribute'] = Attribute::find($id);
-        $data['types'] = AttributeType::all();
+        $data['types'] = AttributeCategory::all();
 
         return view('admin.attributes.edit', $data);
     }
@@ -121,7 +121,7 @@ class AttributeController extends Controller
         $attribute = Attribute::find($id);
         $this->validate($request, [
             'title'      => 'required',
-            'type_id'      => 'required',
+            'category_id'      => 'required',
         ]);
 
         $attribute->edit($request->all());
