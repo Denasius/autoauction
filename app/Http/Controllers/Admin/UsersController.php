@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Providers\AppServiceProvider;
+use App\UserRole;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -20,6 +21,7 @@ class UsersController extends Controller
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();;
 
+        $data['roles'] = UserRole::all();
         $data['users'] = User::all();
         return view('admin.users.index', $data);
     }
@@ -34,6 +36,7 @@ class UsersController extends Controller
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();;
 
+        $data['roles'] = UserRole::all();
         return view('admin.users.create', $data);
     }
 
@@ -71,6 +74,7 @@ class UsersController extends Controller
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();;
 
+        $data['roles'] = UserRole::all();
         $data['user'] = User::find($id);
         return view('admin.users.edit', $data);
     }

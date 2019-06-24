@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Attribute;
 use App\AttributeCategory;
+use App\PageComment;
 use App\Providers\AppServiceProvider;
 use App\User;
 use Illuminate\Http\Request;
@@ -109,7 +110,7 @@ class PagesController extends Controller
      */
     public function destroy($id)
     {
-
+        PageComment::where('page_id', $id)->delete();
         Pages::find($id)->remove();
         return redirect()->route('pages.index');
 
