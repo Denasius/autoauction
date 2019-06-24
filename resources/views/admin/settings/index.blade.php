@@ -116,7 +116,7 @@
                                             
                                             </tbody>
                                         </table>
-                                        <a href="javascript:void(0);" class="btn btn-success add-address-row">Добавить адрес</a>
+                                        <a href="javascript:void(0);" class="btn btn-add add-address-row">Добавить адрес</a>
                                     </div>
                                     
                                     <div class="section social-links">
@@ -164,7 +164,7 @@
                                                 @endisset
                                             </tbody>
                                         </table>
-                                        <a href="javascript:void(0);" class="btn btn-success add-social-row">Добавить соцсеть</a>
+                                        <a href="javascript:void(0);" class="btn btn-add add-social-row">Добавить соцсеть</a>
                                     </div>
 
                                     <div class="section phones">
@@ -212,7 +212,7 @@
                                                 @endisset
                                             </tbody>
                                         </table>
-                                        <a href="javascript:void(0);" class="btn btn-success add-phones-row">Добавить телефон</a>
+                                        <a href="javascript:void(0);" class="btn btn-add add-phones-row">Добавить телефон</a>
                                     </div>
 
                                 </div>
