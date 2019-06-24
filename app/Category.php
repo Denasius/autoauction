@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Facades\DB;
 
 class Category extends Model
 {
@@ -32,6 +33,19 @@ class Category extends Model
 
     }
 
+    public function getTitleParentCategory($parentID)
+    {
+        $query = DB::table('categories')
+                ->where('categories.id', '=', $parentID)
+                ->select('categories.title')
+                ->get();
+
+        $parent = '';
+        foreach ( $query as $item ) {
+            $parent = $item->title;
+        }
+        return $parent;
+    }
 
     public function sluggable()
     {

@@ -37,9 +37,11 @@ mix.styles([
 	'resources/front/assets/css/auction.css',
 	'resources/front/assets/rs-plugin/css/settings.css',
 	'resources/front/assets/css/auction-custom.css',
+	'resources/front/assets/css/custom.scss',
 ], 'public/css/styles.css');
 
 mix.sass('resources/assets/admin/style-custom.scss', 'public/css/custom-admin.css');
+mix.sass('resources/front/assets/css/custom.scss', 'public/css/custom-style.css');
 
 mix.scripts([
 	'resources/assets/admin/js/bootstrap.min.js',

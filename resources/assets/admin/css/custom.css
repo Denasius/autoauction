@@ -157,3 +157,7 @@ header .go_front a i {
 .table-min-padding.table tbody > tr > th {
 	padding: 5px 5px;
 }
+
+.section{
+	margin-bottom: 20px;
+}

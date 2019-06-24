@@ -5,6 +5,7 @@ namespace App\Providers;
 
 
 use App\Attribute;
+use App\Setting;
 use App\AttributeType;
 use DebugBar\DebugBar;
 use Illuminate\Support\ServiceProvider;
@@ -33,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('admin.layout', function ($view) {
 
-            $data = array();
+            $data = [];
 
             $user_model = new User();
             $data['adminImage'] =  $user_model->get_avatar(Auth::user()->avatar);
@@ -41,6 +42,12 @@ class AppServiceProvider extends ServiceProvider
             $data['attribyt_type'] = AttributeType::all();
 
             $view->with($data);
+        });
+
+        view()->composer('layout', function ($view){
+            $view->with('addresses', Setting::where('version', '=', 'address')->get());
+            $view->with('socials', Setting::where('version', '=', 'socials')->get());
+            $view->with('phones', Setting::where('version', '=', 'phones')->get());
         });
     }
 

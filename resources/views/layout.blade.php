@@ -14,6 +14,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/custom-styles.css">
 
 	<!--[if lt IE 9]>
 	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -35,32 +36,53 @@
 				<div id="sub-header">
 					<div class="container">
 						<div class="row">
-							<div class="col-md-4 col-sm-12">
+							<div class="col-md-3 col-sm-12">
 								<div class="social-icons">
+									@isset( $socials )
 									<ul>
-										<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-										<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-										<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-										<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-										<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-										<li><a href="#"><i class="fa fa-rss"></i></a></li>
-										<li><a href="#"><i class="fa fa-behance"></i></a></li>
+										@foreach( $socials as $social )
+											<li><a href="{{ $social->value }}"><i class="fa fa-{{ $social->descr }}"></i></a></li>
+										@endforeach
 									</ul>
+									@endisset
 								</div>
 							</div>
 
-							<div class="col-md-4 col-sm-12">
-								<div class="informatio">
-									<p>123</p>
+							<div class="col-md-3 col-sm-12">
+								<div class="information">
+								@isset($addresses)
+									@foreach( $addresses as $address )
+										<span>{{ $address->value }}</span>
+									@endforeach
+								@endisset
 								</div>
 							</div>
 
-							<div class="col-md-4 hidden-sm">
+							<div class="col-md-3 col-sm-12">
+								@isset($phones)
+								<div class="phones">
+									@foreach( $phones as $phone )
+										<span><a href="tel:+{{ str_replace(['+', ' ', '-', '(', ')' ], '', $phone->value) }}">{{ $phone->value }}</a></span>
+									@endforeach
+								</div>
+								@endisset
+							</div>
+
+							<div class="col-md-3 hidden-sm">
 								<div class="right-info">
 									
 									<ul>
-										<li>Call us: <em>570-694-4002</em></li>
-										<li><a href="#">Get Free Appointment →</a></li>
+										@if (Auth::check())
+											<li class="auth"><a href="javascript:void(0);">Привет, {{Auth::user()->name}} <i class="fa fa-angle-down"></i></a>
+												<ul class="profile-dropdown">
+													<li><a href="/profile">Личный кабинет</a></li>
+												</ul>
+											</li>
+											<li><a href="{{ route('logout') }}">Выход</a></li>
+										@else
+											<li><a href="{{route('login')}}">Вход</a></li>
+											<li><a href="{{route('registerView')}}">Регистрация</a></li>
+										@endif
 									</ul>
 								</div>
 							</div>

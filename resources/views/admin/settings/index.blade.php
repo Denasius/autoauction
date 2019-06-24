@@ -66,50 +66,150 @@
                             <div class="tab-content">
                                 {{--Теги tab_1--}}
                                 <div role="tabpanel" class="tab-pane active" id="tab_1">
-                                    <table class="table table-striped table-advance table-hover table-min-padding">
-                                        <tbody>
-                                        <tr>
-                                            <th>slug</th>
-                                            <th>Тип</th>
-                                            <th>Название</th>
-                                            <th width="40%">Значение</th>
-                                            <th class="text-right">Действия</th>
-                                        </tr>
-                                        @foreach($tab_1 as $item)
-                                            <tr>
-                                                {{Form::hidden('tab[]', 1)}}
-                                                <th>
-                                                    {{Form::text('name[]', $item->name, ['class'=>'form-control', 'required'])}}
-                                                </th>
-                                                <th>
-                                                    <select name="type[]" class="form-control m-bot15">
-                                                        <option value="1" @if($item->type == 1) selected @endif >Текст</option>
-                                                        <option value="2" @if($item->type == 2) selected @endif>Текстовая область</option>
-                                                        <option value="3" @if($item->type == 3) selected @endif>Checkbox</option>
-                                                        <option value="4" @if($item->type == 4) selected @endif>Файл</option>
-                                                    </select>
-                                                </th>
-                                                <th>
-                                                    {{Form::text('descr[]', $item->descr, ['class'=>'form-control'])}}
-                                                </th>
-                                                <th>
-                                                    {{Form::text('value[]', $item->value, ['class'=>'form-control', 'required'])}}
-                                                </th>
-                                                <th class="text-right">
-                                                    <button type="button" class="btn btn-danger btn_remove" style="border-radius: 4px">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </th>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                                    <div class="section main-address">
+                                        Адрес Магазина (или чего то там)
+                                        <table class="table table-striped table-advance table-hover table-min-padding">
+                                            <thead>
+                                                <tr>
+                                                    <th>slug</th>
+                                                    <th>Тип</th>
+                                                    <th>Название</th>
+                                                    <th width="40%">Значение</th>
+                                                    <th class="text-right">Действия</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @isset($address)
+                                                @foreach( $address as $item )
+                                                    <tr class="address-link-row">
+                                                        <input name="tab[]" type="hidden" value="1">
+                                                        <input type="hidden" name="version[]" value="address">
+                                                        <th>
+                                                            <input class="form-control" name="name[]" type="text" required="" value="{{ $item->name }}">
+                                                        </th>
+                                                        <th>
+                                                            <select name="type[]" class="form-control m-bot15">
+                                                                <option value="1" @if($item->type == 1) selected @endif >Текст</option>
+                                                                <option value="2" @if($item->type == 2) selected @endif>Текстовая область</option>
+                                                                <option value="3" @if($item->type == 3) selected @endif>Checkbox</option>
+                                                                <option value="4" @if($item->type == 4) selected @endif>Файл</option>
+                                                            </select>
+                                                        </th>
+                                                        <th>
+                                                            <input class="form-control" name="descr[]" type="text" value="{{ $item->descr }}">
+                                                        </th>
+                                                        <th>
+                                                            <input class="form-control" name="value[]" type="text" value="{{ $item->value }}" required="">
+                                                        </th>
+                                                        <th class="text-right">
+                                                            <button type="button" class="btn btn-danger btn_remove" style="border-radius: 4px">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </th>
+                                                    </tr>
+                                                @endforeach
+                                            @endisset
+                                             </tbody>
+                                            
+                                            </tbody>
+                                        </table>
+                                        <a href="javascript:void(0);" class="btn btn-success add-address-row">Добавить адрес</a>
+                                    </div>
+                                    
+                                    <div class="section social-links">
+                                        Ссылки на соцсети
+                                        <table class="table table-striped table-advance table-hover table-min-padding">
+                                            <tbody>
+                                                <thead>
+                                                    <tr>
+                                                        <th>slug</th>
+                                                        <th>Тип</th>
+                                                        <th>Название</th>
+                                                        <th width="40%">Значение</th>
+                                                        <th class="text-right">Действия</th>
+                                                    </tr>
+                                                </thead>
+                                                @isset($socials)
+                                                    @foreach( $socials as $item )
+                                                        <tr class="social-link-row">
+                                                            <input name="tab[]" type="hidden" value="1">
+                                                            <input type="hidden" name="version[]" value="socials">
+                                                            <th>
+                                                                <input class="form-control" name="name[]" type="text" required="" value="{{ $item->name }}">
+                                                            </th>
+                                                            <th>
+                                                                <select name="type[]" class="form-control m-bot15">
+                                                                    <option value="1" @if($item->type == 1) selected @endif >Текст</option>
+                                                                <option value="2" @if($item->type == 2) selected @endif>Текстовая область</option>
+                                                                <option value="3" @if($item->type == 3) selected @endif>Checkbox</option>
+                                                                <option value="4" @if($item->type == 4) selected @endif>Файл</option>
+                                                                </select>
+                                                            </th>
+                                                            <th>
+                                                                <input class="form-control" name="descr[]" type="text" value="{{ $item->descr }}">
+                                                            </th>
+                                                            <th>
+                                                                <input class="form-control" name="value[]" type="text" required="" value="{{ $item->value }}">
+                                                            </th>
+                                                            <th class="text-right">
+                                                                <button type="button" class="btn btn-danger btn_remove" style="border-radius: 4px">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </button>
+                                                            </th>
+                                                        </tr>
+                                                    @endforeach
+                                                @endisset
+                                            </tbody>
+                                        </table>
+                                        <a href="javascript:void(0);" class="btn btn-success add-social-row">Добавить соцсеть</a>
+                                    </div>
 
-
-                                    <div class="form-group">
-                                        <div class="btn-create text-center col-sm-12">
-                                            <button type="button" class="btn btn-add add_setting" title="Добавить" data-tab="1">Добавить</button>
-                                        </div>
+                                    <div class="section phones">
+                                        Номера телефонов
+                                        <table class="table table-striped table-advance table-hover table-min-padding">
+                                            <tbody>
+                                                <thead>
+                                                    <tr>
+                                                        <th>slug</th>
+                                                        <th>Тип</th>
+                                                        <th>Название</th>
+                                                        <th width="40%">Значение</th>
+                                                        <th class="text-right">Действия</th>
+                                                    </tr>
+                                                </thead>
+                                                @isset($phones)
+                                                    @foreach( $phones as $item )
+                                                        <tr class="phones-link-row">
+                                                            <input name="tab[]" type="hidden" value="1">
+                                                            <input type="hidden" name="version[]" value="phones">
+                                                            <th>
+                                                                <input class="form-control" name="name[]" type="text" required="" value="{{ $item->name }}">
+                                                            </th>
+                                                            <th>
+                                                                <select name="type[]" class="form-control m-bot15">
+                                                                <option value="1" @if($item->type == 1) selected @endif >Текст</option>
+                                                                <option value="2" @if($item->type == 2) selected @endif>Текстовая область</option>
+                                                                <option value="3" @if($item->type == 3) selected @endif>Checkbox</option>
+                                                                <option value="4" @if($item->type == 4) selected @endif>Файл</option>
+                                                                </select>
+                                                            </th>
+                                                            <th>
+                                                                <input class="form-control" name="descr[]" type="text" value="{{ $item->descr }}">
+                                                            </th>
+                                                            <th>
+                                                                <input class="form-control" name="value[]" type="text" required="" value="{{ $item->value }}">
+                                                            </th>
+                                                            <th class="text-right">
+                                                                <button type="button" class="btn btn-danger btn_remove" style="border-radius: 4px">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </button>
+                                                            </th>
+                                                        </tr>
+                                                    @endforeach
+                                                @endisset
+                                            </tbody>
+                                        </table>
+                                        <a href="javascript:void(0);" class="btn btn-success add-phones-row">Добавить телефон</a>
                                     </div>
 
                                 </div>
@@ -323,6 +423,102 @@
                 '</th>\n' +
                 '</tr>');
 
+            $('.btn_remove').click(function () {
+                $(this).parent().parent().remove();
+            });
+        });
+
+        $('.add-social-row').on('click', function () {
+            $(this).closest('.social-links').find('tbody').append('<tr>\n' +
+                '<input name="tab[]" type="hidden" value="1">\n' +
+                '<input type="hidden" name="version[]" value="socials">\n' +
+                '<th>\n' +
+                '    <input class="form-control" name="name[]" type="text" required>\n' +
+                '</th>\n' +
+                '<th>\n' +
+                '    <select name="type[]" class="form-control m-bot15">\n' +
+                '        <option value="1">Текст</option>\n' +
+                '        <option value="2">Текстовая область</option>\n' +
+                '        <option value="3">Checkbox</option>\n' +
+                '        <option value="4">Файл</option>\n' +
+                '    </select>\n' +
+                '</th>\n' +
+                '<th>\n' +
+                '    <input class="form-control" name="descr[]" type="text">\n' +
+                '</th>\n' +
+                '<th>\n' +
+                '    <input class="form-control" name="value[]" type="text" required>\n' +
+                '</th>\n' +
+                '<th class="text-right">\n' +
+                '    <button type="button" class="btn btn-danger btn_remove" style="border-radius: 4px">\n' +
+                '        <i class="fas fa-trash-alt"></i>\n' +
+                '    </button>\n' +
+                '</th>\n' +
+                '</tr>');
+            $('.btn_remove').click(function () {
+                $(this).parent().parent().remove();
+            });
+        });
+
+        $('.add-phones-row').on('click', function () {
+            $(this).closest('.phones').find('tbody').append('<tr>\n' +
+                '<input name="tab[]" type="hidden" value="1">\n' +
+                '<input type="hidden" name="version[]" value="phones">\n' +
+                '<th>\n' +
+                '    <input class="form-control" name="name[]" type="text" required>\n' +
+                '</th>\n' +
+                '<th>\n' +
+                '    <select name="type[]" class="form-control m-bot15">\n' +
+                '        <option value="1">Текст</option>\n' +
+                '        <option value="2">Текстовая область</option>\n' +
+                '        <option value="3">Checkbox</option>\n' +
+                '        <option value="4">Файл</option>\n' +
+                '    </select>\n' +
+                '</th>\n' +
+                '<th>\n' +
+                '    <input class="form-control" name="descr[]" type="text">\n' +
+                '</th>\n' +
+                '<th>\n' +
+                '    <input class="form-control" name="value[]" type="text" required>\n' +
+                '</th>\n' +
+                '<th class="text-right">\n' +
+                '    <button type="button" class="btn btn-danger btn_remove" style="border-radius: 4px">\n' +
+                '        <i class="fas fa-trash-alt"></i>\n' +
+                '    </button>\n' +
+                '</th>\n' +
+                '</tr>');
+            $('.btn_remove').click(function () {
+                $(this).parent().parent().remove();
+            });
+        });
+
+        $('.add-address-row').on('click', function () {
+            $(this).closest('.main-address').find('tbody').append('<tr>\n' +
+                '<input name="tab[]" type="hidden" value="1">\n' +
+                '<input type="hidden" name="version[]" value="address">\n' +
+                '<th>\n' +
+                '    <input class="form-control" name="name[]" type="text" required>\n' +
+                '</th>\n' +
+                '<th>\n' +
+                '    <select name="type[]" class="form-control m-bot15">\n' +
+                '        <option value="1">Текст</option>\n' +
+                '        <option value="2">Текстовая область</option>\n' +
+                '        <option value="3">Checkbox</option>\n' +
+                '        <option value="4">Файл</option>\n' +
+                '    </select>\n' +
+                '</th>\n' +
+                '<th>\n' +
+                '    <input class="form-control" name="descr[]" type="text">\n' +
+                '</th>\n' +
+                '<th>\n' +
+                '    <input class="form-control" name="value[]" type="text" required>\n' +
+                '</th>\n' +
+                '<th class="text-right">\n' +
+                '    <button type="button" class="btn btn-danger btn_remove" style="border-radius: 4px">\n' +
+                '        <i class="fas fa-trash-alt"></i>\n' +
+                '    </button>\n' +
+                '</th>\n' +
+                '</tr>');
             $('.btn_remove').click(function () {
                 $(this).parent().parent().remove();
             });
