@@ -11,15 +11,18 @@
 
             <!-- page start-->
             <div class="row">
+
+                @include('admin.errors')
+
                 <div class="col-lg-12">
                     @if(! empty( $categories ))
                         <section class="panel">
                             <table class="table table-striped table-advance table-hover">
                                 <tbody>
                                 <tr>
-                                    <th><i class="icon_profile"></i> ID</th>
-                                    <th><i class="icon_calendar"></i> Название</th>
-                                    <th class="text-right"><i class="icon_cogs"></i> Действия</th>
+                                    <th>ID</th>
+                                    <th>Название</th>
+                                    <th class="text-right">Действия</th>
                                 </tr>
                                 @foreach ($categories as $category)
                                     <tr>
