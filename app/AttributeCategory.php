@@ -3,11 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\Sluggable;
 
 class AttributeCategory extends Model
 {
-    use Sluggable;
+
 
 
     protected $fillable = ['title', 'type'];
@@ -37,17 +36,5 @@ class AttributeCategory extends Model
 
         $AttributeCategory->fill($fields);
         $AttributeCategory->save();
-    }
-
-
-
-    //Автоматическое заполнение slug
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
     }
 }

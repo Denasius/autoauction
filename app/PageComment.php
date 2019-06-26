@@ -4,22 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Cviebrock\EloquentSluggable\Sluggable;
 
 class PageComment extends Model
 {
-    use Sluggable;
+
     const IS_ALLOW = 1;
     protected $fillable = ['page_id', 'user_id', 'created_at', 'descr', 'title'];
 
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
 
     public function page()
     {

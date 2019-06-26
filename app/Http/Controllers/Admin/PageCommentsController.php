@@ -70,6 +70,7 @@ class PageCommentsController extends Controller
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
         $data['comment'] = PageComment::find($id);
+        $data['user_mail'] = User::find($data['comment']->id);
         $data['pages'] = Pages::pluck('title', 'id')->all();
         $data['users'] = User::pluck('email', 'id')->all();
         return view('admin.comments.edit', $data);

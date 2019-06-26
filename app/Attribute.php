@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Cviebrock\EloquentSluggable\Sluggable;
+
 
 
 class Attribute extends Model
 {
-    use Sluggable;
+
     protected $fillable = ['title', 'category_id'];
 
 
@@ -46,14 +46,5 @@ class Attribute extends Model
         $Attribute->fill($fields);
         $Attribute->save();
     }
-
-
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
+    
 }

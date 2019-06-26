@@ -11,6 +11,8 @@ class Category extends Model
     use Sluggable;
 
     protected $table = 'categories';
+    protected $type = 'category';
+    const TYPE = 'category';
 
     protected $fillable = ['title', 'descr', 'parent_category', 'meta_title', 'meta_description'];
 
@@ -23,13 +25,14 @@ class Category extends Model
         $Category = new Category();
         $Category->fill($fields);
         $Category->save();
-
+        Aliase::add($Category->title, $this->type, $Category->id);
     }
 
     public function edit($fields){
         $Category = Category::find($fields['id']);
         $Category->fill($fields);
         $Category->save();
+        Aliase::add($Category->title, $this->type, $Category->id);
 
     }
 

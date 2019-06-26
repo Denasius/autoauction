@@ -36,7 +36,7 @@
                                 <div class="col-sm-10">
                                     {{ Form::select('user_id',
                                         $users,
-                                        $comment->author->email,
+                                        $user_mail->email,
                                         ['class'=>'form-control m-bot15'])
                                   }}
                                 </div>

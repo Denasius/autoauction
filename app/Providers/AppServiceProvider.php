@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
             $user_model = new User();
             $data['adminImage'] =  $user_model->get_avatar(Auth::user()->avatar);
             $data['adminName'] = Auth::user()->name;
-            $data['attribyt_type'] = AttributeCategory::all();
+//            $data['attribyt_type'] = AttributeCategory::all();
 
             $view->with($data);
         });

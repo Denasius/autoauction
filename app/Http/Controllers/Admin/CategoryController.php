@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Aliase;
 use App\Category;
 use App\Pages;
 use App\Providers\AppServiceProvider;
@@ -119,6 +120,7 @@ class CategoryController extends Controller
         $arrts = Pages::where('category_id', $id)->first();
         if (!$arrts) {
             Category::destroy($id);
+            Aliase::remove(Category::TYPE, $id);
         }else {
             $errors = 'Существуют страницы прикрепленные к этой категории<br>Удалите их и повторите попытку';
         }

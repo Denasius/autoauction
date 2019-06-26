@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Aliase;
 use App\Attribute;
 use App\AttributeCategory;
 use App\PageComment;
@@ -110,6 +111,8 @@ class PagesController extends Controller
      */
     public function destroy($id)
     {
+        $page = Pages::find($id);
+        Aliase::remove(Pages::TYPE, $id);
         PageComment::where('page_id', $id)->delete();
         Pages::find($id)->remove();
         return redirect()->route('pages.index');
