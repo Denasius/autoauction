@@ -45,7 +45,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Дата</label>
                                 <div class="col-sm-10">
-                                    <input type="date" name="created_at" class="form-control" value="{{$comment->created_at}}">
+                                    <input type="date" name="updated_at" class="form-control" value="{{$updated_at}}">
                                 </div>
 
                             </div>
