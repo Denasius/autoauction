@@ -5,7 +5,7 @@
 				@include('layouts.top_menu', ['categories'=>$category->children])
 			</ul>
 	@else
-		<li><a href="{{ route('page.show', $category->slug) }}">{{ $category->title }}</a>
+		<li><a href="">{{ $category->title }}</a>
 	@endif
 		</li>
 @endforeach
