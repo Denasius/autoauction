@@ -97,6 +97,11 @@
 				
 				@include('layouts.header')
 				
+				@if(session('status'))
+					<div class="alert alert-success alert-success-ansewr">
+						{{ session('status') }}
+					</div>
+				@endif
 
 				@yield('content')
 
@@ -145,12 +150,23 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-md-8 col-sm-12">
+								@if($errors->any())
+								<div class="alert alert-block alert-danger fade in">
+										<button data-dismiss="alert" class="close close-sm" type="button">
+												<i class="icon-remove"></i>
+										</button>
+										@foreach ($errors->all() as $error)
+												{!! $error !!}<br>
+										@endforeach
+								</div>
+								@endif
 								<div class="left-content">
-									<h2>Subscribe to the auction</h2>
-									<form method="get" id="subscribe" class="blog-search">
-										<input type="text" class="blog-search-field" name="s" placeholder="E-mail Address" value="">
+									<h2>Подписаться на новости</h2>
+										<form method="POST" id="subscribe" class="blog-search" action="{{ route('subscribe') }}">
+											@csrf
+										<input type="text" class="blog-search-field" name="email" placeholder="E-mail Address" value="">
 										<div class="simple-button">
-											<a href="#">Subscribe</a>
+											<button type="submit">Подписаться</button>
 										</div>
 									</form>
 								</div>

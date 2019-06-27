@@ -70,3 +70,5 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::post('/callback', 'HomeController@callback')->name('callback');
 
 Route::get('/{slug}', 'HomeController@show')->name('page.show');
+Route::post('/subscribe', 'SubscribeController@subscribe')->name('subscribe');
+Route::get('/verify/{token}', 'SubscribeController@verify');

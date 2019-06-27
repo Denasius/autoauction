@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Setting;
 use App\Lot;
 use App\Pages;
+use App\Mail\SendMail;
 
 class HomeController extends Controller
 {
@@ -39,35 +40,12 @@ class HomeController extends Controller
                 'errors' => $validator->getMessageBag()->toArray()
             ]);
         }else{
-            
+
+            $data['name'] = $request->get('email');
+            $data['phone'] = $request->get('phone');
             $to = 'kdo@webernetic.by';
-            $subject = 'Новое письмо с сайта VIN.by';
-            $message = '
-            <html>
-            <head>
-              <title>Вам отправлено письмо</title>
-            </head>
-            <body>
-              <p>Вам отправлено письмо!</p>
-              <table>
-                <tr>
-                  <th>Имя: '.$request->get('name').'</th>
-                </tr>
-
-                <tr>
-                  <th>Телефон: '.$request->get('phone').'</th>
-                </tr>
-                 
-              </table>
-            </body>
-            </html>
-            ';
-            $headers = 'From: webmaster@example.com' . "\r\n" .
-                'Reply-To: webmaster@example.com' . "\r\n" .
-                'Content-type: text/html' . "\r\n" .
-                'X-Mailer: PHP/' . phpversion();
-
-            mail($to, $subject, $message, $headers);
+            \Mail::to($to)->send(new SendMail($data));
+            
             return response()->json([
                 'success' => 'Ваше сообщение успешно отправлено!'
             ]);

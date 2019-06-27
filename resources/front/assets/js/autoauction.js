@@ -33,7 +33,12 @@ jQuery(document).ready(function ($) {
 					$form.closest('.gallery').find('.answer').append('<div class="alert alert-success"><ul class="list-success">'+success+'</ul></div>');
 					$form.find('[type="submit"]').text('Отправить');
 				}
-			}
+			},
+			error: function (request, errorStatus, errorThrown) {
+                console.log(request);
+                console.log(errorStatus);
+                console.log(errorThrown);
+            }
 		});
 	});
 });
