@@ -8,7 +8,6 @@ use App\Attribute;
 use App\Category;
 use App\Setting;
 use App\AttributeType;
-use App\AttributeCategory;
 use DebugBar\DebugBar;
 use Illuminate\Support\ServiceProvider;
 use App\User;
