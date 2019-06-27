@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Attribute;
 use App\AttributeCategory;
+use App\Lot;
+use App\LotAttributes;
 use App\Providers\AppServiceProvider;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -137,7 +139,11 @@ class AttributeController extends Controller
      */
     public function destroy($id)
     {
-        Attribute::destroy($id);
-        return redirect()->back();
+        if (!LotAttributes::where('attr_id', $id)) {
+            Attribute::destroy($id);
+            return redirect()->back();
+        }else {
+            return redirect()->back()->withErrors('Ошибка! Атрибут принадлежит лоту. Удалите лот и повторите попытку');
+        }
     }
 }

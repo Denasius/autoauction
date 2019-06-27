@@ -4,22 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Cviebrock\EloquentSluggable\Sluggable;
 
 class PageComment extends Model
 {
-    use Sluggable;
-    const IS_ALLOW = 1;
-    protected $fillable = ['page_id', 'user_id', 'created_at', 'descr', 'title'];
 
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
+    const IS_ALLOW = 1;
+    protected $fillable = ['page_id', 'user_id', 'updated_at', 'descr', 'title'];
+
 
     public function page()
     {
@@ -54,7 +45,7 @@ class PageComment extends Model
         return DB::table('page_comments')
         ->join('pages', 'page_comments.page_id', '=', 'pages.id')
         ->join('users', 'page_comments.user_id', '=', 'users.id')
-        ->select('page_comments.id', 'page_comments.title', 'page_comments.created_at as comment_date', 'pages.title as page_title', 'users.email as author')
+        ->select('page_comments.id', 'page_comments.title', 'page_comments.updated_at as comment_date', 'pages.title as page_title', 'users.email as author')
         ->get();
     }
 

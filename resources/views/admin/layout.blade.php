@@ -94,7 +94,7 @@
             <li class="{{request()->is('admin/attribute-category') ? 'active' : 'no-active'}}">
                 <a href="/admin/attribute-category" class="">
                     <i class="fas fa-tasks"></i>
-                    <span>Категории атриб.</span>
+                    <span>Категории атрибутов</span>
                 </a>
             </li>
             <li class="{{request()->is('admin/bets') ? 'active' : 'no-active'}}">

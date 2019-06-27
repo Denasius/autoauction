@@ -3,25 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class Pages extends Model
 {
-    use Sluggable;
-
+    protected $type = 'page';
+    const TYPE = 'page';
     protected $fillable = ['title', 'descr', 'meta_title', 'meta_description', 'short_descr', 'category_id'];
 
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
 
     public function category()
     {
@@ -37,8 +28,10 @@ class Pages extends Model
     {
         $page = new static;
         $page->fill($fields);
-
         $page->save();
+
+        Aliase::add($page->title, self::TYPE, $page->id);
+
         return $page;
     }
 
@@ -89,6 +82,7 @@ class Pages extends Model
     {
         $this->fill($fields);
         $this->save();
+        Aliase::add($this->title, $this->type, $this->id);
     }
 
     public function remove()

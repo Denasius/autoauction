@@ -14,6 +14,9 @@ class Lot extends Model
 {
     use Sluggable;
 
+
+    const TYPE = 'lot';
+
     protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id',
         'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image'];
 
@@ -32,6 +35,9 @@ class Lot extends Model
         $lot->image = $parth;
 
         $lot->save();
+
+        //Добавляем ЧПУ
+        Aliase::add($lot->title, Lot::TYPE, $lot->id);
 
 
         //Добавляем атрибуты
@@ -90,6 +96,9 @@ class Lot extends Model
         $lot->image = $parth;
 
         $lot->save();
+
+        //Добавляем ЧПУ
+        Aliase::add($lot->title, Lot::TYPE, $lot->id);
 
 
         //Добавляем атрибуты
@@ -155,6 +164,7 @@ class Lot extends Model
         LotImage::where('lot_id', $id)->delete();
         LotTag::where('lot_id', $id)->delete();
         Bet::where('lot_id', $id)->delete();
+        Aliase::remove(self::TYPE, $id);
         Lot::destroy($id);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Aliase;
 use App\Providers\AppServiceProvider;
 use DebugBar\DebugBar;
 use Illuminate\Http\Request;
@@ -83,7 +84,7 @@ class TagsController extends Controller
         ]);
 
         $tag = Tag::find($id);
-        $tag->update($request->all());
+        $tag->edit($request->all());
 
         return redirect()->route('tags.index');
     }
@@ -97,6 +98,7 @@ class TagsController extends Controller
     public function destroy($id)
     {
         Tag::destroy($id);
+        Aliase::remove(Tag::TYPE, $id);
         return redirect()->route('tags.index');
     }
 }

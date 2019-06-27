@@ -15,6 +15,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Admin\SearchController;
+use App\AttributeCategory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
             $user_model = new User();
             $data['adminImage'] =  $user_model->get_avatar(Auth::user()->avatar);
             $data['adminName'] = Auth::user()->name;
-            $data['attribyt_type'] = AttributeCategory::all();
+//            $data['attribyt_type'] = AttributeCategory::all();
 
             $view->with($data);
         });

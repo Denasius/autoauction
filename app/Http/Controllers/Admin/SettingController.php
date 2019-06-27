@@ -70,7 +70,8 @@ class SettingController extends Controller
                     $setting->descr = $items['descr'][$key];
                     $setting->type = $items['type'][$key];
                     $setting->tab = $items['tab'][$key];
-                    $setting->version = $items['version'][$key];
+                    if (isset($items['version'][$key]))
+                        $setting->version = $items['version'][$key];
 
                     $setting->save();
     
