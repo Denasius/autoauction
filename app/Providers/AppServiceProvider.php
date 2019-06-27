@@ -15,7 +15,6 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Admin\SearchController;
-use App\AttributeCategory;
 
 class AppServiceProvider extends ServiceProvider
 {
