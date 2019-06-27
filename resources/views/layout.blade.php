@@ -23,7 +23,6 @@
 
 </head>
 <body>
-
 	
 	<div class="sidebar-menu-container" id="sidebar-menu-container">
 
@@ -41,7 +40,9 @@
 									@isset( $socials )
 									<ul>
 										@foreach( $socials as $social )
-											<li><a href="{{ $social->value }}"><i class="fa fa-{{ $social->descr }}"></i></a></li>
+											@if( ! empty( $social->value ) )
+												<li><a href="{{ $social->value }}"><i class="fa fa-{{ $social->descr }}"></i></a></li>
+											@endif
 										@endforeach
 									</ul>
 									@endisset
@@ -52,7 +53,9 @@
 								<div class="information">
 								@isset($addresses)
 									@foreach( $addresses as $address )
-										<span>{{ $address->value }}</span>
+										@if (! empty( $address->value ))
+											<span>{{ $address->value }}</span>
+										@endif
 									@endforeach
 								@endisset
 								</div>
@@ -62,7 +65,9 @@
 								@isset($phones)
 								<div class="phones">
 									@foreach( $phones as $phone )
-										<span><a href="tel:+{{ str_replace(['+', ' ', '-', '(', ')' ], '', $phone->value) }}">{{ $phone->value }}</a></span>
+										@if (! empty( $phone->value ))
+											<span><a href="tel:+{{ str_replace(['+', ' ', '-', '(', ')' ], '', $phone->value) }}">{{ $phone->value }}</a></span>
+										@endif
 									@endforeach
 								</div>
 								@endisset
@@ -89,54 +94,9 @@
 						</div>
 					</div>
 				</div>
-
-				<header class="site-header">
-					<div id="main-header" class="main-header header-sticky">
-						<div class="inner-header container clearfix">
-							<div class="logo">
-								<a href="index.html"><img src="assets/images/logo.png" alt=""></a>
-							</div>
-							<div class="header-right-toggle pull-right hidden-md hidden-lg">
-								<a href="javascript:void(0)" class="side-menu-button"><i class="fa fa-bars"></i></a>
-							</div>
-							<nav class="main-navigation text-left hidden-xs hidden-sm">
-								<ul>
-									<li><a href="index.html">Home</a></li>
-									<li><a href="about.html">About Us</a></li>
-									<li><a href="services.html">Services</a></li>
-									<li><a href="#" class="has-submenu">Listing</a>
-										<ul class="sub-menu">
-											<li><a href="listing-right.html">Sidebar Right</a></li>
-											<li><a href="listing-left.html">Sidebar Left</a></li>
-											<li><a href="listing-grid.html">Grids System</a></li>
-											<li><a href="single-list.html">Car Details</a></li>
-										</ul>
-									</li>
-									<li><a href="#" class="has-submenu">Blog</a>
-										<ul class="sub-menu">
-											<li><a href="blog-right.html">Classic</a></li>
-											<li><a href="blog-grid.html">Grids System</a></li>
-											<li><a href="grid-right.html">Grids Sidebar</a></li>
-											<li><a href="single-blog.html">Single Post</a></li>
-										</ul>
-									</li>
-									<li><a href="contact.html">Contact</a></li>
-									<li>
-										<p><a href="#" id="example-show" class="showLink" onclick="showHide('example');return false;"><i class="fa fa-search"></i></a></p>
-										<div id="example" class="more">
-											<form method="get" id="blog-search" class="blog-search">
-												<input type="text" class="blog-search-field" name="s" placeholder="Type to search" value="">
-											</form>
-											<p><a href="#" id="example-hide" class="hideLink" 
-											onclick="showHide('example');return false;"><i class="
-											fa fa-close"></i></a></p>
-										</div>
-									</li>
-								</ul>
-							</nav>
-						</div>
-					</div>
-				</header>
+				
+				@include('layouts.header')
+				
 
 				@yield('content')
 
@@ -196,15 +156,19 @@
 								</div>
 							</div>
 							<div class="col-md-4 col-sm-12">
-								<div class="right-content">
-									<ul>
-										<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-										<li><a href="#"><i class="fa fa-flickr"></i></a></li>
-										<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-										<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-										<li><a href="#"><i class="fa fa-skype"></i></a></li>
-									</ul>
-								</div>
+								@isset ($socials)
+								    
+									<div class="right-content">
+										<ul>
+											@foreach ($socials as $social)
+												@if (! empty( $social->value ))
+													<li><a href="{{ $social->value }}"><i class="fa fa-{{ $social->descr }}"></i></a></li>
+												@endif
+											@endforeach
+										</ul>
+									</div>
+
+								@endisset
 							</div>
 						</div>
 					</div>
@@ -216,11 +180,32 @@
 							<div class="col-md-3">
 								<div class="about-us">
 									<img src="assets/images/logo-2.png" alt="">
-									<p>Maecenas ne mollis orci. Phasell iacu sapie non aliquet ex euismo ac.</p>
+									<p>VIN.by Аукцион авто из всего мира!</p>
 									<ul>
-										<li><i class="fa fa-map-marker"></i>Raver Croft Drive Knoxville, 37921</li>
-										<li><i class="fa fa-phone"></i>+55 417-634-7071</li>
-										<li><i class="fa fa-envelope-o"></i>contact@auction.com</li>
+										@isset( $addresses )
+											@foreach ($addresses as $item)
+												@if ($loop->first && ! empty( $item->value ))
+													<li><i class="fa fa-map-marker"></i>{{ $item->value }}</li>
+												@endif
+											@endforeach
+										@endisset
+										
+										@isset( $phones )
+											@foreach ($phones as $item)
+												@if ($loop->first && ! empty( $item->value ))
+													<li class="footer_tel"><i class="fa fa-phone"></i><a href="tel:+{{ str_replace(['+', ' ', '-', '(', ')'], '', $item->value) }}">{{ $item->value }}</a></li>
+												@endif
+											@endforeach
+										@endisset
+										
+										@isset( $socials )
+											@foreach ($socials as $item)
+												@if (! empty( $item->value ) && ( $item->name == 'email' || $item->name == 'mail' ) )
+													<li><i class="fa fa-envelope-o"></i>{{ $item->value }}</li>
+												@endif
+											@endforeach
+										@endisset
+										
 									</ul>
 								</div>
 							</div>
@@ -266,31 +251,16 @@
 							</div>
 							<div class="col-md-3">
 								<div class="gallery">
-									<h4>Gallery</h4>
-									<div class="gallery-item">
-										<img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">
-									</div>
-									<div class="gallery-item">
-										<img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">
-									</div>
-									<div class="gallery-item">
-										<img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">
-									</div>
-									<div class="gallery-item">
-										<img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">
-									</div>
-									<div class="gallery-item">
-										<img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">
-									</div>
-									<div class="gallery-item">
-										<img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">
-									</div>
-									<div class="gallery-item">
-										<img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">
-									</div>
-									<div class="gallery-item">
-										<img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">
-									</div>
+									<h4>Свяжитесь с нами</h4>
+									<form action="{{ route('callback') }}" class="form-general form-general__handler" id="form-general" method="POST">
+										@csrf
+										<input type="hidden" name="_method" value="POST">
+										<input type="text" name="name" placeholder="Имя" value="{{ old('name') }}">
+										<input type="text" name="phone" placeholder="Телефон" value="{{ old('telephone') }}">
+
+										<button type="submit" class="btn-callback-send">Отправить</button>
+									</form>
+									<div class="answer"></div>
 								</div>
 							</div>
 						</div>

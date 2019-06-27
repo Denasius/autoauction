@@ -45,8 +45,8 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::get('/profile', 'ProfileController@index');
 	Route::post('/profile', 'ProfileController@update');
 
-	Route::post('/search', 'SearchController@get');
 
+	Route::post('/search', 'SearchController@get');
 
 });
 
@@ -65,4 +65,8 @@ Route::group([
 	Route::get('/logout', 'AuthController@logout')->name('logout');
 });
 
+Route::get('/search', 'HomeController@search')->name('searching');
 Route::get('/', 'HomeController@index')->name('home');
+Route::post('/callback', 'HomeController@callback')->name('callback');
+
+Route::get('/{slug}', 'HomeController@show')->name('page.show');

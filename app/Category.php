@@ -19,6 +19,16 @@ class Category extends Model
         return $this->hasMany(Pages::class);
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_category');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_category');
+    }
+
     public function add($fields) {
         $Category = new Category();
         $Category->fill($fields);

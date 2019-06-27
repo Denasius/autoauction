@@ -127,7 +127,7 @@
                                                     <tr>
                                                         <th>slug</th>
                                                         <th>Тип</th>
-                                                        <th>Название</th>
+                                                        <th>Иконка</th>
                                                         <th width="40%">Значение</th>
                                                         <th class="text-right">Действия</th>
                                                     </tr>
@@ -164,6 +164,7 @@
                                                 @endisset
                                             </tbody>
                                         </table>
+                                        <i style="display: block; margin-bottom: 5px;">Посмотреть названия иконок можно по <a href="https://fontawesome.com/icons?d=gallery" target="_blank">ссылке</a></i>
                                         <a href="javascript:void(0);" class="btn btn-success add-social-row">Добавить соцсеть</a>
                                     </div>
 

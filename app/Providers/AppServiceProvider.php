@@ -5,12 +5,15 @@ namespace App\Providers;
 
 
 use App\Attribute;
+use App\Category;
 use App\Setting;
 use App\AttributeType;
+use App\AttributeCategory;
 use DebugBar\DebugBar;
 use Illuminate\Support\ServiceProvider;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Admin\SearchController;
 
 class AppServiceProvider extends ServiceProvider
@@ -48,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('addresses', Setting::where('version', '=', 'address')->get());
             $view->with('socials', Setting::where('version', '=', 'socials')->get());
             $view->with('phones', Setting::where('version', '=', 'phones')->get());
+            $view->with('categories', Category::where('parent_category', 0)->get());
         });
     }
 

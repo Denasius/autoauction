@@ -384,8 +384,6 @@ jQuery(document).ready(function ($) {
 		});
 
 		
-		$('#sub-header .right-info ul li.auth').hover( function() {
-			$(this).find('.profile-dropdown').toggleClass('active');
-		});
+		
 
 });

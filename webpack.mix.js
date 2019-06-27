@@ -56,6 +56,7 @@ mix.scripts([
 	'resources/front/assets/rs-plugin/js/jquery.themepunch.revolution.min.js',
 	'resources/front/assets/js/custom.js',
 	'resources/front/assets/js/plugins.js',
+	'resources/front/assets/js/autoauction.js',
 ], 'public/js/scripts.js');
 
 
