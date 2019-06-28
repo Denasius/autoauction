@@ -11,7 +11,7 @@ class Pages extends Model
 {
     protected $type = 'page';
     const TYPE = 'page';
-    protected $fillable = ['title', 'descr', 'meta_title', 'meta_description', 'short_descr', 'category_id'];
+    protected $fillable = ['title', 'descr', 'meta_title', 'meta_description', 'short_descr', 'category_id', 'template'];
 
 
     public function category()

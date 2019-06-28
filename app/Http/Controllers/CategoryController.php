@@ -8,6 +8,7 @@ class CategoryController extends Controller
 {
     public function index($model, $routes)
     {
-    	return view('categories.index');
+    	
+    	return view('categories.' . $model->template);
     }
 }

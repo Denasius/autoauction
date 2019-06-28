@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class PageController extends Controller
+class AuctionController extends Controller
 {
     public function index($model, $routes)
     {
-    	return view('pages.' . $model->template);
+    	return view('auctions.index');
     }
 }

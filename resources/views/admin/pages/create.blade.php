@@ -49,6 +49,20 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">Тип шаблона</label>
+                                <div class="col-sm-10">
+                                    <select name="template" class="form-control">
+                                        <option value="default" selected>По умолчанию</option>
+                                        <option value="contacts">Контакты</option>
+                                        <option value="about">О нас</option>
+                                        <option value="seller">Продавцам</option>
+                                        <option value="buyer">Покупателям</option>
+                                       
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">Краткое описание</label>
                                 <div class="col-sm-10">
                                     <textarea type="text" name="short_descr" id="ckeditor1" class="form-control"

@@ -59,6 +59,55 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">Тип шаблона</label>
+                                <div class="col-sm-10">
+                                    <select name="template" class="form-control">
+                                        <option value="{{ $page->template }}" selected>
+                                            @switch($page->template)
+                                                @case('contacts')
+                                                    Контакты
+                                                    @break
+
+                                                @case('about')
+                                                    О нас
+                                                    @break
+
+                                                @case('seller')
+                                                    Продавцам
+                                                    @break 
+
+                                                @case('buyer')
+                                                    Покупателям
+                                                    @break 
+                                            
+                                                @default
+                                                    По умолчанию
+                                            @endswitch                                            
+                                        </option>
+                                        @if ( $page->template != 'default' ) 
+                                            <option value="default">По умолчанию</option>
+                                        @endif
+
+                                        @if ( $page->template != 'auctions' ) 
+                                            <option value="contacts">Контакты</option>
+                                        @endif
+
+                                        @if ( $page->template != 'blogs' ) 
+                                            <option value="about">О нас</option>
+                                        @endif
+                                       
+                                        @if ( $page->template != 'seller' ) 
+                                            <option value="seller">Продавцам</option>
+                                        @endif
+
+                                         @if ( $page->template != 'buyer' ) 
+                                            <option value="buyer">Покупателям</option>
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">Краткое описание</label>
                                 <div class="col-sm-10">
                                     <textarea type="text" name="short_descr" id="ckeditor1" class="form-control"

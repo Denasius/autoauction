@@ -24,11 +24,47 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">Тип шаблона</label>
+                                <div class="col-sm-10">
+                                    <select name="template" class="form-control">
+                                        <option value="{{ $category_info->template }}" selected>
+                                            @switch($category_info->template)
+                                                @case('auctions')
+                                                    Аукционы
+                                                    @break
+
+                                                @case('blogs')
+                                                    Новостной
+                                                    @break
+                                            
+                                                @default
+                                                    По умолчанию
+                                            @endswitch                                            
+                                        </option>
+                                        @if ( $category_info->template != 'default' ) 
+                                            <option value="default">По умолчанию</option>
+                                        @endif
+
+                                        @if ( $category_info->template != 'auctions' ) 
+                                            <option value="auctions">Аукционы</option>
+                                        @endif
+
+                                        @if ( $category_info->template != 'blogs' ) 
+                                            <option value="blogs">Новостной</option>
+                                        @endif
+                                       
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">Описание</label>
                                 <div class="col-sm-10">
                                     <textarea type="text" name="descr" id="ckeditor" class="form-control">{{$category_info->descr}}</textarea>
                                 </div>
                             </div>
+
+
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Родительская категория</label>

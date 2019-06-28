@@ -13,7 +13,7 @@ class Category extends Model
     protected $type = 'category';
     const TYPE = 'category';
 
-    protected $fillable = ['title', 'descr', 'parent_category', 'meta_title', 'meta_description'];
+    protected $fillable = ['title', 'descr', 'parent_category', 'meta_title', 'meta_description', 'template'];
 
     public function pages()
     {

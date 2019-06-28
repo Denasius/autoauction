@@ -8,6 +8,7 @@ class LotController extends Controller
 {
     public function index($model, $routes)
     {
+    	
     	return view('lots.index');
     }
 }

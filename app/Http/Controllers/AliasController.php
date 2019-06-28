@@ -49,8 +49,11 @@ class AliasController extends Controller
 				break;
 
 			case 'category':
-				$controller = new CategoryController();
-				break;
+                $controller = new CategoryController();
+				if ( $item->template == 'auctions' ) {
+                    $controller = new AuctionController();
+                }
+                break;
 			default:
 				return view('404');
 				break;
