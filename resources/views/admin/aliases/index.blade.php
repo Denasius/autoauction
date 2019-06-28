@@ -13,30 +13,28 @@
             <div class="row">
                 <div class="col-lg-12">
 
-                    @if(! empty( $subscribtions ))
+                    @if(! empty( $aliases ))
                         <section class="panel">
 
                             <table class="table table-striped table-advance table-hover">
                                 <tbody>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Email</th>
-                                    <th>Подтвержение</th>
+                                    <th>ЧПУ</th>
+                                    <th>Тип записи</th>
+                                    <th>Название записи</th>
                                     <th class="text-right">Действия</th>
                                 </tr>
-                                @foreach ($subscribtions as $item)
+                                @foreach ($aliases as $item)
                                     <tr>
-                                        <td>{{$item->id}}</td>
-                                        <td>{{$item->email}}</td>
-                                        <td>@if($item->token) Нет @else Да @endif</td>
+                                        <td>{{$item['id']}}</td>
+                                        <td>{{$item['slug']}}</td>
+                                        <td>{{$item['type']}}</td>
+                                        <td><a href="{{$item['href']}}">{{$item['title']}}</a></td>
                                         <td class="text-right">
                                             <div class="btn-group event_btn_group">
-                                                @if($item->token)
-                                                    <a class="btn btn-primary" href="{{route('subscribtions.active_subscribe', $item->id)}}" title="Одобрить">
-                                                        <i class="fas fa-check-double"></i>
-                                                    </a>
-                                                @endif
-                                                {{Form::open(['route'=>['subscribtions.destroy', $item->id], 'method'=>'delete', 'class'=>'inline_block'])}}
+                                                <a class="btn btn-primary" href="{{route('aliases.edit', $item['id'])}}"><i class="fas fa-edit"></i></a>
+                                                {{Form::open(['route'=>['aliases.destroy', $item['id']], 'method'=>'delete', 'class'=>'inline_block'])}}
                                                 <button type="submit" class="btn btn-danger" data-attr="delete"><i class="fas fa-trash-alt"></i></button>
                                                 {{Form::close()}}
                                             </div>
@@ -50,7 +48,7 @@
                     @else
                         <section class="panel">
                             <header class="panel-heading">
-                                <h1>Список тегов пуст</h1>
+                                <h1>Список ЧПУ пуст</h1>
                             </header>
                         </section>
                     @endif

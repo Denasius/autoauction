@@ -121,6 +121,12 @@
                     <span>Подписчики</span>
                 </a>
             </li>
+            <li class="{{request()->is('admin/aliases') ? 'active' : 'no-active'}}">
+                <a href="/admin/aliases" class="">
+                    <i class="fas fa-link"></i>
+                    <span>ЧПУ</span>
+                </a>
+            </li>
             <hr>
             <li class="{{request()->is('admin/settings') ? 'active' : 'no-active'}}">
                 <a href="/admin/settings" class="">

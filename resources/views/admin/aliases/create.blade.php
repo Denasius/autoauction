@@ -14,12 +14,12 @@
                     <section class="panel">
 
                         <div class="panel-body">
-                            {{Form::open(['route'=>'subscribtions.store', 'class'=>'form-horizontal'])}}
+                            {{Form::open(['route'=>'tags.store', 'class'=>'form-horizontal'])}}
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Email</label>
+                                <label class="col-sm-2 control-label">Название</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="email" class="form-control" placeholder="Email" value="{{old('email')}}">
+                                    <input type="text" name="title" class="form-control" id="f-name" placeholder="Название типа атрибута" value="{{old('title')}}">
                                 </div>
                             </div>
 

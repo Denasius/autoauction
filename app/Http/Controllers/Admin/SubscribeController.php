@@ -31,7 +31,10 @@ class SubscribeController extends Controller
      */
     public function create()
     {
-        //
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();;
+
+        return view('admin.subscribtions.create', $data);
     }
 
     /**
@@ -42,7 +45,14 @@ class SubscribeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'email' => 'required|email|unique:subscribtions'
+        ]);
+
+
+        Subscribtion::add_admin($request->all());
+
+        return redirect()->route('subscribtions.index');
     }
 
     /**
@@ -64,7 +74,12 @@ class SubscribeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [];
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();;
+
+        $data['subscribe'] = Subscribtion::find($id);
+
+        return view('admin.subscribtions.edit', $data);
     }
 
     /**
@@ -76,7 +91,14 @@ class SubscribeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'email' => 'required'
+        ]);
+
+
+        Subscribtion::edit_admin($id, $request->all());
+
+        return redirect()->route('subscribtions.index');
     }
 
     /**
@@ -87,6 +109,14 @@ class SubscribeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Subscribtion::destroy($id);
+        return redirect()->route('subscribtions.index');
+    }
+
+
+    //Активируем подписчика
+    public function active_subscribe($id) {
+        Subscribtion::active_subscribe($id);
+        return redirect()->route('subscribtions.index');
     }
 }

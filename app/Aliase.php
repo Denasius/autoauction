@@ -5,12 +5,13 @@ namespace App;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Support\Facades\DB;
 
 class Aliase extends Model
 {
     use Sluggable;
 
-    protected $fillable = ['slug'];
+    protected $fillable = ['slug', 'type', 'type_id'];
 
     public static function add($name, $type, $type_id) {
         //Проверяем, что такого ЧПУ для этой записи(страницы итд) нету
@@ -28,6 +29,12 @@ class Aliase extends Model
             $aliase->type_id    = $type_id;
             $aliase->save();
         }
+    }
+
+    public static function edit($id, $fields) {
+        $item = Aliase::find($id);
+        $item->fill($fields);
+        $item->save();
     }
 
     public static function remove($type, $type_id){

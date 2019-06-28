@@ -94,7 +94,7 @@ class UsersController extends Controller
             'email'     => [
                 'required',
                 'email',
-                Rule::unique('users')->ignore($user->id), // при валидации учитываю пользователя и не проаеряю его tmail на уникальность
+                Rule::unique('users')->ignore($user->id), // при валидации учитываю пользователя и не проаеряю его mail на уникальность
             ],
             'town'      => 'nullable',
             'avatar'    => 'image'

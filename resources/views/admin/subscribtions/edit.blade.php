@@ -14,14 +14,20 @@
                     <section class="panel">
 
                         <div class="panel-body">
-                            {{Form::open(['route'=>['tags.update', $tag->id], 'method'=>'put',  'class' => 'form-horizontal'])}}
-                            <input type="hidden" name="id" value="{{$tag->id}}">
+                            {{Form::open(['route'=>['subscribtions.update', $subscribe->id], 'method'=>'put',  'class' => 'form-horizontal'])}}
+                            <input type="hidden" name="id" value="{{$subscribe->id}}">
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Название</label>
+                                <label class="col-sm-2 control-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control m-bot15" type="text" name="title" placeholder="Название категории"
-                                           value="{{$tag->title}}">
+                                    <input type="text" name="email" class="form-control" placeholder="Email" value="{{$subscribe->email}}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Token</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="token" class="form-control" placeholder="Token" value="{{$subscribe->token}}">
                                 </div>
                             </div>
 

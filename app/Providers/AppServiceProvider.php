@@ -133,7 +133,12 @@ class AppServiceProvider extends ServiceProvider
             'subscribtions'      => [
                 'icon'          => '<i class="fas fa-id-card"></i>',
                 'title'         => 'Подписчики',
-                'title_create'  => 'Подписчики',
+                'title_create'  => 'Подписчика',
+            ],
+            'aliases'      => [
+                'icon'          => '<i class="fas fa-link"></i>',
+                'title'         => 'ЧПУ',
+                'title_create'  => 'ЧПУ',
             ],
         ];
 

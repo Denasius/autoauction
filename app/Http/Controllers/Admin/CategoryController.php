@@ -86,6 +86,11 @@ class CategoryController extends Controller
         $data['categories'] = Category::all();
         $data['category_info'] = Category::find($id);
 
+        $data['aliase'] = Aliase::where([
+            ['type_id', '=', $id],
+            ['type', '=', 'category'],
+        ])->first();
+
         return view('admin.categories.edit', $data);
     }
 

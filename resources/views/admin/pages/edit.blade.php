@@ -138,6 +138,16 @@
                                 </div>
                             </div>
 
+                            @if(isset($aliase->slug))
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">ЧПУ</label>
+                                    <div class="col-sm-10" style="display:flex;">
+                                        <input type="text" class="form-control" value="{{$aliase->slug}}" disabled>
+                                        <a class="btn btn-primary" href="{{route('aliases.edit', $aliase->id)}}"><i class="fas fa-edit"></i></a>
+                                    </div>
+                                </div>
+                            @endif
+
                             <div class="form-group col-sm-12">
                                 <div class="btn-create text-right">
                                     <button type="submit" class="btn btn-add" title="Обновить">Обновить</button>

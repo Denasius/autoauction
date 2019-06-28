@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Aliase;
 use App\Attribute;
 use App\AttributeCategory;
 use App\Bet;
@@ -161,6 +162,10 @@ class LotsController extends Controller
         //Получаем ставки
         $data['bets'] = Bet::get_by_lot($id);
 
+        $data['aliase'] = Aliase::where([
+            ['type_id', '=', $id],
+            ['type', '=', 'lot'],
+        ])->first();
 
         return view('admin.lots.edit', $data);
     }

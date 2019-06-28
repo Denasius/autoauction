@@ -133,6 +133,15 @@
                                             {{Form::text('meta_description', $lot->meta_description, ['class'=>'form-control', 'placeholder' => 'Meta descr'])}}
                                         </div>
                                     </div>
+                                    @if(isset($aliase->slug))
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">ЧПУ</label>
+                                            <div class="col-sm-10" style="display:flex;">
+                                                <input type="text" class="form-control" value="{{$aliase->slug}}" disabled>
+                                                <a class="btn btn-primary" href="{{route('aliases.edit', $aliase->id)}}"><i class="fas fa-edit"></i></a>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
 
                                 {{-- Изображения --}}

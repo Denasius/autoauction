@@ -41,9 +41,13 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 
     //Подписки
     Route::resource('/subscribtions', 'SubscribeController');
+    Route::get('/subscribtions/{id}/active_subscribe', 'SubscribeController@active_subscribe')->name('subscribtions.active_subscribe');
 
     //Настройки
     Route::resource('/settings', 'SettingController');
+
+    //ЧПУ урлы
+    Route::resource('/aliases', 'AliasController');
 
     //Профиль
 	Route::get('/profile', 'ProfileController@index');

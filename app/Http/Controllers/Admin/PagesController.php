@@ -75,6 +75,10 @@ class PagesController extends Controller
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
         $data['page'] = Pages::find($id);
+        $data['aliase'] = Aliase::where([
+            ['type_id', '=', $id],
+            ['type', '=', 'page'],
+        ])->first();
         $data['categories'] = Category::pluck('title', 'id')->all();
         return view('admin.pages.edit', $data);
     }
@@ -111,7 +115,6 @@ class PagesController extends Controller
      */
     public function destroy($id)
     {
-        $page = Pages::find($id);
         Aliase::remove(Pages::TYPE, $id);
         PageComment::where('page_id', $id)->delete();
         Pages::find($id)->remove();
