@@ -32989,6 +32989,11 @@ nav.main-navigation ul li ul.sub-menu{
 .alert-success-ansewr{
 	position: absolute;
 }
+
+.webernetic{
+	color: #fff;
+	text-decoration: underline;
+}
 .information{
   padding: 10px 5px;
   & > span{

@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class Category extends Model
 {
-    use Sluggable;
 
     protected $table = 'categories';
     protected $type = 'category';
@@ -58,15 +57,6 @@ class Category extends Model
             $parent = $item->title;
         }
         return $parent;
-    }
-
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
     }
 
 }

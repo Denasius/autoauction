@@ -4,6 +4,7 @@
 <![endif]-->
 <html lang="en-US">
 <head>
+	<base href="/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
@@ -164,7 +165,7 @@
 									<h2>Подписаться на новости</h2>
 										<form method="POST" id="subscribe" class="blog-search" action="{{ route('subscribe') }}">
 											@csrf
-										<input type="text" class="blog-search-field" name="email" placeholder="E-mail Address" value="">
+										<input type="text" class="blog-search-field" name="email" placeholder="E-mail Address" value="	">
 										<div class="simple-button">
 											<button type="submit">Подписаться</button>
 										</div>
@@ -287,17 +288,7 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-md-6 col-sm-12">
-								<p>Copyrights 2015 <em>Auction</em>. Developed by Robert</p>
-							</div>
-							<div class="col-md-6 col-sm-12">
-								<ul>
-									<li><a href="#">Home</a></li>
-									<li><a href="#">About Us</a></li>
-									<li><a href="#">Services</a></li>
-									<li><a href="#">Shop</a></li>
-									<li><a href="#">Pages</a></li>
-									<li><a href="#">Contact</a></li>
-								</ul>
+								<p>Сайт разработан компанией <a class="webernetic" href="https://webernetic.by">Webernetic</a> - </em> Димой и Денисом &#128513;</p>
 							</div>
 						</div>
 					</div>
