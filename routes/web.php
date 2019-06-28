@@ -39,13 +39,17 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
     //Ставки
     Route::resource('/bets', 'BetsController');
 
+    //Подписки
+    Route::resource('/subscribtions', 'SubscribeController');
+
     //Настройки
     Route::resource('/settings', 'SettingController');
 
+    //Профиль
 	Route::get('/profile', 'ProfileController@index');
 	Route::post('/profile', 'ProfileController@update');
 
-
+	//Поиск
 	Route::post('/search', 'SearchController@get');
 
 });

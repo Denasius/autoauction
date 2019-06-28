@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Subscribtion extends Model
 {
@@ -10,9 +11,11 @@ class Subscribtion extends Model
     {
         $sub = new static;
         $sub->email = $email;
-        $sub->token = str_random(100);
+        $sub->token = Str::random(100);
         $sub->save();
 
         return $sub;
     }
+
+
 }

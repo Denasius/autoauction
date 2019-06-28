@@ -14,7 +14,6 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Admin\SearchController;
-use App\AttributeCategory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -131,6 +130,11 @@ class AppServiceProvider extends ServiceProvider
                 'title'         => 'Комментарии',
                 'title_create'  => 'комментарий',
             ],
+            'subscribtions'      => [
+                'icon'          => '<i class="fas fa-id-card"></i>',
+                'title'         => 'Подписчики',
+                'title_create'  => 'Подписчики',
+            ],
         ];
 
         $data = [];
@@ -152,6 +156,7 @@ class AppServiceProvider extends ServiceProvider
                 'title' => $info[$route]['title'],
             ];
         }
+
 
         return $data;
     }
