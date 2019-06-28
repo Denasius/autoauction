@@ -115,6 +115,13 @@
                     <span>Комментарии</span>
                 </a>
             </li>
+            <li class="{{request()->is('admin/subscribtions') ? 'active' : 'no-active'}}">
+                <a href="/admin/subscribtions" class="">
+                    <i class="fas fa-id-card"></i>
+                    <span>Подписчики</span>
+                </a>
+            </li>
+            <hr>
             <li class="{{request()->is('admin/settings') ? 'active' : 'no-active'}}">
                 <a href="/admin/settings" class="">
                     <i class="fas fa-cogs"></i>
