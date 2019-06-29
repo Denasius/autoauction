@@ -34,14 +34,14 @@ class Category extends Model
         $Category = new Category();
         $Category->fill($fields);
         $Category->save();
-        Aliase::add($Category->title, $this->type, $Category->id);
+        Aliase::add($Category->title, $this->type, $Category->id, $Category->template);
     }
 
     public function edit($fields){
         $Category = Category::find($fields['id']);
         $Category->fill($fields);
         $Category->save();
-        Aliase::add($Category->title, $this->type, $Category->id);
+        Aliase::add($Category->title, $this->type, $Category->id, $Category->template);
 
     }
 

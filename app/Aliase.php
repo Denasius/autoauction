@@ -11,9 +11,9 @@ class Aliase extends Model
 {
     use Sluggable;
 
-    protected $fillable = ['slug', 'type', 'type_id'];
+    protected $fillable = ['slug', 'type', 'type_id', 'template'];
 
-    public static function add($name, $type, $type_id) {
+    public static function add($name, $type, $type_id, $template = null) {
         //Проверяем, что такого ЧПУ для этой записи(страницы итд) нету
         $check = Aliase::where([
             ['type', '=', $type],
@@ -24,9 +24,11 @@ class Aliase extends Model
             $slug = SlugService::createSlug(Aliase::class, 'slug', $name, ['unique' => true]);
 
             $aliase = new Aliase();
+            //dd($aliase);
             $aliase->slug       = $slug;
             $aliase->type       = $type;
             $aliase->type_id    = $type_id;
+            $aliase->template    = $template;
             $aliase->save();
         }
     }

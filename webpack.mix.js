@@ -10,6 +10,7 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
+// Для админки
 mix.styles([
 	'resources/assets/admin/css/bootstrap.min.css',
 	'resources/assets/admin/css/bootstrap-theme.css',
@@ -18,6 +19,7 @@ mix.styles([
 	'resources/assets/admin/css/custom.css',
 ], 'public/css/admin.css');
 
+// Для страницы логина
 mix.styles([
 	'resources/assets/admin/css/bootstrap.min.css',
 	'resources/assets/admin/css/bootstrap-theme.css',
@@ -27,6 +29,7 @@ mix.styles([
 	'resources/assets/admin/css/style-responsive.css',
 ], 'public/css/login.css');
 
+// Для фронта
 mix.styles([
 	'resources/front/assets/css/simple-line-icons.css',
 	'resources/front/assets/css/font-awesome.min.css',
@@ -34,21 +37,26 @@ mix.styles([
 	'resources/front/assets/css/bootstrap.css',
 	'resources/front/assets/css/animate.css',
 	'resources/front/assets/css/jquery-ui.css',
+	'resources/front/assets/css/flexslider.css',
 	'resources/front/assets/css/auction.css',
 	'resources/front/assets/rs-plugin/css/settings.css',
 	'resources/front/assets/css/auction-custom.css',
 	'resources/front/assets/css/custom.scss',
 ], 'public/css/styles.css');
 
+// Наши стили для админки
 mix.sass('resources/assets/admin/style-custom.scss', 'public/css/custom-admin.css');
+// Наши стили для фронта
 mix.sass('resources/front/assets/css/custom.scss', 'public/css/custom-style.css');
 
+// Скрипты для админки
 mix.scripts([
 	'resources/assets/admin/js/bootstrap.min.js',
 	'resources/assets/admin/js/custom.js',
 	'resources/assets/admin/js/custom-dropzone.js',
 ], 'public/js/admin.js');
 
+// Скрипты для фронта
 mix.scripts([
 	'resources/front/assets/js/jquery-1.11.1.min.js',
 	'resources/front/assets/js/bootstrap.min.js',

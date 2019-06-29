@@ -37,7 +37,7 @@ class Lot extends Model
         $lot->save();
 
         //Добавляем ЧПУ
-        Aliase::add($lot->title, Lot::TYPE, $lot->id);
+        Aliase::add($lot->title, Lot::TYPE, $lot->id, $lot->template);
 
 
         //Добавляем атрибуты
@@ -98,7 +98,7 @@ class Lot extends Model
         $lot->save();
 
         //Добавляем ЧПУ
-        Aliase::add($lot->title, Lot::TYPE, $lot->id);
+        Aliase::add($lot->title, Lot::TYPE, $lot->id, $lot->template);
 
 
         //Добавляем атрибуты

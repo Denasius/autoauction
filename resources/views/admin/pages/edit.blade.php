@@ -79,6 +79,10 @@
                                                 @case('buyer')
                                                     Покупателям
                                                     @break 
+
+                                                @case('service')
+                                                    Услуги
+                                                    @break 
                                             
                                                 @default
                                                     По умолчанию
@@ -102,6 +106,10 @@
 
                                          @if ( $page->template != 'buyer' ) 
                                             <option value="buyer">Покупателям</option>
+                                        @endif
+                                        
+                                        @if ( $page->template != 'service' ) 
+                                            <option value="service">Услуги</option>
                                         @endif
                                     </select>
                                 </div>

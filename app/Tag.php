@@ -3,12 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\Sluggable;
 
 class Tag extends Model
 {
-    use Sluggable;
-
 
     protected $fillable = ['title'];
     protected $type = 'tag';
@@ -26,15 +23,5 @@ class Tag extends Model
         $tag->fill($fields);
         $tag->save();
         Aliase::add($tag->title, $this->type, $tag->id);
-    }
-
-
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
     }
 }

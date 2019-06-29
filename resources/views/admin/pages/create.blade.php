@@ -57,6 +57,7 @@
                                         <option value="about">О нас</option>
                                         <option value="seller">Продавцам</option>
                                         <option value="buyer">Покупателям</option>
+                                        <option value="service">Услуги</option>
                                        
                                     </select>
                                 </div>

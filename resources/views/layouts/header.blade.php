@@ -11,7 +11,40 @@
 			<nav class="main-navigation text-left hidden-xs hidden-sm">
 			
 				<ul>
-					@include('layouts.top_menu', ['categories'=>$categories])
+					{{-- @include('layouts.top_menu', ['categories'=>$categories]) --}}
+					<li><a href="{{ url('aukciony') }}">Аукционы</a></li>
+					<li><a href="{{ url('pokupatelyam') }}">Покупателям</a></li>
+					<li><a href="javascript:void(0)" class="has-submenu">Продавцам</a>
+						<ul class="sub-menu">
+							<li><a href="{{ url('yur-licam') }}">Юр лицам</a></li>
+							<li><a href="{{ url('fiz-licam') }}">Физ лицам</a></li>
+							<li><a href="javascript:void(0)">Дилерам</a></li>
+						</ul>
+					</li>
+					<li><a href="{{ url('prodano') }}">Продано</a></li>
+					<li><a href="javascript:void(0)" class="has-submenu">Услуги</a>
+						<ul class="sub-menu">
+							<li><a href="{{ url('proverka-avto-po-vin') }}">Проверка авто по VIN</a></li>
+							<li><a href="{{ url('pomosch') }}">Помощь</a></li>
+							<li><a href="javascript:void(0)">Trade In</a></li>
+							<li><a href="javascript:void(0)">Расстаможка</a></li>
+							<li><a href="javascript:void(0)">Диагностика</a></li>
+							<li><a href="javascript:void(0)">Оценка стоимости</a></li>
+						</ul>
+					</li>
+					<li><a href="" class="has-submenu">Общее</a>
+						<ul class="sub-menu">
+							<li><a href="{{ url('novosti') }}">Новости</a></li>
+							<li><a href="{{ url('o-nas') }}">О нас</a></li>
+							<li><a href="{{ url('kontakty') }}">Контакты</a></li>
+							<li><a href="javascript:void(0)">Партнеры</a></li>
+							<li><a href="javascript:void(0)">Об оплате</a></li>
+							<li><a href="javascript:void(0)">Пользовательское соглашение</a></li>
+							<li><a href="javascript:void(0)">Правила регистрации</a></li>
+							<li><a href="javascript:void(0)">О торгах</a></li>
+							<li><a href="javascript:void(0)">FAQ</a></li>
+						</ul>
+					</li>
 					<li>
 						<p><a href="#" id="example-show" class="showLink" onclick="showHide('example');return false;"><i class="fa fa-search"></i></a></p>
 						<div id="example" class="more">

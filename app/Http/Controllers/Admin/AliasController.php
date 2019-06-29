@@ -52,6 +52,7 @@ class AliasController extends Controller
                 'type'  => $type,
                 'href'  => $href,
                 'title' => $item->title,
+                'template' => $item->template
             ];
         }
 

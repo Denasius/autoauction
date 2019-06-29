@@ -1,5 +1,11 @@
 @extends('layout')
 
+@section('seo')
+  <title>Главная страница</title>
+  <meta name="description" content="Главная страница">
+@endsection
+
+
 @section('content')
 <div class="slider">
   <div class="fullwidthbanner-container">

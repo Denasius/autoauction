@@ -1,5 +1,10 @@
 @extends('layout')
 
+@section('seo')
+  <title>Хер пойми что это за шаблон</title>
+  <meta name="description" content="Категории">
+@endsection
+
 @section('content')
 
 <header class="site-header">
