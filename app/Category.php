@@ -41,7 +41,8 @@ class Category extends Model
         $Category = Category::find($fields['id']);
         $Category->fill($fields);
         $Category->save();
-        Aliase::add($Category->title, $this->type, $Category->id, $Category->template);
+        // конструкция Aliase::add не работает при обновлении данных, так как при Aliase::add мы создаем новый объект модели Aliase, а нам нужно отредактировать уже существующий (для Pages и Category моделей)
+        Aliase::editAliase($Category->title, $this->type, $Category->id, $Category->template);
 
     }
 

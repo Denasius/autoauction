@@ -81,9 +81,8 @@ class Pages extends Model
     public function edit($fields)
     {
         $this->fill($fields);
-        //dd($this->template);
         $this->save();
-        Aliase::add($this->title, $this->type, $this->id, $this->template);
+        Aliase::editAliase($this->title, $this->type, $this->id, $this->template);
     }
 
     public function remove()
