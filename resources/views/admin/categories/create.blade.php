@@ -26,6 +26,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Тип шаблона</label>
                                 <div class="col-sm-10">
+                                     {{-- Значение value лучше не изменять, та как эти значения уже используются при выборке --}}
                                     <select name="template" class="form-control">
                                         <option value="default" selected>По умолчанию</option>
                                         <option value="auctions">Аукционы</option>

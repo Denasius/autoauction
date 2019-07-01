@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Jenssegers\Date\Date;
 
 class Pages extends Model
 {
@@ -93,5 +94,10 @@ class Pages extends Model
 
     public static function get_by_title($title) {
         return Pages::where('title', 'like', '%'.$title.'%')->get();
+    }
+
+    public function getFormatDate($value) {
+        Date::setLocale('ru_RU');
+        return Date::parse($value)->format('d M, Y');
     }
 }

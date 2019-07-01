@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\Attribute;
 use App\Category;
 use App\Setting;
+use App\Pages;
 use App\AttributeType;
 use DebugBar\DebugBar;
 use Illuminate\Support\ServiceProvider;
@@ -51,6 +52,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('socials', Setting::where('version', '=', 'socials')->get());
             $view->with('phones', Setting::where('version', '=', 'phones')->get());
             $view->with('categories', Category::where('parent_category', 0)->get());
+            $view->with('latestNews', Pages::where('template', 'news')->take(2)->get()->sortBy('created_at'));
         });
     }
 

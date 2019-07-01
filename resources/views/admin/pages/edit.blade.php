@@ -62,6 +62,7 @@
                                 <label class="col-sm-2 control-label">Тип шаблона</label>
                                 <div class="col-sm-10">
                                     <select name="template" class="form-control">
+                                        {{-- Значение value лучше не изменять, та как эти значения уже используются при выборке --}}
                                         <option value="{{ $page->template }}" selected>
                                             @switch($page->template)
                                                 @case('contacts')
@@ -82,6 +83,10 @@
 
                                                 @case('service')
                                                     Услуги
+                                                    @break 
+
+                                                @case('news')
+                                                    Новость
                                                     @break 
                                             
                                                 @default
@@ -110,6 +115,10 @@
                                         
                                         @if ( $page->template != 'service' ) 
                                             <option value="service">Услуги</option>
+                                        @endif
+
+                                        @if ( $page->template != 'news' ) 
+                                            <option value="news">Новость</option>
                                         @endif
                                     </select>
                                 </div>

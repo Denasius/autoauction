@@ -33301,6 +33301,15 @@ nav.main-navigation ul li ul.sub-menu{
 	color: #fff;
 	text-decoration: underline;
 }
+
+.latest-news-post{
+	max-width: 70px;
+}
+
+.latest-news-post img{
+	width: 100%;
+	object-fit: cover;
+}
 .information{
   padding: 10px 5px;
   & > span{

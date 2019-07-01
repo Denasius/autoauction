@@ -247,23 +247,19 @@
 							</div>
 							<div class="col-md-3">
 								<div class="latest-news">
-									<h4>Latest News</h4>
-									<div class="latest-item">
-										<img src="http://dummyimage.com/64x64/cccccc/fff.jpg" alt="">
-										<a href="single-blog.html"><h6>Hella Kogi Whatever</h6></a>
-										<ul>
-											<li>24 Sep,2015</li>
-											<li>2 comments</li>
-										</ul>
-									</div>
-									<div class="latest-item">
-										<img src="http://dummyimage.com/64x64/cccccc/fff.jpg" alt="">
-										<a href="single-blog.html"><h6>Retro Art Party</h6></a>
-										<ul>
-											<li>21 Sep,2015</li>
-											<li>2 comments</li>
-										</ul>
-									</div>
+									<h4>Последние новости</h4>
+									@foreach($latestNews as $item)
+										<div class="latest-item">
+											<div class="latest-news-post">
+												<img src="{{ $item->getImage() }}" alt="{{ $item->title }}">
+											</div>
+											
+											<a href="single-blog.html"><h6>{{ $item->title }}</h6></a>
+											<ul>
+												<li>{{ $item->getFormatDate($item->created_at) }}</li>
+											</ul>
+										</div>
+									@endforeach
 								</div>
 							</div>
 							<div class="col-md-3">
