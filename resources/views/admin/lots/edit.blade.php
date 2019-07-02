@@ -73,6 +73,15 @@
                                             {{Form::text('car_model', $lot->car_model, ['class'=>'form-control', 'placeholder' => 'Модель', 'value'=>$lot->car_model ])}}
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Год выпуска</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="date" class="form-control" placeholder="Год выпуска" value="{{ $lot->date }}">
+                                        </div>
+                                    </div>
+
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">VIN</label>
                                         <div class="col-sm-10">

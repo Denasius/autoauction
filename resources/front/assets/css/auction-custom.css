@@ -186,7 +186,7 @@ nav.main-navigation ul li ul.sub-menu{
 	text-overflow: ellipsis;
 }
 
-.featured-listing #featured-cars .featured-item .down-content .car-info ul li{
+#featured-cars .featured-item .down-content .car-info ul li{
 	padding-right: 0;
 }
 
@@ -200,14 +200,35 @@ nav.main-navigation ul li ul.sub-menu{
 	max-width: 220px;
 }
 
-.featured-listing #featured-cars .featured-item .down-content{
+#featured-cars .featured-item .down-content{
 	min-height: 200px;
 	position: relative;
 }
 
-.featured-listing #featured-cars .featured-item .down-content .car-info{
+ #featured-cars .featured-item .down-content .car-info{
 	position: absolute;
 	bottom: 15px;
 	width: 100%;
 }
 
+.lot-image{
+	height: 196px;
+}
+
+.lot-image img{
+	max-height: 100%;
+	object-fit: cover;
+}
+
+.paginate{
+	text-align: center;	
+}
+
+.listing-grid .pagination{
+	width: auto;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+	background-color: #336699;
+	border-color: #336699;
+}

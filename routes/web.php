@@ -82,3 +82,6 @@ Route::get('/verify/{token}', 'SubscribeController@verify');
 
 // Роутинг для отслеживания страниц по URL
 Route::get('/{path}', 'AliasController@alias')->where('path', '.+')->name('aliases');
+
+//Фильтр на аукционах
+Route::post('/filter', 'AuctionController@filter')->name('filter');
