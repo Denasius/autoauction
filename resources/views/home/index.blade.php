@@ -179,10 +179,10 @@
               <a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
               <span>52,000</span>
               <div class="light-line"></div>
-              <p>{{ strip_tags($lot->getFormatString($lot->desr)) }}</p>
+              <p>{{ strip_tags($lot->getFormatString($lot->desr, 60)) }}</p>
               <div class="car-info">
                 <ul>
-                  <li><i class="icon-gaspump"></i>{{ $lot->car_options }}</li>
+                  <li><i class="icon-gaspump"></i>{{ $lot->fuel }}</li>
                   <li><i class="icon-car"></i>{{ $lot->car_model }}</li>
                   <li><i class="icon-road2"></i>{{ $lot->car_mileage }}</li>
                 </ul>
@@ -208,55 +208,41 @@
       </div>
     </div>
     <div class="row">
-      @foreach ($timeOutLots as $item)
-        @if ($loop->first)
-          <div class="col-md-6">
-            <div class="left-video">
-              <img src="{{ $item->image }}" alt="{{ $item->title }}">
-              <div class="video-content">
-                <div class="inner-content">
-                  <i class="fa fa-play"></i>
-                  <div class="tittle">
-                    <a href="single-blog.html"><h2>{{ $item->title }}</h2></a>
-                    <ul>
-                      <li>{{ $item->getFormatDate($item->created_at) }}</li>
-                    </ul>
+              <div class="col-md-6">
+                <div class="left-video">
+                  <img src="/img/time_out_cars.jpg" alt="Завершенные лоты">
+                  <div class="video-content">
+                    <div class="inner-content">
+                      {{-- <i class="fa fa-play"></i> --}}
+                      <div class="tittle">
+                        <a href="single-blog.html"><h2>Завершенные лоты</h2></a>
+                        <ul>
+                          <li>May 14, 2015</li>
+                          <li>Posted by <a href="#">Admin</a></li>
+                          <li>2 Comments</li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        @endif
-      @endforeach
-        <div class="col-md-6">
-          <div class="blog-item">
-            <div class="up-content">
-              <ul>
-                <li>May 14, 2015</li>
-                <li>Posted by <a href="#">Admin</a></li>
-              </ul>
-              <div class="tittle">
-                <a href="single-blog.html"><h2>Normcore pour-over taxidermy twee</h2></a>
+              <div class="col-md-6">
+                @foreach ($timeOutLots as $item)
+                  <div class="blog-item">
+                    <div class="up-content">
+                      <ul>
+                        <li>May 14, 2015</li>
+                      </ul>
+                      <div class="tittle">
+                        <a href="{{ $item->slug }}"><h2>{{ $item->title }}</h2></a>
+                      </div>
+                    </div>
+                    <p>{{ strip_tags($item->getFormatString($item->desr, 200)) }}</p>
+                    <a href="{{ $item->slug }}">Подробнее</a>
+                  </div>
+                @endforeach
               </div>
             </div>
-            <p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris iaculis blandit. Nulla facilisi. Quisque blandit magna nec</p>
-            <a href="single-blog.html">Read More</a>
-          </div>
-          <div class="blog-item">
-            <div class="up-content">
-              <ul>
-                <li>May 14, 2015</li>
-                <li>Posted by <a href="#">Admin</a></li>
-              </ul>
-              <div class="tittle">
-                <a href="single-blog.html"><h2>Retro art party vinyl meditation</h2></a>
-              </div>
-            </div>
-            <p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris iaculis blandit. Nulla facilisi. Quisque blandit magna nec</p>
-            <a href="single-blog.html">Read More</a>
-          </div>
-        </div>
-    </div>
   </div>
 </section>
 @endsection

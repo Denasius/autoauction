@@ -99,6 +99,14 @@
                                             <input type="text" name="car_mileage" class="form-control" placeholder="Пробег">
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Вид топлива</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="fuel" class="form-control" placeholder="Вид топлива">
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Опции</label>
                                         <div class="col-sm-10">

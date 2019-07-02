@@ -16,8 +16,7 @@ class HomeController extends Controller
         $all_lots = Lot::all()->sortByDesc('created_at');
         $data['randomLots'] = $all_lots->where('status',1)->take(3);
         $data['lots'] = $all_lots->where('status',1)->take(5);
-        $data['timeOutLots'] = $all_lots->where('status',0);
-        //dd($data['timeOutLots']);
+        $data['timeOutLots'] = $all_lots->where('status',0)->take(2);
 
         return view('home.index', $data);
     }

@@ -103,6 +103,15 @@
                                             {{Form::text('car_mileage', $lot->car_mileage, ['class'=>'form-control', 'placeholder' => 'Пробег', 'value'=>$lot->car_mileage])}}
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Вид топлива</label>
+                                        <div class="col-sm-10">
+                                            {{Form::text('fuel', $lot->fuel, ['class'=>'form-control', 'placeholder' => 'Вид топлива'])}}
+                                        </div>
+                                    </div>
+
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Опции</label>
                                         <div class="col-sm-10">

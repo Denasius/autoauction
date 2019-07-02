@@ -161,3 +161,8 @@ header .go_front a i {
 .section{
 	margin-bottom: 20px;
 }
+
+#sidebar{
+	overflow-y: scroll;
+	width: 200px;
+}

@@ -33352,6 +33352,24 @@ nav.main-navigation ul li ul.sub-menu{
 	max-height: 390px;
 	object-fit: cover;
 }
+
+.slider-thumb .thumb-item .down-content p{
+	white-space: normal;
+	max-width: 220px;
+}
+
+.featured-listing #featured-cars .featured-item .down-content{
+	min-height: 200px;
+	position: relative;
+}
+
+.featured-listing #featured-cars .featured-item .down-content .car-info{
+	position: absolute;
+	bottom: 15px;
+	width: 100%;
+}
+
+
 .information{
   padding: 10px 5px;
   & > span{

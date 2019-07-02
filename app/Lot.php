@@ -19,7 +19,12 @@ class Lot extends Model
     const TYPE = 'lot';
 
     protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id',
-        'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image'];
+        'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image', 'fuel'];
+
+    public function attributes()
+    {
+        return $this->belongsToMany(LotAttributes::class);
+    }
 
 
     public static function add($fields, $main_img) {
@@ -212,9 +217,9 @@ class Lot extends Model
         ];
     }
 
-    public function getFormatString($string)
+    public function getFormatString($string, $number = 40)
     {
-        return str_limit($string, 45, '...');
+        return str_limit($string, $number, '...');
     }
 
     public function getImage()
