@@ -165,7 +165,7 @@
 									<h2>Подписаться на новости</h2>
 										<form method="POST" id="subscribe" class="blog-search" action="{{ route('subscribe') }}">
 											@csrf
-										<input type="text" class="blog-search-field" name="email" placeholder="E-mail Address" value="	">
+										<input type="text" class="blog-search-field" name="email" placeholder="E-mail Address" value="{{ old('email') }}">
 										<div class="simple-button">
 											<button type="submit">Подписаться</button>
 										</div>
@@ -174,12 +174,11 @@
 							</div>
 							<div class="col-md-4 col-sm-12">
 								@isset ($socials)
-								    
 									<div class="right-content">
 										<ul>
 											@foreach ($socials as $social)
 												@if (! empty( $social->value ))
-													<li><a href="{{ $social->value }}"><i class="fa fa-{{ $social->descr }}"></i></a></li>
+													<li><a href="{{ $social->value }}">{!! $social->descr !!}</a></li>
 												@endif
 											@endforeach
 										</ul>

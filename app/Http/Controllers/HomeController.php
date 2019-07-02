@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Setting;
@@ -17,6 +18,8 @@ class HomeController extends Controller
         $data['randomLots'] = $all_lots->where('status',1)->take(3);
         $data['lots'] = $all_lots->where('status',1)->take(5);
         $data['timeOutLots'] = $all_lots->where('status',0)->take(2);
+
+        $data['sliders'] = Slider::all();
 
         return view('home.index', $data);
     }

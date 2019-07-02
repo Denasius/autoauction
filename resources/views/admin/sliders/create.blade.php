@@ -74,7 +74,7 @@
     <!--main content end-->
     <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
     <script type="text/javascript">
-        CKEDITOR.replace('ckeditor');
-        CKEDITOR.replace('ckeditor1');
+        // CKEDITOR.replace('ckeditor');
+        // CKEDITOR.replace('ckeditor1');
     </script>
 @endsection
