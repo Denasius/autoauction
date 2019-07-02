@@ -49,6 +49,9 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
     //ЧПУ урлы
     Route::resource('/aliases', 'AliasController');
 
+    //Слайдер
+    Route::resource('/sliders', 'SlidersController');
+
     //Профиль
 	Route::get('/profile', 'ProfileController@index');
 	Route::post('/profile', 'ProfileController@update');

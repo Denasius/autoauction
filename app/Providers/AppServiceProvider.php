@@ -142,6 +142,11 @@ class AppServiceProvider extends ServiceProvider
                 'title'         => 'ЧПУ',
                 'title_create'  => 'ЧПУ',
             ],
+            'sliders'      => [
+                'icon'          => '<i class="fas fa-cubes"></i>',
+                'title'         => 'Слайдер',
+                'title_create'  => 'Слайдер',
+            ],
         ];
 
         $data = [];
