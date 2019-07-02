@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Str;
+use Jenssegers\Date\Date;
 
 class Lot extends Model
 {
@@ -209,5 +210,23 @@ class Lot extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+    public function getFormatString($string)
+    {
+        return str_limit($string, 45, '...');
+    }
+
+    public function getImage()
+    {
+        if ( $this->image == null )
+            return '/img/no-image.png';
+
+        return '/uploads/' . $this->image;
+    }
+
+    public function getFormatDate($value) {
+        Date::setLocale('ru_RU');
+        return Date::parse($value)->format('d M, Y');
     }
 }

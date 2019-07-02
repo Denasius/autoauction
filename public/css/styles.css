@@ -33306,8 +33306,50 @@ nav.main-navigation ul li ul.sub-menu{
 	max-width: 70px;
 }
 
+.slide-image{
+	width: 64px !important;
+	height: 64px !important;
+}
+
 .latest-news-post img{
 	width: 100%;
+	object-fit: cover;
+}
+
+.slide-image img{
+	object-fit: cover;
+}
+
+.advanced-button{
+	width: auto;
+}
+
+.advanced-button i{
+	margin-left: 10px;
+}
+
+.featured-listing #featured-cars .featured-item img{
+	height: 210px;
+	object-fit: cover;
+}
+
+
+.featured-listing #featured-cars .featured-item .down-content .car-info ul{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.featured-listing #featured-cars .featured-item .down-content .car-info ul li{
+	padding-right: 0;
+}
+
+.blog-news .left-video img{
+	max-height: 390px;
 	object-fit: cover;
 }
 .information{

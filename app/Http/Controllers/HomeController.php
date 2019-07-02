@@ -13,7 +13,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $data['attr'] = Setting::where('tab', 1)->get();
+        $all_lots = Lot::all()->sortByDesc('created_at');
+        $data['randomLots'] = $all_lots->where('status',1)->take(3);
+        $data['lots'] = $all_lots->where('status',1)->take(5);
+        $data['timeOutLots'] = $all_lots->where('status',0);
+        //dd($data['timeOutLots']);
+
         return view('home.index', $data);
     }
 

@@ -47,7 +47,7 @@
                                     <div class="form-group images">
                                         <label class="col-sm-2 control-label">Изображение</label>
                                         <div class="col-sm-10">
-                                            <img src="/{{$lot->image}}" alt="">
+                                            <img src="{{$lot->getImage()}}" alt="">
                                             <label>
                                                 <input type="file" name="image" class="preview_img hide">
                                                 <i class="fas fa-upload"></i>
@@ -64,19 +64,19 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Описание</label>
                                         <div class="col-sm-10">
-                                            {{Form::textarea('desr', $lot->desr, ['id'=> 'ckeditor', 'class'=>'form-control', 'placeholder' => 'Описание'])}}
+                                            {{Form::textarea('desr', $lot->desr, ['id'=> 'ckeditor', 'class'=>'form-control', 'placeholder' => 'Описание', 'value'=>$lot->desr])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Модель</label>
                                         <div class="col-sm-10">
-                                            {{Form::text('car_model', $lot->car_model, ['class'=>'form-control', 'placeholder' => 'Модель'])}}
+                                            {{Form::text('car_model', $lot->car_model, ['class'=>'form-control', 'placeholder' => 'Модель', 'value'=>$lot->car_model ])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">VIN</label>
                                         <div class="col-sm-10">
-                                            {{Form::text('vin', $lot->vin, ['class'=>'form-control', 'placeholder' => 'VIN'])}}
+                                            {{Form::text('vin', $lot->vin, ['class'=>'form-control', 'placeholder' => 'VIN', 'value'=>$lot->vin])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -94,43 +94,43 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Адрес</label>
                                         <div class="col-sm-10">
-                                            {{Form::text('address', $lot->address, ['class'=>'form-control', 'placeholder' => 'Адрес'])}}
+                                            {{Form::text('address', $lot->address, ['class'=>'form-control', 'placeholder' => 'Адрес', 'value'=>$lot->address])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Пробег</label>
                                         <div class="col-sm-10">
-                                            {{Form::text('car_mileage', $lot->car_mileage, ['class'=>'form-control', 'placeholder' => 'Пробег'])}}
+                                            {{Form::text('car_mileage', $lot->car_mileage, ['class'=>'form-control', 'placeholder' => 'Пробег', 'value'=>$lot->car_mileage])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Опции</label>
                                         <div class="col-sm-10">
-                                            {{Form::text('car_options', $lot->car_options, ['class'=>'form-control', 'placeholder' => 'Опции'])}}
+                                            {{Form::text('car_options', $lot->car_options, ['class'=>'form-control', 'placeholder' => 'Опции', 'value'=>$lot->car_options])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Статус</label>
                                         <div class="col-sm-10">
-                                            {{Form::number('status', $lot->status, ['class'=>'form-control', 'placeholder' => 'Статус'])}}
+                                            {{Form::number('status', $lot->status, ['class'=>'form-control', 'placeholder' => 'Статус', 'value' => $lot->status])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Просмотры</label>
                                         <div class="col-sm-10">
-                                            {{Form::number('views', $lot->views, ['class'=>'form-control', 'placeholder' => 'Просмотры'])}}
+                                            {{Form::number('views', $lot->views, ['class'=>'form-control', 'placeholder' => 'Просмотры', 'value'=>$lot->views])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Meta title</label>
                                         <div class="col-sm-10">
-                                            {{Form::text('meta_title', $lot->meta_title, ['class'=>'form-control', 'placeholder' => 'Meta title'])}}
+                                            {{Form::text('meta_title', $lot->meta_title, ['class'=>'form-control', 'placeholder' => 'Meta title', 'value'=>$lot->meta_title])}}
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Meta descr</label>
                                         <div class="col-sm-10">
-                                            {{Form::text('meta_description', $lot->meta_description, ['class'=>'form-control', 'placeholder' => 'Meta descr'])}}
+                                            {{Form::text('meta_description', $lot->meta_description, ['class'=>'form-control', 'placeholder' => 'Meta descr', 'value'=>$lot->meta_description])}}
                                         </div>
                                     </div>
                                     @if(isset($aliase->slug))

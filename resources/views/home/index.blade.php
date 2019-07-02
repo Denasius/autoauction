@@ -17,45 +17,21 @@
           <div class="tp-caption second-line lfb tp-resizeme start" data-x="center" data-hoffset="0" data-y="210" data-speed="1000" data-start="800" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">Best site for vehicle</div>
           <div class="tp-caption third-line lfb tp-resizeme start" data-x="center" data-hoffset="0" data-y="280" data-speed="1000" data-start="800" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">We belong to and <em>help members</em> of several car clubs</div>
           <div class="tp-caption slider-thumb sfb tp-resizeme start container hidden-xs hidden-sm" data-x="center" data-hoffset="0" data-y="460" data-speed="1000" data-start="2200" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">
+            @foreach ($randomLots as $item)
             <div class="col-md-4">
-              <a href="single-list.html"><div class="thumb-item">
+              <a href="{{ $item->slug }}"><div class="thumb-item">
                 <div class="top-content">
                   <span>$55,000</span>
                   <div class="span-bg"></div>
-                  <h2>2015 bmw 328i touring</h2>
+                  <h2>{{ $item->title }}</h2>
                 </div>
                 <div class="down-content">
-                  <p>Sed te idque graecis. Vel ne libris erer<br> dolores, mel graece mel viveo</p>
-                  <img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">	
+                  <p>{{ strip_tags($item->getFormatString($item->desr)) }}</p>
+                  <img class="slide-image" src="{{ $item->image }}" alt="{{ $item->title }}"> 
                 </div>
               </div></a>
             </div>
-            <div class="col-md-4">
-              <a href="single-list.html"><div class="thumb-item">
-                <div class="top-content">
-                  <span>$30,000</span>
-                  <div class="span-bg"></div>
-                  <h2>vencer sarthe 2015 </h2>
-                </div>
-                <div class="down-content">
-                  <p>Sed te idque graecis. Vel ne libris erer<br> dolores, mel graece mel viveo</p>
-                  <img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">	
-                </div>
-              </div></a>
-            </div>
-            <div class="col-md-4">
-              <a href="single-list.html"><div class="thumb-item">
-                <div class="top-content">
-                  <span>$45,000</span>
-                  <div class="span-bg"></div>
-                  <h2>CLS63 AMG S-Model 4MATIc</h2>
-                </div>
-                <div class="down-content">
-                  <p>Sed te idque graecis. Vel ne libris erer<br> dolores, mel graece mel viveo</p>
-                  <img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">	
-                </div>
-              </div></a>
-            </div>
+            @endforeach
           </div>
         </li>
         <li class="first-slide" data-transition="fade" data-slotamount="10" data-masterspeed="300">
@@ -64,45 +40,21 @@
           <div class="tp-caption second-line lfb tp-resizeme start" data-x="center" data-hoffset="0" data-y="210" data-speed="1000" data-start="800" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">Find your dream car</div>
           <div class="tp-caption third-line lfb tp-resizeme start" data-x="center" data-hoffset="0" data-y="280" data-speed="1000" data-start="800" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">Visit <em>car listing</em> page, to see all cars</div>
           <div class="tp-caption slider-thumb sfb tp-resizeme start container hidden-xs hidden-sm" data-x="center" data-hoffset="0" data-y="460" data-speed="1000" data-start="2200" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">
-            <div class="col-md-4">
-              <a href="single-list.html"><div class="thumb-item">
+            @foreach ($randomLots as $item)
+              <div class="col-md-4">
+              <a href="{{ $item->slug }}"><div class="thumb-item">
                 <div class="top-content">
                   <span>$55,000</span>
                   <div class="span-bg"></div>
-                  <h2>2015 bmw 328i touring</h2>
+                  <h2>{{ $item->title }}</h2>
                 </div>
                 <div class="down-content">
-                  <p>Sed te idque graecis. Vel ne libris erer<br> dolores, mel graece mel viveo</p>
-                  <img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">	
+                  <p>{{ strip_tags($item->getFormatString($item->desr)) }}</p>
+                  <img class="slide-image" src="{{ $item->image }}" alt="{{ $item->title }}"> 
                 </div>
               </div></a>
             </div>
-            <div class="col-md-4">
-              <a href="single-list.html"><div class="thumb-item">
-                <div class="top-content">
-                  <span>$30,000</span>
-                  <div class="span-bg"></div>
-                  <h2>vencer sarthe 2015 </h2>
-                </div>
-                <div class="down-content">
-                  <p>Sed te idque graecis. Vel ne libris erer<br> dolores, mel graece mel viveo</p>
-                  <img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">	
-                </div>
-              </div></a>
-            </div>
-            <div class="col-md-4">
-              <a href="single-list.html"><div class="thumb-item">
-                <div class="top-content">
-                  <span>$45,000</span>
-                  <div class="span-bg"></div>
-                  <h2>CLS63 AMG S-Model 4MATIc</h2>
-                </div>
-                <div class="down-content">
-                  <p>Sed te idque graecis. Vel ne libris erer<br> dolores, mel graece mel viveo</p>
-                  <img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">	
-                </div>
-              </div></a>
-            </div>
+            @endforeach
           </div>
         </li>
         <li class="first-slide" data-transition="fade" data-slotamount="10" data-masterspeed="300">
@@ -111,45 +63,21 @@
           <div class="tp-caption second-line lfb tp-resizeme start" data-x="center" data-hoffset="0" data-y="210" data-speed="1000" data-start="800" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">Put your car on sale</div>
           <div class="tp-caption third-line lfb tp-resizeme start" data-x="center" data-hoffset="0" data-y="280" data-speed="1000" data-start="800" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">Find used cars on <em>recent cars</em> page</div>
           <div class="tp-caption slider-thumb sfb tp-resizeme start container hidden-xs hidden-sm" data-x="center" data-hoffset="0" data-y="460" data-speed="1000" data-start="2200" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">
-            <div class="col-md-4">
-              <a href="single-list.html"><div class="thumb-item">
+            @foreach ($randomLots as $item)
+              <div class="col-md-4">
+              <a href="{{ $item->slug }}"><div class="thumb-item">
                 <div class="top-content">
                   <span>$55,000</span>
                   <div class="span-bg"></div>
-                  <h2>2015 bmw 328i touring</h2>
+                  <h2>{{ $item->title }}</h2>
                 </div>
                 <div class="down-content">
-                  <p>Sed te idque graecis. Vel ne libris erer<br> dolores, mel graece mel viveo</p>
-                  <img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">	
+                  <p>{{ strip_tags($item->getFormatString($item->desr)) }}</p>
+                  <img class="slide-image" src="{{ $item->image }}" alt="{{ $item->title }}"> 
                 </div>
               </div></a>
             </div>
-            <div class="col-md-4">
-              <a href="single-list.html"><div class="thumb-item">
-                <div class="top-content">
-                  <span>$30,000</span>
-                  <div class="span-bg"></div>
-                  <h2>vencer sarthe 2015 </h2>
-                </div>
-                <div class="down-content">
-                  <p>Sed te idque graecis. Vel ne libris erer<br> dolores, mel graece mel viveo</p>
-                  <img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">	
-                </div>
-              </div></a>
-            </div>
-            <div class="col-md-4">
-              <a href="single-list.html"><div class="thumb-item">
-                <div class="top-content">
-                  <span>$45,000</span>
-                  <div class="span-bg"></div>
-                  <h2>CLS63 AMG S-Model 4MATIc</h2>
-                </div>
-                <div class="down-content">
-                  <p>Sed te idque graecis. Vel ne libris erer<br> dolores, mel graece mel viveo</p>
-                  <img src="http://dummyimage.com/60x60/cccccc/fff.jpg" alt="">	
-                </div>
-              </div></a>
-            </div>
+            @endforeach
           </div>
         </li>
       </ul>
@@ -163,7 +91,7 @@
       <div class="col-md-12">
         <p>Owners of salvage-title <em>vehicles</em> will encounter some unique issues.</p>
         <div class="advanced-button">
-          <a href="listing-right.html">See all cars<i class="fa fa-car"></i></a>
+          <a href="{{ url('aukciony') }}">Посмотреть все аукционы<i class="fa fa-car"></i></a>
         </div>
       </div>
     </div>
@@ -244,86 +172,24 @@
     </div>
     <div class="row">
       <div id="featured-cars">
-        <div class="featured-item col-md-15 col-sm-6">
-          <img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-          <div class="down-content">
-            <a href="single-list.html"><h2>Mercedes Amg 6.3</h2></a>
-            <span>52,000</span>
-            <div class="light-line"></div>
-            <p>Donec eu nullas sapien pretium volutpat vel quis turpis. Donec vel risus lacinia euismod urna vel fringilla justo.</p>
-            <div class="car-info">
-              <ul>
-                <li><i class="icon-gaspump"></i>Diesel</li>
-                <li><i class="icon-car"></i>Sport</li>
-                <li><i class="icon-road2"></i>12,000</li>
-              </ul>
+        @foreach($lots as $lot)
+          <div class="featured-item col-md-15 col-sm-6">
+            <img src="{{ $lot->image }}" alt="{{ $lot->title }}">
+            <div class="down-content">
+              <a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
+              <span>52,000</span>
+              <div class="light-line"></div>
+              <p>{{ strip_tags($lot->getFormatString($lot->desr)) }}</p>
+              <div class="car-info">
+                <ul>
+                  <li><i class="icon-gaspump"></i>{{ $lot->car_options }}</li>
+                  <li><i class="icon-car"></i>{{ $lot->car_model }}</li>
+                  <li><i class="icon-road2"></i>{{ $lot->car_mileage }}</li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="featured-item col-md-15 col-sm-6">
-          <img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-          <div class="down-content">
-            <a href="single-list.html"><h2>vw golf VII GTI</h2></a>
-            <span>30,000</span>
-            <div class="light-line"></div>
-            <p>Donec eu nullas sapien pretium volutpat vel quis turpis. Donec vel risus lacinia euismod urna vel fringilla justo.</p>
-            <div class="car-info">
-              <ul>
-                <li><i class="icon-gaspump"></i>Diesel</li>
-                <li><i class="icon-car"></i>Sport</li>
-                <li><i class="icon-road2"></i>12,000</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="featured-item col-md-15 col-sm-6">
-          <img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-          <div class="down-content">
-            <a href="single-list.html"><h2>mercedes amg gt</h2></a>
-            <span>65,000</span>
-            <div class="light-line"></div>
-            <p>Donec eu nullas sapien pretium volutpat vel quis turpis. Donec vel risus lacinia euismod urna vel fringilla justo.</p>
-            <div class="car-info">
-              <ul>
-                <li><i class="icon-gaspump"></i>Diesel</li>
-                <li><i class="icon-car"></i>Sport</li>
-                <li><i class="icon-road2"></i>12,000</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="featured-item col-md-15 col-sm-6">
-          <img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-          <div class="down-content">
-            <a href="single-list.html"><h2>bmw m4 430D</h2></a>
-            <span>64,000</span>
-            <div class="light-line"></div>
-            <p>Donec eu nullas sapien pretium volutpat vel quis turpis. Donec vel risus lacinia euismod urna vel fringilla justo.</p>
-            <div class="car-info">
-              <ul>
-                <li><i class="icon-gaspump"></i>Diesel</li>
-                <li><i class="icon-car"></i>Sport</li>
-                <li><i class="icon-road2"></i>12,000</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="featured-item col-md-15 hidden-sm">
-          <img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-          <div class="down-content">
-            <a href="single-list.html"><h2>audi a6 s-line</h2></a>
-            <span>48,000</span>
-            <div class="light-line"></div>
-            <p>Donec eu nullas sapien pretium volutpat vel quis turpis. Donec vel risus lacinia euismod urna vel fringilla justo.</p>
-            <div class="car-info">
-              <ul>
-                <li><i class="icon-gaspump"></i>Diesel</li>
-                <li><i class="icon-car"></i>Sport</li>
-                <li><i class="icon-road2"></i>12,000</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        @endforeach
       </div>
     </div>
   </div>
@@ -334,7 +200,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="heading-section-2 text-center">
-          <h2>Blog News</h2>
+          <h2>Прошедшие аукционы</h2>
           <span>Vivamus gravida magna massa in cursus mi vehicula at. Nunc sem quam suscipit</span>
           <div class="dec"><i class="fa fa-file"></i></div>
           <div class="line-dec"></div>
@@ -342,52 +208,54 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-6">
-        <div class="left-video">
-          <img src="http://dummyimage.com/570x390/cccccc/fff.jpg" alt="">
-          <div class="video-content">
-            <div class="inner-content">
-              <i class="fa fa-play"></i>
-              <div class="tittle">
-                <a href="single-blog.html"><h2>Hella kogi whatever, small batch pickled</h2></a>
-                <ul>
-                  <li>May 14, 2015</li>
-                  <li>Posted by <a href="#">Admin</a></li>
-                  <li>2 Comments</li>
-                </ul>
+      @foreach ($timeOutLots as $item)
+        @if ($loop->first)
+          <div class="col-md-6">
+            <div class="left-video">
+              <img src="{{ $item->image }}" alt="{{ $item->title }}">
+              <div class="video-content">
+                <div class="inner-content">
+                  <i class="fa fa-play"></i>
+                  <div class="tittle">
+                    <a href="single-blog.html"><h2>{{ $item->title }}</h2></a>
+                    <ul>
+                      <li>{{ $item->getFormatDate($item->created_at) }}</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="blog-item">
-          <div class="up-content">
-            <ul>
-              <li>May 14, 2015</li>
-              <li>Posted by <a href="#">Admin</a></li>
-            </ul>
-            <div class="tittle">
-              <a href="single-blog.html"><h2>Normcore pour-over taxidermy twee</h2></a>
+        @endif
+      @endforeach
+        <div class="col-md-6">
+          <div class="blog-item">
+            <div class="up-content">
+              <ul>
+                <li>May 14, 2015</li>
+                <li>Posted by <a href="#">Admin</a></li>
+              </ul>
+              <div class="tittle">
+                <a href="single-blog.html"><h2>Normcore pour-over taxidermy twee</h2></a>
+              </div>
             </div>
+            <p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris iaculis blandit. Nulla facilisi. Quisque blandit magna nec</p>
+            <a href="single-blog.html">Read More</a>
           </div>
-          <p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris iaculis blandit. Nulla facilisi. Quisque blandit magna nec</p>
-          <a href="single-blog.html">Read More</a>
-        </div>
-        <div class="blog-item">
-          <div class="up-content">
-            <ul>
-              <li>May 14, 2015</li>
-              <li>Posted by <a href="#">Admin</a></li>
-            </ul>
-            <div class="tittle">
-              <a href="single-blog.html"><h2>Retro art party vinyl meditation</h2></a>
+          <div class="blog-item">
+            <div class="up-content">
+              <ul>
+                <li>May 14, 2015</li>
+                <li>Posted by <a href="#">Admin</a></li>
+              </ul>
+              <div class="tittle">
+                <a href="single-blog.html"><h2>Retro art party vinyl meditation</h2></a>
+              </div>
             </div>
+            <p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris iaculis blandit. Nulla facilisi. Quisque blandit magna nec</p>
+            <a href="single-blog.html">Read More</a>
           </div>
-          <p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris iaculis blandit. Nulla facilisi. Quisque blandit magna nec</p>
-          <a href="single-blog.html">Read More</a>
         </div>
-      </div>
     </div>
   </div>
 </section>

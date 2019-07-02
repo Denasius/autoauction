@@ -50,7 +50,8 @@ class AliasController extends Controller
 
 			case 'category':
                 $controller = new CategoryController();
-				if ( $item->template == 'auctions' ) {
+                $template = Category::where('id', $item->type_id)->firstOrFail();
+				if ( $template->template == 'auctions' ) {
                     $controller = new AuctionController();
                 }
                 break;

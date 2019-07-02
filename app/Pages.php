@@ -31,7 +31,7 @@ class Pages extends Model
         $page->fill($fields);
         $page->save();
 
-        Aliase::add($page->title, self::TYPE, $page->id, $page->template);
+        Aliase::add($page->title, self::TYPE, $page->id);
 
         return $page;
     }
@@ -83,7 +83,7 @@ class Pages extends Model
     {
         $this->fill($fields);
         $this->save();
-        Aliase::editAliase($this->title, $this->type, $this->id, $this->template);
+        Aliase::add($this->title, $this->type, $this->id);
     }
 
     public function remove()
