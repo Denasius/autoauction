@@ -128,11 +128,19 @@
                 </a>
             </li>
             <hr>
-            <li class="{{request()->is('admin/settings') ? 'active' : 'no-active'}}">
+            <li class="{{request()->is('admin/settings') ? 'active' : 'no-active'}} sub-menu">
                 <a href="/admin/settings" class="">
                     <i class="fas fa-cogs"></i>
                     <span>Настройки</span>
                 </a>
+                <ul>
+                    <li>
+                        <a href="/admin/sliders" class="">
+                            <i class="fas fa-cubes"></i>
+                            <span>Слайдер</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
 
         </ul>

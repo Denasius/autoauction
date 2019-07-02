@@ -49,7 +49,7 @@
                                         <div class="col-sm-10">
                                             <img src="{{$lot->getImage()}}" alt="">
                                             <label>
-                                                <input type="file" name="image" class="preview_img hide">
+                                                <input type="file" name="image" class="preview_img hide" value="{{$lot->image}}">
                                                 <i class="fas fa-upload"></i>
                                             </label>
                                         </div>
