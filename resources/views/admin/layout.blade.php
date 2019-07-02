@@ -128,7 +128,7 @@
                 </a>
             </li>
             <hr>
-            <li class="{{request()->is('admin/settings') ? 'active' : 'no-active'}} sub-menu">
+            <li class="{{ request()->is('admin/settings') || request()->is('admin/sliders' ) ? 'active' : 'no-active'}} sub-menu">
                 <a href="/admin/settings" class="">
                     <i class="fas fa-cogs"></i>
                     <span>Настройки</span>
