@@ -87,6 +87,7 @@ class LotsController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'vin' => 'required',
+            'date' => 'required|numeric'
         ]);
 
         Lot::add($request->all(), $request->file('image'));

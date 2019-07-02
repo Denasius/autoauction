@@ -1,8 +1,8 @@
 @extends('layout')
 
 @section('seo')
-  <title>Аукцион разводящая</title>
-  <meta name="description" content="Аукцион разводящая">
+  <title>{{ $meta_title }}</title>
+  <meta name="description" content="{{ $meta_description }}">
 @endsection
 
 @section('content')
@@ -11,196 +11,78 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 text-center">
-				<h1>Listing Results</h1>
+				<h1>{{ $title }}</h1>
 				<div class="line"></div>
-				<span>Praesent volutpat nisi sed imperdiet facilisis felis turpis fermentum lectus</span>
+				<span>{{ $description }}</span>
 				<div class="page-active">
 					<ul>
-						<li><a href="index.html">Home</a></li>
+						<li><a href="/">Главная</a></li>
 						<li><i class="fa fa-dot-circle-o"></i></li>
-						<li><a href="listin-right.html">Listing Results</a></li>
+						<li><a href="javascript:void(0)">Аукционы</a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<h1>Шаблон аукционов разводящий</h1>
 <section class="listing-grid">
 	<div class="container">
 		<div class="row">
 			<div id="listing-cars" class="col-md-9">
 				<div class="pre-featured clearfix">
 					<div class="info-text">
-						<h4>24 results founded</h4>
+						<h4>{{ $lots->count() }} results founded</h4>
+
 					</div>
 					<div class="right-content">
-						<div class="input-select">
-                            <select name="mark" id="mark">
-                                <option value="-1">Sorted by</option>
-                                  <option>Price</option>
-                                  <option>Miles</option>
-                                  <option>Year</option>
-                                  <option>Near</option>
-                            </select>
-                        </div>
-                        <div class="grid-list">
+						<form class="form-filter" action="{{ route('filter') }}" method="POST">
+							@csrf							
+							<div class="input-select">
+	                            <select name="mark" id="mark" class="mark-top-filter">
+	                                <option value="-1">Сортировать по</option>
+	                                  <option value="price">Цена</option>
+	                                  <option value="car_mileage">Пробег</option>
+	                                  <option value="date">Год</option>
+	                            </select>
+	                        </div>
+						</form>
+                        {{-- <div class="grid-list">
                         	<ul>
                         		<li><a href="#"><i class="fa fa-list"></i></a></li>
                         		<li><a href="#"><i class="fa fa-square"></i></a></li>
                         	</ul>
-                        </div>
+                        </div> --}}
 					</div>
 				</div>
 				<div id="featured-cars">
 					<div class="row">
-						<div class="featured-item col-md-4">
-							<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-							<div class="down-content">
-								<a href="{{ url('novyy-bmw-dlya-pacekov') }}"><h2>Mercedes e class <br>amg 6.3</h2></a>
-								<span>52,000</span>
-								<div class="light-line"></div>
-								<p>Donec eu nullas sapien pretium volutpat vel quis turpis.</p>
-								<div class="car-info">
-									<ul>
-										<li><i class="icon-gaspump"></i>Diesel</li>
-										<li><i class="icon-car"></i>Sport</li>
-										<li><i class="icon-road2"></i>12,000</li>
-									</ul>
+						@foreach ($lots as $lot)
+							<div class="featured-item col-md-4">
+								<div class="lot-image">
+									<img src="{{ $lot->image }}" alt="{{ $lot->title }}">
 								</div>
-							</div>
-						</div>
-						<div class="featured-item col-md-4">
-							<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-							<div class="down-content">
-								<a href="{{ url('novyy-bmw-dlya-pacekov') }}"><h2>volkswagen <br>passat</h2></a>
-								<span>30,000</span>
-								<div class="light-line"></div>
-								<p>Donec eu nullas sapien pretium volutpat vel quis turpis.</p>
-								<div class="car-info">
-									<ul>
-										<li><i class="icon-gaspump"></i>Diesel</li>
-										<li><i class="icon-car"></i>Sport</li>
-										<li><i class="icon-road2"></i>12,000</li>
-									</ul>
+								<div class="down-content">
+									<a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
+									<span>52,000</span>
+									<div class="light-line"></div>
+									<p>{{ strip_tags( $lot->getFormatString($lot->desr, 60) ) }}</p>
+									<div class="car-info">
+										<ul>
+											<li><i class="icon-gaspump"></i>{{ $lot->fuel }}</li>
+											<li><i class="icon-car"></i>{{ $lot->car_model }}</li>
+											<li><i class="icon-road2"></i>12,000</li>
+										</ul>
+									</div>
 								</div>
-							</div>
-						</div>
-						<div class="featured-item col-md-4">
-							<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-							<div class="down-content">
-								<a href="{{ url('novyy-bmw-dlya-pacekov') }}"><h2>Mercedes <br>amg Gt s 6.3</h2></a>
-								<span>65,000</span>
-								<div class="light-line"></div>
-								<p>Donec eu nullas sapien pretium volutpat vel quis turpis.</p>
-								<div class="car-info">
-									<ul>
-										<li><i class="icon-gaspump"></i>Diesel</li>
-										<li><i class="icon-car"></i>Sport</li>
-										<li><i class="icon-road2"></i>12,000</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="featured-item col-md-4">
-							<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-							<div class="down-content">
-								<a href="{{ url('novyy-bmw-dlya-pacekov') }}"><h2>bmw m4 <br>convertible</h2></a>
-								<span>64,000</span>
-								<div class="light-line"></div>
-								<p>Donec eu nullas sapien pretium volutpat vel quis turpis.</p>
-								<div class="car-info">
-									<ul>
-										<li><i class="icon-gaspump"></i>Diesel</li>
-										<li><i class="icon-car"></i>Sport</li>
-										<li><i class="icon-road2"></i>12,000</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="featured-item col-md-4">
-							<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-							<div class="down-content">
-								<a href="{{ url('novyy-bmw-dlya-pacekov') }}"><h2>audi a6 tfsi <br>s-line</h2></a>
-								<span>48,000</span>
-								<div class="light-line"></div>
-								<p>Donec eu nullas sapien pretium volutpat vel quis turpis.</p>
-								<div class="car-info">
-									<ul>
-										<li><i class="icon-gaspump"></i>Diesel</li>
-										<li><i class="icon-car"></i>Sport</li>
-										<li><i class="icon-road2"></i>12,000</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="featured-item col-md-4">
-							<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-							<div class="down-content">
-								<a href="{{ url('novyy-bmw-dlya-pacekov') }}"><h2>bmw m3 e92 <br>blue</h2></a>
-								<span>61,000</span>
-								<div class="light-line"></div>
-								<p>Donec eu nullas sapien pretium volutpat vel quis turpis.</p>
-								<div class="car-info">
-									<ul>
-										<li><i class="icon-gaspump"></i>Diesel</li>
-										<li><i class="icon-car"></i>Sport</li>
-										<li><i class="icon-road2"></i>12,000</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="featured-item col-md-4">
-							<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-							<div class="down-content">
-								<a href="{{ url('novyy-bmw-dlya-pacekov') }}"><h2>vencer sarthe <br>super auto</h2></a>
-								<span>41,500</span>
-								<div class="light-line"></div>
-								<p>Donec eu nullas sapien pretium volutpat vel quis turpis.</p>
-								<div class="car-info">
-									<ul>
-										<li><i class="icon-gaspump"></i>Diesel</li>
-										<li><i class="icon-car"></i>Sport</li>
-										<li><i class="icon-road2"></i>12,000</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="featured-item col-md-4">
-							<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-							<div class="down-content">
-								<a href="{{ url('novyy-bmw-dlya-pacekov') }}"><h2>aston martin <br>v12 vantage</h2></a>
-								<span>78,000</span>
-								<div class="light-line"></div>
-								<p>Donec eu nullas sapien pretium volutpat vel quis turpis.</p>
-								<div class="car-info">
-									<ul>
-										<li><i class="icon-gaspump"></i>Diesel</li>
-										<li><i class="icon-car"></i>Sport</li>
-										<li><i class="icon-road2"></i>12,000</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="featured-item col-md-4">
-							<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-							<div class="down-content">
-								<a href="{{ url('novyy-bmw-dlya-pacekov') }}"><h2>Mclaren mp4 <br>- 12c</h2></a>
-								<span>82,000</span>
-								<div class="light-line"></div>
-								<p>Donec eu nullas sapien pretium volutpat vel quis turpis.</p>
-								<div class="car-info">
-									<ul>
-										<li><i class="icon-gaspump"></i>Diesel</li>
-										<li><i class="icon-car"></i>Sport</li>
-										<li><i class="icon-road2"></i>12,000</li>
-									</ul>
-								</div>
-							</div>
-						</div>
+							</div>						
+						@endforeach
 					</div>
 				</div>
-				<div class="pagination">
+
+				<div class="paginate">
+					{{$lots->render()}}
+				</div>
+				{{-- <div class="pagination">
 					<div class="prev">
 						<a href="#"><i class="fa fa-arrow-left"></i>Prev</a>
 					</div>
@@ -218,7 +100,7 @@
 					<div class="next">
 						<a href="#">Next<i class="fa fa-arrow-right"></i></a>
 					</div>
-				</div>
+				</div> --}}
 			</div>
 			<div id="sidebar" class="col-md-3">
 				<div class="sidebar-content">

@@ -15988,3 +15988,7 @@ li.active.sub-menu ul,
 li.sub-menu:hover ul{
    display: block;
 }
+
+.lot-image{
+	max-height: 196px;
+}

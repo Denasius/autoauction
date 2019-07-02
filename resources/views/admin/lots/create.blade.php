@@ -69,6 +69,14 @@
                                             <input type="text" name="car_model" class="form-control" placeholder="Модель">
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Год выпуска</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="date" class="form-control" placeholder="Год выпуска">
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">VIN</label>
                                         <div class="col-sm-10">
