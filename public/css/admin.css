@@ -15970,3 +15970,16 @@ header .go_front a i {
 .section{
 	margin-bottom: 20px;
 }
+#sidebar {
+	overflow-y: scroll;
+	width: 200px;
+}
+
+li.sub-menu ul {
+  padding: 0;
+  display: none;
+}
+li.active.sub-menu ul,
+li.sub-menu:hover ul{
+  display: block;
+}

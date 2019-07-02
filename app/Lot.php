@@ -90,12 +90,16 @@ class Lot extends Model
         //Главная картинка
         $parth = false;
         if ($main_img) {
-            $main_img_name = Lot::generate_image_name($main_img);
-            $parth = $main_img->storeAs('uploads', $main_img_name);
-        }
-        $lot->image = $parth;
+            if (strripos($main_img,'uploads/') === false) {
+                $main_img_name = Lot::generate_image_name($main_img);
+                $parth = $main_img->storeAs('uploads', $main_img_name);
+                $lot->image = $parth;
 
-        $lot->save();
+                $lot->save();
+            }
+
+        }
+
 
         //Добавляем ЧПУ
         Aliase::add($lot->title, Lot::TYPE, $lot->id);
