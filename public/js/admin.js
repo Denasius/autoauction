@@ -9,6 +9,16 @@ $(document).ready(function() {
 
 		$(this).next().toggle();
 	});
+
+	$('#car_from_europe').on('click', function () {
+		if ( $('#car_from_europe').is(':checked') ) {
+			$('.form-group-europe').fadeIn();
+		}else{
+			$('.form-group-europe').fadeOut();
+		}
+	});
+
+	
 });
 
 function readURL(input) {
