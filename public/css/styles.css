@@ -33390,6 +33390,41 @@ nav.main-navigation ul li ul.sub-menu{
 	background-color: #336699;
 	border-color: #336699;
 }
+
+.overlay-filter.active{
+	display: block;
+	visibility: visible;
+	position: fixed;
+	background-color: rgba(255,255,255,0.6);
+	width: 100%;
+	top: 0;
+	left: 0;
+	height: 100%;
+	z-index: 10000;
+}
+
+.overlay-filter{
+	display: none;
+	visibility: hidden;
+}
+
+.prelod-gif.active{
+	display: block;
+	visibility: visible;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	z-index: 100000;
+}
+
+.prelod-gif{
+	display: none;
+	visibility: hidden;
+}
 .information{
   padding: 10px 5px;
   & > span{

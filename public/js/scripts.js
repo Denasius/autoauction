@@ -4912,12 +4912,36 @@ jQuery(document).ready(function ($) {
 		});
 	});
 
-	// $('.mark-top-filter').on('change', function () {
-	// 	var _this = $(this).closest('form'),
-	// 		value = _this.val();
+	$('.mark-top-filter').on('change', function () {
+		var _this = $(this).closest('form'),
+			_token = _this.find('input[name="_token"]').val(),
+		 	_method = _this.attr('method'),
+		 	_url = _this.attr('action'),
+		 	value = _this.find('select').val();
+		
 
-	// 	$.ajax({
-
-	// 	});
-	// });
+		return $.ajax({
+			headers: {
+				'X-CSRF-TOKEN':_token
+			},
+			type: _method,
+			url: _url,
+			data: {values: value},
+			beforeSend:function () {
+				$('.overlay-filter').addClass('active');
+				$('.prelod-gif').addClass('active');
+			},
+			success:function (response) {
+				$('.overlay-filter').removeClass('active');
+				$('.prelod-gif').removeClass('active');
+				$('#featured-cars').find('.row').remove();
+				$('#featured-cars').html(response).fadeIn('slow');
+			},
+			error: function (request, errorStatus, errorThrown) {
+                console.log(request);
+                console.log(errorStatus);
+                console.log(errorThrown);
+            }
+		});
+	});
 });
