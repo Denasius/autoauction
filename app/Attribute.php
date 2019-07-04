@@ -29,7 +29,7 @@ class Attribute extends Model
         return DB::table('attributes')
             ->orderBy('attributes.category_id')
             ->join('attribute_categories', 'attributes.category_id', '=', 'attribute_categories.id')
-            ->select('attributes.*', 'attribute_categories.title as type_title')
+            ->select('attributes.*', 'attribute_categories.title as type_title', 'attribute_categories.type as type_type')
             ->where('attributes.category_id', $type)
             ->get();
     }

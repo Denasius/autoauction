@@ -79,24 +79,37 @@
                     <span>Категории</span>
                 </a>
             </li>
-            <li class="{{request()->is('admin/tags') ? 'active' : 'no-active'}}">
-                <a href="/admin/tags">
-                    <i class="fas fa-tags"></i>
-                    <span>Теги</span>
-                </a>
-            </li>
-            <li class="{{request()->is('admin/attributes') ? 'active' : 'no-active'}}">
-                <a href="/admin/attributes">
+
+            <li class="{{ request()->is('admin/tags') || request()->is('admin/attributes' ) || request()->is('admin/attribute-category' ) ? 'active' : 'no-active'}} sub-menu">
+                <a href="/admin/attributes" class="">
                     <i class="fas fa-tasks"></i>
-                    <span>Атрибуты</span>
+                    <span>Атрибуты/Теги</span>
                 </a>
+                <ul>
+                    <li class="{{request()->is('admin/tags') ? 'active' : 'no-active'}}">
+                        <a href="/admin/tags">
+                            <i class="fas fa-tags"></i>
+                            <span>Теги</span>
+                        </a>
+                    </li>
+                    <li class="{{request()->is('admin/attributes') ? 'active' : 'no-active'}}">
+                        <a href="/admin/attributes">
+                            <i class="fas fa-tasks"></i>
+                            <span>Атрибуты</span>
+                        </a>
+                    </li>
+                    <li class="{{request()->is('admin/attribute-category') ? 'active' : 'no-active'}}">
+                        <a href="/admin/attribute-category" class="">
+                            <i class="fas fa-tasks"></i>
+                            <span>Категории атрибутов</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li class="{{request()->is('admin/attribute-category') ? 'active' : 'no-active'}}">
-                <a href="/admin/attribute-category" class="">
-                    <i class="fas fa-tasks"></i>
-                    <span>Категории атрибутов</span>
-                </a>
-            </li>
+
+
+
+
             <li class="{{request()->is('admin/bets') ? 'active' : 'no-active'}}">
                 <a href="/admin/bets" class="">
                     <i class="fas fa-hand-holding-usd"></i>

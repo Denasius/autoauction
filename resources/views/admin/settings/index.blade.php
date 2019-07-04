@@ -34,9 +34,9 @@
                         </div>
                     </div>
                 </div>
-            @endif
+        @endif
 
-            <!-- page start-->
+        <!-- page start-->
             <div class="row">
                 <div class="col-lg-12">
 
@@ -73,13 +73,13 @@
                                         Адрес Магазина (или чего то там)
                                         <table class="table table-striped table-advance table-hover table-min-padding">
                                             <thead>
-                                                <tr>
-                                                    <th>slug</th>
-                                                    <th>Тип</th>
-                                                    <th>Название</th>
-                                                    <th width="40%">Значение</th>
-                                                    <th class="text-right">Действия</th>
-                                                </tr>
+                                            <tr>
+                                                <th>slug</th>
+                                                <th>Тип</th>
+                                                <th>Название</th>
+                                                <th width="40%">Значение</th>
+                                                <th class="text-right">Действия</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
                                             @isset($address)
@@ -88,7 +88,8 @@
                                                         <input name="tab[]" type="hidden" value="1">
                                                         <input type="hidden" name="version[]" value="address">
                                                         <th>
-                                                            <input class="form-control" name="name[]" type="text" required="" value="{{ $item->name }}">
+                                                            <input class="form-control" name="name[]" type="text" required=""
+                                                                   value="{{ $item->name }}">
                                                         </th>
                                                         <th>
                                                             <select name="type[]" class="form-control m-bot15">
@@ -102,7 +103,8 @@
                                                             <input class="form-control" name="descr[]" type="text" value="{{ $item->descr }}">
                                                         </th>
                                                         <th>
-                                                            <input class="form-control" name="value[]" type="text" value="{{ $item->value }}" required="">
+                                                            <input class="form-control" name="value[]" type="text" value="{{ $item->value }}"
+                                                                   required="">
                                                         </th>
                                                         <th class="text-right">
                                                             <button type="button" class="btn btn-danger btn_remove" style="border-radius: 4px">
@@ -112,105 +114,110 @@
                                                     </tr>
                                                 @endforeach
                                             @endisset
-                                             </tbody>
-                                            
+
                                             </tbody>
                                         </table>
                                         <a href="javascript:void(0);" class="btn btn-add add-address-row">Добавить адрес</a>
                                     </div>
-                                    
+
                                     <div class="section social-links">
                                         Ссылки на соцсети
                                         <table class="table table-striped table-advance table-hover table-min-padding">
+                                            <thead>
+                                            <tr>
+                                                <th>slug</th>
+                                                <th>Тип</th>
+                                                <th>Иконка</th>
+                                                <th width="40%">Значение</th>
+                                                <th class="text-right">Действия</th>
+                                            </tr>
+                                            </thead>
                                             <tbody>
-                                                <thead>
-                                                    <tr>
-                                                        <th>slug</th>
-                                                        <th>Тип</th>
-                                                        <th>Иконка</th>
-                                                        <th width="40%">Значение</th>
-                                                        <th class="text-right">Действия</th>
-                                                    </tr>
-                                                </thead>
-                                                @isset($socials)
-                                                    @foreach( $socials as $item )
-                                                        <tr class="social-link-row">
-                                                            <input name="tab[]" type="hidden" value="1">
-                                                            <input type="hidden" name="version[]" value="socials">
-                                                            <th>
-                                                                <input class="form-control" name="name[]" type="text" required="" value="{{ $item->name }}">
-                                                            </th>
-                                                            <th>
-                                                                <select name="type[]" class="form-control m-bot15">
-                                                                    <option value="1" @if($item->type == 1) selected @endif >Текст</option>
+                                            @isset($socials)
+                                                @foreach( $socials as $item )
+                                                    <tr class="social-link-row">
+                                                        <input name="tab[]" type="hidden" value="1">
+                                                        <input type="hidden" name="version[]" value="socials">
+                                                        <th>
+                                                            <input class="form-control" name="name[]" type="text" required=""
+                                                                   value="{{ $item->name }}">
+                                                        </th>
+                                                        <th>
+                                                            <select name="type[]" class="form-control m-bot15">
+                                                                <option value="1" @if($item->type == 1) selected @endif >Текст</option>
                                                                 <option value="2" @if($item->type == 2) selected @endif>Текстовая область</option>
                                                                 <option value="3" @if($item->type == 3) selected @endif>Checkbox</option>
                                                                 <option value="4" @if($item->type == 4) selected @endif>Файл</option>
-                                                                </select>
-                                                            </th>
-                                                            <th>
-                                                                <input class="form-control" name="descr[]" type="text" value="{{ $item->descr }}">
-                                                            </th>
-                                                            <th>
-                                                                <input class="form-control" name="value[]" type="text" required="" value="{{ $item->value }}">
-                                                            </th>
-                                                            <th class="text-right">
-                                                                <button type="button" class="btn btn-danger btn_remove" style="border-radius: 4px">
-                                                                    <i class="fas fa-trash-alt"></i>
-                                                                </button>
-                                                            </th>
-                                                        </tr>
-                                                    @endforeach
-                                                @endisset
+                                                            </select>
+                                                        </th>
+                                                        <th>
+                                                            <input class="form-control" name="descr[]" type="text" value="{{ $item->descr }}">
+                                                        </th>
+                                                        <th>
+                                                            <input class="form-control" name="value[]" type="text" required=""
+                                                                   value="{{ $item->value }}">
+                                                        </th>
+                                                        <th class="text-right">
+                                                            <button type="button" class="btn btn-danger btn_remove" style="border-radius: 4px">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </th>
+                                                    </tr>
+                                                @endforeach
+                                            @endisset
                                             </tbody>
                                         </table>
-                                        <i style="display: block; margin-bottom: 5px;">Посмотреть названия иконок можно по <a href="https://fontawesome.com/icons?d=gallery" target="_blank">ссылке</a></i>
+                                        <i style="display: block; margin-bottom: 5px;">Посмотреть названия иконок можно по <a
+                                                    href="https://fontawesome.com/icons?d=gallery" target="_blank">ссылке</a></i>
                                         <a href="javascript:void(0);" class="btn btn-success add-social-row">Добавить соцсеть</a>
                                     </div>
 
                                     <div class="section phones">
                                         Номера телефонов
                                         <table class="table table-striped table-advance table-hover table-min-padding">
+
+                                            <thead>
+                                            <tr>
+                                                <th>slug</th>
+                                                <th>Тип</th>
+                                                <th>Название</th>
+                                                <th width="40%">Значение</th>
+                                                <th class="text-right">Действия</th>
+                                            </tr>
+                                            </thead>
                                             <tbody>
-                                                <thead>
-                                                    <tr>
-                                                        <th>slug</th>
-                                                        <th>Тип</th>
-                                                        <th>Название</th>
-                                                        <th width="40%">Значение</th>
-                                                        <th class="text-right">Действия</th>
-                                                    </tr>
-                                                </thead>
-                                                @isset($phones)
-                                                    @foreach( $phones as $item )
-                                                        <tr class="phones-link-row">
-                                                            <input name="tab[]" type="hidden" value="1">
-                                                            <input type="hidden" name="version[]" value="phones">
-                                                            <th>
-                                                                <input class="form-control" name="name[]" type="text" required="" value="{{ $item->name }}">
-                                                            </th>
-                                                            <th>
-                                                                <select name="type[]" class="form-control m-bot15">
+                                            @isset($phones)
+                                                @foreach( $phones as $item )
+                                                    <tr class="phones-link-row">
+                                                        <input name="tab[]" type="hidden" value="1">
+                                                        <input type="hidden" name="version[]" value="phones">
+                                                        <th>
+                                                            <input class="form-control" name="name[]" type="text" required=""
+                                                                   value="{{ $item->name }}">
+                                                        </th>
+                                                        <th>
+                                                            <select name="type[]" class="form-control m-bot15">
                                                                 <option value="1" @if($item->type == 1) selected @endif >Текст</option>
                                                                 <option value="2" @if($item->type == 2) selected @endif>Текстовая область</option>
                                                                 <option value="3" @if($item->type == 3) selected @endif>Checkbox</option>
                                                                 <option value="4" @if($item->type == 4) selected @endif>Файл</option>
-                                                                </select>
-                                                            </th>
-                                                            <th>
-                                                                <input class="form-control" name="descr[]" type="text" value="{{ $item->descr }}">
-                                                            </th>
-                                                            <th>
-                                                                <input class="form-control" name="value[]" type="text" required="" value="{{ $item->value }}">
-                                                            </th>
-                                                            <th class="text-right">
-                                                                <button type="button" class="btn btn-danger btn_remove" style="border-radius: 4px">
-                                                                    <i class="fas fa-trash-alt"></i>
-                                                                </button>
-                                                            </th>
-                                                        </tr>
-                                                    @endforeach
-                                                @endisset
+                                                            </select>
+                                                        </th>
+                                                        <th>
+                                                            <input class="form-control" name="descr[]" type="text" value="{{ $item->descr }}">
+                                                        </th>
+                                                        <th>
+                                                            <input class="form-control" name="value[]" type="text" required=""
+                                                                   value="{{ $item->value }}">
+                                                        </th>
+                                                        <th class="text-right">
+                                                            <button type="button" class="btn btn-danger btn_remove" style="border-radius: 4px">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </th>
+                                                    </tr>
+                                                @endforeach
+                                            @endisset
                                             </tbody>
                                         </table>
                                         <a href="javascript:void(0);" class="btn btn-add add-phones-row">Добавить телефон</a>
@@ -390,20 +397,14 @@
     <!--main content end-->
 
     <script>
-        $('select[name = type]').change(function () {
-            console.log($(this).val());
-            if ($(this).val() == 1) {
-
-            }
-        });
 
         $('.btn_remove').click(function () {
             $(this).parent().parent().remove();
         });
 
         $('.add_setting').click(function () {
-            $('#tab_'+$(this).data('tab') +' tbody').append('<tr>\n' +
-                '<input name="tab[]" type="hidden" value="'+$(this).data('tab') +'">\n' +
+            $('#tab_' + $(this).data('tab') + ' tbody').append('<tr>\n' +
+                '<input name="tab[]" type="hidden" value="' + $(this).data('tab') + '">\n' +
                 '<th>\n' +
                 '    <input class="form-control" name="name[]" type="text" required>\n' +
                 '</th>\n' +
@@ -465,8 +466,8 @@
             });
         });
 
-        $('.add-phones-row').on('click', function () {
-            $(this).closest('.phones').find('tbody').append('<tr>\n' +
+        $('.add-phones-row').click(function () {
+            $(this).parent().find('tbody').append('<tr>\n' +
                 '<input name="tab[]" type="hidden" value="1">\n' +
                 '<input type="hidden" name="version[]" value="phones">\n' +
                 '<th>\n' +
