@@ -80,7 +80,11 @@
                 </a>
             </li>
 
-            <li class="{{ request()->is('admin/tags') || request()->is('admin/attributes' ) || request()->is('admin/attribute-category' ) ? 'active' : 'no-active'}} sub-menu">
+            <li class="{{ request()->is('admin/tags') ||
+            request()->is('admin/attributes' ) ||
+            request()->is('admin/brands' ) ||
+            request()->is('admin/models' ) ||
+            request()->is('admin/attribute-category' ) ? 'active' : 'no-active'}} sub-menu">
                 <a href="/admin/attributes" class="">
                     <i class="fas fa-tasks"></i>
                     <span>Атрибуты/Теги</span>
@@ -102,6 +106,18 @@
                         <a href="/admin/attribute-category" class="">
                             <i class="fas fa-tasks"></i>
                             <span>Категории атрибутов</span>
+                        </a>
+                    </li>
+                    <li class="{{request()->is('admin/brands') ? 'active' : 'no-active'}}">
+                        <a href="/admin/brands" class="">
+                            <i class="fab fa-autoprefixer"></i>
+                            <span>Бренды</span>
+                        </a>
+                    </li>
+                    <li class="{{request()->is('admin/models') ? 'active' : 'no-active'}}">
+                        <a href="/admin/models" class="">
+                            <i class="fas fa-car-side"></i>
+                            <span>Модели авто</span>
                         </a>
                     </li>
                 </ul>

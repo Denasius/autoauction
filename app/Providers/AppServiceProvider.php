@@ -147,6 +147,16 @@ class AppServiceProvider extends ServiceProvider
                 'title'         => 'Слайдер',
                 'title_create'  => 'Слайдер',
             ],
+            'brands'      => [
+                'icon'          => '<i class="fab fa-autoprefixer"></i>',
+                'title'         => 'Бренды авто',
+                'title_create'  => 'Бренд авто',
+            ],
+            'models'      => [
+                'icon'          => '<i class="fas fa-car-side"></i>',
+                'title'         => 'Модель марки авто',
+                'title_create'  => 'Модель марки авто',
+            ],
         ];
 
         $data = [];

@@ -14,20 +14,24 @@
           <section class="panel">
 
             <div class="panel-body">
-              {{Form::open(['route'=>['brands.update', $item_info->id], 'method'=>'put',  'class' => 'form-horizontal'])}}
-              <input type="hidden" name="id" value="{{$item_info->id}}">
+              {{Form::open(['route'=>'models.store', 'class'=>'form-horizontal'])}}
 
               <div class="form-group">
                 <label class="col-sm-2 control-label">Название</label>
                 <div class="col-sm-10">
-                  <input class="form-control m-bot15" type="text" name="title" placeholder="Название"
-                         value="{{$item_info->title}}">
+                  <input type="text" name="title" class="form-control"placeholder="Название" value="{{old('title')}}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Название</label>
+                <div class="col-sm-10">
+                  {{ Form::select('brand_id', $brands, null, ['class'=>'form-control m-bot15'])}}
                 </div>
               </div>
 
               <div class="form-group">
                 <div class="btn-create text-right col-sm-12">
-                  <button type="submit" class="btn btn-add" title="Обновить">Обновить</button>
+                  <button type="submit" class="btn btn-add" title="Сохранить">Сохранить</button>
                 </div>
               </div>
 

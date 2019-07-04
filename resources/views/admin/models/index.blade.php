@@ -14,7 +14,7 @@
                 @include('admin.errors')
                 <div class="col-lg-12">
 
-                    @if(! empty( $brands ))
+                    @if(! empty( $models ))
                         <section class="panel">
 
                             <table class="table table-striped table-advance table-hover">
@@ -22,16 +22,18 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Название</th>
+                                    <th>Бренд</th>
                                     <th class="text-right">Действия</th>
                                 </tr>
-                                @foreach ($brands as $item)
+                                @foreach ($models as $item)
                                     <tr>
                                         <td>{{$item->id}}</td>
                                         <td>{{$item->title}}</td>
+                                        <td>{{$item->brand}}</td>
                                         <td class="text-right">
                                             <div class="btn-group event_btn_group">
-                                                <a class="btn btn-primary" href="{{route('brands.edit', $item->id)}}"><i class="fas fa-edit"></i></a>
-                                                {{Form::open(['route'=>['brands.destroy', $item->id], 'method'=>'delete', 'class'=>'inline_block'])}}
+                                                <a class="btn btn-primary" href="{{route('models.edit', $item->id)}}"><i class="fas fa-edit"></i></a>
+                                                {{Form::open(['route'=>['models.destroy', $item->id], 'method'=>'delete', 'class'=>'inline_block'])}}
                                                 <button type="submit" class="btn btn-danger" data-attr="delete"><i class="fas fa-trash-alt"></i></button>
                                                 {{Form::close()}}
                                             </div>
