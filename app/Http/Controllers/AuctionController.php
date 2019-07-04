@@ -14,12 +14,16 @@ class AuctionController extends Controller
     	$data['meta_description'] = $model->meta_description;
     	$data['description'] = $model->description;
     	$data['lots'] = Lot::where('status', 1)->paginate(12);
-    	//dd($data['lots']);
-    	return view('auctions.index', $data);
+
+        return view('auctions.index', $data);
     }
 
-    public function filter()
+    public function filter(Request $request)
     {
-    	dd(123);
+        $sort_lots = Lot::where('status', 1)->get()->sortBy($request->get('values'));  
+        if ($request->ajax()) {
+            //return response()->json(['sort_lots'=>$sort_lots->values()->all()]);
+            return view('auctions._sort_lots', ['sort_lots' => $sort_lots]);
+        }
     }
 }
