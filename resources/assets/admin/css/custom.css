@@ -179,6 +179,11 @@ li.active.sub-menu ul,
 li.sub-menu:hover ul{
    display: block;
 }
+li.active.sub-menu ul li a,
+li.sub-menu:hover ul li a {
+	background: #2e3b46;
+	color: #fff;
+}
 
 .lot-image{
 	max-height: 196px;
