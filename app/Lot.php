@@ -19,7 +19,7 @@ class Lot extends Model
     const TYPE = 'lot';
 
     protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id',
-        'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image', 'fuel', 'date'];
+        'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image', 'fuel', 'date', 'price', 'currency', 'tax', 'buy_one_click', 'lot_vip', 'car_from_europe', 'shipping', 'fees', 'lot_step', 'lot_time', 'lot_start', 'car_brend'];
 
     public function attributes()
     {

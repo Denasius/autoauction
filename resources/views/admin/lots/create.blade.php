@@ -63,10 +63,28 @@
                                             <textarea type="text" name="descr" id="ckeditor" class="form-control" placeholder="Описание"></textarea>
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Марка</label>
+                                        <div class="col-sm-10">
+                                            <select name="car_brend" class="form-control">
+                                                <option value="-1" selected>Выберите марку</option>
+                                                <option value="bmw">BMW</option>
+                                                <option value="mersedes-benz">Mersedes-Benz</option>
+                                                <option value="dodge">Dodge</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Модель</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="car_model" class="form-control" placeholder="Модель">
+                                            <select name="car_model" class="form-control">
+                                                <option value="-1" selected>Выберите модель</option>
+                                                <option value="330">330</option>
+                                                <option value="С700">С700</option>
+                                                <option value="Intrepid II">Intrepid II</option>
+                                            </select>
                                         </div>
                                     </div>
 
@@ -116,11 +134,48 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label">Цена</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="price" class="form-control" placeholder="Цена">
+                                        </div>
+                                        
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox-inline col-sm-2 control-label" style="padding-top:0;">
+                                           Цена с НДС?
+                                        </label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" id="tax" name="tax" value="0"> 
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" style="padding-top:0;">Купить в один клик</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" id="buy_one_click" name="buy_one_click" value="0"> 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Валюта</label>
+                                        <div class="col-sm-10">
+                                            <select name="currency" class="form-control">
+                                                <option value="BYN" selected>BYN</option>
+                                                <option value="EUR">EUR</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">Опции</label>
                                         <div class="col-sm-10">
                                             <input type="text" name="car_options" class="form-control" placeholder="Опции">
                                         </div>
                                     </div>
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Статус</label>
                                         <div class="col-sm-10">
@@ -133,6 +188,28 @@
                                             <input type="number" name="views" class="form-control" placeholder="Просмотры" value="0">
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Шаг в ставке</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="lot_step" class="form-control" placeholder="Шаг в ставке" value="1">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Дата открытия торгов</label>
+                                        <div class="col-sm-10">
+                                            <input type="date" name="lot_start" class="form-control" placeholder="Дата открытия торгов">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Таймер</label>
+                                        <div class="col-sm-10">
+                                            <input type="datetime-local" name="lot_time" class="form-control" placeholder="Таймер">
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Meta title</label>
                                         <div class="col-sm-10">
@@ -145,6 +222,35 @@
                                             <input type="text" name="meta_description" class="form-control" placeholder="Meta descr">
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label pt-0" style="padding-top:0;">Лот для особенных</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" id="lot_vip" name="lot_vip" value="0"> 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" style="padding-top:0;">Авто из Европы</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" id="car_from_europe" name="car_from_europe" value="0"> 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group form-group-europe">
+                                        <label class="col-sm-2 control-label">Стоимость доставки</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="shipping" class="form-control" placeholder="Стоимость доставки">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group form-group-europe">
+                                        <label class="col-sm-2 control-label">Дополнительные сборы</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="fees" class="form-control" placeholder="Дополнительные сборы">
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 {{--Изображения--}}
@@ -219,7 +325,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group mt-2">
                                 <div class="btn-create text-right col-sm-12">
                                     <button type="submit" class="btn btn-add" title="Сохранить">Сохранить</button>
                                 </div>

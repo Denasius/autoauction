@@ -15997,3 +15997,11 @@ li.sub-menu:hover ul li a {
 .lot-image{
 	max-height: 196px;
 }
+
+.form-group-europe{
+	display: none;
+}
+
+.mt-2{
+	margin-top: 1rem;
+}
