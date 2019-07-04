@@ -32,7 +32,6 @@
 				<div class="pre-featured clearfix">
 					<div class="info-text">
 						<h4>{{ $lots->count() }} results founded</h4>
-
 					</div>
 					<div class="right-content">
 						<form class="form-filter" action="{{ route('filter') }}" method="POST">
@@ -40,9 +39,10 @@
 							<div class="input-select">
 	                            <select name="mark" id="mark" class="mark-top-filter">
 	                                <option value="-1">Сортировать по</option>
-	                                  <option value="price">Цена</option>
-	                                  <option value="car_mileage">Пробег</option>
-	                                  <option value="date">Год</option>
+	                                	<option value="title">Наименование</option>
+	                                  	<option value="car_mileage">Пробег</option>
+	                                  	<option value="price">Цена</option>
+	                                  	<option value="date">Год</option>
 	                            </select>
 	                        </div>
 						</form>
@@ -105,13 +105,13 @@
 			<div id="sidebar" class="col-md-3">
 				<div class="sidebar-content">
 					<div class="head-side-bar">
-						<h4>Refine Your Search</h4>
+						<h4>Расширенный поиск</h4>
 					</div>
 					<div class="search-form">
 						<div class="select">
                             <select name="mark" id="make">
-                                <option value="-1">Select Makes</option>
-                                  <option>Price</option>
+                                <option value="-1">Марка</option>
+                                  <option value="">Price</option>
                                   <option>Miles</option>
                                   <option>Year</option>
                                   <option>Near</option>
@@ -137,7 +137,7 @@
                         </div>
                         <div class="slider-range">
                         	<p>
-						    	<input type="text" class="range" id="amount" readonly>
+						    	<input type="text" name="price" class="range price" id="amount" readonly>
 						    </p>
 							<div id="slider-range"></div>
                         </div>
@@ -160,7 +160,7 @@
                             </select>
                         </div>
                         <div class="advanced-button">
-							<a href="listing-right.html">Search Now<i class="fa fa-search"></i></a>
+							<button class="btn-filter-search" href="listing-right.html">Поиск<i class="fa fa-search"></i></button>
 						</div>
 					</div>
 				</div>

@@ -42,7 +42,7 @@
 									<ul>
 										@foreach( $socials as $social )
 											@if( ! empty( $social->value ) )
-												<li><a href="{{ $social->value }}"><i class="fa fa-{{ $social->descr }}"></i></a></li>
+												<li><a href="{{ $social->value }}">{!! $social->descr !!}</a></li>
 											@endif
 										@endforeach
 									</ul>

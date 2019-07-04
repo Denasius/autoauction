@@ -14,6 +14,7 @@ class AuctionController extends Controller
     	$data['meta_description'] = $model->meta_description;
     	$data['description'] = $model->description;
     	$data['lots'] = Lot::where('status', 1)->paginate(12);
+        // $data['marks'] = 
 
         return view('auctions.index', $data);
     }

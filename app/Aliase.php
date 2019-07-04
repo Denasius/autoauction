@@ -28,7 +28,6 @@ class Aliase extends Model
             $aliase->slug       = $slug;
             $aliase->type       = $type;
             $aliase->type_id    = $type_id;
-            $aliase->template    = $template;
             $aliase->save();
         }
     }
