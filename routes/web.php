@@ -30,6 +30,12 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::resource('/attributes', 'AttributeController');
 	Route::resource('/attribute-category', 'AttributeCategoryController');
 
+    //Бренды Авто
+    Route::resource('/brands', 'BrandsController');
+
+    //Модели Авто
+    Route::resource('/models', 'ModelsController');
+
 	//Категории
     Route::resource('/categories', 'CategoryController');
 	

@@ -2,48 +2,41 @@
 
 @section('content')
 
-<!--main content start-->
-    <section id="main-content">
-      <section class="wrapper">
-        <div class="row">
-          <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-file-text-o"></i> Добавление марки автомобиля</h3>
-            <ol class="breadcrumb">
-              <li><i class="fa fa-home"></i><a href="{{route('admin')}}">Главная</a></li>
-              <li><i class="fa fa-table"></i><a href="{{route('brands.index')}}">Марки авто</a></li>
-              <li><i class="fa fa-file-text-o"></i>Добавить марку авто</li>
-            </ol>
-          </div>
-        </div>
-        <div class="row">
-        	@include('admin.errors')
-          <div class="col-lg-12">
-            <section class="panel">
-              <header class="panel-heading">
-                Добавление марки авто
-              </header>
-              
-              <div class="panel-body">
-                {{Form::open(['route'=>'brands.store'])}}
-                  
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Название</label>
-                    <div class="col-sm-10" style="text-align: right;">
-                      <input type="text" name="title" class="form-control round-input" placeholder="Введите название марки автомобиля">
-	                  <div class="btn-create" style="margin-top: 20px;">
-	                  	<button type="submit" class="btn btn-success" title="Добавить тег">Создать марку авто</button>
-	                  </div>
-                    </div>
-                  </div>
+  <!--main content start-->
+  <section id="main-content">
+    <section class="wrapper">
 
-                {{Form::close()}}
+      @include('admin.common.breadcrumb_header')
+
+      <div class="row">
+        @include('admin.errors')
+        <div class="col-sm-12">
+          <section class="panel">
+
+            <div class="panel-body">
+              {{Form::open(['route'=>'brands.store', 'class'=>'form-horizontal'])}}
+
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Название</label>
+                <div class="col-sm-10">
+                  <input type="text" name="title" class="form-control"placeholder="Название" value="{{old('title')}}">
+                </div>
               </div>
-            </section>
-          </div>
+
+              <div class="form-group">
+                <div class="btn-create text-right col-sm-12">
+                  <button type="submit" class="btn btn-add" title="Сохранить">Сохранить</button>
+                </div>
+              </div>
+
+              {{Form::close()}}
+            </div>
+          </section>
         </div>
-        <!-- page end-->
-      </section>
+      </div>
+      <!-- page end-->
     </section>
-    <!--main content end-->
+  </section>
+  <!--main content end-->
 
 @endsection

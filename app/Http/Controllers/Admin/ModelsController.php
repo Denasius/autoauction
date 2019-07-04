@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Attribute;
-use App\AttributeCategory;
-use App\Lot;
-use App\LotAttributes;
-use App\Providers\AppServiceProvider;
+use App\CarBrand;
+use App\CarModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Providers\AppServiceProvider;
 
-class AttributeController extends Controller
+class ModelsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,20 +20,21 @@ class AttributeController extends Controller
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
         $params = $request->all();
-        $attribyt_model = new Attribute();
-        $data['filter'] = AttributeCategory::all();
+        $data['filter'] = CarBrand::all();
         $data['filter_name'] = 'Тип';
-
 
         if (isset($params['filter_id']) && $params['filter_id']) {
             $data['filter_id'] = $params['filter_id'];
-            $data['results'] = $attribyt_model->get_attribute_by_type($params['filter_id']);
+//            $data['results'] = $attribyt_model->get_attribute_by_type($params['filter_id']);
+//            $data['models'] = CarModel::get_all();
+            $data['models'] = CarModel::get_models_by_brand($params['filter_id']);
         }else {
-            $data['results'] = $attribyt_model->get_all();
+            $data['models'] = CarModel::get_all();
         }
 
 
-        return view('admin.attributes.index', $data);
+
+        return view('admin.models.index', $data);
     }
 
     /**
@@ -47,9 +46,9 @@ class AttributeController extends Controller
     {
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+        $data['brands'] = CarBrand::orderBy('title', 'asc')->pluck('title', 'id');
 
-        $data['types'] = AttributeCategory::all();
-        return view('admin.attributes.create', $data);
+        return view('admin.models.create', $data);
     }
 
     /**
@@ -61,15 +60,11 @@ class AttributeController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title'      => 'required',
-            'category_id'    => 'required',
+            'title' => 'required'
         ]);
 
-        $attribute_model = new Attribute();
-
-        $results = $attribute_model->add($request->all());
-
-        return redirect()->back();
+        CarModel::add($request->all());
+        return redirect()->route('models.index');
     }
 
     /**
@@ -80,18 +75,7 @@ class AttributeController extends Controller
      */
     public function show($id)
     {
-
-        $data = [];
-        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
-
-        $attribyt_model = new Attribute();
-        $attribyt_type_model = new AttributeCategory();
-
-
-        $data['results'] = $attribyt_model->get_attribute_by_type($id);
-        $data['type'] = $attribyt_type_model->get($id);
-
-        return view('admin.attributes.index', $data);
+        //
     }
 
     /**
@@ -103,12 +87,12 @@ class AttributeController extends Controller
     public function edit($id)
     {
         $data = [];
-        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
+        $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();;
 
-        $data['attribute'] = Attribute::find($id);
-        $data['types'] = AttributeCategory::all();
+        $data['item_info'] = CarModel::find($id);
+        $data['brands'] = CarBrand::orderBy('title', 'asc')->pluck('title', 'id');
 
-        return view('admin.attributes.edit', $data);
+        return view('admin.models..edit', $data);
     }
 
     /**
@@ -120,15 +104,12 @@ class AttributeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $attribute = Attribute::find($id);
         $this->validate($request, [
-            'title'      => 'required',
-            'category_id'      => 'required',
+            'title' => 'required'
         ]);
 
-        $attribute->edit($request->all());
-
-        return redirect()->route('attributes.index');
+        CarModel::edit($id, $request->all());
+        return redirect()->route('models.index');
     }
 
     /**
@@ -139,11 +120,7 @@ class AttributeController extends Controller
      */
     public function destroy($id)
     {
-        if (!LotAttributes::where('attr_id', $id)->first()) {
-            Attribute::destroy($id);
-            return redirect()->back();
-        }else {
-            return redirect()->back()->withErrors('Ошибка! Атрибут принадлежит лоту. Удалите лот и повторите попытку');
-        }
+        CarModel::destroy($id);
+        return redirect()->back();
     }
 }

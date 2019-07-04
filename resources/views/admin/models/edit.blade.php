@@ -14,7 +14,7 @@
           <section class="panel">
 
             <div class="panel-body">
-              {{Form::open(['route'=>['brands.update', $item_info->id], 'method'=>'put',  'class' => 'form-horizontal'])}}
+              {{Form::open(['route'=>['models.update', $item_info->id], 'method'=>'put',  'class' => 'form-horizontal'])}}
               <input type="hidden" name="id" value="{{$item_info->id}}">
 
               <div class="form-group">
@@ -22,6 +22,12 @@
                 <div class="col-sm-10">
                   <input class="form-control m-bot15" type="text" name="title" placeholder="Название"
                          value="{{$item_info->title}}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Бренд</label>
+                <div class="col-sm-10">
+                  {{ Form::select('brand_id', $brands, $item_info->brand_id, ['class'=>'form-control m-bot15'])}}
                 </div>
               </div>
 
