@@ -283,7 +283,7 @@
 					<div class="container">
 						<div class="row">
 							<div class="col-md-6 col-sm-12">
-								<p>Сайт разработан компанией <a class="webernetic" href="https://webernetic.by">Webernetic</a> - </em> Димой и Денисом &#128513;</p>
+								<p>Сайт разработан компанией <a class="webernetic" href="https://webernetic.by">Webernetic</a> - </em> Димой и Денисом <i class="far fa-laugh-squint" style=" color: #f7da00; font-size: 20px; "></i></p>
 							</div>
 						</div>
 					</div>
