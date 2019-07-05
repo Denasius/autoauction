@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Lot;
+use App\CarModel;
 
 use Illuminate\Http\Request;
 
@@ -26,6 +27,14 @@ class AuctionController extends Controller
         if ($request->ajax()) {
             //return response()->json(['sort_lots'=>$sort_lots->values()->all()]);
             return view('auctions._sort_lots', ['sort_lots' => $sort_lots]);
+        }
+    }
+
+    public function search_filter(Request $request)
+    {
+        $models = CarModel::where('brand_id', $request->get('values'))->get();
+        if ( $request->ajax() ) {
+            return view('auctions._global_search_model', ['models' => $models]);
         }
     }
 }

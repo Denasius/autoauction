@@ -110,7 +110,7 @@
 					</div>
 					<div class="search-form">
 						<div class="select">
-                            <select name="mark" id="make">
+                            <select id="make" name="car_brend">
                                 <option value="-1">Марка</option>
                                 @foreach ($all_brands as $brand)
                                   	<option value="{{ $brand->id }}">{{ $brand->title }}</option>
@@ -118,12 +118,8 @@
                             </select>
                         </div>
                         <div class="select">
-                            <select name="mark" id="model">
-                                <option value="-1">Select Car Model</option>
-                                  <option>Price</option>
-                                  <option>Miles</option>
-                                  <option>Year</option>
-                                  <option>Near</option>
+                            <select name="car_model" id="model">
+                                <option value="-1" class="selected" selected>Выберите модель</option>
                             </select>
                         </div>
                         <div class="select">
@@ -178,4 +174,40 @@
 	</div>
 </section>
 
+
+<script type="text/javascript">
+	(function ($) {
+		var getCarsModels = function () {
+			$('#make').on('change', function () {
+				var _this = $(this),
+					_token = '{{ csrf_token() }}',
+					_method = 'post',
+					_url = "{{ route('search-filter') }}",
+					_value = _this.val();
+
+				return $.ajax({
+					headers: {
+		                'X-CSRF-TOKEN':_token
+		            },
+		            type: _method,
+		            url: _url,
+		            data: {values: _value},
+		            success: function (response) {
+		            	$('#model').find('option').not('.selected').remove();
+		            	$('#model').append(response)
+		            },
+		            error: function (request, errorStatus, errorThrown) {
+	                    console.log(request);
+	                    console.log(errorStatus);
+	                    console.log(errorThrown);
+	                }
+				});
+			});
+		}
+
+		$(document).ready(function () {
+			getCarsModels();
+		});
+	})(jQuery)
+</script>
 @endsection
