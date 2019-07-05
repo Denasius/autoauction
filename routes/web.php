@@ -69,19 +69,20 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::get('/showcars', 'LotsController@show')->name('showmodels');
 });
 
-Route::group([
-	'middleware'=>'guest'
-], function () {
+//Если не авторизирован
+Route::group(['middleware'=>'guest'], function () {
 	Route::get('/register', 'AuthController@registerForm')->name('registerView');
 	Route::post('/register', 'AuthController@register')->name('register');
 	Route::get('/login', 'AuthController@loginForm')->name('login');
 	Route::post('/login', 'AuthController@login');
 });
 
-Route::group([
-	'middleware'=>'auth'
-], function () {
+//Если вторизирован
+Route::group(['middleware'=>'auth'], function () {
 	Route::get('/logout', 'AuthController@logout')->name('logout');
+
+	//Профиль пользователя
+    Route::get('/profile', 'ProfilesController@index');
 });
 
 Route::get('/search', 'HomeController@search')->name('searching');
