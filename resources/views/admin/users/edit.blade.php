@@ -153,6 +153,18 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Изображения документов</label>
+                                <div class="col-sm-10">
+                                    <div class="col-sm-12">
+                                        <input type="file" name="images" class="form-control" value="{{$user->images}}">
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <input type="file" name="images" class="form-control" value="{{$user->images}}">
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <div class="form-group">
                                 <div class="btn-create text-right col-sm-12">
@@ -169,6 +181,7 @@
     </section>
 
     <script>
+
         $('[name="entity"]').change(function () {
             if ($(this).val() == 1) {
                 $('[name="user_company"]').parent().parent().show();
@@ -176,6 +189,9 @@
                 $('[name="user_company"]').parent().parent().hide();
             }
         });
+
+
+
     </script>
 
 @endsection
