@@ -417,39 +417,39 @@
             $(this).parent().remove();
         });
 
-        // (function ($) {
-        //     var getModels = function () {
-        //         $('#car_brend').on('change', function () {
-        //             var _this = $(this),
-        //                 _token = _this.closest('form').find('input[name="_token"]').val(),
-        //                 _method = 'get',
-        //                 _url = "{{ route('showmodels') }}",
-        //                 value = _this.val();            
+        (function ($) {
+            var getModels = function () {
+                $('#car_brend').on('change', function () {
+                    var _this = $(this),
+                        _token = _this.closest('form').find('input[name="_token"]').val(),
+                        _method = 'get',
+                        _url = "{{ route('showmodels') }}",
+                        value = _this.val();            
 
-        //             return $.ajax({
-        //              headers: {
-        //                  'X-CSRF-TOKEN':_token
-        //              },
-        //              type: _method,
-        //              url: _url,
-        //              data: {values: value},
-        //              success:function (response) {
-        //                  $('#car_model').find('option').not('.selected').remove();
-        //                  $('#car_model').append(response);
-        //              },
-        //              error: function (request, errorStatus, errorThrown) {
-        //                     console.log(request);
-        //                     console.log(errorStatus);
-        //                     console.log(errorThrown);
-        //                 }
-        //             });
-        //         });
-        //     }
+                    return $.ajax({
+                     headers: {
+                         'X-CSRF-TOKEN':_token
+                     },
+                     type: _method,
+                     url: _url,
+                     data: {values: value},
+                     success:function (response) {
+                         $('#car_model').find('option').not('.selected').remove();
+                         $('#car_model').append(response);
+                     },
+                     error: function (request, errorStatus, errorThrown) {
+                            console.log(request);
+                            console.log(errorStatus);
+                            console.log(errorThrown);
+                        }
+                    });
+                });
+            }
 
-        //     $(document).ready(function () {
-        //         getModels();
-        //     });
-        // })(jQuery)
+            $(document).ready(function () {
+                getModels();
+            });
+        })(jQuery)
     </script>
 
 @endsection

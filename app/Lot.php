@@ -100,10 +100,12 @@ class Lot extends Model
                 $parth = $main_img->storeAs('uploads', $main_img_name);
                 $lot->image = $parth;
 
-                $lot->save();
+                
             }
 
         }
+
+        $lot->save();
 
 
         //Добавляем ЧПУ
