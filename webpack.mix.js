@@ -58,7 +58,7 @@ mix.scripts([
 
 // Скрипты для фронта
 mix.scripts([
-	'resources/front/assets/js/jquery-1.11.1.min.js',
+	// 'resources/front/assets/js/jquery-1.11.1.min.js',
 	'resources/front/assets/js/bootstrap.min.js',
 	'resources/front/assets/rs-plugin/js/jquery.themepunch.tools.min.js',
 	'resources/front/assets/rs-plugin/js/jquery.themepunch.revolution.min.js',
