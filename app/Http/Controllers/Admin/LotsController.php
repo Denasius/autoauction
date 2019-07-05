@@ -198,6 +198,7 @@ class LotsController extends Controller
 
 
         Lot::edit($id,$request->all(), $request->file('image'));
+
         return redirect()->route('lots.index');
     }
 

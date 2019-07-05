@@ -91,7 +91,6 @@
                             </div>
 
 
-
                             <div class="form-group" @if($user->entity != 1) style="display:none;" @endif >
                                 <label class="col-sm-2 control-label">Название компании</label>
                                 <div class="col-sm-10">
@@ -153,16 +152,26 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group file_uploads">
                                 <label class="col-sm-2 control-label">Изображения документов</label>
-                                <div class="col-sm-10">
-                                    <div class="col-sm-12">
-                                        <input type="file" name="images" class="form-control" value="{{$user->images}}">
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <input type="file" name="images" class="form-control" value="{{$user->images}}">
-                                    </div>
+                                <div class="col-sm-10 items">
+                                    @foreach($images as $image)
+                                        <div class="item">
+                                            <label>
+                                                <span class="previews">
+                                                    <img src="/{{$image}}" alt="">
+                                                </span>
+                                                <input type="file" class="input_img_upload" style="display:none;">
+                                                <input type="hidden" name="images[]" value="{{$image}}">
+                                            </label>
+                                            <button type="button" class="btn btn-danger" onclick="remove_item(this)">Delete</button>
+                                        </div>
+                                    @endforeach
                                 </div>
+                                <div class="col-sm-10 col-sm-offset-2">
+                                    <button type="button" class="btn btn-info add_image">Добавить еще картинки</button>
+                                </div>
+
                             </div>
 
 
@@ -182,6 +191,7 @@
 
     <script>
 
+        //Юр или не юр
         $('[name="entity"]').change(function () {
             if ($(this).val() == 1) {
                 $('[name="user_company"]').parent().parent().show();
@@ -190,7 +200,59 @@
             }
         });
 
+        //Добавить еще изображение
+        $('.add_image').click(function () {
+            $('.file_uploads .items').append('<div class="item">\n' +
+                '                                            <label>\n' +
+                '                                                <span class="previews">\n' +
+                '                                                    <i class="fas fa-image"></i>\n' +
+                '                                                </span>\n' +
+                '                                                <input type="file" class="input_img_upload" style="display:none;">\n' +
+                '                                                <input type="hidden" name="images[]">\n' +
+                '                                            </label>\n' +
+                '                                            <button type="button" class="btn btn-danger" onclick="remove_item(this)">Delete</button>\n' +
+                '                                        </div>');
 
+            $('.input_img_upload').change(function () {
+                upload_image(this);
+            });
+        });
+
+
+        //Загрузка файла на сервер
+        $('.input_img_upload').change(function () {
+            upload_image(this);
+
+        });
+
+        function upload_image(this_item) {
+            var this_element = this_item;
+
+            var file_data = $(this_item).prop('files')[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '{{route("upload_image_profile")}}',
+                data: form_data,
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'post',
+                success: function (result) {
+                    $(this_element).prev().html('<img src="/' + result + '" alt="">');
+                    $(this_element).next().val(result);
+                }
+            });
+        }
+
+        function remove_item(this_item) {
+            $(this_item).parent().remove();
+        }
 
     </script>
 

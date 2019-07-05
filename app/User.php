@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use \Storage; 
+use \Storage;
 
 class User extends Authenticatable
 {
@@ -90,7 +90,11 @@ class User extends Authenticatable
 
     public function edit($fields)
     {
-        $this->fill($fields);        
+        $this->fill($fields);
+
+        $images = json_encode($fields['images']);
+        $this->images = $images;
+
         $this->save();
     }
 
