@@ -24,7 +24,7 @@
                 <div class="col-md-4">
                   <a href="{{ $item->slug }}"><div class="thumb-item">
                       <div class="top-content">
-                        <span>$55,000</span>
+                        <span>{{ number_format($item->price, 0) }}</span>
                         <div class="span-bg"></div>
                         <h2>{{ $item->title }}</h2>
                       </div>
@@ -136,7 +136,7 @@
             <img src="{{ $lot->image }}" alt="{{ $lot->title }}">
             <div class="down-content">
               <a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
-              <span>52,000</span>
+              <span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
               <div class="light-line"></div>
               <p>{{ strip_tags($lot->getFormatString($lot->desr, 60)) }}</p>
               <div class="car-info">

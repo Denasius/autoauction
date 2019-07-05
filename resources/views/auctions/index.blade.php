@@ -46,6 +46,7 @@
 	                            </select>
 	                        </div>
 						</form>
+
                         {{-- <div class="grid-list">
                         	<ul>
                         		<li><a href="#"><i class="fa fa-list"></i></a></li>
@@ -63,14 +64,14 @@
 								</div>
 								<div class="down-content">
 									<a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
-									<span>52,000</span>
+									<span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
 									<div class="light-line"></div>
 									<p>{{ strip_tags( $lot->getFormatString($lot->desr, 60) ) }}</p>
 									<div class="car-info">
 										<ul>
 											<li><i class="icon-gaspump"></i>{{ $lot->fuel }}</li>
 											<li><i class="icon-car"></i>{{ $lot->car_model }}</li>
-											<li><i class="icon-road2"></i>12,000</li>
+											<li><i class="icon-road2"></i>{{ $lot->price }} {{ $lot->currency }}</li>
 										</ul>
 									</div>
 								</div>
@@ -111,10 +112,9 @@
 						<div class="select">
                             <select name="mark" id="make">
                                 <option value="-1">Марка</option>
-                                  <option value="">Price</option>
-                                  <option>Miles</option>
-                                  <option>Year</option>
-                                  <option>Near</option>
+                                @foreach ($all_brands as $brand)
+                                  	<option value="{{ $brand->id }}">{{ $brand->title }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="select">

@@ -35,6 +35,7 @@
                                 'route' => 'lots.store',
                                 'files' => true,
                                 'class' => 'form-horizontal',
+
                             ])}}
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active" id="main_tab">
@@ -64,26 +65,26 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group form-brand">
                                         <label class="col-sm-2 control-label">Марка</label>
                                         <div class="col-sm-10">
-                                            <select name="car_brend" class="form-control">
+                                                                                         
+                                            <select id="car_brend" name="car_brend" class="form-control">
                                                 <option value="-1" selected>Выберите марку</option>
-                                                <option value="bmw">BMW</option>
-                                                <option value="mersedes-benz">Mersedes-Benz</option>
-                                                <option value="dodge">Dodge</option>
+                                                @foreach ($brands as $brand)
+                                                    <option value="{{ $brand->id }}">{{ $brand->title }}</option>
+                                                @endforeach
                                             </select>
+                                        
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Модель</label>
                                         <div class="col-sm-10">
-                                            <select name="car_model" class="form-control">
-                                                <option value="-1" selected>Выберите модель</option>
-                                                <option value="330">330</option>
-                                                <option value="С700">С700</option>
-                                                <option value="Intrepid II">Intrepid II</option>
+                                            <select id="car_model" name="car_model" class="form-control">
+                                                <option value="-1" class="selected" selected>Выберите модель</option>
+                                                
                                             </select>
                                         </div>
                                     </div>
@@ -342,5 +343,36 @@
     <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
     <script type="text/javascript">
         CKEDITOR.replace('ckeditor');
-    </script>
+    </script>   
+
+<script>
+    $(document).ready(function () {
+        $('#car_brend').on('change', function () {
+            var _this = $(this),
+                _token = $('input[name="_token"]').val(),
+                _method = 'GET',
+                _url = "{{ route('showmodels') }}",
+                value = _this.val();       
+
+            return $.ajax({
+             headers: {
+                 'X-CSRF-TOKEN':_token
+             },
+             type: _method,
+             url: _url,
+             data: {values: value},
+             success:function (response) {
+                 $('#car_model').find('option').not('.selected').remove();
+                 $('#car_model').append(response);
+             },
+             error: function (request, errorStatus, errorThrown) {
+                    console.log(request);
+                    console.log(errorStatus);
+                    console.log(errorThrown);
+                }
+            });
+        });
+    });
+</script> 
+
 @endsection

@@ -16,6 +16,8 @@ use App\LotImage;
 use App\Category;
 use App\Tag;
 use App\LotAttributes;
+use App\CarBrand;
+use App\CarModel;
 
 class LotsController extends Controller
 {
@@ -72,6 +74,8 @@ class LotsController extends Controller
             ];
         }
 
+        $data['brands'] = CarBrand::all();
+
         return view('admin.lots.create', $data);
     }
 
@@ -82,12 +86,16 @@ class LotsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        
+    { 
         $this->validate($request, [
             'title' => 'required',
             'vin' => 'required',
-            'date' => 'required|numeric'
+            'date' => 'required|numeric',
+            'address' => 'required',
+            'car_mileage' => 'required|numeric',
+            'fuel' => 'required',
+            'price' => 'required|numeric',
+
         ]);
 
         Lot::add($request->all(), $request->file('image'));
@@ -144,7 +152,7 @@ class LotsController extends Controller
                 'items' => $items,
             ];
         }
-//        dd($data['attrs_dop']);
+        //dd($data['attrs_dop']);
 
 
 
@@ -167,6 +175,8 @@ class LotsController extends Controller
             ['type_id', '=', $id],
             ['type', '=', 'lot'],
         ])->first();
+
+        $data['brands'] = CarBrand::all();
 
         return view('admin.lots.edit', $data);
     }
@@ -203,6 +213,14 @@ class LotsController extends Controller
 
 
         return redirect()->route('lots.index');
+    }
+
+    public function show(Request $request)
+    {
+        $models = CarModel::where('brand_id', $request->get('values'))->get();  
+        if ($request->ajax()) {
+            return view('admin.lots._car_brands', ['models' => $models]);
+        }
     }
 
 }

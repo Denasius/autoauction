@@ -67,12 +67,36 @@
                                             {{Form::textarea('desr', $lot->desr, ['id'=> 'ckeditor', 'class'=>'form-control', 'placeholder' => 'Описание', 'value'=>$lot->desr])}}
                                         </div>
                                     </div>
+
+                                    <div class="form-group form-brand">
+                                        <label class="col-sm-2 control-label">Марка</label>
+                                        <div class="col-sm-10">
+                                                                                         
+                                            <select id="car_brend" name="car_brend" class="form-control">
+                                                <option value="{{ $lot->car_brend }}" selected>{{ $lot->getBrandTitle($lot->car_brend)  }}</option>
+                                                @foreach ($brands as $brand)
+                                                    @if ($lot->car_brend != $brand->id )
+                                                        <option value="{{ $brand->id }}">{{ $brand->title }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Модель</label>
                                         <div class="col-sm-10">
-                                            {{Form::text('car_model', $lot->car_model, ['class'=>'form-control', 'placeholder' => 'Модель', 'value'=>$lot->car_model ])}}
+                                            <select id="car_model" name="car_model" class="form-control">
+                                                <option value="{{ $lot->car_model }}" class="selected" selected>{{ $lot->car_model }}</option>
+                                                @foreach ($lot->getCarModelsByBrandId($lot->car_brend) as $model)
+                                                    <option value="{{ $model->title }}">{{ $model->title }}</option>
+                                                @endforeach
+                                                
+                                            </select>
                                         </div>
                                     </div>
+
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Год выпуска</label>
@@ -120,6 +144,42 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Цена</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="price" class="form-control" placeholder="Цена" value="{{ $lot->price }}">
+                                        </div> 
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="checkbox-inline col-sm-2 control-label" style="padding-top:0;">
+                                           Цена с НДС?
+                                        </label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" id="tax" name="tax" value="{{ $lot->tax }}" @if($lot->tax == 1) checked @endif>  
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" style="padding-top:0;">Купить в один клик</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" id="buy_one_click" name="buy_one_click" value="{{ $lot->buy_one_click }}" @if($lot->buy_one_click == 1) checked @endif> 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Валюта</label>
+                                        <div class="col-sm-10">
+                                            <select name="currency" class="form-control">
+                                                <option value="{{ $lot->currency }}" selected>{{ $lot->currency }}</option>
+                                                @if ($lot->currency == 'BYN')
+                                                    <option value="EUR">EUR</option>
+                                                @else
+                                                 <option value="BYN">BYN</option>
+                                                @endif
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Опции</label>
@@ -139,6 +199,28 @@
                                             {{Form::number('views', $lot->views, ['class'=>'form-control', 'placeholder' => 'Просмотры', 'value'=>$lot->views])}}
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Шаг в ставке</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="lot_step" class="form-control" placeholder="Шаг в ставке" value="{{ $lot->lot_step }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Дата открытия торгов</label>
+                                        <div class="col-sm-10">
+                                            <input type="date" name="lot_start" class="form-control" placeholder="Дата открытия торгов" value="{{ $lot->lot_start }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Таймер</label>
+                                        <div class="col-sm-10">
+                                            <input type="datetime-local" name="lot_time" class="form-control" placeholder="Таймер" value="{{ $lot->lot_time }}">
+                                        </div>
+                                    </div>                                    
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Meta title</label>
                                         <div class="col-sm-10">
@@ -151,6 +233,35 @@
                                             {{Form::text('meta_description', $lot->meta_description, ['class'=>'form-control', 'placeholder' => 'Meta descr', 'value'=>$lot->meta_description])}}
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label pt-0" style="padding-top:0;">Лот для особенных</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" id="lot_vip" name="lot_vip" value="{{ $lot->lot_vip }}" @if($lot->lot_vip == 1) checked @endif> 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" style="padding-top:0;">Авто из Европы</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" id="car_from_europe" name="car_from_europe" value="{{ $lot->car_from_europe }}" @if($lot->car_from_europe == 1) checked @endif> 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group form-group-europe">
+                                        <label class="col-sm-2 control-label">Стоимость доставки</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="shipping" class="form-control" placeholder="Стоимость доставки" value="{{ $lot->shipping }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group form-group-europe">
+                                        <label class="col-sm-2 control-label">Дополнительные сборы</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="fees" class="form-control" placeholder="Дополнительные сборы" value="{{ $lot->fees }}">
+                                        </div>
+                                    </div>
+
                                     @if(isset($aliase->slug))
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">ЧПУ</label>
@@ -306,4 +417,35 @@
             $(this).parent().remove();
         });
     </script>
+
+    <script>
+    $(document).ready(function () {
+        $('#car_brend').on('change', function () {
+            var _this = $(this),
+                _token = _this.closest('form').find('input[name="_token"]').val(),
+                _method = 'get',
+                _url = "{{ route('showmodels') }}",
+                value = _this.val();            
+
+            return $.ajax({
+             headers: {
+                 'X-CSRF-TOKEN':_token
+             },
+             type: _method,
+             url: _url,
+             data: {values: value},
+             success:function (response) {
+                console.log(response);
+                 $('#car_model').find('option').not('.selected').remove();
+                 $('#car_model').append(response);
+             },
+             error: function (request, errorStatus, errorThrown) {
+                    console.log(request);
+                    console.log(errorStatus);
+                    console.log(errorThrown);
+                }
+            });
+        });
+    });
+</script> 
 @endsection

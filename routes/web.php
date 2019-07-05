@@ -65,6 +65,8 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	//Поиск
 	Route::post('/search', 'SearchController@get');
 
+
+	Route::get('/showcars', 'LotsController@show')->name('showmodels');
 });
 
 Route::group([

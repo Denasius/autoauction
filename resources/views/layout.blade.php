@@ -332,5 +332,6 @@
   <script src="js/scripts.js"></script>
 <div class="overlay-filter"></div>
 <img class="prelod-gif" src="/img/loader-gifka.gif" alt="Загрузка">
+
 </body>
 </html>

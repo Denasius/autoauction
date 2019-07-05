@@ -238,4 +238,20 @@ class Lot extends Model
         Date::setLocale('ru_RU');
         return Date::parse($value)->format('d M, Y');
     }
+
+    public function getBrandTitle($brand_id)
+    {
+        $title = CarBrand::where('id', $brand_id)->first();
+        return $title->title;
+    }
+
+    public static function getAllBrands()
+    {
+        return CarBrand::all();
+    }
+
+    public function getCarModelsByBrandId($brand_id)
+    {        
+        return CarModel::get_models_by_brand($brand_id);
+    }
 }
