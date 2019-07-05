@@ -13,19 +13,7 @@ jQuery(document).ready(function ($) {
 	    });
 
 
-	    $( "#slider-range" ).slider({
-	     range: true,
-	     step:10,
-	     min: 10,
-	     max: 1000,
-	     values: [ 100, 500 ],
-	     slide: function( event, ui ) {
-	       $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-	     }
-		});
-
-
-		$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+		
 
 
 

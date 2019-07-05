@@ -119,16 +119,15 @@
                         </div>
                         <div class="select">
                             <select name="car_model" id="model">
-                                <option value="-1" class="selected" selected>Выберите модель</option>
+                                <option value="-1" class="selected" selected>Модель</option>
                             </select>
                         </div>
                         <div class="select">
-                            <select name="mark" id="style">
-                                <option value="-1">Select Style</option>
-                                  <option>Price</option>
-                                  <option>Miles</option>
-                                  <option>Year</option>
-                                  <option>Near</option>
+                            <select name="date" id="style">
+                                <option value="-1">Год</option>
+                                @foreach ($lots_year as $lot)
+                                  	<option value="{{ $lot->date }}">{{ $lot->date }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="slider-range">
@@ -138,21 +137,17 @@
 							<div id="slider-range"></div>
                         </div>
                         <div class="select">
-                            <select name="mark" id="types">
-                                <option value="-1">Select Car Types</option>
-                                  <option>Price</option>
-                                  <option>Miles</option>
-                                  <option>Year</option>
-                                  <option>Near</option>
+                            <select name="car_mileage" id="types" class="car_mileage">
+                                <option value="-1">Пробег</option>
+								@foreach ($milleage as $item)
+                                  	<option value="{{ $item->car_mileage }}">{{ number_format($item->car_mileage, 0) }} км</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="select">
                             <select name="mark" id="color">
                                 <option value="-1">Select Color</option>
-                                  <option>Price</option>
-                                  <option>Miles</option>
-                                  <option>Year</option>
-                                  <option>Near</option>
+                                
                             </select>
                         </div>
                         <div class="advanced-button">
@@ -203,10 +198,25 @@
 	                }
 				});
 			});
-		}
+		};
+
+		var sliderRange = function () {
+			$( "#slider-range" ).slider({
+			    range: true,
+			    step:10,
+			    min: 100,
+			    max: {{ $max_price }},
+			    values: [ 100, 500 ],
+			    slide: function( event, ui ) {
+			      	$( "#amount" ).val(ui.values[ 0 ] + " BYN" + " - " + ui.values[ 1 ] + " BYN" );
+			    }
+			});
+			$( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) + " BYN" + " - " + $( "#slider-range" ).slider( "values", 1 ) + " BYN" );
+		};
 
 		$(document).ready(function () {
 			getCarsModels();
+			sliderRange();
 		});
 	})(jQuery)
 </script>

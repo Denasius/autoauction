@@ -18,8 +18,7 @@ class Lot extends Model
 
     const TYPE = 'lot';
 
-    protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id',
-        'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image', 'fuel', 'date', 'price', 'currency', 'tax', 'buy_one_click', 'lot_vip', 'car_from_europe', 'shipping', 'fees', 'lot_step', 'lot_time', 'lot_start', 'car_brend'];
+    protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id', 'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image', 'fuel', 'date', 'price', 'currency', 'tax', 'buy_one_click', 'lot_vip', 'car_from_europe', 'shipping', 'fees', 'lot_step', 'lot_time', 'lot_start', 'car_brend'];
 
     public function attributes()
     {
@@ -241,8 +240,11 @@ class Lot extends Model
 
     public function getBrandTitle($brand_id)
     {
-        $title = CarBrand::where('id', $brand_id)->first();
-        return $title->title;
+        if ( $brand_id != null ){
+            $title = CarBrand::where('id', $brand_id)->first();
+            return $title->title;
+        }
+        
     }
 
     public static function getAllBrands()

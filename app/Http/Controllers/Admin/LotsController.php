@@ -190,6 +190,7 @@ class LotsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //dd($request->all());
         $this->validate($request, [
             'title' => 'required',
             'vin' => 'required',

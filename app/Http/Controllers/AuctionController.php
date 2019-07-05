@@ -16,6 +16,11 @@ class AuctionController extends Controller
     	$data['description'] = $model->description;
     	$data['lots'] = Lot::where('status', 1)->paginate(12);
         $data['all_brands'] = Lot::getAllBrands();
+        $all_lots = Lot::all();
+        $data['lots_year'] = $all_lots->sortBy('date');
+        $data['max_price'] = $all_lots->max('price');
+        $data['milleage'] = $all_lots->sortBy('car_mileage');
+        //dd($data['milleage']);
         // $data['marks'] = 
 
         return view('auctions.index', $data);
