@@ -102,10 +102,7 @@ class Lot extends Model
                 $main_img_name = Lot::generate_image_name($main_img);
                 $parth = $main_img->storeAs('uploads', $main_img_name);
                 $lot->image = $parth;
-
-                
             }
-
         }
 
         $lot->save();

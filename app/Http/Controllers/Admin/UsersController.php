@@ -76,6 +76,9 @@ class UsersController extends Controller
 
         $data['roles'] = UserRole::all();
         $data['user'] = User::find($id);
+
+        $data['images'] = json_decode($data['user']->images);
+
         return view('admin.users.edit', $data);
     }
 

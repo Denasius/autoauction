@@ -69,6 +69,12 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::get('/showcars', 'LotsController@show')->name('showmodels');
 });
 
+//Загрузка изображения для профиля
+Route::post('/upload_image_profile', 'ImagesController@upload_image_profile')->name('upload_image_profile');
+
+//Типа универсальная загрузка...
+Route::post('/upload_image', 'ImagesController@upload_image')->name('upload_image');
+
 //Если не авторизирован
 Route::group(['middleware'=>'guest'], function () {
 	Route::get('/register', 'AuthController@registerForm')->name('registerView');

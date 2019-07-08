@@ -47,7 +47,7 @@
                                     <div class="form-group images">
                                         <label class="col-sm-2 control-label">Изображение</label>
                                         <div class="col-sm-10">
-                                            <img src="{{$lot->getImage()}}" alt="">
+                                            <img src="/{{$lot->image}}" alt="">
                                             <label>
                                                 <input type="file" name="image" class="preview_img hide" value="{{$lot->image}}">
                                                 <i class="fas fa-upload"></i>
