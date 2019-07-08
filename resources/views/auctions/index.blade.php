@@ -31,7 +31,7 @@
 			<div id="listing-cars" class="col-md-9">
 				<div class="pre-featured clearfix">
 					<div class="info-text">
-						<h4>{{ $lots->count() }} results founded</h4>
+						<h4><span id="lot_counted">{{ $lots->count() }}</span> results founded</h4>
 					</div>
 					<div class="right-content">
 						<form class="form-filter" action="{{ route('filter') }}" method="POST">
@@ -103,75 +103,84 @@
 					</div>
 				</div> --}}
 			</div>
-			<div id="sidebar" class="col-md-3">
-				<div class="sidebar-content">
-					<div class="head-side-bar">
-						<h4>Расширенный поиск</h4>
-					</div>
-					<div class="search-form">
-						<div class="select">
-                            <select id="make" name="car_brend">
-                                <option value="-1">Марка</option>
-                                @foreach ($all_brands as $brand)
-                                  	<option value="{{ $brand->id }}">{{ $brand->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="select">
-                            <select name="car_model" id="model">
-                                <option value="-1" class="selected" selected>Модель</option>
-                            </select>
-                        </div>
-                        <div class="select">
-                            <select name="date" id="style">
-                                <option value="-1">Год</option>
-                                @foreach ($lots_year as $lot)
-                                  	<option value="{{ $lot->date }}">{{ $lot->date }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="slider-range">
-                        	<p>
-						    	<input type="text" name="price" class="range price" id="amount" readonly>
-						    </p>
-							<div id="slider-range"></div>
-                        </div>
-                        <div class="select">
-                            <select name="car_mileage" id="types" class="car_mileage">
-                                <option value="-1">Пробег</option>
-								@foreach ($milleage as $item)
-                                  	<option value="{{ $item->car_mileage }}">{{ number_format($item->car_mileage, 0) }} км</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="select">
-                            <select name="engine" id="engine">
-                                <option value="-1">Объем двигателя</option>
-                                
-                            </select>
-                        </div>
+			<form class="global-search" action="{{ route('global-search') }}" method="POST">
+				@csrf
+				<input type="hidden" name="category_id" value="{{ $category }}">
+				<div id="sidebar" class="col-md-3">
+					<div class="sidebar-content">
+						<div class="head-side-bar">
+							<h4>Расширенный поиск</h4>
+						</div>
+						<div class="search-form">
+							<div class="select">
+	                            <select id="make" name="car_brend">
+	                                <option value="-1">Марка</option>
+	                                @foreach ($all_brands as $brand)
+	                                  	<option value="{{ $brand->id }}">{{ $brand->title }}</option>
+	                                @endforeach
+	                            </select>
+	                        </div>
+	                        <div class="select">
+	                            <select name="car_model" id="model">
+	                                <option value="-1" class="selected" selected>Модель</option>
+	                            </select>
+	                        </div>
+	                        <div class="select">
+	                            <select name="date" id="style">
+	                                <option value="-1">Год</option>
+	                                @foreach ($lots_year as $lot)
+	                                  	<option value="{{ $lot->date }}">{{ $lot->date }}</option>
+	                                @endforeach
+	                            </select>
+	                        </div>
+	                        <div class="slider-range">
+	                        	<p>
+							    	<input type="text" name="price" class="range price" id="amount" readonly>
+							    </p>
+								<div id="slider-range"></div>
+	                        </div>
 
-                        <div class="select">
-                            <select name="body_type" id="body_type">
-                                <option value="-1">Тип кузова</option>
-                                
-                            </select>
-                        </div>
-                        <div class="advanced-button">
-							<button class="btn-filter-search" href="listing-right.html">Поиск<i class="fa fa-search"></i></button>
+	                        <div class="select">
+	                            <select name="car_mileage" id="types" class="car_mileage">
+	                                <option value="-1">Пробег</option>
+									@foreach ($milleage as $item)
+	                                  	<option value="{{ $item->car_mileage }}">{{ number_format($item->car_mileage, 0) }} км</option>
+	                                @endforeach
+	                            </select>
+	                        </div>
+	                        @foreach ($attr_tree as $key => $value)
+		                        <div class="select">
+		                            <select name="attributes[]">
+		                                <option value="-1" selected>{{ $key }}</option>
+		                                @foreach ($value as $option)
+		                                	<option value="{{ $option['id'] }}">{{ $option['title'] }}</option>
+		                                @endforeach
+		                            </select>
+		                        </div>
+	                        @endforeach
+
+	                        {{-- <div class="select">
+	                            <select name="body_type" id="body_type">
+	                                <option value="-1">Тип кузова</option>
+	                                
+	                            </select>
+	                        </div> --}}
+	                        <div class="advanced-button">
+								<button class="btn-filter-search" href="listing-right.html">Поиск<i class="fa fa-search"></i></button>
+							</div>
+						</div>
+					</div>
+					<div class="video-post">
+						<div class="video-holder">
+							<img src="http://dummyimage.com/270x170/cccccc/fff.jpg" alt="">
+							<div class="video-content">
+								<a href="single-blog.html"><i class="fa fa-play"></i></a>
+								<a href="single-blog.html"><h4>Video post example</h4></a>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="video-post">
-					<div class="video-holder">
-						<img src="http://dummyimage.com/270x170/cccccc/fff.jpg" alt="">
-						<div class="video-content">
-							<a href="single-blog.html"><i class="fa fa-play"></i></a>
-							<a href="single-blog.html"><h4>Video post example</h4></a>
-						</div>
-					</div>
-				</div>
-			</div>
+			</form>
 		</div>
 	</div>
 </section>
@@ -211,9 +220,9 @@
 			$( "#slider-range" ).slider({
 			    range: true,
 			    step:10,
-			    min: 100,
+			    min: {{ $min_price }},
 			    max: {{ $max_price }},
-			    values: [ 100, 500 ],
+			    values: [ {{ $min_price }}, {{ $max_price }} ],
 			    slide: function( event, ui ) {
 			      	$( "#amount" ).val(ui.values[ 0 ] + " BYN" + " - " + ui.values[ 1 ] + " BYN" );
 			    }

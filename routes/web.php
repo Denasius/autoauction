@@ -101,5 +101,6 @@ Route::get('/verify/{token}', 'SubscribeController@verify');
 //Фильтр на аукционах
 Route::post('/filter', 'AuctionController@filter')->name('filter');
 Route::post('/advanced-search', 'AuctionController@search_filter')->name('search-filter');
+Route::post('/global-search', 'AuctionController@global_search')->name('global-search');
 // Роутинг для отслеживания страниц по URL
 Route::get('/{path}', 'AliasController@alias')->where('path', '.+')->name('aliases');

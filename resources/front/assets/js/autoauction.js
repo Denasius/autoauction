@@ -74,4 +74,38 @@ jQuery(document).ready(function ($) {
             }
 		});
 	});
+
+	$('form.global-search').on('submit', function (e) {
+		e.preventDefault();
+		var _form = $(this),
+			_token = _form.find('input[name="_token"]').val(),
+			_method = _form.attr('method'),
+			_url = _form.attr('action'),
+			_value = _form.serialize();
+
+		return $.ajax({
+			headers: {
+                'X-CSRF-TOKEN':_token
+            },
+            type: _method,
+            url: _url,
+            data: _value,
+            beforeSend:function () {
+				$('.overlay-filter').addClass('active');
+				$('.prelod-gif').addClass('active');
+			},
+            success: function (response) {
+            	$('.overlay-filter').removeClass('active');
+				$('.prelod-gif').removeClass('active');
+				$('#featured-cars').find('.row').remove();
+				$('#featured-cars').html(response).fadeIn('slow');
+				$('#lot_counted').text($(response + '#response_lot_count').val());
+            },
+            error: function (request, errorStatus, errorThrown) {
+                console.log(request);
+                console.log(errorStatus);
+                console.log(errorThrown);
+            }
+		});
+	});
 });

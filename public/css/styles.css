@@ -33444,9 +33444,12 @@ nav.main-navigation ul li ul.sub-menu{
 	font-weight: 700;
 }
 
-#sidebar .sidebar-content .search-form .select #engine,
-#sidebar .sidebar-content .search-form .select #body_type{
+#sidebar .sidebar-content .search-form .select{
 	margin-bottom: 20px;
+}
+
+#sidebar .sidebar-content .search-form .select #types{
+	margin-bottom: 0;
 }
 .information{
   padding: 10px 5px;

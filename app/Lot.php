@@ -10,6 +10,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Str;
 use Jenssegers\Date\Date;
+use App\Attribute;
 
 class Lot extends Model
 {
@@ -286,8 +287,9 @@ class Lot extends Model
         return CarModel::get_models_by_brand($brand_id);
     }
 
-    // public function getCarEngine()
-    // {
-        
-    // }
+    
+    public static function getAttr()
+    {
+        return Attribute::getTreeAttrCategoies();
+    }
 }
