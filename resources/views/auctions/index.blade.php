@@ -145,8 +145,15 @@
                             </select>
                         </div>
                         <div class="select">
-                            <select name="mark" id="color">
-                                <option value="-1">Select Color</option>
+                            <select name="engine" id="engine">
+                                <option value="-1">Объем двигателя</option>
+                                
+                            </select>
+                        </div>
+
+                        <div class="select">
+                            <select name="body_type" id="body_type">
+                                <option value="-1">Тип кузова</option>
                                 
                             </select>
                         </div>

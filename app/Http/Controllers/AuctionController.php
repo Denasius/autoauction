@@ -42,4 +42,9 @@ class AuctionController extends Controller
             return view('auctions._global_search_model', ['models' => $models]);
         }
     }
+
+    public function getAttr()
+    {
+        dd(Lot::get_all());
+    }
 }

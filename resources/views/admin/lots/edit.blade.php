@@ -156,14 +156,14 @@
                                            Цена с НДС?
                                         </label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="tax" name="tax" value="{{ $lot->tax }}" @if($lot->tax == 1) checked @endif>  
+                                            <input type="checkbox" id="tax" name="tax" @if($lot->tax == 'on') checked @endif>  
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" style="padding-top:0;">Купить в один клик</label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="buy_one_click" name="buy_one_click" value="{{ $lot->buy_one_click }}" @if($lot->buy_one_click == 1) checked @endif> 
+                                            <input type="checkbox" id="buy_one_click" name="buy_one_click" @if($lot->buy_one_click == 'on') checked @endif> 
                                         </div>
                                     </div>
 
@@ -237,14 +237,14 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label pt-0" style="padding-top:0;">Лот для особенных</label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="lot_vip" name="lot_vip" value="{{ $lot->lot_vip }}" @if($lot->lot_vip == 1) checked @endif> 
+                                            <input type="checkbox" id="lot_vip" name="lot_vip" @if($lot->lot_vip == 'on') checked @endif> 
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" style="padding-top:0;">Авто из Европы</label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="car_from_europe" name="car_from_europe" value="{{ $lot->car_from_europe }}" @if($lot->car_from_europe == 1) checked @endif> 
+                                            <input type="checkbox" id="car_from_europe" name="car_from_europe" @if($lot->car_from_europe == 'on') checked @endif> 
                                         </div>
                                     </div>
 

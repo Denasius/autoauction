@@ -147,7 +147,7 @@
                                            Цена с НДС?
                                         </label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="tax" name="tax" value="0"> 
+                                            <input type="checkbox" id="tax" name="tax"> 
                                         </div>
                                     </div>
 
@@ -156,7 +156,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" style="padding-top:0;">Купить в один клик</label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="buy_one_click" name="buy_one_click" value="0"> 
+                                            <input type="checkbox" id="buy_one_click" name="buy_one_click"> 
                                         </div>
                                     </div>
 
@@ -227,14 +227,14 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label pt-0" style="padding-top:0;">Лот для особенных</label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="lot_vip" name="lot_vip" value="0"> 
+                                            <input type="checkbox" id="lot_vip" name="lot_vip"> 
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" style="padding-top:0;">Авто из Европы</label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="car_from_europe" name="car_from_europe" value="0"> 
+                                            <input type="checkbox" id="car_from_europe" name="car_from_europe"> 
                                         </div>
                                     </div>
 

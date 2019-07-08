@@ -18,7 +18,7 @@ class Lot extends Model
 
     const TYPE = 'lot';
 
-    protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id', 'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image', 'fuel', 'date', 'price', 'currency', 'tax', 'buy_one_click', 'lot_vip', 'car_from_europe', 'shipping', 'fees', 'lot_step', 'lot_time', 'lot_start', 'car_brend'];
+    protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id', 'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image', 'fuel', 'date', 'price', 'currency', 'shipping', 'fees', 'lot_step', 'lot_time', 'lot_start', 'car_brend'];
 
     public function attributes()
     {
@@ -30,6 +30,7 @@ class Lot extends Model
 
         $lot = new Lot();
         $lot->fill($fields);
+        $lot->addCheckboxFields( $fields );
 
         //Главная картинка
         $parth = false;
@@ -91,6 +92,8 @@ class Lot extends Model
     public static function edit($id ,$fields, $main_img){
         $lot = Lot::find($id);
         $lot->fill($fields);
+        $lot->addCheckboxFields( $fields );
+
 
         //Главная картинка
         $parth = false;
@@ -167,6 +170,33 @@ class Lot extends Model
             }
         }
 
+    }
+
+    public function addCheckboxFields($values)
+    {
+        if ( empty($values['lot_vip']) ) {
+            $this->lot_vip = null;
+        }else{
+            $this->lot_vip = $values['lot_vip'];
+        }
+
+        if ( empty($values['car_from_europe']) ) {
+            $this->car_from_europe = null;
+        }else{
+            $this->car_from_europe = $values['car_from_europe'];
+        }
+
+        if ( empty($values['buy_one_click']) ) {
+            $this->buy_one_click = null;
+        }else{
+            $this->buy_one_click = $values['buy_one_click'];
+        }
+
+        if ( empty($values['tax']) ) {
+            $this->tax = null;
+        }else{
+            $this->tax = $values['tax'];
+        }
     }
 
     public static function remove($id){
@@ -258,4 +288,9 @@ class Lot extends Model
     {        
         return CarModel::get_models_by_brand($brand_id);
     }
+
+    // public function getCarEngine()
+    // {
+        
+    // }
 }

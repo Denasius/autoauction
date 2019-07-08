@@ -33443,6 +33443,11 @@ nav.main-navigation ul li ul.sub-menu{
 	font-family: "Font Awesome 5 Free";
 	font-weight: 700;
 }
+
+#sidebar .sidebar-content .search-form .select #engine,
+#sidebar .sidebar-content .search-form .select #body_type{
+	margin-bottom: 20px;
+}
 .information{
   padding: 10px 5px;
   & > span{
