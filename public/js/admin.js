@@ -78,44 +78,66 @@ $('#search_form .form-control').on('input',function () {
 
 $(function() {
       // Multiple images preview in browser
-    var imagesPreview = function (input, placeToInsertImagePreview) {
+	function imagesPreview(input, placeToInsertImagePreview) {
+		if (input.files) {
+			var filesAmount = input.files.length;
+			for (var i = 0; i < filesAmount; i++) {
 
-        if (input.files) {
-            var filesAmount = input.files.length;
-            for (i = 0; i < filesAmount; i++) {
-                var reader = new FileReader();
+				var parth = upload_image(input.files[i],'lots', true);
 
+				if (parth) {
+					console.log(parth);
+					$('.gallery.gallery__images').append('<div class="uploadedImage">' +
+						'<img src="/' +parth + '">' +
+						'<input type="text" placeholder="Название (alt)" name="images[alt][]">' +
+						'<input type="text" placeholder="Заголовок (title)" name="images[title][]">' +
+						'<input type="text" placeholder="Описание (description)" name="images[descr][]">' +
+						'<input type="hidden" name="images[src][]" value="' + parth + '">' +
+						'<a href="javascript:void(0);" class="btn btn-info btn-remove">Удалить</a></div>');
 
-                reader.onload = function (event) {
-                    console.log(event);
-                    var item = '<div class="uploadedImage"><img src="' + event.target.result + '"><input type="text" placeholder="Название (alt)" name="image[alt][]"><input type="text" placeholder="Заголовок (title)" name="images[title][]"><input type="text" placeholder="Описание (description)" name="images[descr][]"><input type="hidden" name="images[src][]" value="' + event.target.result + '"><a href="javascript:void(0);" class="btn btn-info btn-remove">Удалить</a></div>'
-
-                    reader.fileName = input.files[i].name;
-                    reader.onload = function (event, files_name) {
-                        var item = '<div class="uploadedImage">' +
-                            '<img src="' + event.target.result + '">' +
-                            '<input type="text" placeholder="Название (alt)" name="images[alt][]">' +
-                            '<input type="text" placeholder="Заголовок (title)" name="images[title][]">' +
-                            '<input type="text" placeholder="Описание (description)" name="images[descr][]">' +
-                            '<input type="hidden" name="images[src][]" value="' + event.target.result + '">' +
-                            '<input type="hidden" name="images[name][]" value="' + this.fileName + '">' +
-                            '<a href="javascript:void(0);" class="btn btn-info btn-remove">Удалить</a></div>'
-
-                        $($.parseHTML(item)).appendTo(placeToInsertImagePreview);
-                        $('.btn-remove').on('click', function () {
-                            $(this).closest('.uploadedImage').remove();
-                        });
-                    };
-                    reader.readAsDataURL(input.files[i]);
-                }
-            }
-        }
-        ;
-
-        $('#gallery-photo-add').on('change', function () {
+					$('.uploadedImage .btn-remove').click(function () {
+						$(this).parent().remove();
+					});
+				}
+			}
+		}
+	}
 
 
-            imagesPreview(this, 'div.gallery');
-        });
-    }
+	$('#gallery-photo-add').on('change', function () {
+		imagesPreview(this, 'div.gallery');
+	});
 });
+
+
+//Загрузка файлов, функция вернет урл до картинки который положила на сервер
+function upload_image(image, folder = false, seo_url = false) {
+
+	//Собираем данные
+	var parth = false;
+
+	var form_data = new FormData();
+	form_data.append('file', image);
+
+	if (folder) form_data.append('folder', folder);
+	if (seo_url) form_data.append('seo_url', seo_url);
+
+	$.ajax({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		},
+		url: $('meta[name="upload_image"]').attr('content'),
+		data: form_data,
+		dataType: 'text',
+		cache: false,
+		async: false,
+		contentType: false,
+		processData: false,
+		type: 'post',
+		success: function (result) {
+			parth = result;
+		}
+	});
+
+	return parth;
+}

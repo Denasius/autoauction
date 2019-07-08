@@ -178,6 +178,8 @@ class LotsController extends Controller
 
         $data['brands'] = CarBrand::all();
 
+        \Debugbar::info($data);
+
         return view('admin.lots.edit', $data);
     }
 
@@ -197,7 +199,7 @@ class LotsController extends Controller
         ]);
 
 
-        Lot::edit($id,$request->all(), $request->file('image'));
+        Lot::edit($id, $request->all(), $request->file('image'));
 
         return redirect()->route('lots.index');
     }
