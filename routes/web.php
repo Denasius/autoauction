@@ -99,7 +99,8 @@ Route::post('/subscribe', 'SubscribeController@subscribe')->name('subscribe');
 Route::get('/verify/{token}', 'SubscribeController@verify');
 
 //Фильтр на аукционах
-Route::post('/filter', 'AuctionController@filter')->name('filter');
+Route::post('/filter', 'AuctionController@global_search')->name('filter');
+Route::post('/sendform', 'AuctionController@sendform')->name('sendform');
 Route::post('/advanced-search', 'AuctionController@search_filter')->name('search-filter');
 Route::post('/global-search', 'AuctionController@global_search')->name('global-search');
 // Роутинг для отслеживания страниц по URL

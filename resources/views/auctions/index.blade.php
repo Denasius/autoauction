@@ -35,9 +35,10 @@
 					</div>
 					<div class="right-content">
 						<form class="form-filter" action="{{ route('filter') }}" method="POST">
-							@csrf							
+							@csrf
+							<input type="hidden" name="category_id" value="{{ $category }}">					
 							<div class="input-select">
-	                            <select name="mark" id="mark" class="mark-top-filter">
+	                            <select name="sort" id="mark" class="mark-top-filter global-filter">
 	                                <option value="-1">Сортировать по</option>
 	                                	<option value="title">Наименование</option>
 	                                  	<option value="car_mileage">Пробег</option>
@@ -83,6 +84,8 @@
 				<div class="paginate">
 					{{$lots->render()}}
 				</div>
+
+				
 				{{-- <div class="pagination">
 					<div class="prev">
 						<a href="#"><i class="fa fa-arrow-left"></i>Prev</a>
@@ -103,7 +106,7 @@
 					</div>
 				</div> --}}
 			</div>
-			<form class="global-search" action="{{ route('global-search') }}" method="POST">
+			<form class="global-search global-filter" action="{{ route('global-search') }}" method="POST">
 				@csrf
 				<input type="hidden" name="category_id" value="{{ $category }}">
 				<div id="sidebar" class="col-md-3">

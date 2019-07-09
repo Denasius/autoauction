@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 use App\Lot;
 use App\CarModel;
-
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class AuctionController extends Controller
@@ -27,12 +28,30 @@ class AuctionController extends Controller
         return view('auctions.index', $data);
     }
 
-    public function filter(Request $request)
+    public function sendform(Request $request)
     {
-        $sort_lots = Lot::where('status', 1)->get()->sortBy($request->get('values'));  
-        if ($request->ajax()) {
-            return view('auctions._sort_lots', ['sort_lots' => $sort_lots]);
-        }
+        if ( $request->has('consent') && $request->get('consent') == 'on' ) {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|min:2',
+                'phone' => 'required|min:7',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'errors' => $validator->getMessageBag()->toArray()
+                ]);
+            }else{
+
+                $data['name'] = $request->get('email');
+                $data['phone'] = $request->get('phone');
+                $to = 'kdo@webernetic.by';
+                \Mail::to($to)->send(new SendMail($data));
+                
+                return response()->json([
+                    'success' => 'Ваше сообщение успешно отправлено!'
+                ]);
+            }
+        }        
     }
 
     public function search_filter(Request $request)
@@ -46,6 +65,7 @@ class AuctionController extends Controller
     public function global_search(Request $request)
     {
         $lots = Lot::where('category_id', $request->get('category_id'))->where('status', 1)->select('lots.*');
+
         if ( $request->has('car_brend') && $request->get('car_brend') != -1 ) {
             $lots->where('car_brend', $request->get('car_brend'));
         }
@@ -69,11 +89,14 @@ class AuctionController extends Controller
 
         $checked = [];
 
-        foreach ( $request->get('attributes') as $attr ) {   
-            if ( $attr != -1 ) {                
-                array_push($checked, $attr);
-            }         
+        if ($request->has('attributes')) {            
+            foreach ( $request->get('attributes') as $attr ) {   
+                if ( $attr != -1 ) {                
+                    array_push($checked, $attr);
+                }         
+            }
         }
+
               
         if ( $checked ) {
             $lots->join('lot_attributes', 'lot_attributes.lot_id', '=', 'lots.id');
@@ -81,9 +104,14 @@ class AuctionController extends Controller
             $lots->whereIn('lot_attributes.attr_id', $checked);            
         }
 
+
         $lots->groupBy('lots.id');
+
         
         if ($request->ajax()) {
+            if ($request->has('sort') && $request->get('sort') != -1)
+                return view('auctions._global_search', ['lots' => $lots->get()->sortBy($request->get('sort'))]);
+            
             return view('auctions._global_search', ['lots' => $lots->get()]);
         }
     }

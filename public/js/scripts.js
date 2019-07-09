@@ -4900,32 +4900,9 @@ jQuery(document).ready(function ($) {
 			_token = _this.find('input[name="_token"]').val(),
 		 	_method = _this.attr('method'),
 		 	_url = _this.attr('action'),
-		 	value = _this.find('select').val();
-		
+		 	value = $('form.global-search, .mark-top-filter').serialize();
 
-		return $.ajax({
-			headers: {
-				'X-CSRF-TOKEN':_token
-			},
-			type: _method,
-			url: _url,
-			data: {values: value},
-			beforeSend:function () {
-				$('.overlay-filter').addClass('active');
-				$('.prelod-gif').addClass('active');
-			},
-			success:function (response) {
-				$('.overlay-filter').removeClass('active');
-				$('.prelod-gif').removeClass('active');
-				$('#featured-cars').find('.row').remove();
-				$('#featured-cars').html(response).fadeIn('slow');
-			},
-			error: function (request, errorStatus, errorThrown) {
-                console.log(request);
-                console.log(errorStatus);
-                console.log(errorThrown);
-            }
-		});
+		formHandler(_this, _token, _method, _url, value);
 	});
 
 	$('form.global-search').on('submit', function (e) {
@@ -4934,31 +4911,36 @@ jQuery(document).ready(function ($) {
 			_token = _form.find('input[name="_token"]').val(),
 			_method = _form.attr('method'),
 			_url = _form.attr('action'),
-			_value = _form.serialize();
+			_value = $('form.global-search, .mark-top-filter').serialize();;
 
-		return $.ajax({
-			headers: {
-                'X-CSRF-TOKEN':_token
-            },
-            type: _method,
-            url: _url,
-            data: _value,
-            beforeSend:function () {
-				$('.overlay-filter').addClass('active');
-				$('.prelod-gif').addClass('active');
-			},
-            success: function (response) {
-            	$('.overlay-filter').removeClass('active');
-				$('.prelod-gif').removeClass('active');
-				$('#featured-cars').find('.row').remove();
-				$('#featured-cars').html(response).fadeIn('slow');
-				$('#lot_counted').text($(response + '#response_lot_count').val());
-            },
-            error: function (request, errorStatus, errorThrown) {
-                console.log(request);
-                console.log(errorStatus);
-                console.log(errorThrown);
-            }
-		});
+		formHandler(_form, _token, _method, _url, _value);
 	});
 });
+
+function formHandler(_form, _token, _method, _url, _value) {
+	return $.ajax({
+		headers: {
+            'X-CSRF-TOKEN':_token
+        },
+        type: _method,
+        url: _url,
+        data: _value,
+        beforeSend:function () {
+			$('.overlay-filter').addClass('active');
+			$('.prelod-gif').addClass('active');
+		},
+        success: function (response) {
+        	$('.overlay-filter').removeClass('active');
+			$('.prelod-gif').removeClass('active');
+			$('#featured-cars').find('.row').remove();
+			$('#featured-cars').html(response).fadeIn('slow');
+			$('#lot_counted').text($(response + '#response_lot_count').val());
+			$('html, body').animate({ scrollTop: 200 }, 'slow');
+        },
+        error: function (request, errorStatus, errorThrown) {
+            console.log(request);
+            console.log(errorStatus);
+            console.log(errorThrown);
+        }
+	});
+}

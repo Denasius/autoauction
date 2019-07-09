@@ -33451,6 +33451,84 @@ nav.main-navigation ul li ul.sub-menu{
 #sidebar .sidebar-content .search-form .select #types{
 	margin-bottom: 0;
 }
+
+.form-not-founded{
+	text-align: center;
+}
+.form-not-founded{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.form-not-founded p{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin-bottom: 0;
+	color: #000;
+	font-weight: bold;
+	font-size: 16px;
+	line-height: 32px;
+}
+
+.form-not-founded span{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: 'Roboto', sans-serif;
+	font-size: 13px;
+	line-height: 22px;
+	color: #888888;
+}
+
+.form-not-founded .field-checkbox{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-webkit-flex-direction: row-reverse;
+	-moz-flex-direction: row-reverse;
+	-ms-flex-direction: row-reverse;
+	-o-flex-direction: row-reverse;
+	flex-direction: row-reverse;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+form.form-result-searching .fields{
+	margin-top: 30px;
+	margin-bottom: 20px;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: space-between;
+}
+
+form.form-result-searching .fields input{
+	width: 100%;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin-right: 5px;
+	padding: 5px 10px;
+}
+
+form.form-result-searching .fields button{
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	border: none;
+	background-color: #f4c23d;
+	color: #000;
+	font-weight: bold;
+	padding: 5px 10px;
+}
+
+form.form-result-searching .field-checkbox input[type="checkbox"]{
+	margin-top: 0;
+	margin-right: 10px;
+}
+form.form-result-searching .field-checkbox label{
+	margin-bottom: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-style: italic;
+}
 .information{
   padding: 10px 5px;
   & > span{
