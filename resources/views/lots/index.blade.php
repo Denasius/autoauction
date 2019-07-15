@@ -1,8 +1,8 @@
 @extends('layout')
 
 @section('seo')
-  <title>Страница лота</title>
-  <meta name="description" content="Страница лота">
+  <title>{{ $lot->meta_title }}</title>
+  <meta name="description" content="{{ $lot->meta_description }}">
 @endsection
 
 @section('content')
@@ -31,8 +31,8 @@
 			<div class="row">
 				<div id="single-car" class="col-md-8">
 					<div class="up-content clearfix">
-						<h2>Audi a6 tsi s-line</h2>
-						<span>$30.000</span>
+						<h2>{{ $lot->title }}</h2>
+						<span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
 					</div>
 					<div class="flexslider">
 						<ul class="slides">

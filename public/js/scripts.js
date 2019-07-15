@@ -4915,6 +4915,45 @@ jQuery(document).ready(function ($) {
 
 		formHandler(_form, _token, _method, _url, _value);
 	});
+
+	// Отправка формы на странице Дилерам
+	$('[name="go"]').on('click', function (e) {
+		e.preventDefault();
+
+		var _form = $(this).closest('.form'),
+			_url = _form.data('action'),
+			_method = _form.data('method'),
+			_token = $('meta[name="csrf-token"]').attr('content'),
+			_data = {
+				token: _token,
+				name: _form.find('[name="name"]').val(),
+				lastname: _form.find('[name="lastname"]').val(),
+				city: _form.find('[name="city"]').val(),
+				manufacturer: _form.find('[name="manufacturer"]').val(),
+				address: _form.find('[name="address"]').val(),
+				phone: _form.find('[name="phone"]').val(),
+				mail: _form.find('[name="mail"]').val()
+			}
+		
+
+		return $.ajax({
+			headers: {
+	            'X-CSRF-TOKEN':_token
+	        },
+	        type: _method,
+	        url: _url,
+	        data: _data,
+	        beforeSend: function () {},
+	        success: function (response) {
+	        	console.log(response);
+	        },
+	        error: function (request, errorStatus, errorThrown) {
+	        	console.log(request);
+	            console.log(errorStatus);
+	            console.log(errorThrown);
+	        }
+		});
+	});
 });
 
 function formHandler(_form, _token, _method, _url, _value) {

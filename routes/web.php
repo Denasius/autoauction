@@ -67,6 +67,8 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 
 
 	Route::get('/showcars', 'LotsController@show')->name('showmodels');
+
+	Route::post('/uploadImages', 'UploadedImagesController@uploadImages')->name('uploadImages');
 });
 
 //Загрузка изображения для профиля
@@ -74,6 +76,7 @@ Route::post('/upload_image_profile', 'ImagesController@upload_image_profile')->n
 
 //Типа универсальная загрузка...
 Route::post('/upload_image', 'ImagesController@upload_image')->name('upload_image');
+
 
 //Если не авторизирован
 Route::group(['middleware'=>'guest'], function () {
@@ -97,6 +100,9 @@ Route::post('/callback', 'HomeController@callback')->name('callback');
 
 Route::post('/subscribe', 'SubscribeController@subscribe')->name('subscribe');
 Route::get('/verify/{token}', 'SubscribeController@verify');
+
+//Форма отправки на странице дилерам
+Route::post('/seller-form', 'PageController@seller_form')->name('seller-form');
 
 //Фильтр на аукционах
 Route::post('/filter', 'AuctionController@global_search')->name('filter');

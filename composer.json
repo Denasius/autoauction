@@ -16,7 +16,8 @@
         "jenssegers/date": "^3.5",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
-        "laravelcollective/html": "^5.8"
+        "laravelcollective/html": "^5.8",
+        "froala/wysiwyg-editor-php-sdk" : "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

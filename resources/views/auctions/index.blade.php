@@ -56,6 +56,26 @@
                         </div> --}}
 					</div>
 				</div>
+				<div class="auction-categories">
+					@if ( $subcategories ) 
+						<ul>
+							<li><a href="{{url('aukciony-mikroavtobusov')}}">Аукционы микроавтобусов</a></li>
+							<li><a href="{{url('aukciony-gruzovyh-avto')}}">Аукционы грузовых авто</a></li>
+							<li><a href="{{url('aukciony-motociklov')}}">Аукционы мотоциклов</a></li>
+							<li><a href="{{url('aukcion-avariynyh-bityh-avto')}}">Аукцион аварийных/битых авто</a></li>
+							<li><a href="{{url('aukciony-avto-s-nds')}}">Аукционы авто с НДС</a></li>
+							<li><a href="{{url('aukcion-arestovannyh-konfiskovannyh-zalogovyh-avto')}}">Аукцион арестованных/конфискованных/залоговых авто</a></li>
+							<li><a href="{{url('avto-s-evropeyskih-aukcionov')}}">Авто с европейских аукционов</a></li>
+							<li><a href="{{url('aukcion-spisannyh-avto')}}">Аукцион списанных авто</a></li>
+							<li><a href="{{url('aukciony-avtobusov')}}">Аукционы автобусов</a></li>
+						</ul>
+						<a class="more more-auctions" href="javascript:void(0)">Еще аукционы</a>
+					@else
+						<div class="go-to-back">
+							<a href="{{ url()->previous() }}" id="back-button">Назад</a>
+						</div>
+					@endif
+				</div>
 				<div id="featured-cars">
 					<div class="row">
 						@foreach ($lots as $lot)
@@ -67,12 +87,12 @@
 									<a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
 									<span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
 									<div class="light-line"></div>
-									<p>{{ strip_tags( $lot->getFormatString($lot->desr, 60) ) }}</p>
+									<p>{{ strip_tags( $lot->getFormatString($lot->desr, 55) ) }}</p>
 									<div class="car-info">
 										<ul>
 											<li><i class="icon-gaspump"></i>{{ $lot->fuel }}</li>
 											<li><i class="icon-car"></i>{{ $lot->car_model }}</li>
-											<li><i class="icon-road2"></i>{{ $lot->price }} {{ $lot->currency }}</li>
+											<li><i class="icon-road2"></i>{{ $lot->car_mileage }}</li>
 										</ul>
 									</div>
 								</div>
@@ -84,27 +104,6 @@
 				<div class="paginate">
 					{{$lots->render()}}
 				</div>
-
-				
-				{{-- <div class="pagination">
-					<div class="prev">
-						<a href="#"><i class="fa fa-arrow-left"></i>Prev</a>
-					</div>
-					<div class="page-numbers">
-						<ul>
-							<li><a href="#">1</a></li>
-							<li><a href="#">...</a></li>
-							<li><a href="#">14</a></li>
-							<li class="active"><a href="#">15</a></li>
-							<li><a href="#">16</a></li>
-							<li><a href="#">...</a></li>
-							<li><a href="#">47</a></li>
-						</ul>
-					</div>
-					<div class="next">
-						<a href="#">Next<i class="fa fa-arrow-right"></i></a>
-					</div>
-				</div> --}}
 			</div>
 			<form class="global-search global-filter" action="{{ route('global-search') }}" method="POST">
 				@csrf
@@ -143,6 +142,11 @@
 								<div id="slider-range"></div>
 	                        </div>
 
+	                        <div class="checkbox-label">
+	                        	<label for="tax">С НДС</label>
+	                        	<input type="checkbox" name="tax" id="tax">
+	                        </div>
+
 	                        <div class="select">
 	                            <select name="car_mileage" id="types" class="car_mileage">
 	                                <option value="-1">Пробег</option>
@@ -173,15 +177,18 @@
 							</div>
 						</div>
 					</div>
-					<div class="video-post">
-						<div class="video-holder">
-							<img src="http://dummyimage.com/270x170/cccccc/fff.jpg" alt="">
-							<div class="video-content">
-								<a href="single-blog.html"><i class="fa fa-play"></i></a>
-								<a href="single-blog.html"><h4>Video post example</h4></a>
+					{{-- Блок авто купить в один клик --}}
+					<p class="title-buy-one-click">Купить в один клик</p>
+					@foreach ($buy_one_click as $item)
+						<div class="video-post">
+							<div class="video-holder">
+								<img class="img-buy-one-click" src="{{ $item->image }}" alt="{{ $item->title }}">
+								<div class="video-content">
+									<a href="{{ $item->slug }}"><h4>{{ $item->title }}</h4></a>
+								</div>
 							</div>
 						</div>
-					</div>
+					@endforeach
 				</div>
 			</form>
 		</div>
@@ -233,9 +240,17 @@
 			$( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) + " BYN" + " - " + $( "#slider-range" ).slider( "values", 1 ) + " BYN" );
 		};
 
+		var showMoreSubCategories = function () {
+			$('.more-auctions').on('click', function () {
+				$(this).closest('.auction-categories').find('ul > li').show();
+				$(this).hide();
+			});
+		}
+
 		$(document).ready(function () {
 			getCarsModels();
 			sliderRange();
+			showMoreSubCategories();
 		});
 	})(jQuery)
 </script>

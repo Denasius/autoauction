@@ -100,4 +100,9 @@ class Pages extends Model
         Date::setLocale('ru_RU');
         return Date::parse($value)->format('d M, Y');
     }
+
+    public function getFormatString($string, $number = 40)
+    {
+        return str_limit($string, $number, '...');
+    }
 }

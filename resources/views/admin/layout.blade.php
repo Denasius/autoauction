@@ -16,6 +16,7 @@
     <title>VIN - страница админа</title>
     <link href="/css/admin.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/custom-admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/froala-editor@3.0.2/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
     {{-- <link rel="stylesheet" href="/css/dropzone.css"> --}}
     <script src="/js/jquery.js"></script>
 </head>

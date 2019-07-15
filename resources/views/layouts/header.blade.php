@@ -3,7 +3,7 @@
 	<div id="main-header" class="main-header header-sticky">
 		<div class="inner-header container clearfix">
 			<div class="logo">
-				<a href="/"><img src="assets/images/logo.png" alt=""></a>
+				<a href="/"><img src="img/logo-new.png" alt="Logo"></a>
 			</div>
 			<div class="header-right-toggle pull-right hidden-md hidden-lg">
 				<a href="javascript:void(0)" class="side-menu-button"><i class="fa fa-bars"></i></a>
@@ -18,7 +18,7 @@
 						<ul class="sub-menu">
 							<li><a href="{{ url('yur-licam') }}">Юр лицам</a></li>
 							<li><a href="{{ url('fiz-licam') }}">Физ лицам</a></li>
-							<li><a href="javascript:void(0)">Дилерам</a></li>
+							<li><a href="{{ url('dileram') }}">Дилерам</a></li>
 						</ul>
 					</li>
 					<li><a href="{{ url('prodano') }}">Продано</a></li>

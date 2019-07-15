@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Lot;
 
 class LotController extends Controller
 {
     public function index($model, $routes)
     {
-    	
-    	return view('lots.index');
+    	$data['lot'] = Lot::find($model->id);
+    	return view('lots.index', $data);
     }
 }

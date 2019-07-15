@@ -136,8 +136,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Описание</label>
                                 <div class="col-sm-10">
-                                    <textarea type="text" name="descr" id="ckeditor" class="form-control"
-                                              placeholder="Описание">{{$page->descr}}</textarea>
+                                    <textarea type="text" name="descr" id="ckeditor" class="form-control" placeholder="Описание">{{$page->descr}}</textarea>
                                 </div>
                             </div>
 
@@ -180,11 +179,5 @@
             </div>
         </section>
     </section>
-    <!--main content end-->
-    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('ckeditor1');
-        CKEDITOR.replace('ckeditor');
-
-    </script>
+   @include('admin.editor._html_editor')
 @endsection

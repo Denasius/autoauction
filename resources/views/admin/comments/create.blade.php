@@ -57,7 +57,7 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Текст комментария</label>
                                 <div class="col-sm-10">
-                                    <textarea type="text" name="descr" id="ckeditor-comment" class="form-control"
+                                    <textarea type="text" name="descr" id="ckeditor" class="form-control"
                                               placeholder="Текст комментария"></textarea>
                                 </div>
                             </div>
@@ -83,8 +83,6 @@
         </section>
     </section>
     <!--main content end-->
-    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('ckeditor-comment');
-    </script>
+    {{-- html editor --}}
+    @include('admin.editor._html_editor')
 @endsection

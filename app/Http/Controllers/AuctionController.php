@@ -11,12 +11,19 @@ class AuctionController extends Controller
 {
     public function index($model, $routes)
     {
+        if ( $model->parent_category == 0 ) {
+            $data['lots'] = Lot::where('status', 1)->paginate(12);
+            $data['subcategories'] = true;
+        }else{
+            $data['lots'] = Lot::where('status', 1)->where('category_id', $model->id)->paginate(12);
+            $data['subcategories'] = false;
+        }
+    	
         $data['category'] = $model->id;
-    	$data['meta_title'] = $model->meta_title;
-    	$data['title'] = $model->title;
-    	$data['meta_description'] = $model->meta_description;
-    	$data['description'] = $model->description;
-    	$data['lots'] = Lot::where('status', 1)->paginate(12);
+        $data['meta_title'] = $model->meta_title;
+        $data['title'] = $model->title;
+        $data['meta_description'] = $model->meta_description;
+        $data['description'] = $model->description;
         $data['all_brands'] = Lot::getAllBrands();
         $all_lots = Lot::all();
         $data['lots_year'] = $all_lots->sortBy('date');
@@ -24,6 +31,8 @@ class AuctionController extends Controller
         $data['min_price'] = $all_lots->min('price');
         $data['milleage'] = $all_lots->sortBy('car_mileage');
         $data['attr_tree'] = Lot::getAttr();
+        $data['buy_one_click'] = $all_lots->where('buy_one_click', 'on')->take(3);
+        
 
         return view('auctions.index', $data);
     }
@@ -87,6 +96,10 @@ class AuctionController extends Controller
             $lots->whereBetween('price', [$prices[0], $prices[1]]);
         }
 
+        if ( $request->has('tax') ) {
+            $lots->where('tax', $request->get('tax'));
+        }
+
         $checked = [];
 
         if ($request->has('attributes')) {            
@@ -106,6 +119,7 @@ class AuctionController extends Controller
 
 
         $lots->groupBy('lots.id');
+        //dd($lots->get());
 
         
         if ($request->ajax()) {

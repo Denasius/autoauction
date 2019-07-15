@@ -81,8 +81,6 @@
     </section>
     <!--main content end-->
 
-    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('ckeditor');
-    </script>
+    {{-- html editor --}}
+    @include('admin.editor._html_editor')
 @endsection
