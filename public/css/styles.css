@@ -33360,9 +33360,15 @@ nav.main-navigation ul li ul.sub-menu{
 	max-width: 220px;
 }
 
-#featured-cars .featured-item .down-content{
+#featured-cars .featured-item .down-content,
+.cars-list .featured-item .down-content{
 	min-height: 200px;
 	position: relative;
+	background-color: #ffffff;
+}
+
+.cars-list .featured-item .down-content{
+	padding: 15px 0;
 }
 
  #featured-cars .featured-item .down-content .car-info{
@@ -33844,6 +33850,116 @@ div.btn a{
 	line-height: 22px;
 	opacity: 0.5;
 }
+
+.cars-list{
+	width: 27%;
+	float: left;
+}
+
+.cars-list img{
+	height: 210px;
+	object-fit: cover;
+}
+
+.cars-list .col-md-15{
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+#featured-cars .featured-item .down-content a h2,
+#featured-cars .featured-item .down-content span,
+.cars-list .featured-item .down-content span,
+.cars-list .featured-item .down-content a h2{
+	display: block !important;
+	width: 100% !important;
+}
+
+#featured-cars .featured-item .down-content span,
+.cars-list .featured-item .down-content span{
+	margin-right: 0 !important;
+	margin-top: 0 !important;
+	margin-bottom: 5px;
+}
+
+#featured-cars .featured-item .down-content a h2,
+.cars-list .featured-item .down-content a h2{
+	height: 40px;
+}
+
+.cars-list .featured-item{
+	width: 100%;
+}
+.cars-list .featured-item .down-content a h2{
+
+	font-family: 'Montserrat', sans-serif;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #222222;
+	font-weight: 700;
+}
+.cars-list .featured-item .down-content span{
+	font-family: 'Montserrat', sans-serif;
+	text-align: center;
+	line-height: 36px;
+	padding: 0px 12px;
+	float: right;
+	background-color: #f4c23d;
+	font-size: 13px;
+	text-transform: uppercase;
+	color: #222222;
+	font-weight: 700;
+}
+
+.cars-list .featured-item .down-content p{
+	margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.cars-list .featured-item .down-content .car-info{
+	border-bottom: 2px solid #eeeeee;
+	border-top: 2px solid #eeeeee;
+	position: absolute;
+	width: 100%;
+}
+
+.cars-list .featured-item .down-content .car-info ul{
+	list-style-type: none;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 0 15px;
+	margin: 0;
+}
+
+.cars-list .featured-item .down-content .car-info ul li{
+	padding: 5px 0;
+	position: relative;
+	padding-right: 5px;
+}
+
+.cars-list .featured-item .down-content .car-info ul li i{
+	padding-right: 10px;
+}
+
+.cars-list .featured-item .down-content .car-info ul li:not(:last-child):after{
+	position: absolute;
+	content: '';
+	width: 2px;
+	height: 100%;
+	background-color: rgba(0,0,0,0.2);
+	top: 0;
+	right: 0;
+	bottom: 0;
+}
+
 .information{
   padding: 10px 5px;
   & > span{

@@ -48,7 +48,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <p>Owners of salvage-title <em>vehicles</em> will encounter some unique issues.</p>
+      <p>{{ $text_under_slider }}</p>
         <div class="advanced-button">
           <a href="{{ url('aukciony') }}">Посмотреть все аукционы<i class="fa fa-car"></i></a>
         </div>
@@ -63,47 +63,24 @@
       <div class="col-md-8">
         <div class="left-content">
           <div class="heading-section">
-            <h2>Why choose us?</h2>
-            <span>Vivamus gravida magna massa in cursus mi vehicula at. Nunc sem quam suscipit</span>
+            <h2>{{ $actions_text }}</h2>
+            <span>{{ $under_actions_text }}</span>
             <div class="line-dec"></div>
           </div>
           <div class="services">
-            <div class="col-md-6">
-              <div class="service-item">
-                <i class="fa fa-bar-chart-o"></i>
-                <div class="tittle">
-                  <h2>Results of Drivers</h2>
+
+            @foreach ($actions as $action)
+              <div class="col-md-6">
+                <div class="service-item">
+                  <i class="fas {{ $action->name }}"></i>
+                  <div class="tittle">
+                    <h2>{{ $action->descr }}</h2>
+                  </div>
+                  <p>{{ $action->value }}</p>
                 </div>
-                <p>Integer nec posuere metus, at feugiat. Sed sodales venenat malesuada.</p>
               </div>
-            </div>
-            <div class="col-md-6">
-              <div class="service-item">
-                <i class="fa fa-gears"></i>
-                <div class="tittle">
-                  <h2>upgrades performance</h2>
-                </div>
-                <p>Integer nec posuere metus, at feugiat. Sed sodales venenat malesuada.</p>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="service-item second-row">
-                <i class="fa fa-pencil"></i>
-                <div class="tittle">
-                  <h2>product sellers</h2>
-                </div>
-                <p>Integer nec posuere metus, at feugiat. Sed sodales venenat malesuada.</p>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="service-item second-row last-service">
-                <i class="fa fa-wrench"></i>
-                <div class="tittle">
-                  <h2>Fast Service</h2>
-                </div>
-                <p>Integer nec posuere metus, at feugiat. Sed sodales venenat malesuada.</p>
-              </div>
-            </div>
+            @endforeach
+
           </div>
         </div>
       </div>
@@ -154,54 +131,42 @@
   </div>
 </section>
 
-<section class="blog-news">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="heading-section-2 text-center">
-          <h2>Прошедшие аукционы</h2>
-          <span>Vivamus gravida magna massa in cursus mi vehicula at. Nunc sem quam suscipit</span>
-          <div class="dec"><i class="fa fa-file"></i></div>
-          <div class="line-dec"></div>
+@if ( count($timeOutLots) > 0 )
+  <section class="blog-news">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="heading-section-2 text-center">
+            <h2>Прошедшие аукционы</h2>
+            <span>Vivamus gravida magna massa in cursus mi vehicula at. Nunc sem quam suscipit</span>
+            <div class="dec"><i class="fa fa-file"></i></div>
+            <div class="line-dec"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="time-out-cars" class="cars-list">
+          @foreach($timeOutLots as $lot)
+            <div class="featured-item col-md-15 col-sm-6">
+              <img src="{{ $lot->image }}" alt="{{ $lot->title }}">
+              <div class="down-content">
+                <a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
+                <span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
+                <div class="light-line"></div>
+                <p>{{ strip_tags($lot->getFormatString($lot->desr, 60)) }}</p>
+                <div class="car-info">
+                  <ul>
+                    <li><i class="icon-gaspump"></i>{{ $lot->fuel }}</li>
+                    <li><i class="icon-car"></i>{{ $lot->car_model }}</li>
+                    <li><i class="icon-road2"></i>{{ $lot->car_mileage }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          @endforeach
         </div>
       </div>
     </div>
-    <div class="row">
-              <div class="col-md-6">
-                <div class="left-video">
-                  <img src="/img/time_out_cars.jpg" alt="Завершенные лоты">
-                  <div class="video-content">
-                    <div class="inner-content">
-                      {{-- <i class="fa fa-play"></i> --}}
-                      <div class="tittle">
-                        <a href="single-blog.html"><h2>Завершенные лоты</h2></a>
-                        <ul>
-                          <li>May 14, 2015</li>
-                          <li>Posted by <a href="#">Admin</a></li>
-                          <li>2 Comments</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                @foreach ($timeOutLots as $item)
-                  <div class="blog-item">
-                    <div class="up-content">
-                      <ul>
-                        <li>May 14, 2015</li>
-                      </ul>
-                      <div class="tittle">
-                        <a href="{{ $item->slug }}"><h2>{{ $item->title }}</h2></a>
-                      </div>
-                    </div>
-                    <p>{{ strip_tags($item->getFormatString($item->desr, 200)) }}</p>
-                    <a href="{{ $item->slug }}">Подробнее</a>
-                  </div>
-                @endforeach
-              </div>
-            </div>
-  </div>
-</section>
+  </section>
+@endif
 @endsection

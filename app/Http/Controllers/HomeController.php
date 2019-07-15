@@ -20,6 +20,14 @@ class HomeController extends Controller
         $data['timeOutLots'] = $all_lots->where('status',0)->take(2);
 
         $data['sliders'] = Slider::all();
+        
+        $data['text_under_slider'] = Setting::where('tab', 4)->where('name', 'text-under-slider')->pluck('value')->first();
+        $data['actions_text'] = Setting::where('tab', 4)->where('name', 'action-sequence-title')->pluck('value')->first();
+        $data['under_actions_text'] = Setting::where('tab', 4)->where('name', 'under-action-text')->pluck('value')->first();
+
+        /* Кастылюга... Ну а что делать...? Надо быстро, потом переделаю */
+        $data['actions'] = Setting::where('tab', 4)->whereIn('name', ['fa-wrench', 'fa-tasks', 'fa-ellipsis-v', 'fa-user-cog'])->get();
+       
 
         return view('home.index', $data);
     }
