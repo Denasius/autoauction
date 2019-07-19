@@ -103,6 +103,7 @@ Route::get('/verify/{token}', 'SubscribeController@verify');
 
 //Форма отправки на странице дилерам
 Route::post('/seller-form', 'PageController@seller_form')->name('seller-form');
+// Route::post('/seller_form_child', 'PageController@seller_form_child')->name('seller_form_child');
 
 //Фильтр на аукционах
 Route::post('/filter', 'AuctionController@global_search')->name('filter');

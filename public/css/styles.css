@@ -33811,7 +33811,30 @@ div.btn a{
 	margin-top: 32px;
 }
 
-.seller-page-template .row .form input{
+.grids-row-form{
+	margin-top: 80px;
+	background-color: #F5FAFE;
+	padding: 72px 0;
+	text-align: center;
+}
+
+.grids-row-form .alert-danger,
+.grids-row-form .alert-success{
+	text-align: left;
+}
+
+.grids-row-form button[type="submit"]{
+	margin-top: 20px;
+}
+
+.grids-row-form .form-grid-center{
+	text-align: center;
+}
+
+.seller-page-template form select,
+.seller-page-template form input,
+.seller-page-template .row .form input,
+.grids-row-form input{
 	width: 352px;
 	padding: 5px 10px;
 	margin-right: 40px;
@@ -33827,7 +33850,36 @@ div.btn a{
 	border-radius: 4px;
 }
 
-.seller-page-template .row .form [type="submit"]{
+.block_select, .block_radio{
+	display: inline-block;
+}
+
+
+
+.seller-page-template form select{
+	margin: 0;
+}
+
+.seller-page-template form label[for="defect"],
+.seller-page-template form label[for="defect"],
+.seller-page-template form input[name="defect"],
+.seller-page-template form input[name="credit"]{
+	display: inline-block;
+}
+
+.seller-page-template form select,
+.grids-row-form input[name="city"],
+.grids-row-form input[name="district"]{
+	width: 164px;
+}
+
+.grids-row-form input[name="city"]{
+	margin-right: 20px;
+}
+
+.seller-page-template form [type="submit"],
+.seller-page-template .row .form [type="submit"],
+.grids-row-form [type="submit"]{
 	background-color: #F5C142;
 	border: none;
 	font-family: Roboto;
@@ -33840,7 +33892,20 @@ div.btn a{
 	padding: 8px 95.5px;
 }
 
-.seller-page-template .row .form span{
+.seller-page-template form select{
+	color: #333;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 22px;
+	opacity: 0.5;
+}
+
+.seller-page-template form span,
+.seller-page-template .row .form span,
+.grids-row-form span{
+	text-align: left;
 	display: block;
 	color: #333;
 	font-family: Roboto;
@@ -33960,6 +34025,45 @@ div.btn a{
 	bottom: 0;
 }
 
+.form-person{
+	max-width: 788px;
+	margin:auto;
+	padding: 72px 0;
+}
+.block_with_form{
+	background-color: #F5FAFE;
+
+}
+
+.block_with_form [type="submit"]{
+	margin-top: 20px;
+	
+}
+
+label[for="defect"] > span,
+label[for="credit"] > span{
+	font-size: 12px;
+	display: inline;
+}
+
+label[for="car_brand"]{
+	margin-right: 20px;
+}
+
+label[for="car_model"],
+label[for="defect"] input{
+	margin-right: 40px;
+}
+
+label[for="credit"] input{
+	margin: 0;
+}
+
+label[for="defect"] input,
+label[for="credit"] input{
+	display: inline;
+	width: auto;
+}
 .information{
   padding: 10px 5px;
   & > span{

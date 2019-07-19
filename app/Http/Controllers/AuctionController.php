@@ -66,6 +66,7 @@ class AuctionController extends Controller
     public function search_filter(Request $request)
     {
         $models = CarModel::where('brand_id', $request->get('values'))->get();
+        //print_r($models);
         if ( $request->ajax() ) {
             return view('auctions._global_search_model', ['models' => $models]);
         }

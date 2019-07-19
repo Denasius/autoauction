@@ -34,7 +34,7 @@
 		<div class="container">
 			<div class="row seller-page-template">
 				
-				{!! $page->descr !!}
+				{!! $description !!}
 				
 			</div>
 		</div>

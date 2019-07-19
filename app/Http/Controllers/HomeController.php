@@ -56,7 +56,7 @@ class HomeController extends Controller
             ]);
         }else{
 
-            $data['name'] = $request->get('email');
+            $data['name'] = $request->get('name');
             $data['phone'] = $request->get('phone');
             $to = 'kdo@webernetic.by';
             \Mail::to($to)->send(new SendMail($data));
