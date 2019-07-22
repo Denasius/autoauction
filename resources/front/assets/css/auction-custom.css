@@ -537,8 +537,12 @@ form.form-result-searching .field-checkbox label{
 	background-color: #fff;
 }
 
-#page-heading ul li:first-child a{
-	color: #000;
+body #page-heading ul li a{
+	color: #000 !important;
+}
+
+body #page-heading ul li:last-child a{
+	color: #f4c23d !important;
 }
 
 #page-heading .page-active ul li i{
@@ -877,7 +881,7 @@ div.btn a{
 
 .block_with_form [type="submit"]{
 	margin-top: 20px;
-	
+
 }
 
 label[for="defect"] > span,
@@ -903,4 +907,55 @@ label[for="defect"] input,
 label[for="credit"] input{
 	display: inline;
 	width: auto;
+}
+
+.auction-single .page-active{
+	margin-top: 150px;
+}
+
+.auction-single .page-active .breadcrumb{
+	background-color: transparent;
+}
+
+.auction-single .page-active .breadcrumb li{
+	margin-right: 1px;
+}
+
+.auction-single .page-active .breadcrumb li a{
+	font-size: 14px;
+}
+
+.auction-single .page-active .breadcrumb li:before{
+	content: '';
+}
+
+.auction-single .page-active .breadcrumb i{
+	font-size: 10px;
+}
+
+section.car-details{
+	padding-top: 0;
+}
+
+.car-details .flexslider{
+	margin-top: 0;
+}
+
+.main-image img{
+	width: 100%;
+	object-fit: cover;
+}
+
+.tumbnails-list{
+	margin-top: 30px;
+}
+
+.tumbnails-list .thumb-item{
+	max-width: 100px;
+}
+
+.tumbnails-list .thumb-item img{
+	width: 100%;
+	object-fit: cover;
+	padding-right: 10px;
 }

@@ -119,7 +119,27 @@ jQuery(document).ready(function ($) {
 		sellerForm(_form, _token, _method, _url, _data);
 	});
 
+	$('.main-image').slick({
+		  	slidesToShow: 1,
+		  	slidesToScroll: 1,
+		  	arrows: false,
+		  	fade: true,
+		  	asNavFor: '.slider-nav'
+		});
+
+		$('.tumbnails-list').slick({
+		  	slidesToShow: 3,
+		  	slidesToScroll: 1,
+		  	asNavFor: '.slider-for',
+		  	dots: false,
+		  	arrows: true,
+		  	infinite: true,
+		  	centerMode: true,
+		  	focusOnSelect: true
+		});
+
 });
+
 
 function formHandler(_form, _token, _method, _url, _value) {
 	return $.ajax({

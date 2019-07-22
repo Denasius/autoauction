@@ -40,6 +40,8 @@ mix.styles([
 	'resources/front/assets/css/flexslider.css',
 	'resources/front/assets/css/auction.css',
 	'resources/front/assets/rs-plugin/css/settings.css',
+	'resources/front/assets/slick-slider/slick.css',
+	'resources/front/assets/slick-slider/slick-theme.css',
 	'resources/front/assets/css/auction-custom.css',
 	'resources/front/assets/css/custom.scss',
 ], 'public/css/styles.css');
@@ -64,6 +66,7 @@ mix.scripts([
 	'resources/front/assets/rs-plugin/js/jquery.themepunch.revolution.min.js',
 	'resources/front/assets/js/custom.js',
 	'resources/front/assets/js/plugins.js',
+	'resources/front/assets/slick-slider/slick.min.js',
 	'resources/front/assets/js/autoauction.js',
 ], 'public/js/scripts.js');
 

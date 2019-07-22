@@ -63,7 +63,7 @@ class PageController extends Controller
 
         if ( $request->has('phone') ){
             $field_error += [
-                'phone' => 'required|numeric|min:8',
+                'phone' => 'required|min:8',
             ];
             $data['phone'] = $request->get('phone');
         }

@@ -3,24 +3,22 @@
 @section('seo')
   <title>{{ $lot->meta_title }}</title>
   <meta name="description" content="{{ $lot->meta_description }}">
+  
 @endsection
 
 @section('content')
 
-	<div id="page-heading">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 text-center">
-					<h1>Vehicle details</h1>
-					<div class="line"></div>
-					<span>Praesent volutpat nisi sed imperdiet facilisis felis turpis fermentum lectus</span>
-					<div class="page-active">
-						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><i class="fa fa-dot-circle-o"></i></li>
-							<li><a href="listin-right.html">Vehicle details</a></li>
-						</ul>
-					</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-12 auction-single">
+				<div class="page-active">
+					<ul class="breadcrumb">
+						<li><a href="/">Главная</a></li>
+						<li><i class="fas fa-chevron-right"></i></li>
+						<li><a href="aukciony">Аукционы</a></li>
+						<li><i class="fas fa-chevron-right"></i></li>
+						<li><a href="javascript:void(0);">{{ $lot->title }}</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -29,27 +27,47 @@
 	<section class="car-details">
 		<div class="container">
 			<div class="row">
-				<div id="single-car" class="col-md-8">
-					<div class="up-content clearfix">
+				<div id="single-car" class="col-md-5">
+					{{-- <div class="up-content clearfix">
 						<h2>{{ $lot->title }}</h2>
 						<span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
+					</div> --}}
+					{{-- <div class="main-image">
+						<img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
 					</div>
+					<div class="tumbnails-list">
+						<div class="thumb-item">
+							<img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
+						</div>
+						<div class="thumb-item">
+							<img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
+						</div>
+						<div class="thumb-item">
+							<img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
+						</div>
+						<div class="thumb-item">
+							<img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
+						</div>
+						<div class="thumb-item">
+							<img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
+						</div>
+					</div> --}}
 					<div class="flexslider">
 						<ul class="slides">
-						    <li data-thumb="http://dummyimage.com/117x83/cccccc/fff.jpg">
-						      <img src="http://dummyimage.com/770x350/cccccc/fff.jpg" alt="" />
+						    <li data-thumb="{{ $lot->image }}">
+						      <img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
+						    </li>
+						    <li data-thumb="{{ $lot->image }}">
+						      <img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
 						    </li>
 						    <li data-thumb="http://dummyimage.com/117x83/cccccc/fff.jpg">
-						      <img src="http://dummyimage.com/770x350/cccccc/fff.jpg" alt="" />
+						      <img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
 						    </li>
 						    <li data-thumb="http://dummyimage.com/117x83/cccccc/fff.jpg">
-						      <img src="http://dummyimage.com/770x350/cccccc/fff.jpg" alt="" />
+						      <img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
 						    </li>
 						    <li data-thumb="http://dummyimage.com/117x83/cccccc/fff.jpg">
-						      <img src="http://dummyimage.com/770x350/cccccc/fff.jpg" alt="" />
-						    </li>
-						    <li data-thumb="http://dummyimage.com/117x83/cccccc/fff.jpg">
-						      <img src="http://dummyimage.com/770x350/cccccc/fff.jpg" alt="" />
+						      <img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
 						    </li>
 						</ul>
 					</div>
@@ -111,7 +129,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="left-info" class="col-md-4">
+				<div id="left-info" class="col-md-7">
 					<div class="details">
 						<div class="head-side-bar">
 							<h4>Vehicle Details</h4>
@@ -260,5 +278,6 @@
 			</div>
 		</div>
 	</section>
+
 
 @endsection

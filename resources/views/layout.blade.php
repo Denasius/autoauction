@@ -14,9 +14,8 @@
 
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
-
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/custom-styles.css">
+    {!! Html::style('css/styles.css') !!}
+    {!! Html::style('css/custom-styles.css') !!}
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 
@@ -335,7 +334,7 @@
 
 </div>
 
-<script src="js/scripts.js"></script>
+{!! Html::script('js/scripts.js') !!}
 <div class="overlay-filter"></div>
 <img class="prelod-gif" src="/img/loader-gifka.gif" alt="Загрузка">
 

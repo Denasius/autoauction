@@ -17,7 +17,7 @@
 				<div class="page-active">
 					<ul>
 						<li><a href="/">Главная</a></li>
-						<li><i class="fa fa-dot-circle-o"></i></li>
+						<li><i class="fas fa-circle"></i></li>
 						<li><a href="javascript:void(0)">Аукционы</a></li>
 					</ul>
 				</div>
