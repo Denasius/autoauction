@@ -16005,3 +16005,18 @@ li.sub-menu:hover ul li a {
 .mt-2{
 	margin-top: 1rem;
 }
+
+#image_tab > .container{
+	max-width: 1080px;
+}
+
+#image_tab{
+	margin-bottom: 20px;
+}
+
+.uploadedImage img{
+	width: 100px !important;
+	height: 66px;
+	object-fit: cover;
+	margin-right: 20px;
+}

@@ -19,13 +19,22 @@ class Lot extends Model
 
     const TYPE = 'lot';
 
-    protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id', 'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image', 'fuel', 'date', 'price', 'currency', 'shipping', 'fees', 'lot_step', 'lot_time', 'lot_start', 'car_brend'];
+    protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id', 'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image', 'fuel', 'date', 'price', 'currency', 'shipping', 'fees', 'lot_step', 'lot_time', 'lot_start', 'car_brend', 'buy_one_click_price'];
 
     public function attributes()
     {
         return $this->belongsToMany(LotAttributes::class);
     }
 
+    // public function attrs()
+    // {
+    //     return $this->belongsToMany(
+    //         LotAttributes::class,
+    //         'lot_attributes',
+    //         'lot_id',
+    //         'attr_id'
+    //     );
+    // }
 
     public static function add($fields, $main_img) {
 
@@ -291,5 +300,16 @@ class Lot extends Model
     public static function getAttr()
     {
         return Attribute::getTreeAttrCategoies();
+    }
+
+    public function getPrice($price, $currency)
+    {
+        if ( $currency == 'BYN' ) {
+            return number_format($price, 0, ' ', ' ') . ' ' . $currency;
+        }
+
+        if ( $currency == 'EUR' ) {
+            return '&#8364; ' . number_format($price, 0, ' ', ' ');
+        }
     }
 }

@@ -8,7 +8,7 @@
 
 @section('content')
 
-	<div id="page-heading" style="background-image: url(uploads/{{$page->image}});">
+	<div id="page-heading" style="background-image: url({{asset('uploads/' . $page->image)}});">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 text-center">

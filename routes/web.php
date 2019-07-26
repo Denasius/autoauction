@@ -103,12 +103,19 @@ Route::get('/verify/{token}', 'SubscribeController@verify');
 
 //Форма отправки на странице дилерам
 Route::post('/seller-form', 'PageController@seller_form')->name('seller-form');
-// Route::post('/seller_form_child', 'PageController@seller_form_child')->name('seller_form_child');
 
 //Фильтр на аукционах
 Route::post('/filter', 'AuctionController@global_search')->name('filter');
 Route::post('/sendform', 'AuctionController@sendform')->name('sendform');
 Route::post('/advanced-search', 'AuctionController@search_filter')->name('search-filter');
 Route::post('/global-search', 'AuctionController@global_search')->name('global-search');
+
+// Подгрузка страниц 
+Route::get('/lot_carachteristic', 'LotController@change_page')->name('change.page');
+
+// Избранное
+Route::get('/favorites', 'FavoritesController@wishlist')->name('favirites.add');
+Route::get('/favorite-remove', 'FavoritesController@favorite_remove')->name('favirites.remove');
+Route::get('/wishlist', 'FavoritesController@index')->name('favirites.show');
 // Роутинг для отслеживания страниц по URL
 Route::get('/{path}', 'AliasController@alias')->where('path', '.+')->name('aliases');

@@ -83,7 +83,7 @@
                                     @if (Auth::check())
                                         <li class="auth"><a href="javascript:void(0);">Привет, {{Auth::user()->name}} <i class="fa fa-angle-down"></i></a>
                                             <ul class="profile-dropdown">
-                                                <li><a href="/profile">Личный кабинет</a></li>
+                                                <li><a href="/profile">Личный кабинет</a></li><li><a href="{{ route('favirites.show') }}">Избранное</a></li>
                                             </ul>
                                         </li>
                                         <li><a href="{{ route('logout') }}">Выход</a></li>
@@ -335,6 +335,7 @@
 </div>
 
 {!! Html::script('js/scripts.js') !!}
+@yield('scripts_field')
 <div class="overlay-filter"></div>
 <img class="prelod-gif" src="/img/loader-gifka.gif" alt="Загрузка">
 

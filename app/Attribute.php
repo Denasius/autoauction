@@ -5,12 +5,20 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-
-
 class Attribute extends Model
 {
 
     protected $fillable = ['title', 'category_id'];
+
+    // public function lots()
+    // {
+    //     return $this->belongsToMany(
+    //         LotAttributes::class,
+    //         'lot_attributes',
+    //         'attr_id',
+    //         'lot_id'
+    //     );
+    // }
 
 
     //Получаем все атрибуты с их типами

@@ -959,3 +959,459 @@ section.car-details{
 	object-fit: cover;
 	padding-right: 10px;
 }
+
+.flexslider ul li{
+	height: 350px;
+}
+
+.flexslider ul li img{
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
+.flex-direction-nav{
+	display: none;
+	visibility: hidden;
+}
+
+.flexslider ol{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+}
+
+.flexslider ol li{
+	width: 80px;
+	height: 50px;
+}
+
+.flexslider ol li img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#left-info .details{
+	background-color: transparent;
+	margin-left: 16px;
+}
+
+#left-info .details button{
+	background-color: #f4c23d;
+	border: none;
+	font-size: 11px;
+	line-height: 22px;
+	color: #000;
+	text-transform: uppercase;
+	font-weight: bold;
+	padding: 8px 42.5px;
+}
+
+#left-info .details [name="bet"]{
+	padding-right: 0;
+	border: 1px solid rgba(51,51,51,0.3);
+	border-right-color: #f4c23d;
+	padding: 7px 5px;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 22px;
+	min-width: 231px;
+}
+
+form.bet-form{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+#left-info .details .head-side-bar{
+	background-color: transparent;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+#left-info .details .head-side-bar{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+#left-info .details .head-side-bar h4{
+	color: #000;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 22px;
+	border-left: none;
+	margin-right: 16px;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+
+.location-lot,
+.lot-bet,
+.sprint,
+.buy-one-click,
+.information-lot{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.location-lot span,
+.lot-bet span,
+.sprint span,
+.buy-one-click span,
+.information-lot span{
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 22px;
+}
+
+.location-lot{
+	margin-bottom: 40px;
+}
+
+.sprint{
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+.information-lot{
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.sprint .timer{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+}
+
+.sprint .timer .block{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-webkit-flex-direction: column;
+	-moz-flex-direction: column;
+	-ms-flex-direction: column;
+	-o-flex-direction: column;
+	flex-direction: column;
+}
+
+ul.countdown {
+list-style: none;
+margin: 0;
+padding: 0;
+display: block;
+text-align: center;
+}
+ul.countdown li {
+display: inline-block;
+}
+ul.countdown li span {
+font-size: 26px;
+font-weight: 900;
+line-height: 26px;
+color: #000;
+}
+ul.countdown li.seperator {
+font-size: 26px;
+line-height: 26px;
+vertical-align: top;
+color: #000;
+font-weight: bold;
+}
+ul.countdown li p {
+color: #000;
+font-size: 11px;
+line-height: 13px;
+margin: 0;
+}
+
+a:hover {
+text-decoration: underline;
+}
+.source {
+width: 405px;
+margin: 0 auto;
+background: #4f5861;
+color: #a7abb1;
+font-weight: bold;
+display: block;
+white-space: pre;
+-webkit-border-radius: 3px;
+-moz-border-radius: 3px;
+border-radius: 3px;
+}
+.btn {
+background: #f56c4c;
+margin: 40px auto;
+padding: 12px;
+display: block;
+width: 100px;
+color: white;
+text-align: center;
+text-transform: uppercase;
+font-weight: bold;
+text-decoration: none;
+-webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+}
+.btn:hover {
+text-decoration: none;
+opacity: .7;
+}
+
+.offers a{
+	color: #000;
+	text-decoration: underline;
+}
+
+.offers a:hover{
+	color: #000;
+}
+
+.car-details .tabs li.active a, .car-details .tabs li.active a:hover{
+	border-bottom: none;
+}
+
+.car-details .tabs .tab-links li{
+	min-width: 135px;
+	height: 90px;
+	text-align: center;
+	padding: 20px;
+}
+
+.car-details .tabs li:hover{
+	cursor: pointer;
+}
+
+.car-details .tabs li.active, .car-details .tabs li:hover{
+	background-color: #0063AE;
+}
+
+.car-details .tabs .tab-links{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: space-between;
+	width: 41.66666666666667%;
+	border-bottom: none;
+	margin-bottom: 48px;
+}
+
+.car-details .tabs .tab-links li{
+	margin: 0;
+}
+
+#featured-cars .featured-item .down-content a:hover, .cars-list .featured-item .down-content a:hover{
+	text-decoration: none;
+}
+
+ul.general-attrs{
+	padding-left: 0;
+	list-style-type: none;
+	display: block;
+	width: auto;
+	margin-right: 90px;
+	/*min-width: 200px;*/
+}
+
+.car-details ul.general-attrs li{
+	padding: 0;
+	text-align: left;
+	font-family: Roboto, sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 22px;
+
+}
+
+.car-details ul.general-attrs li:hover{
+	background-color: transparent;
+	cursor: default;
+}
+
+.main-attributes, .additional-attributes{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: flex-start;
+	-webkit-flex-wrap: wrap;
+	-moz-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	-o-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+
+.main-attributes_block, .additional-attributes_block{
+	-webkit-flex: 1 1 25%;
+	flex: 1 1 25%;
+}
+
+.additional-attributes span.title,
+.main-attributes span.title{
+	margin-bottom: 8px;
+	font-family: Montserrat, sans-serif;
+	font-style: normal;
+	font-weight: 800;
+	font-size: 14px;
+	line-height: 17px;
+}
+
+.tab-block{
+	position: relative;
+}
+
+.tab-block .loader.active, .tab-block .loader > img.active{
+	display: block;
+	visibility: visible;
+	z-index: 100;
+}
+
+.tab-block .loader{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255,255,255,0.5);
+	display: none;
+	visibility: hidden;
+	z-index: -100;
+}
+
+.tab-block .loader > img{
+	display: none;
+	visibility: hidden;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	z-index: -100;
+}
+
+
+.lot-thumbnail{
+	/*width: 16.666666666666664%;*/
+	height: 86px;
+	margin-bottom: 30px;
+}
+
+.lot-thumbnail img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#container-description{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: flex-start;
+	align-items: flex-start;
+	justify-content: space-between;
+	-webkit-flex-wrap: wrap;
+	-moz-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	-o-flex-wrap: wrap;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+#container-description > *{
+	-webkit-flex-grow: 1;
+	flex-grow: 1;
+	-webkit-flex-shrink: 2; 
+	flex-shrink: 2;
+	-webkit-flex-basis: 50%; 
+	flex-basis: 50%;
+	text-align: justify;
+	padding: 10px;
+}
+
+.title-lot-descr span{	
+	font-family: Montserrat, sans-serif;
+	font-style: normal;
+	font-weight: 800;
+	font-size: 13px;
+	line-height: 16px;
+	text-transform: uppercase;
+}
+
+
+
+@media screen and ( max-width: 767px ) {
+	.lot-thumbnail{
+		height: 200px;
+	}
+}
+
+@media screen and ( max-width: 470px ) {
+	#container-description > *{
+		-webkit-flex-grow: 1;
+		flex-grow: 1;
+		-webkit-flex-shrink: 1; 
+		flex-shrink: 1;
+		-webkit-flex-basis: 100%; 
+		flex-basis: 100%;
+		text-align: justify;
+		padding: 10px;
+	}
+}
+
+@media screen and ( max-width: 465px ) {
+	.lot-thumbnail{
+		height: 100px;
+	}
+}
+
+.favorite-btn > img{
+	-webkit-transform: scale(1);
+	-ms-transform: scale(1);
+	-o-transform: scale(1);
+	transform: scale(1);
+	-webkit-transition: transform 250ms ease;
+	-o-transition: transform 250ms ease;
+	transition: transform 250ms ease;
+}

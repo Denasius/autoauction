@@ -159,6 +159,13 @@
                                             <input type="checkbox" id="buy_one_click" name="buy_one_click"> 
                                         </div>
                                     </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Цена купить в один клик</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="buy_one_click_price" class="form-control" placeholder="Цена купить в один клик">
+                                        </div>
+                                    </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Валюта</label>
@@ -205,9 +212,9 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Таймер</label>
+                                        <label class="col-sm-2 control-label">Дата завершения торгов</label>
                                         <div class="col-sm-10">
-                                            <input type="datetime-local" name="lot_time" class="form-control" placeholder="Таймер">
+                                            <input type="datetime-local" name="lot_time" class="form-control" placeholder="Дата завершения торгов">
                                         </div>
                                     </div>
 

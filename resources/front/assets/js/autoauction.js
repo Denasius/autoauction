@@ -119,25 +119,114 @@ jQuery(document).ready(function ($) {
 		sellerForm(_form, _token, _method, _url, _data);
 	});
 
-	$('.main-image').slick({
-		  	slidesToShow: 1,
-		  	slidesToScroll: 1,
-		  	arrows: false,
-		  	fade: true,
-		  	asNavFor: '.slider-nav'
+
+	// Подгружаю страницы по клику на табы на странице лота
+	
+	$('.car-details .tabs .tab-links li a').on('click', function (e) {
+		e.preventDefault();
+		var this_form = $(this).closest('ul'),
+			form_url = this_form.data('action'),
+			form_method = this_form.data('method'),
+			form_data = $(this).attr('href'),
+			lot_id = this_form.data('lot-id');
+			form_token = $('meta[name="csrf-token"]').attr('content');
+
+			return $.ajax({
+				headers: {
+		            'X-CSRF-TOKEN':form_token
+		        },
+		        type: form_method,
+		        url: form_url,
+		        data: {url: form_data, id: lot_id},
+		        beforeSend:function () {
+		        	$('.tab-block .loader').addClass('active');
+		        	$('.tab-block .loader > img').addClass('active');
+		        },
+		        success:function (response) {
+		        	$('.tab-block .loader').removeClass('active');
+		        	$('.tab-block .loader > img').removeClass('active');
+		        	$('#content > #container').remove();
+		        	$('#content').html(response).hide().fadeIn('fast');
+		        	$('.lazyloading').lazyload();
+		        },
+		        error: function (request, errorStatus, errorThrown) {
+		            console.log(request);
+		            console.log(errorStatus);
+		            console.log(errorThrown);
+		        }
+			});
+	});
+
+	// Добавляю в избранное лот
+	$('.favorite-btn').on('click', function (e) {
+		e.preventDefault();
+		var this_form = $(this),
+			form_url = this_form.data('action'),
+			form_method = this_form.data('method'),
+			form_token = $('meta[name="csrf-token"]').attr('content'),
+			form_user_id = this_form.data('user-id'),
+			form_lot_id = this_form.data('lot-id');
+		
+
+		return $.ajax({
+				headers: {
+		            'X-CSRF-TOKEN':form_token
+		        },
+		        type: form_method,
+		        url: form_url,
+		        data: {user_id: form_user_id, lot_id: form_lot_id},
+		        beforeSend:function () {
+		        	
+		        	
+		        },
+		        success:function (response) {
+		        	if ( response == 'add-wishlist' ) {
+		        		this_form.closest('.head-side-bar').find('.to_favorites').css({
+							'display' : 'none',
+							'visibility' : 'hidden',
+							
+						});
+
+						this_form.closest('.head-side-bar').find('.remove_favorites').css({
+							'display' : 'block',
+							'visibility' : 'visible'
+						});
+		        	}else{
+		        		console.log(response);
+		        		this_form.closest('.head-side-bar').find('.to_favorites').css({
+							'display' : 'block',
+							'visibility' : 'visible',
+							
+						})
+
+						this_form.closest('.head-side-bar').find('.remove_favorites').css({
+							'display' : 'none',
+							'visibility' : 'hidden'
+						});
+		        	}
+		        	
+		        },
+		        error: function (request, errorStatus, errorThrown) {
+		            console.log(request);
+		            console.log(errorStatus);
+		            console.log(errorThrown);
+		        }
+			});
+	});
+
+	$('.remove_favorites').on('click', function () {
+		$(this).closest('.head-side-bar').find('.to_favorites').css({
+			'display' : 'block',
+			'visibility' : 'visible'
 		});
 
-		$('.tumbnails-list').slick({
-		  	slidesToShow: 3,
-		  	slidesToScroll: 1,
-		  	asNavFor: '.slider-for',
-		  	dots: false,
-		  	arrows: true,
-		  	infinite: true,
-		  	centerMode: true,
-		  	focusOnSelect: true
+		$(this).closest('.head-side-bar').find('.remove_favorites').css({
+			'display' : 'none',
+			'visibility' : 'hidden'
 		});
+	});
 
+	$('.lazyloading').lazyload();
 });
 
 

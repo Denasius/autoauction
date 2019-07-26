@@ -28,167 +28,96 @@
 		<div class="container">
 			<div class="row">
 				<div id="single-car" class="col-md-5">
-					{{-- <div class="up-content clearfix">
-						<h2>{{ $lot->title }}</h2>
-						<span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
-					</div> --}}
-					{{-- <div class="main-image">
-						<img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
-					</div>
-					<div class="tumbnails-list">
-						<div class="thumb-item">
-							<img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
-						</div>
-						<div class="thumb-item">
-							<img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
-						</div>
-						<div class="thumb-item">
-							<img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
-						</div>
-						<div class="thumb-item">
-							<img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
-						</div>
-						<div class="thumb-item">
-							<img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
-						</div>
-					</div> --}}
+					
 					<div class="flexslider">
 						<ul class="slides">
-						    <li data-thumb="{{ $lot->image }}">
-						      <img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
+						    <li data-thumb="{{ asset($lot->image) }}" class="first-element">
+						      <img src="{{ asset($lot->image) }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
 						    </li>
-						    <li data-thumb="{{ $lot->image }}">
-						      <img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
-						    </li>
-						    <li data-thumb="http://dummyimage.com/117x83/cccccc/fff.jpg">
-						      <img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
-						    </li>
-						    <li data-thumb="http://dummyimage.com/117x83/cccccc/fff.jpg">
-						      <img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
-						    </li>
-						    <li data-thumb="http://dummyimage.com/117x83/cccccc/fff.jpg">
-						      <img src="{{ $lot->image }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
-						    </li>
+						   @foreach ($lot_images as $thumbnail)
+							    <li data-thumb="{{ asset($thumbnail->image_src) }}">
+							      <img src="{{ asset($thumbnail->image_src) }}" alt="{{ $thumbnail->image_alt }}" title="{{ $thumbnail->image_title }}">
+							    </li>
+						    @endforeach
 						</ul>
 					</div>
-					<div class="tab">
-						<div class="tabs">
-						    <ul class="tab-links">
-						        <li><a href="#tab1">vehicle overview</a></li>
-						        <li class="active"><a href="#tab2">description</a></li>
-						        <li><a href="#tab3">vehicle location</a></li>
-						        <li><a href="#tab4">contact dealer</a></li>
-						    </ul>
-						    <div class="tab-content">
-						        <div id="tab1" class="tab">
-						            <p>	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi in dolorem blanditiis voluptatibus quidem nisi eaque, cupiditate minus omnis, voluptatum corporis neque placeat quod temporibus mollitia. Quod accusamus iure eveniet laboriosam laudantium, saepe quidem incidunt, laboriosam aliquid quibusdam atque.</p>
-						        </div>								 
-						        <div id="tab2" class="tab active">
-						        	<h6>The dealer's details will be emailed to you immediately after you submit your query</h6>
-						            <p>Selvage drinking vinegar roof party bitters beard wolf craft beer Blue Bottle, literally you probably haven't heard of them. Deep v jean shorts Williamsburg synth pork belly actually. Organic PBRB viral four loko Bushwick pork belly. Selvage fashion axe sartorial cliche before they sold out, mustache vinyl DIY gastropub fingerstache mlkshk. High Life lo-fi chillwave meggings.<br><br>Migas gluten-free ennui Truffaut ugh, listicle umami plaid lomo sustainable mumblecore street art biodiesel readymade. Polaroid ethical Pitchfork, sartorial bitters mlkshk cliche keytar tofu four loko pork belly High Life lomo listicle.<br><br>Semiotics Vice Wes Anderson Bushwick organic. Chambray twee Banksy, asymmetrical disrupt bitters selfies Helvetica. Gentrify direct trade disrupt Odd Future. Bespoke tote bag small batch, try-hard drinking vinegar cronut beard migas ethical. Seitan wolf Vice banh mi YOLO flannel. Banh mi pug cred church-key, cardigan drinking vinegar hella bicycle rights ugh sustainable. Marfa Bushwick aesthetic, locavore messenger bag 8-bit tote bag.</p>
-						        </div>							 
-						        <div id="tab3" class="tab">
-						            <p>	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi in dolorem blanditiis voluptatibus quidem nisi eaque, cupiditate minus omnis, voluptatum corporis neque placeat quod temporibus mollitia. Quod accusamus iure eveniet laboriosam laudantium.</p>
-						        </div>
-						        <div id="tab4" class="tab">
-						            <p>	Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi in dolorem blanditiis voluptatibus quidem nisi eaque, cupiditate minus omnis, voluptatum corporis neque placeat quod temporibus mollitia. Quod accusamus iure eveniet laboriosam laudantium.</p>
-						        </div>
-						    </div>
-						    <div class="more-info">
-						    	<div class="row">
-						    		<div class="first-info col-md-4">
-							    		<h4>Enterainment</h4>
-							    		<ul>
-							    			<li><i class="fa fa-check"></i>Central Locking</li>
-							    			<li><i class="fa fa-check"></i>Automatic Air Conditioning</li>
-							    			<li><i class="fa fa-check"></i>Full Leather Interior</li>
-							    			<li><i class="fa fa-check"></i>Electric Heated Seats</li>
-							    			<li><i class="fa fa-check"></i>Navigation GPS Multimedia</li>
-							    		</ul>
-							    	</div>
-							    	<div class="second-info col-md-4">
-							    		<h4>exterior features</h4>
-							    		<ul>
-							    			<li><i class="fa fa-check"></i>Parking Sensors</li>
-							    			<li><i class="fa fa-check"></i>Double Exhaust</li>
-							    			<li><i class="fa fa-check"></i>Electric Mirrors</li>
-							    			<li><i class="fa fa-check"></i>Manifacturing Year 2015</li>
-							    			<li><i class="fa fa-check"></i>Full Service History</li>
-							    		</ul>
-							    	</div>
-							    	<div class="third-info col-md-4">
-							    		<h4>interior features</h4>
-							    		<ul>
-							    			<li><i class="fa fa-check"></i>ABS</li>
-							    			<li><i class="fa fa-check"></i>Xenon Headlights</li>
-							    			<li><i class="fa fa-check"></i>Immobilizer</li>
-							    		</ul>
-							    	</div>
-						    	</div>
-						    </div>
-						</div>
-					</div>
+					
 				</div>
 				<div id="left-info" class="col-md-7">
 					<div class="details">
 						<div class="head-side-bar">
-							<h4>Vehicle Details</h4>
+							<h4>{{ $lot->title }}</h4>
+							@if (Auth::check())
+								@include('lots.layouts._wishlist_buttons')
+							@endif
 						</div>
-						<div class="list-info">
-							<ul>
-								<li><span>Make:</span>Audi</li>
-								<li><span>Fabrication Year:</span>2015-6-17</li>
-								<li><span>Fuel Type:</span>Gasoline Fuel</li>
-								<li><span>No. of Gears:</span>5</li>
-								<li><span>Transmission:</span>Automatic</li>
-								<li><span>Color:</span>Blue</li>
-								<li><span>Fuel Economy:</span>12l/City - 10l/hwy</li>
-								<li><span>Motor Capacity:</span>( 179KW / 400BHP )</li>
-								<li><span>Country of Origin:</span>Germany ( Munich )</li>
-								<li><span>Price:</span>$30,000</li>
-							</ul>
-						</div> 
-					</div>
-					<div class="enquiry">
-						<div class="head-side-bar">
-							<h4>Vehicle Enquiry</h4>
+						<div class="location-lot">
+							<span class="location">Машина в {{ $lot->address }}</span>
+							<span class="lot">лот №<strong>{{ $lot->id }}</strong></span>
 						</div>
-						<div class="contact-form">
-							<p>The dealer's details will be emailed to you immediately after you submit your query.</p>
-							<input type="text" class="name" name="s" placeholder="Your Name" value="">
-							<input type="text" class="email" name="s" placeholder="Email Address" value="">
-							<input type="text" class="phone" name="s" placeholder="Your Phone Number" value="">
-							<textarea id="message" class="message" name="message" placeholder="Message..."></textarea>
+						<div class="lot-bet">
+							<div class="current-bet">
+								<span>Текущая ставка <strong>{!! $lot->getPrice($lot->price, $lot->currency) !!}</strong></span>
+							</div>
+							<div class="max-bet">
+								<form class="bet-form" action="" method="post">
+									<input type="text" class="max_bet" name="bet" placeholder="Ваша максимальная ставка"><button type="submit" name="go_bet">Сделать ставку</button>
+								</form>
+							</div>							
 						</div>
-						<div class="subhead-side-bar">
-							<h4>Ask a question</h4>
-						</div>
-						<div class="check-boxes">
-							<ul>
-								<li>
-									<input type="checkbox" id="c1" name="cc"/>
-									<label for="c1">Can I book a test drive?</label>
-								</li>
-								<li>
-									<input type="checkbox" id="c2" name="cc"/>
-									<label for="c2">What is your adress and opening hours?</label>
-								</li>
-								<li>
-									<input type="checkbox" id="c3" name="cc"/>
-									<label for="c3">Other?</label>
-								</li>
-							</ul>
-							<div class="advanced-button">
-								<a href="#">Send enquiry <i class="fa fa-paper-plane"></i></a>
+						<div class="sprint">							
+
+								<ul class="countdown">
+									<li> <span class="days">00</span>
+									<p class="days_ref">дней</p>
+									</li>
+									<li class="seperator">|</li>
+									<li> <span class="hours">00</span>
+									<p class="hours_ref">часов</p>
+									</li>
+									<li class="seperator">|</li>
+									<li> <span class="minutes">00</span>
+									<p class="minutes_ref">минут</p>
+									</li>
+									<li class="seperator">|</li>
+									<li> <span class="seconds">00</span>
+									<p class="seconds_ref">секунд</p>
+									</li>
+								</ul>
+							
+							<div class="start-bets">
+								<span>Начало торгов <strong>{{ date('d.m.Y', strtotime($lot->lot_start)) }}</strong></span>
+							</div>
+							<div class="finish-bets">
+								<span>Завершение торгов <strong>{{ date('d.m.Y', strtotime($lot->lot_time)) }}</strong></span>
 							</div>
 						</div>
-						<div class="subhead-side-bar">
-							<h4>Contact the Seller</h4>
+						<div class="buy-one-click">
+							<span>Начальная стоимость <strong>{!! $lot->getPrice($lot->price, $lot->currency) !!}</strong></span>
+							<span>Купить сейчас <strong>{!! $lot->getPrice($lot->buy_one_click_price, $lot->currency) !!}</strong></span>
+							<button>Купить сейчас</button>
 						</div>
-						<div class="call-info">
-							<i class="fa fa-phone"></i>
-							<h6>816-819-0221</h6>
-							<p>Car code: <span>55637</span></p>
+						<div class="information-lot">
+							<span>Стоимость доставки <strong>{!! $lot->getPrice($lot->shipping, $lot->currency) !!}</strong></span>
+							<span>Дополнительные сборы <strong>{!! $lot->getPrice($lot->fees, $lot->currency) !!}</strong></span>
+						</div>
+						<div class="offers">
+							<input type="checkbox" name="contract" checked>
+							<span>Я согласен с <a href="#">договором офферты</a></span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12 tab-block">
+			    	<div class="loader">
+			    		<img src="{{ asset('img/image.gif') }}" alt="preloader">
+			    	</div>
+					<div class="tab">
+						<div class="tabs">
+							@include('lots.layouts._tabs_nav')
+						    <div class="tab-contents" id="content">
+						    	@include('lots.layouts._main')
+						    </div>
+						    
 						</div>
 					</div>
 				</div>
@@ -279,5 +208,34 @@
 		</div>
 	</section>
 
+@endsection
 
+@section('scripts_field')
+
+<script type="text/javascript">
+	(function ($) {
+
+		var initTimer = function () {
+			$('.countdown').downCount({
+		        date: '{{date('m/d/Y', strtotime($lot->lot_time))}} 12:00:00',
+		        offset: +10
+		    }, function () {
+		        $('button[name="go_bet"]').attr('disabled', true).css({
+					'background-color' : 'rgba(244,194,61,0.3)',
+					'color' : '#333',
+					'opacity' : '0.5',
+					'cursor' : 'help'
+				});
+				$('.max_bet').attr('readonly', true).css({
+					'border-right-color' : 'rgba(244,194,61,0.3)'
+				});
+		    });
+		}
+
+		$(document).ready(function () {
+			initTimer();
+
+		});
+	})(jQuery)
+</script>
 @endsection

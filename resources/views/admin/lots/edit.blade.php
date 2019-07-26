@@ -152,6 +152,13 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label">Цена купить в один клик</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="buy_one_click_price" class="form-control" placeholder="Цена купить в один клик" value="{{ $lot->buy_one_click_price }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label class="checkbox-inline col-sm-2 control-label" style="padding-top:0;">
                                            Цена с НДС?
                                         </label>
@@ -210,14 +217,14 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Дата открытия торгов</label>
                                         <div class="col-sm-10">
-                                            <input type="date" name="lot_start" class="form-control" placeholder="Дата открытия торгов" value="{{ $lot->lot_start }}">
+                                            <input type="date" name="lot_start" class="form-control" placeholder="Дата открытия торгов" value="{{ date('d.m.Y', strtotime($lot->lot_start)) }}">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Таймер</label>
+                                        <label class="col-sm-2 control-label">Дата завершения торгов</label>
                                         <div class="col-sm-10">
-                                            <input type="datetime-local" name="lot_time" class="form-control" placeholder="Таймер" value="{{ $lot->lot_time }}">
+                                            <input type="datetime-local" name="lot_time" class="form-control" placeholder="Дата завершения торгов" value="{{ $lot->lot_time }}">
                                         </div>
                                     </div>                                    
 
@@ -272,8 +279,6 @@
                                         </div>
                                     @endif
                                 </div>
-
-                                {{-- Изображения --}}
                                 {{--Изображения--}}
                                 <div role="tabpanel" class="tab-pane" id="image_tab">
                                     <div class="container">
@@ -284,7 +289,8 @@
 
                                                     @foreach($images as $item)
                                                         <div class="uploadedImage">
-                                                            <img src="/{{$item->image_src}}">
+                                                            <div class="img"><img src="/{{$item->image_src}}"></div>
+                                                            
                                                             <input type="text" placeholder="Название (alt)" name="images[alt][]" value="{{$item->image_alt}}">
                                                             <input type="text" placeholder="Заголовок (title)" name="images[title][]" value="{{$item->image_title}}">
                                                             <input type="text" placeholder="Описание (description)" name="images[descr][]" value="{{$item->image_descr}}">
