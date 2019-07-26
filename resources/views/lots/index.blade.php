@@ -130,8 +130,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="heading-section-2 text-center">
-						<h2>Recent Vehicles</h2>
-						<span>Vivamus gravida magna massa in cursus mi vehicula at. Nunc sem quam suscipit</span>
+						<h2>Активные лоты</h2>
 						<div class="dec"><i class="fa fa-car"></i></div>
 						<div class="line-dec"></div>
 					</div>
@@ -139,70 +138,25 @@
 			</div>
 			<div class="row">
 				<div id="featured-cars">
-					<div class="featured-item col-md-3">
-						<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<a href="single-list.html"><h2>Mercedes Amg 6.3</h2></a>
-							<span>52,000</span>
-							<div class="light-line"></div>
-							<p>Donec eu nullas sapien pretium volutpat vel quis turpis. Donec vel risus lacinia euismod urna vel fringilla justo.</p>
-							<div class="car-info">
-								<ul>
-									<li><i class="icon-gaspump"></i>Diesel</li>
-									<li><i class="icon-car"></i>Sport</li>
-									<li><i class="icon-road2"></i>12,000</li>
-								</ul>
+					@foreach ($active_lots as $active_lot)
+						<div class="featured-item col-md-3">
+							<img src="{{ asset($active_lot->image) }}" alt="{{ $active_lot->title }}">
+							<div class="down-content">
+								<a href="{{ $active_lot->slug }}"><h2>{{ $active_lot->title }}</h2></a>
+								<span>{!! $active_lot->getPrice($active_lot->price, $active_lot->currency) !!}</span>
+								<div class="light-line"></div>
+								<p>{{ strip_tags($lot->getFormatString($lot->desr, 60)) }}</p>
+								<div class="car-info">
+									<ul>
+										<li><i class="icon-gaspump"></i>{{ $active_lot->fuel }}</li>
+										<li><i class="icon-car"></i>{{ $active_lot->car_model }}</li>
+										<li><i class="icon-road2"></i>{{ $active_lot->car_mileage }}</li>
+									</ul>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="featured-item col-md-3">
-						<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<a href="single-list.html"><h2>vw golf VII GTI</h2></a>
-							<span>30,000</span>
-							<div class="light-line"></div>
-							<p>Donec eu nullas sapien pretium volutpat vel quis turpis. Donec vel risus lacinia euismod urna vel fringilla justo.</p>
-							<div class="car-info">
-								<ul>
-									<li><i class="icon-gaspump"></i>Diesel</li>
-									<li><i class="icon-car"></i>Sport</li>
-									<li><i class="icon-road2"></i>12,000</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="featured-item col-md-3">
-						<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<a href="single-list.html"><h2>mercedes amg gt</h2></a>
-							<span>65,000</span>
-							<div class="light-line"></div>
-							<p>Donec eu nullas sapien pretium volutpat vel quis turpis. Donec vel risus lacinia euismod urna vel fringilla justo.</p>
-							<div class="car-info">
-								<ul>
-									<li><i class="icon-gaspump"></i>Diesel</li>
-									<li><i class="icon-car"></i>Sport</li>
-									<li><i class="icon-road2"></i>12,000</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="featured-item col-md-3">
-						<img src="http://dummyimage.com/310x210/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<a href="single-list.html"><h2>bmw m4 430D</h2></a>
-							<span>64,000</span>
-							<div class="light-line"></div>
-							<p>Donec eu nullas sapien pretium volutpat vel quis turpis. Donec vel risus lacinia euismod urna vel fringilla justo.</p>
-							<div class="car-info">
-								<ul>
-									<li><i class="icon-gaspump"></i>Diesel</li>
-									<li><i class="icon-car"></i>Sport</li>
-									<li><i class="icon-road2"></i>12,000</li>
-								</ul>
-							</div>
-						</div>
-					</div>
+					@endforeach
+
 				</div>
 			</div>
 		</div>

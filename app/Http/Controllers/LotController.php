@@ -21,6 +21,9 @@ class LotController extends Controller
     	$data['lot_attribute'] = $this->getLotsAttributes($model->id);
     	$data['general_attrs'] = $this->getMainAttributes($model->id);
     	$data['additional_attrs'] = $this->getAdditionalAttributes($model->id);
+        $data['active_lots'] = Lot::where('status', 1)->take(4)->inRandomOrder()->get();
+        //dd($data['active_lots']);
+
         $cookie_data = json_decode(Cookie::get('favorite'));
         $data['cookies'] = [];
         if ($cookie_data != null){

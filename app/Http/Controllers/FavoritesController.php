@@ -11,7 +11,7 @@ class FavoritesController extends Controller
 	public function index(Request $request)
 	{
 		$favorites_lot = json_decode(Cookie::get('favorite'));
-		dd($favorites_lot);
+		//dd($favorites_lot);
 		$data['lots'] = false;
 		if( $favorites_lot != null )
 			$data['lots'] = Lot::all()->whereIn('id', $favorites_lot->lots);
