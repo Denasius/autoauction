@@ -117,5 +117,8 @@ Route::get('/lot_carachteristic', 'LotController@change_page')->name('change.pag
 Route::get('/favorites', 'FavoritesController@wishlist')->name('favirites.add');
 Route::get('/favorite-remove', 'FavoritesController@favorite_remove')->name('favirites.remove');
 Route::get('/wishlist', 'FavoritesController@index')->name('favirites.show');
+
+// Обновить ставки по клику на кнопку
+Route::post('/reload-bets', 'LotController@reload_bet')->name('reload.bet');
 // Роутинг для отслеживания страниц по URL
 Route::get('/{path}', 'AliasController@alias')->where('path', '.+')->name('aliases');

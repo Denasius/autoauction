@@ -38,6 +38,7 @@
 
                             ])}}
                             <div class="tab-content">
+                                {{-- Основное --}}
                                 <div role="tabpanel" class="tab-pane active" id="main_tab">
 
                                     <div class="form-group images">
@@ -139,9 +140,22 @@
                                         <div class="col-sm-10">
                                             <input type="number" name="price" class="form-control" placeholder="Цена">
                                         </div>
-                                        
-
                                     </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Ставка</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="lot_bet" class="form-control" placeholder="Ставка">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Минимальный шаг в ставке</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="min_bet" class="form-control" placeholder="Минимальный шаг в ставке">
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="checkbox-inline col-sm-2 control-label" style="padding-top:0;">
                                            Цена с НДС?

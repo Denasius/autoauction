@@ -35434,6 +35434,31 @@ ul.general-attrs{
 	text-transform: uppercase;
 }
 
+.lot-bet span.min-bet{
+	font-size: 12px;
+	display: block;
+	font-style: italic;
+}
+
+#left-info .details button.reload-bet{
+	background-color: #0063AE;
+	color: #fff;
+	padding: 5px 20px;
+	font-size: 10px;
+}
+
+#left-info .details img.reload-gif{
+	width: 30px;
+	margin: 0 auto;
+	 display: none; 
+	 visibility: hidden;
+}
+
+#left-info .details img.reload-gif.active{
+	display: block;
+	visibility: visible;
+}
+
 
 
 @media screen and ( max-width: 767px ) {

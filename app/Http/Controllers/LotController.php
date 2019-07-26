@@ -125,4 +125,14 @@ class LotController extends Controller
 
         return $data['attrs_dop'];
     }
+
+    public function reload_bet(Request $request)
+    {
+        $bets = new Lot;
+        $bet = Lot::find($request->get('lot_id'))->only(['currency', 'lot_bet']);
+        
+        if ( $request->ajax() ) {
+            return $bets->getPrice($bet['lot_bet'], $bet['currency']);
+        }
+    }
 }

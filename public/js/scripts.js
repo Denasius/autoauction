@@ -10805,15 +10805,37 @@ jQuery(document).ready(function ($) {
 			});
 	});
 
-	$('.remove_favorites').on('click', function () {
-		$(this).closest('.head-side-bar').find('.to_favorites').css({
-			'display' : 'block',
-			'visibility' : 'visible'
-		});
+	// Обновляю ставки по клику на кнопку
+	$('.reload-bet').on('click', function (e) {
+		e.preventDefault();
+		var this_form = $(this),
+			this_action = this_form.data('action'),
+			this_method = this_form.data('method'),
+			this_lot = this_form.data('lot-id'),
+			this_token = $('meta[name="csrf-token"]').attr('content');
 
-		$(this).closest('.head-side-bar').find('.remove_favorites').css({
-			'display' : 'none',
-			'visibility' : 'hidden'
+		return $.ajax({
+			headers: {
+	            'X-CSRF-TOKEN':this_token
+	        },
+	        type: this_method,
+	        url: this_action,
+	        data: {lot_id: this_lot},
+	        beforeSend: function () {
+	        	this_form.hide();
+	        	this_form.next('.reload-gif').addClass('active');
+	        },
+	        success: function (response) {
+	        	this_form.show();
+	        	this_form.next('.reload-gif').removeClass('active');
+	        	this_form.closest('.lot-bet').find('.current-bet > .current-bet_price > strong').remove();
+	        	this_form.closest('.lot-bet').find('.current-bet > .current-bet_price').append('<strong>' + response + '</strong>').hide().fadeIn(500);
+	        },
+	        error: function (request, errorStatus, errorThrown) {
+	            console.log(request);
+	            console.log(errorStatus);
+	            console.log(errorThrown);
+	        }
 		});
 	});
 

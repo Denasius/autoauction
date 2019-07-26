@@ -152,6 +152,20 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label">Ставка</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="lot_bet" class="form-control" placeholder="Ставка" value="{{ $lot->lot_bet }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Минимальный шаг в ставке</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="min_bet" class="form-control" placeholder="Минимальный шаг в ставке" value="{{ $lot->min_bet }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">Цена купить в один клик</label>
                                         <div class="col-sm-10">
                                             <input type="text" name="buy_one_click_price" class="form-control" placeholder="Цена купить в один клик" value="{{ $lot->buy_one_click_price }}">
