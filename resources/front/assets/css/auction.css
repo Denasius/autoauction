@@ -509,10 +509,10 @@ footer .latest-news .latest-item h6 {
   margin-bottom: 8px;
   display: inline-block;
 }
-footer .latest-news .latest-item img {
+/*footer .latest-news .latest-item img {
   float: left;
   margin-right: 15px;
-}
+}*/
 footer .latest-news .latest-item ul {
   padding: 0;
   margin: 0;

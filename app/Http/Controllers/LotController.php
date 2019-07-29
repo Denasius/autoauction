@@ -10,6 +10,8 @@ use App\LotAttributes;
 use App\AttributeCategory;
 use Illuminate\Support\Facades\DB;
 use \Cookie;
+use Illuminate\Support\Facades\Validator;
+use App\Bet;
 
 
 class LotController extends Controller
@@ -24,13 +26,19 @@ class LotController extends Controller
         $data['active_lots'] = Lot::where('status', 1)->take(4)->inRandomOrder()->get();
         //dd($data['active_lots']);
 
+        // Нахожу максимальную ставку
+        $data['max_bet'] = Bet::get_by_lot($model->id)->max('price');
         $cookie_data = json_decode(Cookie::get('favorite'));
+
         $data['cookies'] = [];
-        if ($cookie_data != null){
-            //array_unshift($data['cookies'], $cookie_data->lots);
+        if ( $cookie_data != null ) {
             $data['cookies'] = $cookie_data->lots;
+            if ( gettype($cookie_data->lots) === 'string' ) {
+                $data['cookies'] = [$cookie_data->lots];
+            }
         }
-    	//dd($data['cookies']);
+        
+        //dd(gettype($data['cookies']));
     	
     	return view('lots.index', $data);
     }
@@ -129,10 +137,37 @@ class LotController extends Controller
     public function reload_bet(Request $request)
     {
         $bets = new Lot;
-        $bet = Lot::find($request->get('lot_id'))->only(['currency', 'lot_bet']);
+        $bet_cur = Lot::find($request->get('lot_id'))->only(['currency']);
+        $bet = Bet::get_by_lot($request->get('lot_id'))->max('price');
         
         if ( $request->ajax() ) {
-            return $bets->getPrice($bet['lot_bet'], $bet['currency']);
+            return $bets->getPrice($bet, $bet_cur['currency']);
+        }
+    }
+
+    public function make_bet(Request $request)
+    {
+        $min_bet = Lot::find($request->get('lot_id'))->pluck('min_bet')->first();
+        $min_value = Bet::get_by_lot($request->get('lot_id'))->max('price');
+        $bet_validation = $min_bet + $min_value;
+        
+        $validator = Validator::make($request->all(), [
+            'price' => "required|numeric|min:{$bet_validation}",
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->getMessageBag()->toArray()
+            ]);
+        }else{
+
+            $bet_user = new Bet;
+            
+            $bet_user->add($request->all());           
+            
+            return response()->json([
+                'success' => 'Ваша ставка прошла успешно!'
+            ]);
         }
     }
 }

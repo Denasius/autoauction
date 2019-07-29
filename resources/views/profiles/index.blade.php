@@ -7,7 +7,7 @@
 
 @section('content')
 
-    <div id="page-heading" style="background-image: url('img/user_bg.jpg')">
+    <div id="page-heading" class="lazyloading" data-src="{{ asset('img/user_bg.jpg') }}" style="background-image: url({{ asset('img/th.jpg') }})">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">

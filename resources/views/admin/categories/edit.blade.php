@@ -13,8 +13,19 @@
                 <div class="col-lg-12">
                     <section class="panel">
                         <div class="panel-body">
-                            {{Form::open(['route'=>['categories.update', $category_info->id], 'method'=>'put', 'class'=>'form-horizontal'])}}
+                            {{Form::open(['route'=>['categories.update', $category_info->id], 'method'=>'put', 'files' => true, 'class'=>'form-horizontal'])}}
                                 <input type="hidden" name="id" value="{{$category_info->id}}">
+
+                            <div class="form-group images">
+                                <label class="col-sm-2 control-label">Изображение</label>
+                                <div class="col-sm-10">
+                                    <img src="{{$category_info->getImage()}}" alt="">
+                                    <label>
+                                        <input type="file" name="image" class="preview_img hide" value="{{$category_info->getImage()}}">
+                                        <i class="fas fa-upload"></i>
+                                    </label>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Название</label>
@@ -37,6 +48,10 @@
                                                 @case('blogs')
                                                     Новостной
                                                     @break
+
+                                                @case('sold')
+                                                    Продано
+                                                    @break
                                             
                                                 @default
                                                     По умолчанию
@@ -52,6 +67,10 @@
 
                                         @if ( $category_info->template != 'blogs' ) 
                                             <option value="blogs">Новостной</option>
+                                        @endif
+
+                                        @if ( $category_info->template != 'sold' ) 
+                                            <option value="sold">Продано</option>
                                         @endif
                                        
                                     </select>

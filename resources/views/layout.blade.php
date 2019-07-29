@@ -83,7 +83,8 @@
                                     @if (Auth::check())
                                         <li class="auth"><a href="javascript:void(0);">Привет, {{Auth::user()->name}} <i class="fa fa-angle-down"></i></a>
                                             <ul class="profile-dropdown">
-                                                <li><a href="/profile">Личный кабинет</a></li><li><a href="{{ route('favirites.show') }}">Избранное</a></li>
+                                                <li><a href="/profile">Личный кабинет</a></li>
+                                                <li class="fav"><a href="{{ route('favirites.show') }}">Избранное</a>{{-- <span class="count-favorite">2</span> --}}</li>
                                             </ul>
                                         </li>
                                         <li><a href="{{ route('logout') }}">Выход</a></li>
@@ -254,13 +255,15 @@
                                 @foreach($latestNews as $item)
                                     <div class="latest-item">
                                         <div class="latest-news-post">
-                                            <img src="{{ $item->getImage() }}" alt="{{ $item->title }}">
+                                            <img class="lazyloading" src="data:image/gif;base64,R0lGODlhIwAXAIAAAP///wAAACH5BAEAAAEALAAAAAAjABcAAAIajI+py+0Po5y02ouz3rz7D4biSJbmiabq2hUAOw==" data-src="{{ $item->image }}" alt="{{ $item->title }}">
                                         </div>
 
-                                        <a href="single-blog.html"><h6>{{ $item->title }}</h6></a>
-                                        <ul>
-                                            <li>{{ $item->getFormatDate($item->created_at) }}</li>
-                                        </ul>
+                                        <div>
+                                            <a href="single-blog.html"><h6>{{ $item->title }}</h6></a>
+                                            <ul>
+                                                <li>{{ $item->getFormatDate($item->created_at) }}</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 @endforeach
                             </div>
@@ -305,27 +308,52 @@
             <div class="content">
                 <nav class="responsive-menu">
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="services.html">Services</a></li>
-                        <li class="menu-item-has-children"><a href="#">Listing</a>
+                        @if (Auth::check())
+                            <li class="menu-item-has-children"><a href="javascript:void(0);">Привет, {{Auth::user()->name}}</a>
+                                <ul class="sub-menu">
+                                    <li><a href="/profile">Личный кабинет</a></li><li><a href="{{ route('favirites.show') }}">Избранное</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{ route('logout') }}">Выход</a></li>
+                        @else
+                            <li><a href="{{route('login')}}">Вход</a></li>
+                            <li><a href="{{route('registerView')}}">Регистрация</a></li>
+                        @endif
+                        <li><a href="">Главная</a></li>
+                        <li><a href="{{ url('aukciony') }}">Аукционы</a></li>
+                        <li><a href="{{ url('pokupatelyam') }}">Покупателям</a></li>
+                        <li class="menu-item-has-children"><a href="#">Продавцам</a>
+                            
                             <ul class="sub-menu">
-                                <li><a href="listing-right.html">Sidebar Right</a></li>
-                                <li><a href="listing-left.html">Sidebar Left</a></li>
-                                <li><a href="listing-grid.html">Grids System</a></li>
-                                <li><a href="single-list.html">Car Details</a></li>
+                                <li><a href="{{ url('yur-licam') }}">Юр лицам</a></li>
+                                <li><a href="{{ url('fiz-licam') }}">Физ лицам</a></li>
+                                <li><a href="{{ url('dileram') }}">Дилерам</a></li>
                             </ul>
                         </li>
-                        <li class="menu-item-has-children"><a href="#">Blog</a>
+                        <li><a href="{{ url('prodano') }}">Продано</a></li>
+                        <li class="menu-item-has-children"><a href="#">Услуги</a>
                             <ul class="sub-menu">
-                                <li><a href="blog-right.html">Classic</a></li>
-                                <li><a href="blog-grid.html">Grids System</a></li>
-                                <li><a href="grid-right.html">Grids Sidebar</a></li>
-                                <li><a href="single-blog.html">Single Post</a></li>
+                                <li><a href="{{ url('proverka-avto-po-vin') }}">Проверка авто по VIN</a></li>
+                                <li><a href="{{ url('pomosch') }}">Помощь</a></li>
+                                <li><a href="javascript:void(0)">Trade In</a></li>
+                                <li><a href="javascript:void(0)">Расстаможка</a></li>
+                                <li><a href="javascript:void(0)">Диагностика</a></li>
+                                <li><a href="javascript:void(0)">Оценка стоимости</a></li>
                             </ul>
                         </li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li class="menu-item-has-children"><a href="about.html">Ещё</a>
+                            <ul class="sub-menu">
+                                <li><a href="{{ url('novosti') }}">Новости</a></li>
+                                <li><a href="{{ url('o-nas') }}">О нас</a></li>
+                                <li><a href="{{ url('kontakty') }}">Контакты</a></li>
+                                <li><a href="javascript:void(0)">Партнеры</a></li>
+                                <li><a href="javascript:void(0)">Об оплате</a></li>
+                                <li><a href="javascript:void(0)">Пользовательское соглашение</a></li>
+                                <li><a href="javascript:void(0)">Правила регистрации</a></li>
+                                <li><a href="javascript:void(0)">О торгах</a></li>
+                                <li><a href="javascript:void(0)">FAQ</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
             </div>

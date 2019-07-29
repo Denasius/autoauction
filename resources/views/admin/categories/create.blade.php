@@ -14,7 +14,18 @@
                     <section class="panel">
 
                         <div class="panel-body">
-                            {{Form::open(['route'=>'categories.store', 'class'=>'form-horizontal'])}}
+                            {{Form::open(['route'=>'categories.store', 'files' => true, 'class'=>'form-horizontal'])}}
+
+                            <div class="form-group images">
+                                <label class="col-sm-2 control-label">Изображение</label>
+                                <div class="col-sm-10">
+                                    <img src="/" alt="">
+                                    <label>
+                                        <input type="file" name="image" class="preview_img hide">
+                                        <i class="fas fa-upload"></i>
+                                    </label>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Название</label>
@@ -31,6 +42,7 @@
                                         <option value="default" selected>По умолчанию</option>
                                         <option value="auctions">Аукционы</option>
                                         <option value="blogs">Новостной</option>
+                                        <option value="sold">Продано</option>
                                        
                                     </select>
                                 </div>

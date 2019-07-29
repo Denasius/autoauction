@@ -3,36 +3,48 @@
 namespace App\Http\Controllers;
 use App\Lot;
 use App\CarModel;
+use App\Category;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class AuctionController extends Controller
-{
+{ 
+    const PARENT_CATEGORY = 0;
+    private $status;
     public function index($model, $routes)
     {
-        if ( $model->parent_category == 0 ) {
-            $data['lots'] = Lot::where('status', 1)->paginate(12);
+        switch ($model->template) {
+            case 'sold':
+                $this->status = 0;
+                break;
+            
+            default:
+                $this->status = 1;
+                break;
+        }
+        if ( $model->parent_category == AuctionController::PARENT_CATEGORY ) {
+            $data['lots'] = Lot::where('status', $this->status)->paginate(12);
             $data['subcategories'] = true;
         }else{
-            $data['lots'] = Lot::where('status', 1)->where('category_id', $model->id)->paginate(12);
+            $data['lots'] = Lot::where('status', $this->status)->where('category_id', $model->id)->paginate(12);
             $data['subcategories'] = false;
         }
-    	
-        $data['category'] = $model->id;
         $data['meta_title'] = $model->meta_title;
         $data['title'] = $model->title;
         $data['meta_description'] = $model->meta_description;
-        $data['description'] = $model->description;
+        $data['description'] = Category::find($model->id)->only('descr');
+        $data['category'] = $model->id;    
         $data['all_brands'] = Lot::getAllBrands();
         $all_lots = Lot::all();
+
         $data['lots_year'] = $all_lots->sortBy('date');
         $data['max_price'] = $all_lots->max('price');
         $data['min_price'] = $all_lots->min('price');
         $data['milleage'] = $all_lots->sortBy('car_mileage');
         $data['attr_tree'] = Lot::getAttr();
         $data['buy_one_click'] = $all_lots->where('buy_one_click', 'on')->take(3);
-        
+        $data['category_image'] = Category::find($model->id)->only('image');        
 
         return view('auctions.index', $data);
     }

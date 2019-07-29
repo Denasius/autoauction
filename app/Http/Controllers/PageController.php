@@ -7,18 +7,22 @@ use App\Pages;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\SendMail;
 use App\CarBrand;
+use App\Aliase;
 
 class PageController extends Controller
 {
     public function index($model, $routes)
     {
-        //dd($model);
     	$data['page'] = Pages::where('id', $model->id)->firstOrFail();
         $data['brands'] = CarBrand::all()->pluck('title', 'id');
         $form = view('layouts._seller_form', $data);
         $form_legal_person = view('layouts._seller_form_yur_licam', $data);
         $form_dealer = view('layouts._seller_form_dileram', $data);
         $data['description'] = str_replace(['[[seller_form]]', '[[seller_form_yur_licam]]', '[[seller_form_dileram]]'], [$form, $form_legal_person, $form_dealer], $data['page']->descr);
+        $slug = Aliase::where('type_id', $data['page']->id)->first()->only('slug');
+        $data['class_css'] = $slug['slug'];
+        //dd($data['class_css']);
+
     	return view('pages.' . $model->template, $data);
     }
 

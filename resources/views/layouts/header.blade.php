@@ -32,7 +32,7 @@
 							<li><a href="javascript:void(0)">Оценка стоимости</a></li>
 						</ul>
 					</li>
-					<li><a href="" class="has-submenu">Общее</a>
+					<li><a href="" class="has-submenu">Ещё</a>
 						<ul class="sub-menu">
 							<li><a href="{{ url('novosti') }}">Новости</a></li>
 							<li><a href="{{ url('o-nas') }}">О нас</a></li>
@@ -42,7 +42,7 @@
 							<li><a href="javascript:void(0)">Пользовательское соглашение</a></li>
 							<li><a href="javascript:void(0)">Правила регистрации</a></li>
 							<li><a href="javascript:void(0)">О торгах</a></li>
-							<li><a href="javascript:void(0)">FAQ</a></li>
+							<li><a href="{{ url('faq') }}">FAQ</a></li>
 						</ul>
 					</li>
 					<li>

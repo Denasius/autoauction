@@ -7,18 +7,18 @@
 
 @section('content')
 
-<div id="page-heading">
+<div id="page-heading" @if($category_image['image'] != null) class="lazyloading" style="background-image: url( {{ asset('img/th.jpg')  }} );" data-src="{{ asset('uploads/' . $category_image['image']) }}" @endif>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 text-center">
 				<h1>{{ $title }}</h1>
 				<div class="line"></div>
-				<span>{{ $description }}</span>
+				<span>{!! $description['descr'] !!}</span>
 				<div class="page-active">
 					<ul>
 						<li><a href="/">Главная</a></li>
 						<li><i class="fas fa-circle"></i></li>
-						<li><a href="javascript:void(0)">Аукционы</a></li>
+						<li><a href="javascript:void(0)">{{ $title }}</a></li>
 					</ul>
 				</div>
 			</div>
@@ -81,10 +81,10 @@
 						@foreach ($lots as $lot)
 							<div class="featured-item col-md-4">
 								<div class="lot-image">
-									<img class="lazyloading" src="data:image/gif;base64,R0lGODlhBgHDAIAAAP///wAAACH5BAEAAAEALAAAAAAGAcMAAAL+jI+py+0Po5y02ouz3rz7D4biSJbmiabqyrbuC8fyTNf2jef6zvf+DwwKh8Si8YhMKpfMpvMJjUqn1Kr1is1qt9yu9wsOi8fksvmMTqvX7Lb7DY/L5/S6/Y7P6/f8vv8PGCg4SFhoeIiYqLjI2Oj4CBkpOUlZaXmJmam5ydnp+QkaKjpKWmp6ipqqusra6voKGys7S1tre4ubq7vL2+v7CxwsPExcbHyMnKy8zNzs/AwdLT1NXW19jZ2tvc3d7f0NHi4+Tl5ufo6err7O3u7+Dh8vP09fb3+Pn6+/z9/v/w8woMCBBAsaPIgwocKFDBs6fAgxosSJFCtavIgxo8YxjRw7evwIMqTIkSRLmjyJMqXKlSxbunwJM6bMmTRr2ryJM6fOnTx7+vwJNKjQoTYKAAA7" data-src="{{ asset($lot->image) }}" alt="{{ $lot->title }}">
+									<img class="lazyloading" src="{{ asset('img/th.jpg') }}" data-src="{{ asset($lot->image) }}" alt="{{ $lot->title }}">
 								</div>
 								<div class="down-content">
-									<a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
+									<a href="{{ $lot->slug }}"><h2 class="h2">{{ $lot->title }}</h2></a>
 									<span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
 									<div class="light-line"></div>
 									<p>{{ strip_tags( $lot->getFormatString($lot->desr, 55) ) }}</p>

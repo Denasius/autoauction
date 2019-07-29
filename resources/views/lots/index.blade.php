@@ -57,7 +57,7 @@
 						</div>
 						<div class="lot-bet">
 							<div class="current-bet">
-								<span class="current-bet_price">Текущая ставка <strong>{!! $lot->getPrice($lot->lot_bet, $lot->currency) !!}</strong></span>
+								<span id="current-bet_price" class="current-bet_price">Текущая ставка <strong>{!! $lot->getPrice($max_bet, $lot->currency) !!}</strong></span>
 
 								<span class="min-bet">Минимальный шаг: <strong>{!! $lot->getPrice($lot->min_bet, $lot->currency) !!}</strong></span>
 
@@ -66,9 +66,10 @@
 							</div>
 							@if (Auth::check())
 								<div class="max-bet">
-									<form class="bet-form" action="" method="post">
+									<form class="bet-form" action="{{route('make.bet')}}" method="post" data-lot="{{ $lot->id }}" data-user="{{ Auth::user()->id }}">
 										<input type="text" class="max_bet" name="bet" placeholder="Ваша максимальная ставка"><button type="submit" name="go_bet">Сделать ставку</button>
 									</form>
+									<div class="answer"></div>
 								</div>
 							@endif						
 						</div>

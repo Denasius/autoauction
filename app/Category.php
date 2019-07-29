@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
@@ -57,6 +58,38 @@ class Category extends Model
             $parent = $item->title;
         }
         return $parent;
+    }
+
+    public function uploadImage($image)
+    {
+        //dd($image);
+        if ( $image == null ) return;
+
+        $this->removeImage();
+
+        $filename = Str::random(10) . '.' . $image->extension(); 
+        $image->storeAs('uploads', $filename); 
+        $this->image = $filename;
+        $this->save(); 
+    }
+
+    public function removeImage()
+    {
+        if ( $this->image != null )
+            Storage::delete('uploads/' . $this->image);
+    }
+
+    public function getImage()
+    {
+        if ( $this->image == null )
+            return '/img/no-image.png';
+
+        return '/uploads/' . $this->image;
+    }
+
+    public function getFormatString($string, $number = 40)
+    {
+        return str_limit($string, $number, '...');
     }
 
 }

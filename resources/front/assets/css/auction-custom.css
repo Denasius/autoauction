@@ -145,7 +145,21 @@ nav.main-navigation ul li ul.sub-menu{
 }
 
 .latest-news-post{
-	max-width: 70px;
+	width: 70px;
+	height: 52px;
+}
+
+.latest-item{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.latest-news-post{
+	margin-right: 15px;
 }
 
 .slide-image{
@@ -155,6 +169,7 @@ nav.main-navigation ul li ul.sub-menu{
 
 .latest-news-post img{
 	width: 100%;
+	height: 100%;
 	object-fit: cover;
 }
 
@@ -205,6 +220,13 @@ nav.main-navigation ul li ul.sub-menu{
 	min-height: 200px;
 	position: relative;
 	background-color: #ffffff;
+}
+
+#featured-cars .featured-item .down-content .h2,
+.cars-list .featured-item .down-content .h2{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .cars-list .featured-item .down-content{
@@ -504,7 +526,7 @@ form.form-result-searching .field-checkbox label{
 }
 
 #page-heading{
-	background-position: top;
+	background-position: center;
 	-webkit-background-size: cover;
 	background-size: cover;
 }
@@ -583,6 +605,7 @@ div.btn a{
 	text-transform: uppercase;
 	color: #222222;
 }
+
 
 .grids{
 	display: -webkit-flex;
@@ -1393,7 +1416,7 @@ ul.general-attrs{
 }
 
 #left-info .details img.reload-gif{
-	width: 30px;
+	width: 32px;
 	margin: 0 auto;
 	 display: none; 
 	 visibility: hidden;
@@ -1404,7 +1427,154 @@ ul.general-attrs{
 	visibility: visible;
 }
 
+.max-bet ul.alert.alert-success,
+.max-bet ul.alert.alert-danger{
+	list-style-type: none;
+	margin-bottom: 0;
+}
 
+.count-favorite{
+	position: absolute;
+	top: 3px;
+	right: 0;
+	background-color: #f4c23d;
+	width: 20px;
+	height: 20px;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+}
+
+.profile-dropdown{
+	max-width: 150px;
+}
+
+.profile-dropdown li{
+	border-right: none !important;
+}
+
+.fav{
+	position: relative;
+}
+
+.slide_im{
+	width: 64px;
+	height: 64px;
+	float: right;
+}
+
+.slider-thumb .thumb-item .down-content .slide_im img{
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover;
+}
+
+.listing-grid .featured-item .down-content .car-info ul{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+}
+
+section[class*='single-page-'] .questions h1,
+section[class*='single-page-'] .questions h1,
+section[class*='single-page-'] .questions h1,
+section[class*='single-page-'] .questions h1,
+section[class*='single-page-'] .questions h1,
+section[class*='single-page-'] .questions h1{
+	
+	font-family: Montserrat, sans-serif;
+	font-style: normal;
+	font-weight: 800;
+	font-size: 13px;
+	line-height: 16px;
+	text-transform: uppercase;
+	margin-bottom: 16px;
+	margin-top: 0;
+}
+
+section[class*='single-page-'] .questions ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+section[class*='single-page-'] .questions ul li{
+	font-family: Roboto, sans-serif;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 32px;
+	position: relative;
+	width: 100%;
+}
+
+section[class*='single-page-'] .questions ul li:after{
+	position: absolute;
+	content: '\f105';
+	font-family: 'Font Awesome 5 Free';
+	top: 0;
+	right: 0;
+}
+section[class*='single-page-'] .questions ul li a{
+	color: #333333;
+
+}
+
+section[class*='single-page-'] .questions ul li a:hover{
+	color: #336699;
+	text-decoration: none;
+}
+
+section[class*='single-page-'] .answer-block{
+	padding-bottom: 32px;
+}
+
+section[class*='single-page-'] .answer-block span{
+	font-family: Montserrat, sans-serif;
+	font-style: normal;
+	font-weight: 800;
+	font-size: 13px;
+	line-height: 16px;
+	text-transform: uppercase;
+	display: block;
+	margin-bottom: 24px;
+}
+
+section[class*='single-page-'] .answer-block p{
+	color: #333333;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 22px;
+}
+
+section[class*='single-page-'] .answer-block p a{
+	color: #336699;
+	text-decoration: none;
+	font-weight: 900;
+}
+
+@media screen and ( max-width: 1199px ) {
+	.seller-page-template img{
+		max-height: 230px;
+		padding-right: 5px;
+	}
+
+	.phones span:last-child{
+		display: none;
+		visibility: hidden;
+	}
+
+}
 
 @media screen and ( max-width: 767px ) {
 	.lot-thumbnail{

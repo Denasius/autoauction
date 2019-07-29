@@ -49,10 +49,13 @@ mix.styles([
 mix.sass('resources/assets/admin/style-custom.scss', 'public/css/custom-admin.css');
 // Наши стили для фронта
 mix.sass('resources/front/assets/css/custom.scss', 'public/css/custom-style.css');
+mix.sass('resources/sass/app.scss', 'public/css/styles.css');
 
 // Скрипты для админки
 mix.scripts([
 	'resources/assets/admin/js/bootstrap.min.js',
+	'resources/assets/admin/js/jquery.nicescroll.js',
+	'resources/assets/admin/js/scripts.js',
 	'resources/assets/admin/js/custom.js',
 	'resources/assets/admin/js/custom-dropzone.js',
 ], 'public/js/admin.js');

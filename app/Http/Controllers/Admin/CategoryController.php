@@ -57,6 +57,7 @@ class CategoryController extends Controller
         $category_model = new Category();
 
         $results = $category_model->add($request->all());
+        $category_model->uploadImage($request->file('image'));
 
         return redirect()->route('categories.index');
     }
@@ -103,12 +104,14 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //dd($request->file('image'));
         $category_model = Category::find($id);
         $this->validate($request, [
             'title'      => 'required',
         ]);
-
+        
         $category_model->edit($request->all());
+        $category_model->uploadImage($request->file('image'));
 
         return redirect()->route('categories.index');
     }

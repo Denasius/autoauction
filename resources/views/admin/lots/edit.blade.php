@@ -152,7 +152,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Ставка</label>
+                                        <label class="col-sm-2 control-label">Минимальная ставка</label>
                                         <div class="col-sm-10">
                                             <input type="number" name="lot_bet" class="form-control" placeholder="Ставка" value="{{ $lot->lot_bet }}">
                                         </div>
@@ -381,6 +381,10 @@
 
                                 {{--Ставки--}}
                                 @if(isset($bets))
+                                <div class="min-max-bets">
+                                    <span class="min_bet">Минимальная ставка: <strong>{{ $lot->lot_bet }}</strong></span>
+                                    <span class="max_bet">Максимальная ставка: <strong>{{ $max_bet }}</strong></span>
+                                </div>
                                     <div role="tabpanel" class="tab-pane " id="bet_tab">
                                         <table class="table hover_black">
                                             <thead>

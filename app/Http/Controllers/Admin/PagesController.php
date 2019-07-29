@@ -38,6 +38,7 @@ class PagesController extends Controller
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
         $data['categories'] = Category::pluck('title', 'id')->all();
+        
         return view('admin.pages.create', $data);
     }
 

@@ -26,11 +26,14 @@
 <section id="container" class="">
 
     <header class="header dark-bg">
+        <div class="toggle-nav">
+            <div class="icon-reorder tooltips" data-original-title="Переключение меню" data-placement="bottom"><i class="fas fa-bars"></i></div>
+        </div>
         <div class="row">
             <div class="col-sm-2">
                 <a href="{{route('admin')}}" class="logo">Vin <span class="lite">Admin</span></a>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-7">
                 <div class="nav search-row" id="top_menu">
 
                     <form id="search_form" action="/admin/search" method="POST">
@@ -41,9 +44,6 @@
                     <div id="search_result"></div>
                     <!--  search form end -->
                 </div>
-            </div>
-            <div class="col-sm-2">
-
             </div>
             <div class="col-sm-2">
                 <div class="go_front">

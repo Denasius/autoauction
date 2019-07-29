@@ -1,4 +1,6 @@
+
 jQuery(document).ready(function ($) {
+	
 	$('#sub-header .right-info ul li.auth').hover( function() {
 		$(this).find('.profile-dropdown').toggleClass('active');
 	});
@@ -239,6 +241,54 @@ jQuery(document).ready(function ($) {
 	        	this_form.next('.reload-gif').removeClass('active');
 	        	this_form.closest('.lot-bet').find('.current-bet > .current-bet_price > strong').remove();
 	        	this_form.closest('.lot-bet').find('.current-bet > .current-bet_price').append('<strong>' + response + '</strong>').hide().fadeIn(500);
+	        },
+	        error: function (request, errorStatus, errorThrown) {
+	            console.log(request);
+	            console.log(errorStatus);
+	            console.log(errorThrown);
+	        }
+		});
+	});
+
+	// Добавляю ставку
+	$('form.bet-form [name="go_bet"]').on('click', function (e) {
+		e.preventDefault();
+		var this_form = $(this).closest('.bet-form'),
+			this_action = this_form.attr('action'),
+			this_method = this_form.attr('method'),
+			this_lot = this_form.data('lot'),
+			this_user = this_form.data('user'),
+			this_token = $('meta[name="csrf-token"]').attr('content');
+
+
+		return $.ajax({
+			headers: {
+	            'X-CSRF-TOKEN':this_token
+	        },
+	        type: this_method,
+	        url: this_action,
+	        data: {lot_id: this_lot, price: this_form.find('input').val(), user_id:this_user },
+	        beforeSend: function () {
+	        	this_form.find('[name="go_bet"]')	.text('Ожидайте...');
+	        },
+	        success: function (response) {
+	        	console.log(response);
+	        	this_form.find('[name="go_bet"]').text('Cделать ставку');
+	        	if( response.errors ){
+	        		var priceError = response.errors.price != undefined ? '<li>'+response.errors.price+'</li>' : '';
+	        		this_form.closest('.max-bet').find('.alert.alert-danger').remove();
+	        		this_form.closest('.max-bet').find('.alert.alert-success').remove();
+					this_form.closest('.max-bet').find('.answer').append('<ul class="alert alert-danger">'+ priceError + '</ul>'); 
+        		}
+
+        		if ( response.success ) {
+        			var success = response.success != undefined ? '<li>'+response.success+'</li>' : '';
+        			this_form.trigger('reset');
+        			this_form.closest('.lot-bet').find('.current-bet_price strong').load(window.location.pathname + ' #current-bet_price strong');
+	        		this_form.closest('.max-bet').find('.alert.alert-danger').remove();
+	        		this_form.closest('.max-bet').find('.alert.alert-success').remove();
+	        		this_form.closest('.max-bet').find('.answer').append('<ul class="alert alert-success">'+ success + '</ul>'); 
+	        	}
 	        },
 	        error: function (request, errorStatus, errorThrown) {
 	            console.log(request);

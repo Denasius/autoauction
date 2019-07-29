@@ -41,18 +41,18 @@ class AliasController extends Controller
     	$model = array_pop($routs_array);
 		switch ($item->type) {
 			case 'page':
-		    	$controller = new PageController();
+		    	$controller = new PageController;
 				break;
 			
 			case 'lot':
-				$controller = new LotController();
+				$controller = new LotController;
 				break;
 
 			case 'category':
-                $controller = new CategoryController();
+                $controller = new CategoryController;
                 $template = Category::where('id', $item->type_id)->firstOrFail();
-				if ( $template->template == 'auctions' ) {
-                    $controller = new AuctionController();
+				if ( ( $template->template == 'auctions' ) || ( $template->template == 'sold' ) ) {
+                    $controller = new AuctionController;
                 }
                 break;
 			default:

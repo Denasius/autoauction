@@ -170,6 +170,7 @@ class LotsController extends Controller
 
         //Получаем ставки
         $data['bets'] = Bet::get_by_lot($id);
+        $data['max_bet'] = $data['bets']->max('price');
 
         $data['aliase'] = Aliase::where([
             ['type_id', '=', $id],

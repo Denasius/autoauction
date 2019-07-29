@@ -11,6 +11,8 @@ use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Str;
 use Jenssegers\Date\Date;
 use App\Attribute;
+use App\Bet;
+use Intervention\Image\ImageManager;
 
 class Lot extends Model
 {
@@ -25,16 +27,6 @@ class Lot extends Model
     {
         return $this->belongsToMany(LotAttributes::class);
     }
-
-    // public function attrs()
-    // {
-    //     return $this->belongsToMany(
-    //         LotAttributes::class,
-    //         'lot_attributes',
-    //         'lot_id',
-    //         'attr_id'
-    //     );
-    // }
 
     public static function add($fields, $main_img) {
 
@@ -270,6 +262,22 @@ class Lot extends Model
             return '/img/no-image.png';
 
         return '/uploads/' . $this->image;
+    }
+
+    public function getSliderThumbnails()
+    {
+        if ( $this->image == null )
+            return '/img/no-image.png';
+
+        $manager = new ImageManager(array('driver' => 'gd'));
+        //dd($this->image);
+        $image = $manager->make($this->image);
+        $image->resize(100, 70, function ($img) {
+            $img->aspectRatio();
+            $img->upsize();
+        });
+        $image->save($this->image);
+        return '/uploads/' . $image->filename . '-thumb.' . $image->extension;
     }
 
     public function getFormatDate($value) {

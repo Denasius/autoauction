@@ -211,3 +211,19 @@ li.sub-menu:hover ul li a {
 	object-fit: cover;
 	margin-right: 20px;
 }
+
+.min-max-bets{
+	margin-bottom: 10px;
+}
+
+.min-max-bets .min_bet{
+	padding-right: 10px;
+}
+
+#main-content{
+	margin-left: 200px;
+}
+
+.wrapper{
+	padding: 15px 15px 15px 25px;
+}

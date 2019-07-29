@@ -120,5 +120,8 @@ Route::get('/wishlist', 'FavoritesController@index')->name('favirites.show');
 
 // Обновить ставки по клику на кнопку
 Route::post('/reload-bets', 'LotController@reload_bet')->name('reload.bet');
+
+// Сделать ставку
+Route::post('/make-bet', 'LotController@make_bet')->name('make.bet');
 // Роутинг для отслеживания страниц по URL
 Route::get('/{path}', 'AliasController@alias')->where('path', '.+')->name('aliases');
