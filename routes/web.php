@@ -69,6 +69,7 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::get('/showcars', 'LotsController@show')->name('showmodels');
 
 	Route::post('/uploadImages', 'UploadedImagesController@uploadImages')->name('uploadImages');
+	Route::get('/menu', 'MenusController@index');
 });
 
 //Загрузка изображения для профиля

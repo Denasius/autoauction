@@ -180,6 +180,9 @@ return [
         // Intervention image for resize images
         Intervention\Image\ImageServiceProvider::class,
 
+        // menu like wordpress
+        Harimayco\Menu\MenuServiceProvider::class,
+
     ],
 
     /*
@@ -234,6 +237,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Date' => Jenssegers\Date\Date::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Menu' => Harimayco\Menu\Facades\Menu::class,
 
     ],
 

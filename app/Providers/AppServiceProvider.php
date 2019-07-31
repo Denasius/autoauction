@@ -15,6 +15,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Admin\SearchController;
+use Harimayco\Menu\Facades\Menu;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -53,6 +54,8 @@ class AppServiceProvider extends ServiceProvider
             $view->with('phones', Setting::where('version', '=', 'phones')->get());
             $view->with('categories', Category::where('parent_category', 0)->get());
             $view->with('latestNews', Pages::where('template', 'news')->take(2)->get()->sortBy('created_at'));
+            $view->with('mainMenu', Menu::get(1));
+            $view->with('footerMenu', Menu::get(2));
         });
     }
 
@@ -157,6 +160,11 @@ class AppServiceProvider extends ServiceProvider
                 'title'         => 'Модель марки авто',
                 'title_create'  => 'Модель марки авто',
             ],
+            'menu'      => [
+                'icon'          => '<i class="fas fa-car-side"></i>',
+                'title'         => 'Меню',
+                'title_create'  => 'Меню',
+            ],
         ];
 
         $data = [];
@@ -186,6 +194,7 @@ class AppServiceProvider extends ServiceProvider
     public static function get_breadcrumb_header(){
         $route = \Request::route()->getName();
         $arr = explode('.', $route);
+        
         return AppServiceProvider::get_breadcrumb_header_result($arr[0], $arr[1]);
     }
 }

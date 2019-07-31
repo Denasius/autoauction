@@ -73,6 +73,12 @@
                     <span>Страницы</span>
                 </a>
             </li>
+            <li class="{{request()->is('admin/menu') ? 'active' : 'no-active'}}">
+                <a class="" href="/admin/menu">
+                    <i class="fas fa-folder-minus"></i>
+                    <span>Меню</span>
+                </a>
+            </li>
             <li class="{{request()->is('admin/lots') ? 'active' : 'no-active'}}">
                 <a href="/admin/lots" class="">
                     <i class="fas fa-car"></i>
@@ -188,6 +194,6 @@
 
 </section>
 <script src="/js/admin.js"></script>
-
+@yield('customs_scripts')
 </body>
 </html>
