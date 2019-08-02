@@ -23,6 +23,7 @@ class PageCommentsController extends Controller
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
         $data['comments'] = PageComment::getCommentPageAndAuthor();
+        //dd($data['comments']);
         return view('admin.comments.index', $data);
     }
 
@@ -71,6 +72,7 @@ class PageCommentsController extends Controller
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
         $data['comment'] = PageComment::find($id);
+
         $data['updated_at'] = date('Y-m-d', strtotime($data['comment']->updated_at));
         $data['user_mail'] = User::find($data['comment']->user_id);
         $data['pages'] = Pages::pluck('title', 'id')->all();
@@ -97,6 +99,14 @@ class PageCommentsController extends Controller
         $comment->edit($request->all());
 
         return redirect()->route('comments.index');
+    }
+
+    public function toggle($id)
+    {
+        $comment = PageComment::find($id);
+        $comment->toggleStatus();
+
+        return redirect()->back();
     }
 
     /**

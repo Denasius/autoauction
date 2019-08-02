@@ -75,3 +75,13 @@ $('#search_form .form-control').on('input',function () {
 	return false;
 
 });
+
+jQuery.datetimepicker.setLocale('ru');
+
+$('[name="lot_start"]').datetimepicker({
+	format: 'Y/m/d H:i:s'
+});
+
+$('[name="lot_time"]').datetimepicker({
+    format: 'y/m/d H:i:s'
+});

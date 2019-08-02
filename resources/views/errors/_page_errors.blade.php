@@ -1,5 +1,5 @@
 @if ($errors->any())
-	@foreach ($errors->any() as $element)
+	@foreach ($errors->all() as $element)
 		{{ $element }}
 	@endforeach
 @endif

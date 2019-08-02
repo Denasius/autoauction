@@ -23,22 +23,25 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Название страницы</label>
                                 <div class="col-sm-10">
-                                    {{ Form::select('page_id',
-                                        $pages,
-                                        $comment->page->title,
-                                        ['class'=>'form-control m-bot15'])
-                                  }}
+                                    <select class="form-control m-bot15" name="page_id">
+                                        <option vlaue="{{ $comment->page->id }}" selected>{{$comment->page->title}}</option>
+                                        @foreach ($pages as $key => $value)
+                                            <option vlaue="{{ $key }}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">E-mail пользователя</label>
                                 <div class="col-sm-10">
-                                    {{ Form::select('user_id',
-                                        $users,
-                                        $user_mail->email,
-                                        ['class'=>'form-control m-bot15'])
-                                  }}
+                                    <select class="form-control m-bot15" name="page_id">
+                                        <option vlaue="{{ $user_mail->id }}" selected>{{$user_mail->email}}</option>
+                                        @foreach ($users as $key => $value)
+                                            <option vlaue="{{ $key }}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                   
                                 </div>
                             </div>
 

@@ -19,12 +19,12 @@ class LotController extends Controller
     public function index($model, $routes)
     {
     	$data['lot'] = Lot::find($model->id);
+        
     	$data['lot_images'] = LotImage::where('lot_id', $data['lot']->id)->take(5)->get();
     	$data['lot_attribute'] = $this->getLotsAttributes($model->id);
     	$data['general_attrs'] = $this->getMainAttributes($model->id);
     	$data['additional_attrs'] = $this->getAdditionalAttributes($model->id);
         $data['active_lots'] = Lot::where('status', 1)->take(4)->inRandomOrder()->get();
-        //dd($data['active_lots']);
 
         // Нахожу максимальную ставку
         $data['max_bet'] = Bet::get_by_lot($model->id)->max('price');
@@ -169,5 +169,21 @@ class LotController extends Controller
                 'success' => 'Ваша ставка прошла успешно!'
             ]);
         }
+    }
+
+    public function buy_now(Request $request)
+    {
+        $lot = lot::find( $request->get('lot_id') );
+        $lot->lot_time = null;
+        $lot->save();
+
+        $bet = new Bet;
+        $new_bet = $request->all();
+        $bet->price = $new_bet['buy_one_click_price'];
+        $bet->user_id = $new_bet['user'];
+        $bet->lot_id = $new_bet['lot_id'];
+        $bet->save();
+
+        return redirect()->back()->with('byu_one_click_success', "Вы купили авто по стоимости {$lot->getPrice($lot->buy_one_click_price, $lot->currency)}. Подробную информацию Вы можете посмотреть в личном кабинете.");
     }
 }

@@ -21,9 +21,14 @@ class Pages extends Model
     	return $this->belongsTo(Category::class);
     }
 
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'id');
+    }
+
     public function comments()
     {
-        return $this->hasMany(PageComment::class);
+        return $this->hasMany(PageComment::class, 'page_id');
     }
 
     public static function add($fields)
@@ -117,5 +122,24 @@ class Pages extends Model
     public function getFormatString($string, $number = 40)
     {
         return str_limit($string, $number, '...');
+    }
+
+    public function getAliaseForNews($id)
+    {
+        return Aliase::where([
+            ['type_id', '=', $id],
+            ['type', '=', 'page'],
+        ])->first();
+    }
+
+    // Вывод коментарикв
+    public function getComments()
+    {
+        return $this->comments()->where('status', 1)->get();
+    }
+
+    public function getAuthorById($id)
+    {
+        return User::where('id', $id)->pluck('name')->first();
     }
 }

@@ -218,17 +218,24 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group form-group-europe">
+                                        <label class="col-sm-2 control-label">Дополнительные сборы</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="fees_all" class="form-control" placeholder="Дополнительные сборы">
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Дата открытия торгов</label>
                                         <div class="col-sm-10">
-                                            <input type="date" name="lot_start" class="form-control" placeholder="Дата открытия торгов">
+                                            <input type="text" name="lot_start" class="form-control" placeholder="Дата открытия торгов">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Дата завершения торгов</label>
                                         <div class="col-sm-10">
-                                            <input type="datetime-local" name="lot_time" class="form-control" placeholder="Дата завершения торгов">
+                                            <input type="text" name="lot_time" class="form-control" placeholder="Дата завершения торгов">
                                         </div>
                                     </div>
 
@@ -267,9 +274,9 @@
                                     </div>
 
                                     <div class="form-group form-group-europe">
-                                        <label class="col-sm-2 control-label">Дополнительные сборы</label>
+                                        <label class="col-sm-2 control-label">Дополнительные сборы для Европы</label>
                                         <div class="col-sm-10">
-                                            <input type="number" name="fees" class="form-control" placeholder="Дополнительные сборы">
+                                            <input type="number" name="fees" class="form-control" placeholder="Дополнительные сборы для Европы">
                                         </div>
                                     </div>
 

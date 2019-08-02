@@ -227,3 +227,90 @@ li.sub-menu:hover ul li a {
 .wrapper{
 	padding: 15px 15px 15px 25px;
 }
+
+.field-move{
+	display: none;
+	visibility: hidden;
+}
+
+.menu-item-actions{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	width: 100%;
+	-ms-align-items: center;
+	align-items: center;
+	justify-content: flex-start;
+}
+.menu-item-actions .item-delete{
+	color: #fff !important;
+	padding: 5px 10px !important;
+	font-size: 13px !important;
+}
+
+#hwpwrap .nav-menus-php .meta-sep{
+	display: none;
+	visibility: hidden;
+}
+
+#hwpwrap .nav-menus-php .item-cancel,
+#hwpwrap .nav-menus-php .button.button-primary.updatemenu{
+	padding-right: 10px !important;
+	padding-left: 10px !important;
+}
+
+#hwpwrap .menu-item-settings{
+	width: 382px !important;
+	padding-right: 10px !important;
+}
+
+#hwpwrap .description{
+	width: 100%;
+}
+
+#hwpwrap .description:not(:first-child){
+	margin-top: 20px;
+}
+
+#hwpwrap .description label,
+#hwpwrap .description .edit-menu-item-title,
+#hwpwrap .description .edit-menu-item-url,
+#hwpwrap .description .edit-menu-item-classes{
+	margin-top: 10px !important;
+	width: 100%;
+}
+
+#hwpwrap .description .edit-menu-item-classes,
+#hwpwrap .description .edit-menu-item-url,
+input.edit-menu-item-title{
+	padding: 10px !important;
+	width: 100%;
+}
+
+#hwpwrap .menu-item-settings .description-thin{
+	width: 100%;
+}
+
+#hwpwrap .menu-item-settings .description-thin label{
+	width: 100%;
+}
+
+
+.ui-state-active, .ui-widget-content .ui-state-active{
+	color: red !important;
+}
+
+.ui-state-default{
+	text-align: center !important;
+}
+
+.ui-datepicker-month{
+	margin-right: 2px !important;
+}
+
+.btn-close-lot{
+	width: 100%;
+	text-align: right;
+}

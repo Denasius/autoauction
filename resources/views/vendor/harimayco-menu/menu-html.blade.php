@@ -186,9 +186,9 @@ $currentUrl = url()->current();
 
 																	<div class="menu-item-actions description-wide submitbox">
 
-																		<a class="item-delete submitdelete deletion" id="delete-{{$m->id}}" href="{{ $currentUrl }}?action=delete-menu-item&menu-item={{$m->id}}&_wpnonce=2844002501">Удалить</a>
+																		<a class="item-delete submitdelete deletion btn btn-danger" id="delete-{{$m->id}}" href="{{ $currentUrl }}?action=delete-menu-item&menu-item={{$m->id}}&_wpnonce=2844002501">Удалить</a>
 																		<span class="meta-sep hide-if-no-js"> | </span>
-																		<a class="item-cancel submitcancel hide-if-no-js button-secondary" id="cancel-{{$m->id}}" href="{{ $currentUrl }}?edit-menu-item={{$m->id}}&cancel=1424297719#menu-item-settings-{{$m->id}}">Выйти</a>
+																		<a class="item-cancel submitcancel hide-if-no-js button-secondary" id="cancel-{{$m->id}}" href="{{ $currentUrl }}?edit-menu-item={{$m->id}}&cancel=1424297719#menu-item-settings-{{$m->id}}">Отмена</a>
 																		<span class="meta-sep hide-if-no-js"> | </span>
 																		<a onclick="getmenus()" class="button button-primary updatemenu" id="update-{{$m->id}}" href="javascript:void(0)">Обновить ссылку</a>
 

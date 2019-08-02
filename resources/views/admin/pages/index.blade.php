@@ -31,6 +31,7 @@
                                     <td>{{$post->cat_title}}</td>
                                     <td class="text-right">
                                         <div class="btn-group event_btn_group">
+                                            
                                             <a class="btn btn-primary" href="{{route('pages.edit', $post->id)}}"><i class="fas fa-edit"></i></a>
                                             {{Form::open(['route'=>['pages.destroy', $post->id], 'method'=>'delete', 'class'=>'inline_block'])}}
                                             <button type="submit" class="btn btn-danger" data-attr="delete"><i class="fas fa-trash-alt"></i></button>

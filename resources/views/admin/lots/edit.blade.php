@@ -5,6 +5,15 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
+            @if( session('lot_disallow') )
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-success">
+                            {{session('lot_disallow')}}
+                        </div>
+                    </div>
+                </div>
+            @endif
 
             @include('admin.common.breadcrumb_header')
 
@@ -37,6 +46,18 @@
 
                         </header>
                         <div class="panel-body">
+                            
+                                <div class="btn-close-lot">
+                                    {{Form::open(['route' => ['finish.lot'], 'method' => 'post','class' => 'form-horizontal'])}}
+                                    <input type="hidden" name="lot_id" value="{{ $lot->id }}">
+                                    @if($lot->status == 1)
+                                        <button class="btn btn-danger">Закрыть лот от участия в торгах</button>
+                                    @else
+                                        <button class="btn btn-primary">Открыть лот для торгов</button>
+                                    @endif
+                                    {{Form::close()}}
+                                </div>
+                            
                             {{Form::open(['route' => ['lots.update', $lot->id],'files' => true,'method' => 'put','class' => 'form-horizontal'])}}
                             <div class="tab-content">
 
@@ -228,17 +249,24 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group form-group">
+                                        <label class="col-sm-2 control-label">Дополнительные сборы</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" name="fees_all" class="form-control" placeholder="Дополнительные сборы" value="{{ $lot->fees_all }}">
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Дата открытия торгов</label>
                                         <div class="col-sm-10">
-                                            <input type="date" name="lot_start" class="form-control" placeholder="Дата открытия торгов" value="{{ date('d.m.Y', strtotime($lot->lot_start)) }}">
+                                            <input type="text" name="lot_start" class="form-control" placeholder="Дата открытия торгов" value="{{ date('Y/m/d', strtotime($lot->lot_start)) }}">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Дата завершения торгов</label>
                                         <div class="col-sm-10">
-                                            <input type="datetime-local" name="lot_time" class="form-control" placeholder="Дата завершения торгов" value="{{ $lot->lot_time }}">
+                                            <input type="text" name="lot_time" class="form-control" placeholder="Дата завершения торгов" value="{{ date('Y/m/d H:i:s', strtotime($lot->lot_time)) }}">
                                         </div>
                                     </div>                                    
 
@@ -277,9 +305,9 @@
                                     </div>
 
                                     <div class="form-group form-group-europe">
-                                        <label class="col-sm-2 control-label">Дополнительные сборы</label>
+                                        <label class="col-sm-2 control-label">Дополнительные сборы для Европы</label>
                                         <div class="col-sm-10">
-                                            <input type="number" name="fees" class="form-control" placeholder="Дополнительные сборы" value="{{ $lot->fees }}">
+                                            <input type="number" name="fees" class="form-control" placeholder="Дополнительные сборы для Европы" value="{{ $lot->fees }}">
                                         </div>
                                     </div>
 

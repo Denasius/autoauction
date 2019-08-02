@@ -228,4 +228,13 @@ class LotsController extends Controller
         }
     }
 
+    public function finish_lot(Request $request)
+    {
+        $lot = Lot::find($request->get('lot_id'));
+        $lot->changeLotStatus();
+        
+        
+        return redirect()->back()->with('lot_disallow', 'Вы успешно сменили статус этого лота');
+    }
+
 }

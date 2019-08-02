@@ -25,6 +25,17 @@
 	</div>
 
 	<section class="car-details">
+		@if( session('byu_one_click_success') )
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-success">
+							{{ session('byu_one_click_success') }}
+						</div>
+					</div>
+				</div>
+			</div>
+		@endif
 		<div class="container">
 			<div class="row">
 				<div id="single-car" class="col-md-5">
@@ -51,27 +62,30 @@
 								@include('lots.layouts._wishlist_buttons')
 							@endif
 						</div>
+						@if( $lot->status == 1 )
 						<div class="location-lot">
 							<span class="location">Машина в {{ $lot->address }}</span>
 							<span class="lot">лот №<strong>{{ $lot->id }}</strong></span>
 						</div>
 						<div class="lot-bet">
-							<div class="current-bet">
-								<span id="current-bet_price" class="current-bet_price">Текущая ставка <strong>{!! $lot->getPrice($max_bet, $lot->currency) !!}</strong></span>
+							
+								<div class="current-bet">
+									<span id="current-bet_price" class="current-bet_price">Текущая ставка <strong>{!! $lot->getPrice($max_bet, $lot->currency) !!}</strong></span>
 
-								<span class="min-bet">Минимальный шаг: <strong>{!! $lot->getPrice($lot->min_bet, $lot->currency) !!}</strong></span>
+									<span class="min-bet">Минимальный шаг: <strong>{!! $lot->getPrice($lot->min_bet, $lot->currency) !!}</strong></span>
 
-								<button class="reload-bet" data-action="{{ route('reload.bet') }}" data-lot-id="{{ $lot->id }}" data-method="post">Обновить ставки</button>
-								<img class="reload-gif" src="{{ asset('img/reload-bet.gif') }}" alt="reload">
-							</div>
-							@if (Auth::check())
-								<div class="max-bet">
-									<form class="bet-form" action="{{route('make.bet')}}" method="post" data-lot="{{ $lot->id }}" data-user="{{ Auth::user()->id }}">
-										<input type="text" class="max_bet" name="bet" placeholder="Ваша максимальная ставка"><button type="submit" name="go_bet">Сделать ставку</button>
-									</form>
-									<div class="answer"></div>
+									<button class="reload-bet" data-action="{{ route('reload.bet') }}" data-lot-id="{{ $lot->id }}" data-method="post">Обновить ставки</button>
+									<img class="reload-gif" src="{{ asset('img/reload-bet.gif') }}" alt="reload">
 								</div>
-							@endif						
+								@if (Auth::check())
+									<div class="max-bet">
+										<form class="bet-form" action="{{route('make.bet')}}" method="post" data-lot="{{ $lot->id }}" data-user="{{ Auth::user()->id }}">
+											<input type="text" class="max_bet" name="bet" placeholder="Ваша максимальная ставка"><button type="submit" name="go_bet">Сделать ставку</button>
+										</form>
+										<div class="answer"></div>
+									</div>
+								@endif						
+							
 						</div>
 						<div class="sprint">							
 
@@ -103,18 +117,33 @@
 						<div class="buy-one-click">
 							<span>Начальная стоимость <strong>{!! $lot->getPrice($lot->price, $lot->currency) !!}</strong></span>
 							<span>Купить сейчас <strong>{!! $lot->getPrice($lot->buy_one_click_price, $lot->currency) !!}</strong></span>
-							<button>Купить сейчас</button>
+							<form class="form-buy-one-click" action="{{ route('buy.one.click') }}" method="post">
+								@csrf
+								<input type="hidden" name="buy_one_click_price" value="{{ $lot->buy_one_click_price }}">
+								<input type="hidden" name="user" value="{{ Auth::user()->id }}">
+								<input type="hidden" name="lot_id" value="{{ $lot->id }}">
+								<button>Купить сейчас</button>
+							</form>
 						</div>
 						<div class="information-lot">
-							<span>Стоимость доставки <strong>{!! $lot->getPrice($lot->shipping, $lot->currency) !!}</strong></span>
-							<span>Дополнительные сборы <strong>{!! $lot->getPrice($lot->fees, $lot->currency) !!}</strong></span>
+							@if( $lot->car_from_europe != null )
+								<span>Стоимость доставки <strong>{!! $lot->getPrice($lot->shipping, $lot->currency) !!}</strong></span>
+								<span>Дополнительные сборы <strong>{!! $lot->getPrice($lot->fees, $lot->currency) !!}</strong></span>
+							@else
+							<span>Дополнительные сборы <strong>{!! $lot->getPrice($lot->fees_all, $lot->currency) !!}</strong></span>
+							@endif
 						</div>
 						<div class="offers">
 							<input type="checkbox" name="contract" checked>
 							<span>Я согласен с <a href="#">договором офферты</a></span>
 						</div>
+					@else
 					</div>
 				</div>
+					<div class="lot-finish">
+						<p>Этот лот завершил участие в аукционе</p>
+					</div>
+				@endif
 				<div class="col-md-12 tab-block">
 			    	<div class="loader">
 			    		<img src="{{ asset('img/image.gif') }}" alt="preloader">
@@ -179,7 +208,7 @@
 
 		var initTimer = function () {
 			$('.countdown').downCount({
-		        date: '{{date('m/d/Y', strtotime($lot->lot_time))}} 12:00:00',
+		        date: '{{date('m/d/Y H:i:s', strtotime($lot->lot_time))}}',
 		        offset: +10
 		    }, function () {
 		        $('button[name="go_bet"]').attr('disabled', true).css({

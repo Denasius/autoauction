@@ -255,7 +255,7 @@
                                 @foreach($latestNews as $item)
                                     <div class="latest-item">
                                         <div class="latest-news-post">
-                                            <img class="lazyloading" src="data:image/gif;base64,R0lGODlhIwAXAIAAAP///wAAACH5BAEAAAEALAAAAAAjABcAAAIajI+py+0Po5y02ouz3rz7D4biSJbmiabq2hUAOw==" data-src="{{ $item->image }}" alt="{{ $item->title }}">
+                                            <img class="lazyloading" src="{{ asset('img/th.jpg') }}" data-src="{{ asset('uploads/' . $item->image) }}" alt="{{ $item->title }}">
                                         </div>
 
                                         <div>

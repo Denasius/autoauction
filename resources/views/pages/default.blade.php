@@ -17,8 +17,8 @@
 					<div class="page-active">
 						<ul>
 							<li><a href="/">Главная</a></li>
-						<li><i class="fas fa-circle"></i></li>
-						<li><a href="javascript:void(0)">{{ $page->title }}</a></li>
+							<li><i class="fas fa-circle"></i></li>
+							<li><a href="javascript:void(0)">{{ $page->title }}</a></li>
 						</ul>
 					</div>
 				</div>
@@ -26,7 +26,7 @@
 		</div>
 	</div>
 	<section class="single-blog single-page-{{ $class_css }}">
-		
+	
 		{!! $page->descr !!}
 	</section>
 

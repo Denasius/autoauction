@@ -70,6 +70,11 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 
 	Route::post('/uploadImages', 'UploadedImagesController@uploadImages')->name('uploadImages');
 	Route::get('/menu', 'MenusController@index');
+
+	Route::get('/comments/toggle/{id}', 'PageCommentsController@toggle')->name('comments.toggle');
+
+	// Завершить участие лота в аукционе
+	Route::post('/finish-lot', 'LotsController@finish_lot')->name('finish.lot');
 });
 
 //Загрузка изображения для профиля
@@ -122,7 +127,14 @@ Route::get('/wishlist', 'FavoritesController@index')->name('favirites.show');
 // Обновить ставки по клику на кнопку
 Route::post('/reload-bets', 'LotController@reload_bet')->name('reload.bet');
 
+//Купить в один клик
+Route::post('/buy-one-click', 'LotController@buy_now')->name('buy.one.click');
+
 // Сделать ставку
 Route::post('/make-bet', 'LotController@make_bet')->name('make.bet');
+
+// Оставить комментаоий
+Route::post('/comment', 'CommentsController@store')->name('comment.add');
+
 // Роутинг для отслеживания страниц по URL
 Route::get('/{path}', 'AliasController@alias')->where('path', '.+')->name('aliases');

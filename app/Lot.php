@@ -21,7 +21,10 @@ class Lot extends Model
 
     const TYPE = 'lot';
 
-    protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id', 'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image', 'fuel', 'date', 'price', 'currency', 'shipping', 'fees', 'lot_step', 'lot_time', 'lot_start', 'car_brend', 'buy_one_click_price', 'min_bet', 'lot_bet'];
+    const STATUS_ALLOW = 1;
+    const STATUS_DISALLOW = 0;
+
+    protected $fillable = ['title', 'desr', 'car_model', 'vin', 'category_id', 'address', 'car_mileage','car_options', 'status', 'views', 'meta_title', 'meta_description', 'image', 'fuel', 'date', 'price', 'currency', 'shipping', 'fees', 'lot_step', 'lot_time', 'lot_start', 'car_brend', 'buy_one_click_price', 'min_bet', 'lot_bet', 'fees_all'];
 
     public function attributes()
     {
@@ -319,5 +322,27 @@ class Lot extends Model
         if ( $currency == 'EUR' ) {
             return '&#8364; ' . number_format($price, 0, ' ', ' ');
         }
+    }
+
+    public function allow()
+    {
+        $this->status = Lot::STATUS_ALLOW;
+        $this->save();
+    }
+
+    public function disAllow()
+    {
+        $this->status = Lot::STATUS_DISALLOW;
+        $this->save();
+    }
+
+
+    public function changeLotStatus()
+    {
+        if ( $this->status == PageComment::IS_DISALLOW ) {
+            return $this->allow();
+        }
+
+        return $this->disAllow();
     }
 }

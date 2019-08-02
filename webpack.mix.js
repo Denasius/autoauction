@@ -15,6 +15,8 @@ mix.styles([
 	'resources/assets/admin/css/bootstrap.min.css',
 	'resources/assets/admin/css/bootstrap-theme.css',
 	'resources/assets/admin/css/font-awesome.min.css',
+	'resources/assets/admin/css/jquery-ui.min.css',
+	'resources/assets/admin/datetime/jquery.datetimepicker.css',
 	'resources/assets/admin/css/style.css',
 	'resources/assets/admin/css/custom.css',
 ], 'public/css/admin.css');
@@ -55,6 +57,9 @@ mix.sass('resources/sass/app.scss', 'public/css/styles.css');
 mix.scripts([
 	'resources/assets/admin/js/bootstrap.min.js',
 	'resources/assets/admin/js/jquery.nicescroll.js',
+	'resources/assets/admin/js/jquery-ui.min.js',
+	'resources/assets/admin/js/datepicker-ru.js',
+	'resources/assets/admin/datetime/jquery.datetimepicker.full.js',
 	'resources/assets/admin/js/scripts.js',
 	'resources/assets/admin/js/custom.js',
 	'resources/assets/admin/js/custom-dropzone.js',
@@ -77,6 +82,7 @@ mix.scripts([
 
 mix.copy('resources/assets/admin/fonts', 'public/fonts');
 mix.copy('resources/assets/admin/img', 'public/img');
+mix.copy('resources/assets/admin/img/img-jq-ui', 'public/img');
 mix.copy('resources/front/assets/images', 'public/assets/images');
 mix.copy('resources/front/assets/fonts', 'public/fonts');
 mix.copy('resources/front/assets/rs-plugin/font', 'public/fonts');

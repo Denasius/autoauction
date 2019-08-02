@@ -1,187 +1,61 @@
 @extends('layout')
 
 @section('seo')
-  <title>Категории</title>
-  <meta name="description" content="Категории">
+  <title>{{ $category->meta_title }}</title>
+  <meta name="description" content="{{ $category->meta_description }}">
 @endsection
 
 @section('content')
 
-	<div id="page-heading">
+	<div id="page-heading" @if( $category->image != null ) class="lazyloading" style="background-image: url({{ asset('img/th.jpg') }})" data-src="{{ asset('uploads/'.$category->image) }}" @endif>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 text-center">
-					<h1>Blog Posts</h1>
+					<h1>{{ $category->title }}</h1>
 					<div class="line"></div>
-					<span>Praesent volutpat nisi sed imperdiet facilisis felis turpis fermentum lectus</span>
+					<span>{!! $category->descr !!}</span>
 					<div class="page-active">
 						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><i class="fa fa-dot-circle-o"></i></li>
-							<li><a href="blog-right.html">Blog Posts</a></li>
+							<li><a href="">Главная</a></li>
+							<li><i class="fas fa-circle"></i></li>
+							<li><a href="javascript:void(0)">{{ $category->title }}</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-<h1>Шаблон новостной разводящий</h1>
-	<section class="blog-grid">
-		<div class="container">
-			<div class="row">
-				<div id="blog-posts">
-					<div class="blog-item col-md-4">
-						<img src="http://dummyimage.com/370x270/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<div class="post-info">
-								<ul>
-									<li>May 14, 2015</li>
-									<li>Posted by <a href="#">Admin</a></li>
-								</ul>
-								<div class="tittle">
-									<a href="single-blog.html"><h2>Hella kogi whatever, small batch</h2></a>
+	@if( $categories->count() >= 1 )
+		<section class="blog-grid">
+			<div class="container">
+				<div class="row">
+					<div id="blog-posts posts-template-{{ $category->template }}">
+						@foreach ($categories as $news)
+							<div class="blog-item col-md-4">
+								<img class="lazyloading" src="{{ asset('img/th.jpg') }}" data-src="{{ asset('uploads/' . $news->image) }}" alt="{{ $news->title }}">
+								<div class="down-content">
+									<div class="post-info">
+										<ul>
+											<li>{{ $news->getFormatDate( $news->created_at ) }}</li>
+										</ul>
+										<div class="tittle">
+											<a href="{{ asset( $news->getAliaseForNews($news->id)->slug ) }}"><h2>{{ $news->title }}</h2></a>
+										</div>
+									</div>
+									<p>{{ strip_tags($news->getFormatString($news->descr, 150)) }}</p>
+									<a href="{{ asset( $news->getAliaseForNews($news->id)->slug ) }}">Подробнее</a>
 								</div>
 							</div>
-							<p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris.</p>
-							<a href="single-blog.html">Read More</a>
-						</div>
-					</div>
-					<div class="blog-item col-md-4">
-						<img src="http://dummyimage.com/370x270/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<div class="post-info">
-								<ul>
-									<li>May 14, 2015</li>
-									<li>Posted by <a href="#">Admin</a></li>
-								</ul>
-								<div class="tittle">
-									<a href="single-blog.html"><h2>Normcore pour-over taxidermy twee</h2></a>
-								</div>
+						@endforeach
+						<div class="col-md-12 text-center">
+							<div class="paginate">
+								{{$categories->render()}}
 							</div>
-							<p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris.</p>
-							<a href="single-blog.html">Read More</a>
-						</div>
-					</div>
-					<div class="blog-item col-md-4">
-						<img src="http://dummyimage.com/370x270/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<div class="post-info">
-								<ul>
-									<li>May 14, 2015</li>
-									<li>Posted by <a href="#">Admin</a></li>
-								</ul>
-								<div class="tittle">
-									<a href="single-blog.html"><h2>Retro art party vinyl meditation</h2></a>
-								</div>
-							</div>
-							<p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris.</p>
-							<a href="single-blog.html">Read More</a>
-						</div>
-					</div>
-					<div class="blog-item col-md-4">
-						<img src="http://dummyimage.com/370x270/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<div class="post-info">
-								<ul>
-									<li>May 14, 2015</li>
-									<li>Posted by <a href="#">Admin</a></li>
-								</ul>
-								<div class="tittle">
-									<a href="single-blog.html"><h2>Retro art party vinyl meditation</h2></a>
-								</div>
-							</div>
-							<p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris.</p>
-							<a href="single-blog.html">Read More</a>
-						</div>
-					</div>
-					<div class="blog-item col-md-4">
-						<img src="http://dummyimage.com/370x270/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<div class="post-info">
-								<ul>
-									<li>May 14, 2015</li>
-									<li>Posted by <a href="#">Admin</a></li>
-								</ul>
-								<div class="tittle">
-									<a href="single-blog.html"><h2>Hella kogi whatever, small batch</h2></a>
-								</div>
-							</div>
-							<p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris.</p>
-							<a href="single-blog.html">Read More</a>
-						</div>
-					</div>
-					<div class="blog-item col-md-4">
-						<img src="http://dummyimage.com/370x270/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<div class="post-info">
-								<ul>
-									<li>May 14, 2015</li>
-									<li>Posted by <a href="#">Admin</a></li>
-								</ul>
-								<div class="tittle">
-									<a href="single-blog.html"><h2>Normcore pour-over taxidermy twee</h2></a>
-								</div>
-							</div>
-							<p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris.</p>
-							<a href="single-blog.html">Read More</a>
-						</div>
-					</div>
-					<div class="blog-item col-md-4">
-						<img src="http://dummyimage.com/370x270/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<div class="post-info">
-								<ul>
-									<li>May 14, 2015</li>
-									<li>Posted by <a href="#">Admin</a></li>
-								</ul>
-								<div class="tittle">
-									<a href="single-blog.html"><h2>Retro art party vinyl meditation</h2></a>
-								</div>
-							</div>
-							<p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris.</p>
-							<a href="single-blog.html">Read More</a>
-						</div>
-					</div>
-					<div class="blog-item col-md-4">
-						<img src="http://dummyimage.com/370x270/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<div class="post-info">
-								<ul>
-									<li>May 14, 2015</li>
-									<li>Posted by <a href="#">Admin</a></li>
-								</ul>
-								<div class="tittle">
-									<a href="single-blog.html"><h2>Normcore pour-over taxidermy twee</h2></a>
-								</div>
-							</div>
-							<p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris.</p>
-							<a href="single-blog.html">Read More</a>
-						</div>
-					</div>
-					<div class="blog-item col-md-4">
-						<img src="http://dummyimage.com/370x270/cccccc/fff.jpg" alt="">
-						<div class="down-content">
-							<div class="post-info">
-								<ul>
-									<li>May 14, 2015</li>
-									<li>Posted by <a href="#">Admin</a></li>
-								</ul>
-								<div class="tittle">
-									<a href="single-blog.html"><h2>Hella kogi whatever, small batch</h2></a>
-								</div>
-							</div>
-							<p>Praesent mollis at odio in aliquam. Morbi sit amet enim ante. Phasellus commodo urna sed laoreet mauris.</p>
-							<a href="single-blog.html">Read More</a>
-						</div>
-					</div>
-					<div class="col-md-12 text-center">
-						<div class="load-more-button">
-							<a href="#">Load more</a><i class="fa fa-spinner"></i>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	@endif
 
 @endsection
