@@ -13,11 +13,11 @@
 				
 					<ul>
 						@foreach ($mainMenu as $menu)
-							<li><a href="{{ $menu['link'] }}" @if( $menu['child'] ) class="has-submenu" @endif>{{ $menu['label'] }}</a>
+							<li class="{{ $menu['class'] }}"><a href="{{ $menu['link'] }}" @if( $menu['child'] ) class="has-submenu" @endif>{{ $menu['label'] }}</a>
 								@if( $menu['child'] )
 									<ul class="sub-menu">
 										@foreach( $menu['child'] as $child )
-											<li><a href="{{ $child['link'] }}">{{ $child['label'] }}</a></li>
+											<li class="{{ $child['class'] }}"><a href="{{ $child['link'] }}">{{ $child['label'] }}</a></li>
 										@endforeach
 									</ul>
 								@endif

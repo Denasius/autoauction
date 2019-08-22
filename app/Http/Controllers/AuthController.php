@@ -8,6 +8,7 @@ use Auth;
 
 class AuthController extends Controller
 {
+    protected $redirectTo = '/profile-info';
     public function registerForm()
     {
     	return view('pages.register');
@@ -27,8 +28,9 @@ class AuthController extends Controller
     	
     	$user = User::add($request->all());
     	$user->generatePassword($request->get('password'));
+        Auth::login($user);
 
-    	return redirect('/login');
+    	return redirect()->route('profile');
     }
 
     /*

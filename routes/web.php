@@ -97,7 +97,12 @@ Route::group(['middleware'=>'auth'], function () {
 	Route::get('/logout', 'AuthController@logout')->name('logout');
 
 	//Профиль пользователя
-    Route::get('/profile', 'ProfilesController@index');
+    Route::get('/profile', 'ProfilesController@index')->name('profile');
+    Route::post('/profile-edit', 'ProfilesController@store')->name('profile.edit');
+    Route::get('/profile-info', 'ProfilesController@show_info')->name('profile.info');
+    Route::post('/profile-info', 'ProfilesController@save_images')->name('profile.info.save');
+    Route::post('/profile-confirm', 'ProfilesController@confirm')->name('profile.confirm');
+    Route::get('/finish-registration', 'ProfilesController@finish_register')->name('profile.finish');
 });
 
 Route::get('/search', 'HomeController@search')->name('searching');
@@ -109,6 +114,9 @@ Route::get('/verify/{token}', 'SubscribeController@verify');
 
 //Форма отправки на странице дилерам
 Route::post('/seller-form', 'PageController@seller_form')->name('seller-form');
+
+// Проверить авто по VIN
+Route::post('/check-vin', 'PageController@check_by_vin_code')->name('check.vin');
 
 //Фильтр на аукционах
 Route::post('/filter', 'AuctionController@global_search')->name('filter');

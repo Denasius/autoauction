@@ -31,6 +31,17 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">Выводить в фильтр</label>
+                                <div class="col-sm-10">
+                                    
+                                    <div class="radio" style="padding-left: 0;">
+                                            <input name="add_filter" type="checkbox" @if($attribute_category->add_filter == 'on') checked @endif class="checkbox-attr-cats-edit">
+                                      
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">Тип</label>
                                 <div class="col-sm-10">
                                     <div class="radio">

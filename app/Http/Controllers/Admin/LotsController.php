@@ -32,7 +32,8 @@ class LotsController extends Controller
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
-        $data['lots'] = Lot::all();
+        $data['lots'] = Lot::where('status', 1)->get();
+        $data['unactive_lots'] = Lot::where('status', 0)->get();
         return view('admin.lots.index', $data);
     }
 
@@ -86,7 +87,7 @@ class LotsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    { 
+    {
         $this->validate($request, [
             'title' => 'required',
             'vin' => 'required',

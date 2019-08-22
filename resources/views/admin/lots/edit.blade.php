@@ -194,18 +194,18 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="checkbox-inline col-sm-2 control-label" style="padding-top:0;">
+                                        <label class="checkbox-inline col-sm-2 control-label" style="padding-top:0; font-weight: bold;">
                                            Цена с НДС?
                                         </label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="tax" name="tax" @if($lot->tax == 'on') checked @endif>  
+                                            <input type="checkbox" id="tax" name="tax" @if($lot->tax == 'on') checked @endif class="checkbox-tax">  
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" style="padding-top:0;">Купить в один клик</label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="buy_one_click" name="buy_one_click" @if($lot->buy_one_click == 'on') checked @endif> 
+                                            <input type="checkbox" id="buy_one_click" name="buy_one_click" @if($lot->buy_one_click == 'on') checked @endif class="checkbox-one-click"> 
                                         </div>
                                     </div>
 
@@ -286,14 +286,14 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label pt-0" style="padding-top:0;">Лот для особенных</label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="lot_vip" name="lot_vip" @if($lot->lot_vip == 'on') checked @endif> 
+                                            <input type="checkbox" id="lot_vip" name="lot_vip" @if($lot->lot_vip == 'on') checked @endif class="checkbox-vip"> 
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" style="padding-top:0;">Авто из Европы</label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="car_from_europe" name="car_from_europe" @if($lot->car_from_europe == 'on') checked @endif> 
+                                            <input type="checkbox" id="car_from_europe" name="car_from_europe" @if($lot->car_from_europe == 'on') checked @endif class="checkbox-europe"> 
                                         </div>
                                     </div>
 

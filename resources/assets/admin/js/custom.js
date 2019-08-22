@@ -10,7 +10,7 @@ $(document).ready(function() {
 		$('.form-group-europe').fadeOut();
 	}
 		
-	$('#car_from_europe').on('click', function () {
+	$('.switch ').on('click', function () {
 		if ( $('#car_from_europe').is(':checked') ) {
 			$('.form-group-europe').fadeIn();
 		}else{

@@ -56,6 +56,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('latestNews', Pages::where('template', 'news')->take(2)->get()->sortBy('created_at'));
             $view->with('mainMenu', Menu::get(1));
             $view->with('footerMenu', Menu::get(2));
+            $view->with('footerMenu_2', Menu::get(3));
         });
     }
 

@@ -88,6 +88,14 @@
                                                 @case('news')
                                                     Новость
                                                     @break 
+
+                                                @case('customs_calculator')
+                                                    Тамженный калькулятор
+                                                    @break
+
+                                                @case('check_vin')
+                                                    Проверка по VIN
+                                                    @break
                                             
                                                 @default
                                                     По умолчанию
@@ -119,6 +127,14 @@
 
                                         @if ( $page->template != 'news' ) 
                                             <option value="news">Новость</option>
+                                        @endif
+
+                                        @if ( $page->template != 'customs_calculator' ) 
+                                            <option value="customs_calculator">Тамженный калькулятор</option>
+                                        @endif
+
+                                        @if ( $page->template != 'check_vin' ) 
+                                            <option value="check_vin">Проверка по VIN</option>
                                         @endif
                                     </select>
                                 </div>

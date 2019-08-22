@@ -35,39 +35,34 @@
 					</div>
 					<div class="right-content">
 						<form class="form-filter" action="{{ route('filter') }}" method="POST">
-							@csrf
-							<input type="hidden" name="category_id" value="{{ $category }}">					
+							@csrf					
 							<div class="input-select">
-	                            <select name="sort" id="mark" class="mark-top-filter global-filter">
-	                                <option value="-1">Сортировать по</option>
-	                                	<option value="title">Наименование</option>
-	                                  	<option value="car_mileage">Пробег</option>
-	                                  	<option value="price">Цена</option>
-	                                  	<option value="date">Год</option>
-	                            </select>
-	                        </div>
+								<select name="sort" id="mark" class="mark-top-filter global-filter">
+									<option value="-1">Сортировать по</option>
+										<option value="title">Наименование</option>
+										<option value="car_mileage">Пробег</option>
+										<option value="price">Цена</option>
+										<option value="date">Год</option>
+								</select>
+							</div>
 						</form>
 
-                        {{-- <div class="grid-list">
-                        	<ul>
-                        		<li><a href="#"><i class="fa fa-list"></i></a></li>
-                        		<li><a href="#"><i class="fa fa-square"></i></a></li>
-                        	</ul>
-                        </div> --}}
+						{{-- <div class="grid-list">
+							<ul>
+								<li><a href="#"><i class="fa fa-list"></i></a></li>
+								<li><a href="#"><i class="fa fa-square"></i></a></li>
+							</ul>
+						</div> --}}
 					</div>
 				</div>
 				<div class="auction-categories">
 					@if ( $subcategories ) 
 						<ul>
-							<li><a href="{{url('aukciony-mikroavtobusov')}}">Аукционы микроавтобусов</a></li>
-							<li><a href="{{url('aukciony-gruzovyh-avto')}}">Аукционы грузовых авто</a></li>
-							<li><a href="{{url('aukciony-motociklov')}}">Аукционы мотоциклов</a></li>
-							<li><a href="{{url('aukcion-avariynyh-bityh-avto')}}">Аукцион аварийных/битых авто</a></li>
-							<li><a href="{{url('aukciony-avto-s-nds')}}">Аукционы авто с НДС</a></li>
-							<li><a href="{{url('aukcion-arestovannyh-konfiskovannyh-zalogovyh-avto')}}">Аукцион арестованных/конфискованных/залоговых авто</a></li>
-							<li><a href="{{url('avto-s-evropeyskih-aukcionov')}}">Авто с европейских аукционов</a></li>
-							<li><a href="{{url('aukcion-spisannyh-avto')}}">Аукцион списанных авто</a></li>
-							<li><a href="{{url('aukciony-avtobusov')}}">Аукционы автобусов</a></li>
+							@if($subcategories_list)
+								@foreach ($subcategories_list as $list)
+									<li><a href="{{url($list->slug)}}">{{ $list->title }}</a></li>
+								@endforeach
+							@endif
 						</ul>
 						<a class="more more-auctions" href="javascript:void(0)">Еще аукционы</a>
 					@else
@@ -115,64 +110,65 @@
 						</div>
 						<div class="search-form">
 							<div class="select">
-	                            <select id="make" name="car_brend">
-	                                <option value="-1">Марка</option>
-	                                @foreach ($all_brands as $brand)
-	                                  	<option value="{{ $brand->id }}">{{ $brand->title }}</option>
-	                                @endforeach
-	                            </select>
-	                        </div>
-	                        <div class="select">
-	                            <select name="car_model" id="model">
-	                                <option value="-1" class="selected" selected>Модель</option>
-	                            </select>
-	                        </div>
-	                        <div class="select">
-	                            <select name="date" id="style">
-	                                <option value="-1">Год</option>
-	                                @foreach ($lots_year as $lot)
-	                                  	<option value="{{ $lot->date }}">{{ $lot->date }}</option>
-	                                @endforeach
-	                            </select>
-	                        </div>
-	                        <div class="slider-range">
-	                        	<p>
-							    	<input type="text" name="price" class="range price" id="amount" readonly>
-							    </p>
+								<select id="make" name="car_brend">
+									<option value="-1">Марка</option>
+									@foreach ($all_brands as $brand)
+										<option value="{{ $brand->id }}">{{ $brand->title }}</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="select">
+								<select name="car_model" id="model">
+									<option value="-1" class="selected" selected>Модель</option>
+								</select>
+							</div>
+							<div class="select">
+								<select name="date" id="style">
+									<option value="-1">Год</option>
+									@foreach ($lots_year as $lot)
+										<option value="{{ $lot->date }}">{{ $lot->date }}</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="slider-range">
+								<p>
+									<input type="text" name="price" class="range price" id="amount" readonly>
+								</p>
 								<div id="slider-range"></div>
-	                        </div>
+							</div>
 
-	                        <div class="checkbox-label">
-	                        	<label for="tax">С НДС</label>
-	                        	<input type="checkbox" name="tax" id="tax">
-	                        </div>
+							<div class="checkbox-label">
+								<label for="tax">С НДС</label>
+								<input type="checkbox" name="tax" id="tax">
+							</div>
 
-	                        <div class="select">
-	                            <select name="car_mileage" id="types" class="car_mileage">
-	                                <option value="-1">Пробег</option>
+							<div class="select">
+								<select name="car_mileage" id="types" class="car_mileage">
+									<option value="-1">Пробег</option>
 									@foreach ($milleage as $item)
-	                                  	<option value="{{ $item->car_mileage }}">{{ number_format($item->car_mileage, 0) }} км</option>
-	                                @endforeach
-	                            </select>
-	                        </div>
-	                        @foreach ($attr_tree as $key => $value)
-		                        <div class="select">
-		                            <select name="attributes[]">
-		                                <option value="-1" selected>{{ $key }}</option>
-		                                @foreach ($value as $option)
-		                                	<option value="{{ $option['id'] }}">{{ $option['title'] }}</option>
-		                                @endforeach
-		                            </select>
-		                        </div>
-	                        @endforeach
+										<option value="{{ $item->car_mileage }}">{{ number_format($item->car_mileage, 0) }} км</option>
+									@endforeach
+								</select>
+							</div>
+							@foreach ($attr_tree as $key => $value)
+								<div class="select">
+									<select name="attributes[]">
+										<option value="-1" selected>{{ $key }}</option>
+										@foreach ($value as $option)
+											<option value="{{ $option['id'] }}">{{ $option['title'] }}</option>
+										
+										@endforeach
+									</select>
+								</div>
+							@endforeach
 
-	                        {{-- <div class="select">
-	                            <select name="body_type" id="body_type">
-	                                <option value="-1">Тип кузова</option>
-	                                
-	                            </select>
-	                        </div> --}}
-	                        <div class="advanced-button">
+							{{-- <div class="select">
+								<select name="body_type" id="body_type">
+									<option value="-1">Тип кузова</option>
+									
+								</select>
+							</div> --}}
+							<div class="advanced-button">
 								<button class="btn-filter-search" href="listing-right.html">Поиск<i class="fa fa-search"></i></button>
 							</div>
 						</div>
@@ -208,34 +204,34 @@
 
 				return $.ajax({
 					headers: {
-		                'X-CSRF-TOKEN':_token
-		            },
-		            type: _method,
-		            url: _url,
-		            data: {values: _value},
-		            success: function (response) {
-		            	$('#model').find('option').not('.selected').remove();
-		            	$('#model').append(response)
-		            },
-		            error: function (request, errorStatus, errorThrown) {
-	                    console.log(request);
-	                    console.log(errorStatus);
-	                    console.log(errorThrown);
-	                }
+						'X-CSRF-TOKEN':_token
+					},
+					type: _method,
+					url: _url,
+					data: {values: _value},
+					success: function (response) {
+						$('#model').find('option').not('.selected').remove();
+						$('#model').append(response)
+					},
+					error: function (request, errorStatus, errorThrown) {
+						console.log(request);
+						console.log(errorStatus);
+						console.log(errorThrown);
+					}
 				});
 			});
 		};
 
 		var sliderRange = function () {
 			$( "#slider-range" ).slider({
-			    range: true,
-			    step:10,
-			    min: {{ $min_price }},
-			    max: {{ $max_price }},
-			    values: [ {{ $min_price }}, {{ $max_price }} ],
-			    slide: function( event, ui ) {
-			      	$( "#amount" ).val(ui.values[ 0 ] + " BYN" + " - " + ui.values[ 1 ] + " BYN" );
-			    }
+				range: true,
+				step:1,
+				min: {{ $min_price }},
+				max: {{ $max_price }},
+				values: [ {{ $min_price }}, {{ $max_price }} ],
+				slide: function( event, ui ) {
+					$( "#amount" ).val(ui.values[ 0 ] + " BYN" + " - " + ui.values[ 1 ] + " BYN" );
+				}
 			});
 			$( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) + " BYN" + " - " + $( "#slider-range" ).slider( "values", 1 ) + " BYN" );
 		};

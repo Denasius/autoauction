@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Jenssegers\Date\Date;
 use App\Attribute;
 use App\Bet;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManager;
 
 class Lot extends Model
@@ -308,9 +309,9 @@ class Lot extends Model
     }
 
     
-    public static function getAttr()
+    public static function getAttr($filter = false)
     {
-        return Attribute::getTreeAttrCategoies();
+        return Attribute::getTreeAttrCategoies($filter);
     }
 
     public function getPrice($price, $currency)
@@ -344,5 +345,25 @@ class Lot extends Model
         }
 
         return $this->disAllow();
+    }
+
+    // Получаю ссылку и название подкатегории на разводящей аукционов
+    public static function showSubcategoriesOnAuctionTemlates($template)
+    {
+        if ( $template === 'auctions' )
+            return DB::table('categories')
+                    ->join('aliases', 'categories.id', '=', 'aliases.type_id')
+                    ->where('aliases.type', 'category')
+                    ->where('categories.template', $template)
+                    ->where('categories.parent_category', '!=', 0)
+                    ->select('categories.title', 'aliases.slug', 'categories.id')
+                    ->get();
+    }
+
+    public static function getCategoryID($template, $id)
+    {
+        if ( $template === 'auctions' )
+            return Category::where('id', $id)->where('parent_category', '!=', 0)->pluck('id')->first();
+            
     }
 }

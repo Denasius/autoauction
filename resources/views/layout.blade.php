@@ -15,7 +15,6 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
     {!! Html::style('css/styles.css') !!}
-    {!! Html::style('css/custom-styles.css') !!}
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 
@@ -38,7 +37,7 @@
             <div id="sub-header">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-3 col-sm-12">
+                        <div class="col-md-2 col-sm-12">
                             <div class="social-icons">
                                 @isset( $socials )
                                     <ul>
@@ -52,7 +51,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-sm-12">
+                        <div class="col-md-4 col-sm-12">
                             <div class="information">
                                 @isset($addresses)
                                     @foreach( $addresses as $address )
@@ -108,47 +107,9 @@
             @endif
 
             @yield('content')
-
-            <section class="clients">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="owl-demo">
-                                <div class="item">
-                                    <img src="assets/images/client-1.png" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="assets/images/client-2.png" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="assets/images/client-3.png" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="assets/images/client-4.png" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="assets/images/client-5.png" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="assets/images/client-6.png" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="assets/images/client-3.png" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="assets/images/client-2.png" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="assets/images/client-1.png" alt="">
-                                </div>
-                                <div class="item">
-                                    <img src="assets/images/client-4.png" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            
+            {{-- секция партнеры --}}
+            @include('layouts.partners')
 
             <div id="cta-2">
                 <div class="container">
@@ -230,25 +191,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="featured-links">
-                                <h4>Featured Links</h4>
-                                <ul>
-                                    <li><a href="#"><i class="fa fa-caret-right"></i>About Us</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right"></i>Term &amp; Services</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right"></i>Meet The Team</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right"></i>Privacy Policy</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right"></i>Company News</a></li>
-                                </ul>
-                                <ul>
-                                    <li><a href="#"><i class="fa fa-caret-right"></i>Shop</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right"></i>New Vehicle</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right"></i>Features</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right"></i>Promotions</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right"></i>Contact</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        @include('layouts.footer_menu')
                         <div class="col-md-3">
                             <div class="latest-news">
                                 <h4>Последние новости</h4>
@@ -290,8 +233,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
-                            <p>Сайт разработан компанией <a class="webernetic" href="https://webernetic.by">Webernetic</a> - </em> Димой и Денисом <i
-                                        class="far fa-laugh-squint" style=" color: #f7da00; font-size: 20px; "></i></p>
+                            <p>Сайт разработан компанией <a class="webernetic" href="https://webernetic.by">Webernetic</a></p>
                         </div>
                     </div>
                 </div>
@@ -306,56 +248,8 @@
     <nav class="sidebar-menu slide-from-left">
         <div class="nano">
             <div class="content">
-                <nav class="responsive-menu">
-                    <ul>
-                        @if (Auth::check())
-                            <li class="menu-item-has-children"><a href="javascript:void(0);">Привет, {{Auth::user()->name}}</a>
-                                <ul class="sub-menu">
-                                    <li><a href="/profile">Личный кабинет</a></li><li><a href="{{ route('favirites.show') }}">Избранное</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="{{ route('logout') }}">Выход</a></li>
-                        @else
-                            <li><a href="{{route('login')}}">Вход</a></li>
-                            <li><a href="{{route('registerView')}}">Регистрация</a></li>
-                        @endif
-                        <li><a href="">Главная</a></li>
-                        <li><a href="{{ url('aukciony') }}">Аукционы</a></li>
-                        <li><a href="{{ url('pokupatelyam') }}">Покупателям</a></li>
-                        <li class="menu-item-has-children"><a href="#">Продавцам</a>
-                            
-                            <ul class="sub-menu">
-                                <li><a href="{{ url('yur-licam') }}">Юр лицам</a></li>
-                                <li><a href="{{ url('fiz-licam') }}">Физ лицам</a></li>
-                                <li><a href="{{ url('dileram') }}">Дилерам</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="{{ url('prodano') }}">Продано</a></li>
-                        <li class="menu-item-has-children"><a href="#">Услуги</a>
-                            <ul class="sub-menu">
-                                <li><a href="{{ url('proverka-avto-po-vin') }}">Проверка авто по VIN</a></li>
-                                <li><a href="{{ url('pomosch') }}">Помощь</a></li>
-                                <li><a href="javascript:void(0)">Trade In</a></li>
-                                <li><a href="javascript:void(0)">Расстаможка</a></li>
-                                <li><a href="javascript:void(0)">Диагностика</a></li>
-                                <li><a href="javascript:void(0)">Оценка стоимости</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-item-has-children"><a href="about.html">Ещё</a>
-                            <ul class="sub-menu">
-                                <li><a href="{{ url('novosti') }}">Новости</a></li>
-                                <li><a href="{{ url('o-nas') }}">О нас</a></li>
-                                <li><a href="{{ url('kontakty') }}">Контакты</a></li>
-                                <li><a href="javascript:void(0)">Партнеры</a></li>
-                                <li><a href="javascript:void(0)">Об оплате</a></li>
-                                <li><a href="javascript:void(0)">Пользовательское соглашение</a></li>
-                                <li><a href="javascript:void(0)">Правила регистрации</a></li>
-                                <li><a href="javascript:void(0)">О торгах</a></li>
-                                <li><a href="javascript:void(0)">FAQ</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
+                @include('layouts.responsive_menu')
+                
             </div>
         </div>
     </nav>
@@ -365,7 +259,7 @@
 {!! Html::script('js/scripts.js') !!}
 @yield('scripts_field')
 <div class="overlay-filter"></div>
-<img class="prelod-gif" src="/img/loader-gifka.gif" alt="Загрузка">
+<img class="prelod-gif" src="{{asset('/img/loader-gifka.gif')}}" alt="Загрузка">
 
 </body>
 </html>

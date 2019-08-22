@@ -37,19 +37,19 @@ jQuery(document).ready(function ($) {
 				}
 			},
 			error: function (request, errorStatus, errorThrown) {
-                console.log(request);
-                console.log(errorStatus);
-                console.log(errorThrown);
-            }
+				console.log(request);
+				console.log(errorStatus);
+				console.log(errorThrown);
+			}
 		});
 	});
 
 	$('.mark-top-filter').on('change', function () {
 		var _this = $(this).closest('form'),
 			_token = _this.find('input[name="_token"]').val(),
-		 	_method = _this.attr('method'),
-		 	_url = _this.attr('action'),
-		 	value = $('form.global-search, .mark-top-filter').serialize();
+			_method = _this.attr('method'),
+			_url = _this.attr('action'),
+			value = $('form.global-search, .mark-top-filter').serialize();
 
 		formHandler(_this, _token, _method, _url, value);
 	});
@@ -110,8 +110,8 @@ jQuery(document).ready(function ($) {
 		sellerForm(_form, _token, _method, _url, _data);
 	});
 
-	// Отправка формы на странице Физ лицам
-	$('form.form-person').on('submit', function (e) {
+	// Отправка формы на странице Физ лицам и странице Срочный выкуп авто
+	$('form.form-person, .purchase-form').on('submit', function (e) {
 		e.preventDefault();
 		var _form = $(this),
 			_url = _form.attr('action'),
@@ -135,27 +135,27 @@ jQuery(document).ready(function ($) {
 
 			return $.ajax({
 				headers: {
-		            'X-CSRF-TOKEN':form_token
-		        },
-		        type: form_method,
-		        url: form_url,
-		        data: {url: form_data, id: lot_id},
-		        beforeSend:function () {
-		        	$('.tab-block .loader').addClass('active');
-		        	$('.tab-block .loader > img').addClass('active');
-		        },
-		        success:function (response) {
-		        	$('.tab-block .loader').removeClass('active');
-		        	$('.tab-block .loader > img').removeClass('active');
-		        	$('#content > #container').remove();
-		        	$('#content').html(response).hide().fadeIn('fast');
-		        	$('.lazyloading').lazyload();
-		        },
-		        error: function (request, errorStatus, errorThrown) {
-		            console.log(request);
-		            console.log(errorStatus);
-		            console.log(errorThrown);
-		        }
+					'X-CSRF-TOKEN':form_token
+				},
+				type: form_method,
+				url: form_url,
+				data: {url: form_data, id: lot_id},
+				beforeSend:function () {
+					$('.tab-block .loader').addClass('active');
+					$('.tab-block .loader > img').addClass('active');
+				},
+				success:function (response) {
+					$('.tab-block .loader').removeClass('active');
+					$('.tab-block .loader > img').removeClass('active');
+					$('#content > #container').remove();
+					$('#content').html(response).hide().fadeIn('fast');
+					$('.lazyloading').lazyload();
+				},
+				error: function (request, errorStatus, errorThrown) {
+					console.log(request);
+					console.log(errorStatus);
+					console.log(errorThrown);
+				}
 			});
 	});
 
@@ -172,18 +172,18 @@ jQuery(document).ready(function ($) {
 
 		return $.ajax({
 				headers: {
-		            'X-CSRF-TOKEN':form_token
-		        },
-		        type: form_method,
-		        url: form_url,
-		        data: {user_id: form_user_id, lot_id: form_lot_id},
-		        beforeSend:function () {
-		        	
-		        	
-		        },
-		        success:function (response) {
-		        	if ( response == 'add-wishlist' ) {
-		        		this_form.closest('.head-side-bar').find('.to_favorites').css({
+					'X-CSRF-TOKEN':form_token
+				},
+				type: form_method,
+				url: form_url,
+				data: {user_id: form_user_id, lot_id: form_lot_id},
+				beforeSend:function () {
+					
+					
+				},
+				success:function (response) {
+					if ( response == 'add-wishlist' ) {
+						this_form.closest('.head-side-bar').find('.to_favorites').css({
 							'display' : 'none',
 							'visibility' : 'hidden',
 							
@@ -193,9 +193,9 @@ jQuery(document).ready(function ($) {
 							'display' : 'block',
 							'visibility' : 'visible'
 						});
-		        	}else{
-		        		console.log(response);
-		        		this_form.closest('.head-side-bar').find('.to_favorites').css({
+					}else{
+						console.log(response);
+						this_form.closest('.head-side-bar').find('.to_favorites').css({
 							'display' : 'block',
 							'visibility' : 'visible',
 							
@@ -205,14 +205,14 @@ jQuery(document).ready(function ($) {
 							'display' : 'none',
 							'visibility' : 'hidden'
 						});
-		        	}
-		        	
-		        },
-		        error: function (request, errorStatus, errorThrown) {
-		            console.log(request);
-		            console.log(errorStatus);
-		            console.log(errorThrown);
-		        }
+					}
+					
+				},
+				error: function (request, errorStatus, errorThrown) {
+					console.log(request);
+					console.log(errorStatus);
+					console.log(errorThrown);
+				}
 			});
 	});
 
@@ -227,26 +227,26 @@ jQuery(document).ready(function ($) {
 
 		return $.ajax({
 			headers: {
-	            'X-CSRF-TOKEN':this_token
-	        },
-	        type: this_method,
-	        url: this_action,
-	        data: {lot_id: this_lot},
-	        beforeSend: function () {
-	        	this_form.hide();
-	        	this_form.next('.reload-gif').addClass('active');
-	        },
-	        success: function (response) {
-	        	this_form.show();
-	        	this_form.next('.reload-gif').removeClass('active');
-	        	this_form.closest('.lot-bet').find('.current-bet > .current-bet_price > strong').remove();
-	        	this_form.closest('.lot-bet').find('.current-bet > .current-bet_price').append('<strong>' + response + '</strong>').hide().fadeIn(500);
-	        },
-	        error: function (request, errorStatus, errorThrown) {
-	            console.log(request);
-	            console.log(errorStatus);
-	            console.log(errorThrown);
-	        }
+				'X-CSRF-TOKEN':this_token
+			},
+			type: this_method,
+			url: this_action,
+			data: {lot_id: this_lot},
+			beforeSend: function () {
+				this_form.hide();
+				this_form.next('.reload-gif').addClass('active');
+			},
+			success: function (response) {
+				this_form.show();
+				this_form.next('.reload-gif').removeClass('active');
+				this_form.closest('.lot-bet').find('.current-bet > .current-bet_price > strong').remove();
+				this_form.closest('.lot-bet').find('.current-bet > .current-bet_price').append('<strong>' + response + '</strong>').hide().fadeIn(500);
+			},
+			error: function (request, errorStatus, errorThrown) {
+				console.log(request);
+				console.log(errorStatus);
+				console.log(errorThrown);
+			}
 		});
 	});
 
@@ -263,38 +263,38 @@ jQuery(document).ready(function ($) {
 
 		return $.ajax({
 			headers: {
-	            'X-CSRF-TOKEN':this_token
-	        },
-	        type: this_method,
-	        url: this_action,
-	        data: {lot_id: this_lot, price: this_form.find('input').val(), user_id:this_user },
-	        beforeSend: function () {
-	        	this_form.find('[name="go_bet"]')	.text('Ожидайте...');
-	        },
-	        success: function (response) {
-	        	console.log(response);
-	        	this_form.find('[name="go_bet"]').text('Cделать ставку');
-	        	if( response.errors ){
-	        		var priceError = response.errors.price != undefined ? '<li>'+response.errors.price+'</li>' : '';
-	        		this_form.closest('.max-bet').find('.alert.alert-danger').remove();
-	        		this_form.closest('.max-bet').find('.alert.alert-success').remove();
+				'X-CSRF-TOKEN':this_token
+			},
+			type: this_method,
+			url: this_action,
+			data: {lot_id: this_lot, price: this_form.find('input').val(), user_id:this_user },
+			beforeSend: function () {
+				this_form.find('[name="go_bet"]')	.text('Ожидайте...');
+			},
+			success: function (response) {
+				console.log(response);
+				this_form.find('[name="go_bet"]').text('Cделать ставку');
+				if( response.errors ){
+					var priceError = response.errors.price != undefined ? '<li>'+response.errors.price+'</li>' : '';
+					this_form.closest('.max-bet').find('.alert.alert-danger').remove();
+					this_form.closest('.max-bet').find('.alert.alert-success').remove();
 					this_form.closest('.max-bet').find('.answer').append('<ul class="alert alert-danger">'+ priceError + '</ul>'); 
-        		}
+				}
 
-        		if ( response.success ) {
-        			var success = response.success != undefined ? '<li>'+response.success+'</li>' : '';
-        			this_form.trigger('reset');
-        			this_form.closest('.lot-bet').find('.current-bet_price strong').load(window.location.pathname + ' #current-bet_price strong');
-	        		this_form.closest('.max-bet').find('.alert.alert-danger').remove();
-	        		this_form.closest('.max-bet').find('.alert.alert-success').remove();
-	        		this_form.closest('.max-bet').find('.answer').append('<ul class="alert alert-success">'+ success + '</ul>'); 
-	        	}
-	        },
-	        error: function (request, errorStatus, errorThrown) {
-	            console.log(request);
-	            console.log(errorStatus);
-	            console.log(errorThrown);
-	        }
+				if ( response.success ) {
+					var success = response.success != undefined ? '<li>'+response.success+'</li>' : '';
+					this_form.trigger('reset');
+					this_form.closest('.lot-bet').find('.current-bet_price strong').load(window.location.pathname + ' #current-bet_price strong');
+					this_form.closest('.max-bet').find('.alert.alert-danger').remove();
+					this_form.closest('.max-bet').find('.alert.alert-success').remove();
+					this_form.closest('.max-bet').find('.answer').append('<ul class="alert alert-success">'+ success + '</ul>'); 
+				}
+			},
+			error: function (request, errorStatus, errorThrown) {
+				console.log(request);
+				console.log(errorStatus);
+				console.log(errorThrown);
+			}
 		});
 	});
 
@@ -305,47 +305,47 @@ jQuery(document).ready(function ($) {
 function formHandler(_form, _token, _method, _url, _value) {
 	return $.ajax({
 		headers: {
-            'X-CSRF-TOKEN':_token
-        },
-        type: _method,
-        url: _url,
-        data: _value,
-        beforeSend:function () {
+			'X-CSRF-TOKEN':_token
+		},
+		type: _method,
+		url: _url,
+		data: _value,
+		beforeSend:function () {
 			$('.overlay-filter').addClass('active');
 			$('.prelod-gif').addClass('active');
 		},
-        success: function (response) {
-        	$('.overlay-filter').removeClass('active');
+		success: function (response) {
+			$('.overlay-filter').removeClass('active');
 			$('.prelod-gif').removeClass('active');
 			$('#featured-cars').find('.row').remove();
 			$('#featured-cars').html(response).fadeIn('slow');
 			$('#lot_counted').text($(response + '#response_lot_count').val());
 			$('html, body').animate({ scrollTop: 200 }, 'slow');
-        },
-        error: function (request, errorStatus, errorThrown) {
-            console.log(request);
-            console.log(errorStatus);
-            console.log(errorThrown);
-        }
+		},
+		error: function (request, errorStatus, errorThrown) {
+			console.log(request);
+			console.log(errorStatus);
+			console.log(errorThrown);
+		}
 	});
 }
 
 function sellerForm(_form, _token, _method, _url, _data) {
 	return $.ajax({
 		headers: {
-            'X-CSRF-TOKEN':_token
-        },
-        type: _method,
-        url: _url,
-        data: _data,
-        beforeSend: function () {
-        	_form.find('button[type="submit"]').text('Отправка...');
-        },
-        success: function (response) {
-        	
-        	_form.find('button[type="submit"]').text('Отправить');
-        	if( response.errors ){
-        		var nameError = response.errors.name != undefined ? '<li>'+response.errors.name+'</li>' : '';
+			'X-CSRF-TOKEN':_token
+		},
+		type: _method,
+		url: _url,
+		data: _data,
+		beforeSend: function () {
+			_form.find('button[type="submit"]').text('Отправка...');
+		},
+		success: function (response) {
+			console.log(response);
+			_form.find('button[type="submit"]').text('Отправить');
+			if( response.errors ){
+				var nameError = response.errors.name != undefined ? '<li>'+response.errors.name+'</li>' : '';
 				var lastnameError = response.errors.lastname != undefined ? '<li>'+response.errors.lastname+'</li>' : ''; 
 				var cityError = response.errors.city != undefined ? '<li>'+response.errors.city+'</li>' : ''; 
 				var manufacturerError = response.errors.manufacturer != undefined ? '<li>'+response.errors.manufacturer+'</li>' : ''; 
@@ -357,19 +357,21 @@ function sellerForm(_form, _token, _method, _url, _data) {
 				var mileageError = response.errors.mileage != undefined ? '<li>'+response.errors.mileage+'</li>' : '';
 				var carBrandError = response.errors.car_brand != undefined ? '<li>'+response.errors.car_brand+'</li>' : '';
 				var carModelError = response.errors.car_model != undefined ? '<li>'+response.errors.car_model+'</li>' : '';
+				var carMinPrice = response.errors.min_price_customer != undefined ? '<li>'+response.errors.min_price_customer+'</li>' : '';
+				
 				_form.find('.alert.alert-danger').remove();
-				_form.append('<ul class="alert alert-danger">'+ nameError + lastnameError + cityError + manufacturerError + addressError + phoneError + mailError + postcodeError + districtError + mileageError + carBrandError + carModelError +'</ul>'); 
-        	}
-        	if ( response.success ) {
-        		_form.trigger('reset');
-        		_form.find('.alert.alert-danger').remove();
-        		_form.append('<div class="alert alert-success" style="margin-top: 20px;">Ваше сообщение успешно отправлено.</div>'); 
-        	}
-        },
-        error: function (request, errorStatus, errorThrown) {
-        	console.log(request);
-            console.log(errorStatus);
-            console.log(errorThrown);
-        }
+				_form.append('<ul class="alert alert-danger">'+ nameError + lastnameError + cityError + manufacturerError + addressError + phoneError + mailError + postcodeError + districtError + mileageError + carBrandError + carModelError + carMinPrice + '</ul>'); 
+			}
+			if ( response.success ) {
+				_form.trigger('reset');
+				_form.find('.alert.alert-danger').remove();
+				_form.append('<div class="alert alert-success" style="margin-top: 20px;">Ваше сообщение успешно отправлено.</div>'); 
+			}
+		},
+		error: function (request, errorStatus, errorThrown) {
+			console.log(request);
+			console.log(errorStatus);
+			console.log(errorThrown);
+		}
 	});
 }

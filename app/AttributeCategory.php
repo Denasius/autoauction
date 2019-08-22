@@ -9,7 +9,7 @@ class AttributeCategory extends Model
 
 
 
-    protected $fillable = ['title', 'type'];
+    protected $fillable = ['title', 'type', 'add_filter'];
 
 
     public function get($type) {
@@ -32,6 +32,8 @@ class AttributeCategory extends Model
     }
 
     public static function edit($fields){
+        if (! isset($fields['add_filter'])) 
+            $fields['add_filter'] = null;
         $AttributeCategory = AttributeCategory::find($fields['id']);
 
         $AttributeCategory->fill($fields);

@@ -157,11 +157,11 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="checkbox-inline col-sm-2 control-label" style="padding-top:0;">
+                                        <label class="checkbox-inline col-sm-2 control-label" style="padding-top:0; font-weight: bold;">
                                            Цена с НДС?
                                         </label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="tax" name="tax"> 
+                                            <input type="checkbox" id="tax" name="tax" class="checkbox-switch-tax">
                                         </div>
                                     </div>
 
@@ -170,7 +170,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" style="padding-top:0;">Купить в один клик</label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="buy_one_click" name="buy_one_click"> 
+                                            <input type="checkbox" id="buy_one_click" name="buy_one_click" class="checkbox-switch-click"> 
                                         </div>
                                     </div>
                                     
@@ -255,14 +255,14 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label pt-0" style="padding-top:0;">Лот для особенных</label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="lot_vip" name="lot_vip"> 
+                                            <input type="checkbox" id="lot_vip" name="lot_vip" class="checkbox-switch-vip"> 
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" style="padding-top:0;">Авто из Европы</label>
                                         <div class="col-sm-10">
-                                            <input type="checkbox" id="car_from_europe" name="car_from_europe"> 
+                                            <input type="checkbox" id="car_from_europe" name="car_from_europe" class="checkbox-switch-europe"> 
                                         </div>
                                     </div>
 

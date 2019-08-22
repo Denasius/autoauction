@@ -12,18 +12,34 @@
 
         var initEditor = function () {
 
-            $('#ckeditor1').summernote({
-                tabsize: 1,
-                height: 200
-            });
+            // $('#ckeditor1').summernote({
+            //     tabsize: 1,
+            //     height: 200
+            // });
 
-              $('#ckeditor').summernote({
+              $('#ckeditor, #ckeditor1').summernote({
                 tabsize: 1,
                 height: 400,
+                disableDragAndDrop: true,
+                emptyPara: '',
                 codemirror: { // codemirror options
                     theme: 'monokai',
-                    color: '#ffffff'
-                }
+                    mode: 'text/html',
+                    htmlMode: true,
+                    lineNumbers: true
+                },
+                fontsize: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '24', '30', '36', '48' , '64'],
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'image', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ],
               });
     
         }

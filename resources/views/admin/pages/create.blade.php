@@ -60,6 +60,8 @@
                                         <option value="buyer">Покупателям</option>
                                         <option value="service">Услуги</option>
                                         <option value="news">Новость</option>
+                                        <option value="customs_calculator">Таможенный калькулятор</option>
+                                        <option value="check_vin">Проверка по VIN</option>
                                        
                                     </select>
                                 </div>

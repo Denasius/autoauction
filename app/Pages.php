@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Jenssegers\Date\Date;    
 use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Validator;
 
 class Pages extends Model
 {
@@ -75,18 +76,6 @@ class Pages extends Model
 
         return '/uploads/' . $this->image;
     }
-
-    // public function getThumbnails()
-    // {
-    //     if ( $this->image == null )
-    //         return '/img/no-image.png';
-
-    //     $manager = new ImageManager(array('driver' => 'gd'));
-    //     $image = $manager->make('uploads/' . $this->image);
-    //     $image->resize(100, 100);
-    //     $image->save('uploads/thumbnails/' . $this->image);
-    //     return '/uploads/thumbnails/' . $image->filename . '.' . $image->extension;
-    // }
 
     public function setCategory($id)
     {

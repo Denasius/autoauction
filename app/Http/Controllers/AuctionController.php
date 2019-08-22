@@ -26,6 +26,8 @@ class AuctionController extends Controller
         if ( $model->parent_category == AuctionController::PARENT_CATEGORY ) {
             $data['lots'] = Lot::where('status', $this->status)->paginate(12);
             $data['subcategories'] = true;
+            $data['subcategories_list'] = Lot::showSubcategoriesOnAuctionTemlates($model->template);
+
         }else{
             $data['lots'] = Lot::where('status', $this->status)->where('category_id', $model->id)->paginate(12);
             $data['subcategories'] = false;
@@ -34,7 +36,8 @@ class AuctionController extends Controller
         $data['title'] = $model->title;
         $data['meta_description'] = $model->meta_description;
         $data['description'] = Category::find($model->id)->only('descr');
-        $data['category'] = $model->id;    
+        $data['category'] = Lot::getCategoryID($model->template, $model->id);
+       
         $data['all_brands'] = Lot::getAllBrands();
         $all_lots = Lot::all();
 
@@ -42,7 +45,8 @@ class AuctionController extends Controller
         $data['max_price'] = $all_lots->max('price');
         $data['min_price'] = $all_lots->min('price');
         $data['milleage'] = $all_lots->sortBy('car_mileage');
-        $data['attr_tree'] = Lot::getAttr();
+        $data['attr_tree'] = Lot::getAttr(true);
+
         $data['buy_one_click'] = $all_lots->where('buy_one_click', 'on')->take(3);
         $data['category_image'] = Category::find($model->id)->only('image');        
 
@@ -86,7 +90,12 @@ class AuctionController extends Controller
 
     public function global_search(Request $request)
     {
-        $lots = Lot::where('category_id', $request->get('category_id'))->where('status', 1)->select('lots.*');
+        $lots = Lot::where('status', 1)->select('lots.*');
+
+
+        if ( $request->has('category_id') && $request->get('category_id') != null ) {
+            $lots->where('category_id', $request->get('category_id'));
+        }
 
         if ( $request->has('car_brend') && $request->get('car_brend') != -1 ) {
             $lots->where('car_brend', $request->get('car_brend'));
@@ -130,10 +139,7 @@ class AuctionController extends Controller
             $lots->whereIn('lot_attributes.attr_id', $checked);            
         }
 
-
         $lots->groupBy('lots.id');
-        //dd($lots->get());
-
         
         if ($request->ajax()) {
             if ($request->has('sort') && $request->get('sort') != -1)

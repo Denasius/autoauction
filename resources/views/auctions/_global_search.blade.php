@@ -6,7 +6,7 @@
 		@foreach ($lots as $lot)
 			<div class="featured-item col-md-4">
 				<div class="lot-image">
-					<img src="{{ $lot->image }}" alt="{{ $lot->title }}">
+					<img src="{{ url($lot->image) }}" alt="{{ $lot->title }}">
 				</div>
 				<div class="down-content">
 					<a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>

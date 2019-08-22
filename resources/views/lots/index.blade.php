@@ -42,14 +42,14 @@
 					
 					<div class="flexslider">
 						<ul class="slides">
-						    <li data-thumb="{{ asset($lot->image) }}" class="first-element">
-						      <img src="{{ asset($lot->image) }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
-						    </li>
+							<li data-thumb="{{ asset($lot->image) }}" class="first-element">
+							  <img src="{{ asset($lot->image) }}" alt="{{ $lot->title }}" title="{{ $lot->title }}">
+							</li>
 						   @foreach ($lot_images as $thumbnail)
-							    <li data-thumb="{{ asset($thumbnail->image_src) }}">
-							      <img src="{{ asset($thumbnail->image_src) }}" alt="{{ $thumbnail->image_alt }}" title="{{ $thumbnail->image_title }}">
-							    </li>
-						    @endforeach
+								<li data-thumb="{{ asset($thumbnail->image_src) }}">
+								  <img src="{{ asset($thumbnail->image_src) }}" alt="{{ $thumbnail->image_alt }}" title="{{ $thumbnail->image_title }}">
+								</li>
+							@endforeach
 						</ul>
 					</div>
 					
@@ -62,7 +62,7 @@
 								@include('lots.layouts._wishlist_buttons')
 							@endif
 						</div>
-						@if( $lot->status == 1 )
+						@if( $lot->status == $lot_is_opened )
 						<div class="location-lot">
 							<span class="location">Машина в {{ $lot->address }}</span>
 							<span class="lot">лот №<strong>{{ $lot->id }}</strong></span>
@@ -70,7 +70,11 @@
 						<div class="lot-bet">
 							
 								<div class="current-bet">
+									@if( $max_bet != null )
 									<span id="current-bet_price" class="current-bet_price">Текущая ставка <strong>{!! $lot->getPrice($max_bet, $lot->currency) !!}</strong></span>
+									@else
+									<span id="current-bet_price" class="current-bet_price">Текущая ставка <strong>{!! $lot->getPrice($lot->lot_bet, $lot->currency) !!}</strong></span>
+									@endif
 
 									<span class="min-bet">Минимальный шаг: <strong>{!! $lot->getPrice($lot->min_bet, $lot->currency) !!}</strong></span>
 
@@ -79,7 +83,7 @@
 								</div>
 								@if (Auth::check())
 									<div class="max-bet">
-										<form class="bet-form" action="{{route('make.bet')}}" method="post" data-lot="{{ $lot->id }}" data-user="{{ Auth::user()->id }}">
+										<form class="bet-form" action="{{route('make.bet')}}" method="post" data-lot="{{ $lot->id }}" @if (Auth::check()) data-user="{{ Auth::user()->id }}" @endif>
 											<input type="text" class="max_bet" name="bet" placeholder="Ваша максимальная ставка"><button type="submit" name="go_bet">Сделать ставку</button>
 										</form>
 										<div class="answer"></div>
@@ -111,19 +115,26 @@
 								<span>Начало торгов <strong>{{ date('d.m.Y', strtotime($lot->lot_start)) }}</strong></span>
 							</div>
 							<div class="finish-bets">
-								<span>Завершение торгов <strong>{{ date('d.m.Y', strtotime($lot->lot_time)) }}</strong></span>
+								@if( $lot->lot_time != null )
+									<span>Завершение торгов <strong>{{ date('d.m.Y', strtotime($lot->lot_time)) }}</strong></span>
+								@endif
+								
 							</div>
 						</div>
 						<div class="buy-one-click">
 							<span>Начальная стоимость <strong>{!! $lot->getPrice($lot->price, $lot->currency) !!}</strong></span>
+							@if( $lot->buy_one_click != null )
 							<span>Купить сейчас <strong>{!! $lot->getPrice($lot->buy_one_click_price, $lot->currency) !!}</strong></span>
 							<form class="form-buy-one-click" action="{{ route('buy.one.click') }}" method="post">
 								@csrf
 								<input type="hidden" name="buy_one_click_price" value="{{ $lot->buy_one_click_price }}">
-								<input type="hidden" name="user" value="{{ Auth::user()->id }}">
-								<input type="hidden" name="lot_id" value="{{ $lot->id }}">
-								<button>Купить сейчас</button>
+								@if(Auth::check())
+									<input type="hidden" name="user" value="{{ Auth::user()->id }}">
+									<input type="hidden" name="lot_id" value="{{ $lot->id }}">
+									<button>Купить сейчас</button>
+								@endif
 							</form>
+							@endif
 						</div>
 						<div class="information-lot">
 							@if( $lot->car_from_europe != null )
@@ -139,24 +150,33 @@
 						</div>
 					@else
 					</div>
-				</div>
 					<div class="lot-finish">
-						<p>Этот лот завершил участие в аукционе</p>
-					</div>
-				@endif
-				<div class="col-md-12 tab-block">
-			    	<div class="loader">
-			    		<img src="{{ asset('img/image.gif') }}" alt="preloader">
-			    	</div>
-					<div class="tab">
-						<div class="tabs">
-							@include('lots.layouts._tabs_nav')
-						    <div class="tab-contents" id="content">
-						    	@include('lots.layouts._main')
-						    </div>
-						    
+						<div class="lock">
+							<div class="closest">
+								
+								<i class="fas fa-user-lock"></i>
+							</div>
 						</div>
+						<div class="lot-finish_text">
+							<p>Этот лот завершил участие в аукционе</p>
+						</div>
+						
 					</div>
+				</div>
+				@endif
+			</div>
+		</div>
+		<div class="col-md-12 tab-block">
+			<div class="loader">
+				<img src="{{ asset('img/image.gif') }}" alt="preloader">
+			</div>
+			<div class="tab">
+				<div class="tabs">
+					@include('lots.layouts._tabs_nav')
+					<div class="tab-contents" id="content">
+						@include('lots.layouts._main')
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -208,10 +228,10 @@
 
 		var initTimer = function () {
 			$('.countdown').downCount({
-		        date: '{{date('m/d/Y H:i:s', strtotime($lot->lot_time))}}',
-		        offset: +10
-		    }, function () {
-		        $('button[name="go_bet"]').attr('disabled', true).css({
+				date: '{{date('m/d/Y H:i:s', strtotime($lot->lot_time))}}',
+				offset: +10
+			}, function () {
+				$('button[name="go_bet"]').attr('disabled', true).css({
 					'background-color' : 'rgba(244,194,61,0.3)',
 					'color' : '#333',
 					'opacity' : '0.5',
@@ -220,7 +240,7 @@
 				$('.max_bet').attr('readonly', true).css({
 					'border-right-color' : 'rgba(244,194,61,0.3)'
 				});
-		    });
+			});
 		}
 
 		$(document).ready(function () {

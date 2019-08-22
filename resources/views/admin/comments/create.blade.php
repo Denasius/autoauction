@@ -64,7 +64,8 @@
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label label_check c_off" for="status">
-                                    <input name="status" id="status" value="1" type="checkbox"> Опубликовать </label>
+                                    Опубликовать
+                                    <input name="status" id="status" value="1" type="checkbox" class="checkbox-public"></label>
                             </div>
 
                             <div class="form-group">

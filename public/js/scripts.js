@@ -10589,6 +10589,8 @@ function makeArray( obj ) {
     }
   });
 })(document, jQuery);
+$(document).ready(function(){$('#main_calc').change(function(){if($('#main_calc').val()=='0'){document.getElementById('calc_motor').style.display="none";document.getElementById('discount').style.display="table-row";}else{document.getElementById('calc_motor').style.display="table-row";document.getElementById('discount').style.display="none";}document.getElementById('calc_rezult').style.display="none";});$('#calc_vol').change(function(){document.getElementById('calc_rezult').style.display="none";});$('#calc_cost').change(function(){document.getElementById('calc_rezult').style.display="none";});$('#calc_petrol').change(function(){document.getElementById('calc_rezult').style.display="none";});$('#calc_diesel').change(function(){document.getElementById('calc_rezult').style.display="none";});$('#calc_age').change(function(){document.getElementById('calc_rezult').style.display="none";});$('#calc_vol').keypress(function(e){e=e||event;if(e.ctrlKey||e.altKey||e.metaKey)return;var chr=getChar(e);if(chr==null)return;if(chr<'0'||chr>'9')return false;});$('#calc_btn').click(function(){if((document.getElementById('calc_vol').value=='')||(isNaN(document.getElementById('calc_vol').value))||(document.getElementById('calc_vol').value<=0)){alert("Корректно введите объем двигателя в см. куб. (используйте только цифры)");return;}if((document.getElementById('calc_cost').value=='')||(isNaN(document.getElementById('calc_cost').value))||(document.getElementById('calc_cost').value<=0)){alert("Корректно введите стоимость авто в Евро (используйте только цифры)");return;}if($('#main_calc').val()==0){if($('#calc_age').val()==0){if(document.getElementById('calc_cost').value<=8500){percent=0.54;stavka=2.5;}else if(document.getElementById('calc_cost').value<=16700){percent=0.48;stavka=3.5;}else if(document.getElementById('calc_cost').value<=42300){percent=0.48;stavka=5.5;}else if(document.getElementById('calc_cost').value<=84500){percent=0.48;stavka=7.5;}else if(document.getElementById('calc_cost').value<=169000){percent=0.48;stavka=15;}else if(document.getElementById('calc_cost').value>169000){percent=0.48;stavka=20;}cost_v=document.getElementById('calc_vol').value*stavka;cost_c=document.getElementById('calc_cost').value*percent;cost2=cost_c;if(cost_v>cost_c){cost2=cost_v;}}else if($('#calc_age').val()==1){if(document.getElementById('calc_vol').value<=1000){stavka=1.5;}else if(document.getElementById('calc_vol').value<=1500){stavka=1.7;}else if(document.getElementById('calc_vol').value<=1800){stavka=2.5;}else if(document.getElementById('calc_vol').value<=2300){stavka=2.7;}else if(document.getElementById('calc_vol').value<=3000){stavka=3;}else if(document.getElementById('calc_vol').value>3000){stavka=3.6;}cost2=document.getElementById('calc_vol').value*stavka;}else if($('#calc_age').val()==2){if(document.getElementById('calc_vol').value<=1000){stavka=3;}else if(document.getElementById('calc_vol').value<=1500){stavka=3.2;}else if(document.getElementById('calc_vol').value<=1800){stavka=3.5;}else if(document.getElementById('calc_vol').value<=2300){stavka=4.8;}else if(document.getElementById('calc_vol').value<=3000){stavka=5;}else if(document.getElementById('calc_vol').value>3000){stavka=5.7;}cost2=document.getElementById('calc_vol').value*stavka;}if(document.getElementById('calc_discount').checked===true){cost2=cost2*0.5;}vat=0;}else if($('#main_calc').val()==1){if(document.getElementById('calc_petrol').checked==1){if($('#calc_age').val()==0){if(document.getElementById('calc_vol').value<=1000){percent=0.3;stavka=1.2;}else if(document.getElementById('calc_vol').value<=1500){percent=0.3;stavka=1.45;}else if(document.getElementById('calc_vol').value<=1800){percent=0.3;stavka=1.5;}else if(document.getElementById('calc_vol').value<=2300){percent=0.3;stavka=2.15;}else if(document.getElementById('calc_vol').value<=3000){percent=0.3;stavka=2.15;}else if(document.getElementById('calc_vol').value>3000){percent=0.3;stavka=2.8;}}else if($('#calc_age').val()==1){if(document.getElementById('calc_vol').value<=1000){percent=0.35;stavka=1.2;}else if(document.getElementById('calc_vol').value<=1500){percent=0.35;stavka=1.45;}else if(document.getElementById('calc_vol').value<=1800){percent=0.35;stavka=1.5;}else if(document.getElementById('calc_vol').value<=2300){percent=0.35;stavka=2.15;}else if(document.getElementById('calc_vol').value<=3000){percent=0.35;stavka=2.15;}else if(document.getElementById('calc_vol').value>3000){percent=0.35;stavka=2.8;}}else if($('#calc_age').val()==2){if(document.getElementById('calc_vol').value<=1000){percent=0;stavka=2.5;}else if(document.getElementById('calc_vol').value<=1500){percent=0;stavka=2.7;}else if(document.getElementById('calc_vol').value<=1800){percent=0;stavka=2.9;}else if(document.getElementById('calc_vol').value<=2300){percent=0;stavka=4;}else if(document.getElementById('calc_vol').value<=3000){percent=0;stavka=4;}else if(document.getElementById('calc_vol').value>3000){percent=0;stavka=5.8;}}}else if(document.getElementById('calc_diesel').checked==1){if($('#calc_age').val()==0){if(document.getElementById('calc_vol').value<=1500){percent=0.3;stavka=1.45;}else if(document.getElementById('calc_vol').value<=2500){percent=0.3;stavka=1.9;}else if(document.getElementById('calc_vol').value>2500){percent=0.3;stavka=2.8;}}else if($('#calc_age').val()==1){if(document.getElementById('calc_vol').value<=1500){percent=0.35;stavka=1.45;}else if(document.getElementById('calc_vol').value<=2500){percent=0.35;stavka=2.15;}else if(document.getElementById('calc_vol').value>2500){percent=0.35;stavka=2.8;}}else if($('#calc_age').val()==2){if(document.getElementById('calc_vol').value<=1500){percent=0;stavka=2.7;}else if(document.getElementById('calc_vol').value<=2500){percent=0;stavka=4.0;}else if(document.getElementById('calc_vol').value>2500){percent=0;stavka=5.8;}}}cost_v=document.getElementById('calc_vol').value*stavka;cost_c=document.getElementById('calc_cost').value*percent;cost2=cost_c;if(cost_v>cost_c){cost2=cost_v;}vat=parseInt(document.getElementById('calc_cost').value);vat=Math.ceil((vat+cost2)*0.2);}cost2=Math.ceil(cost2);tcost=Math.ceil(cost2+vat);var arr=[$('#calc_age').val(),document.getElementById('calc_vol').value,document.getElementById('calc_cost').value,cost2];get_offer=arr.join('&');$.get('../calc/calc-tax.php',{calc_offer:get_offer},function(data){$('div.offer').html(data);});document.getElementById('calc_tax_txt').innerHTML="<font size=\"4\">Таможенная пошлина:</font><br />";document.getElementById('calc_tax').innerHTML="<b><font color=\"#0088a1\" size=\"4\">"+cost2+" Евро</font></b><br />";if(vat==0){document.getElementById('calc_vat_txt').innerHTML='';document.getElementById('calc_total_txt').innerHTML='';document.getElementById('calc_vat').innerHTML='';document.getElementById('calc_total').innerHTML='';}else{document.getElementById('calc_vat_txt').innerHTML="<font size=\"4\">НДС:</font><br />";document.getElementById('calc_vat').innerHTML="<b><font color=\"#0088a1\" size=\"4\">"+vat+" Евро</font></b><br />";document.getElementById('calc_total_txt').innerHTML="<b><font size=\"4\">ИТОГО:</font></b>";document.getElementById('calc_total').innerHTML="<b><font color=\"#0088a1\" size=\"4\">"+tcost+" Евро</font></b>";}document.getElementById('calc_rezult').style.display="table-row";});});
+
 
 jQuery(document).ready(function ($) {
 	
@@ -10628,19 +10630,19 @@ jQuery(document).ready(function ($) {
 				}
 			},
 			error: function (request, errorStatus, errorThrown) {
-                console.log(request);
-                console.log(errorStatus);
-                console.log(errorThrown);
-            }
+				console.log(request);
+				console.log(errorStatus);
+				console.log(errorThrown);
+			}
 		});
 	});
 
 	$('.mark-top-filter').on('change', function () {
 		var _this = $(this).closest('form'),
 			_token = _this.find('input[name="_token"]').val(),
-		 	_method = _this.attr('method'),
-		 	_url = _this.attr('action'),
-		 	value = $('form.global-search, .mark-top-filter').serialize();
+			_method = _this.attr('method'),
+			_url = _this.attr('action'),
+			value = $('form.global-search, .mark-top-filter').serialize();
 
 		formHandler(_this, _token, _method, _url, value);
 	});
@@ -10701,8 +10703,8 @@ jQuery(document).ready(function ($) {
 		sellerForm(_form, _token, _method, _url, _data);
 	});
 
-	// Отправка формы на странице Физ лицам
-	$('form.form-person').on('submit', function (e) {
+	// Отправка формы на странице Физ лицам и странице Срочный выкуп авто
+	$('form.form-person, .purchase-form').on('submit', function (e) {
 		e.preventDefault();
 		var _form = $(this),
 			_url = _form.attr('action'),
@@ -10726,27 +10728,27 @@ jQuery(document).ready(function ($) {
 
 			return $.ajax({
 				headers: {
-		            'X-CSRF-TOKEN':form_token
-		        },
-		        type: form_method,
-		        url: form_url,
-		        data: {url: form_data, id: lot_id},
-		        beforeSend:function () {
-		        	$('.tab-block .loader').addClass('active');
-		        	$('.tab-block .loader > img').addClass('active');
-		        },
-		        success:function (response) {
-		        	$('.tab-block .loader').removeClass('active');
-		        	$('.tab-block .loader > img').removeClass('active');
-		        	$('#content > #container').remove();
-		        	$('#content').html(response).hide().fadeIn('fast');
-		        	$('.lazyloading').lazyload();
-		        },
-		        error: function (request, errorStatus, errorThrown) {
-		            console.log(request);
-		            console.log(errorStatus);
-		            console.log(errorThrown);
-		        }
+					'X-CSRF-TOKEN':form_token
+				},
+				type: form_method,
+				url: form_url,
+				data: {url: form_data, id: lot_id},
+				beforeSend:function () {
+					$('.tab-block .loader').addClass('active');
+					$('.tab-block .loader > img').addClass('active');
+				},
+				success:function (response) {
+					$('.tab-block .loader').removeClass('active');
+					$('.tab-block .loader > img').removeClass('active');
+					$('#content > #container').remove();
+					$('#content').html(response).hide().fadeIn('fast');
+					$('.lazyloading').lazyload();
+				},
+				error: function (request, errorStatus, errorThrown) {
+					console.log(request);
+					console.log(errorStatus);
+					console.log(errorThrown);
+				}
 			});
 	});
 
@@ -10763,18 +10765,18 @@ jQuery(document).ready(function ($) {
 
 		return $.ajax({
 				headers: {
-		            'X-CSRF-TOKEN':form_token
-		        },
-		        type: form_method,
-		        url: form_url,
-		        data: {user_id: form_user_id, lot_id: form_lot_id},
-		        beforeSend:function () {
-		        	
-		        	
-		        },
-		        success:function (response) {
-		        	if ( response == 'add-wishlist' ) {
-		        		this_form.closest('.head-side-bar').find('.to_favorites').css({
+					'X-CSRF-TOKEN':form_token
+				},
+				type: form_method,
+				url: form_url,
+				data: {user_id: form_user_id, lot_id: form_lot_id},
+				beforeSend:function () {
+					
+					
+				},
+				success:function (response) {
+					if ( response == 'add-wishlist' ) {
+						this_form.closest('.head-side-bar').find('.to_favorites').css({
 							'display' : 'none',
 							'visibility' : 'hidden',
 							
@@ -10784,9 +10786,9 @@ jQuery(document).ready(function ($) {
 							'display' : 'block',
 							'visibility' : 'visible'
 						});
-		        	}else{
-		        		console.log(response);
-		        		this_form.closest('.head-side-bar').find('.to_favorites').css({
+					}else{
+						console.log(response);
+						this_form.closest('.head-side-bar').find('.to_favorites').css({
 							'display' : 'block',
 							'visibility' : 'visible',
 							
@@ -10796,14 +10798,14 @@ jQuery(document).ready(function ($) {
 							'display' : 'none',
 							'visibility' : 'hidden'
 						});
-		        	}
-		        	
-		        },
-		        error: function (request, errorStatus, errorThrown) {
-		            console.log(request);
-		            console.log(errorStatus);
-		            console.log(errorThrown);
-		        }
+					}
+					
+				},
+				error: function (request, errorStatus, errorThrown) {
+					console.log(request);
+					console.log(errorStatus);
+					console.log(errorThrown);
+				}
 			});
 	});
 
@@ -10818,26 +10820,26 @@ jQuery(document).ready(function ($) {
 
 		return $.ajax({
 			headers: {
-	            'X-CSRF-TOKEN':this_token
-	        },
-	        type: this_method,
-	        url: this_action,
-	        data: {lot_id: this_lot},
-	        beforeSend: function () {
-	        	this_form.hide();
-	        	this_form.next('.reload-gif').addClass('active');
-	        },
-	        success: function (response) {
-	        	this_form.show();
-	        	this_form.next('.reload-gif').removeClass('active');
-	        	this_form.closest('.lot-bet').find('.current-bet > .current-bet_price > strong').remove();
-	        	this_form.closest('.lot-bet').find('.current-bet > .current-bet_price').append('<strong>' + response + '</strong>').hide().fadeIn(500);
-	        },
-	        error: function (request, errorStatus, errorThrown) {
-	            console.log(request);
-	            console.log(errorStatus);
-	            console.log(errorThrown);
-	        }
+				'X-CSRF-TOKEN':this_token
+			},
+			type: this_method,
+			url: this_action,
+			data: {lot_id: this_lot},
+			beforeSend: function () {
+				this_form.hide();
+				this_form.next('.reload-gif').addClass('active');
+			},
+			success: function (response) {
+				this_form.show();
+				this_form.next('.reload-gif').removeClass('active');
+				this_form.closest('.lot-bet').find('.current-bet > .current-bet_price > strong').remove();
+				this_form.closest('.lot-bet').find('.current-bet > .current-bet_price').append('<strong>' + response + '</strong>').hide().fadeIn(500);
+			},
+			error: function (request, errorStatus, errorThrown) {
+				console.log(request);
+				console.log(errorStatus);
+				console.log(errorThrown);
+			}
 		});
 	});
 
@@ -10854,38 +10856,38 @@ jQuery(document).ready(function ($) {
 
 		return $.ajax({
 			headers: {
-	            'X-CSRF-TOKEN':this_token
-	        },
-	        type: this_method,
-	        url: this_action,
-	        data: {lot_id: this_lot, price: this_form.find('input').val(), user_id:this_user },
-	        beforeSend: function () {
-	        	this_form.find('[name="go_bet"]')	.text('Ожидайте...');
-	        },
-	        success: function (response) {
-	        	console.log(response);
-	        	this_form.find('[name="go_bet"]').text('Cделать ставку');
-	        	if( response.errors ){
-	        		var priceError = response.errors.price != undefined ? '<li>'+response.errors.price+'</li>' : '';
-	        		this_form.closest('.max-bet').find('.alert.alert-danger').remove();
-	        		this_form.closest('.max-bet').find('.alert.alert-success').remove();
+				'X-CSRF-TOKEN':this_token
+			},
+			type: this_method,
+			url: this_action,
+			data: {lot_id: this_lot, price: this_form.find('input').val(), user_id:this_user },
+			beforeSend: function () {
+				this_form.find('[name="go_bet"]')	.text('Ожидайте...');
+			},
+			success: function (response) {
+				console.log(response);
+				this_form.find('[name="go_bet"]').text('Cделать ставку');
+				if( response.errors ){
+					var priceError = response.errors.price != undefined ? '<li>'+response.errors.price+'</li>' : '';
+					this_form.closest('.max-bet').find('.alert.alert-danger').remove();
+					this_form.closest('.max-bet').find('.alert.alert-success').remove();
 					this_form.closest('.max-bet').find('.answer').append('<ul class="alert alert-danger">'+ priceError + '</ul>'); 
-        		}
+				}
 
-        		if ( response.success ) {
-        			var success = response.success != undefined ? '<li>'+response.success+'</li>' : '';
-        			this_form.trigger('reset');
-        			this_form.closest('.lot-bet').find('.current-bet_price strong').load(window.location.pathname + ' #current-bet_price strong');
-	        		this_form.closest('.max-bet').find('.alert.alert-danger').remove();
-	        		this_form.closest('.max-bet').find('.alert.alert-success').remove();
-	        		this_form.closest('.max-bet').find('.answer').append('<ul class="alert alert-success">'+ success + '</ul>'); 
-	        	}
-	        },
-	        error: function (request, errorStatus, errorThrown) {
-	            console.log(request);
-	            console.log(errorStatus);
-	            console.log(errorThrown);
-	        }
+				if ( response.success ) {
+					var success = response.success != undefined ? '<li>'+response.success+'</li>' : '';
+					this_form.trigger('reset');
+					this_form.closest('.lot-bet').find('.current-bet_price strong').load(window.location.pathname + ' #current-bet_price strong');
+					this_form.closest('.max-bet').find('.alert.alert-danger').remove();
+					this_form.closest('.max-bet').find('.alert.alert-success').remove();
+					this_form.closest('.max-bet').find('.answer').append('<ul class="alert alert-success">'+ success + '</ul>'); 
+				}
+			},
+			error: function (request, errorStatus, errorThrown) {
+				console.log(request);
+				console.log(errorStatus);
+				console.log(errorThrown);
+			}
 		});
 	});
 
@@ -10896,47 +10898,47 @@ jQuery(document).ready(function ($) {
 function formHandler(_form, _token, _method, _url, _value) {
 	return $.ajax({
 		headers: {
-            'X-CSRF-TOKEN':_token
-        },
-        type: _method,
-        url: _url,
-        data: _value,
-        beforeSend:function () {
+			'X-CSRF-TOKEN':_token
+		},
+		type: _method,
+		url: _url,
+		data: _value,
+		beforeSend:function () {
 			$('.overlay-filter').addClass('active');
 			$('.prelod-gif').addClass('active');
 		},
-        success: function (response) {
-        	$('.overlay-filter').removeClass('active');
+		success: function (response) {
+			$('.overlay-filter').removeClass('active');
 			$('.prelod-gif').removeClass('active');
 			$('#featured-cars').find('.row').remove();
 			$('#featured-cars').html(response).fadeIn('slow');
 			$('#lot_counted').text($(response + '#response_lot_count').val());
 			$('html, body').animate({ scrollTop: 200 }, 'slow');
-        },
-        error: function (request, errorStatus, errorThrown) {
-            console.log(request);
-            console.log(errorStatus);
-            console.log(errorThrown);
-        }
+		},
+		error: function (request, errorStatus, errorThrown) {
+			console.log(request);
+			console.log(errorStatus);
+			console.log(errorThrown);
+		}
 	});
 }
 
 function sellerForm(_form, _token, _method, _url, _data) {
 	return $.ajax({
 		headers: {
-            'X-CSRF-TOKEN':_token
-        },
-        type: _method,
-        url: _url,
-        data: _data,
-        beforeSend: function () {
-        	_form.find('button[type="submit"]').text('Отправка...');
-        },
-        success: function (response) {
-        	
-        	_form.find('button[type="submit"]').text('Отправить');
-        	if( response.errors ){
-        		var nameError = response.errors.name != undefined ? '<li>'+response.errors.name+'</li>' : '';
+			'X-CSRF-TOKEN':_token
+		},
+		type: _method,
+		url: _url,
+		data: _data,
+		beforeSend: function () {
+			_form.find('button[type="submit"]').text('Отправка...');
+		},
+		success: function (response) {
+			console.log(response);
+			_form.find('button[type="submit"]').text('Отправить');
+			if( response.errors ){
+				var nameError = response.errors.name != undefined ? '<li>'+response.errors.name+'</li>' : '';
 				var lastnameError = response.errors.lastname != undefined ? '<li>'+response.errors.lastname+'</li>' : ''; 
 				var cityError = response.errors.city != undefined ? '<li>'+response.errors.city+'</li>' : ''; 
 				var manufacturerError = response.errors.manufacturer != undefined ? '<li>'+response.errors.manufacturer+'</li>' : ''; 
@@ -10948,19 +10950,21 @@ function sellerForm(_form, _token, _method, _url, _data) {
 				var mileageError = response.errors.mileage != undefined ? '<li>'+response.errors.mileage+'</li>' : '';
 				var carBrandError = response.errors.car_brand != undefined ? '<li>'+response.errors.car_brand+'</li>' : '';
 				var carModelError = response.errors.car_model != undefined ? '<li>'+response.errors.car_model+'</li>' : '';
+				var carMinPrice = response.errors.min_price_customer != undefined ? '<li>'+response.errors.min_price_customer+'</li>' : '';
+				
 				_form.find('.alert.alert-danger').remove();
-				_form.append('<ul class="alert alert-danger">'+ nameError + lastnameError + cityError + manufacturerError + addressError + phoneError + mailError + postcodeError + districtError + mileageError + carBrandError + carModelError +'</ul>'); 
-        	}
-        	if ( response.success ) {
-        		_form.trigger('reset');
-        		_form.find('.alert.alert-danger').remove();
-        		_form.append('<div class="alert alert-success" style="margin-top: 20px;">Ваше сообщение успешно отправлено.</div>'); 
-        	}
-        },
-        error: function (request, errorStatus, errorThrown) {
-        	console.log(request);
-            console.log(errorStatus);
-            console.log(errorThrown);
-        }
+				_form.append('<ul class="alert alert-danger">'+ nameError + lastnameError + cityError + manufacturerError + addressError + phoneError + mailError + postcodeError + districtError + mileageError + carBrandError + carModelError + carMinPrice + '</ul>'); 
+			}
+			if ( response.success ) {
+				_form.trigger('reset');
+				_form.find('.alert.alert-danger').remove();
+				_form.append('<div class="alert alert-success" style="margin-top: 20px;">Ваше сообщение успешно отправлено.</div>'); 
+			}
+		},
+		error: function (request, errorStatus, errorThrown) {
+			console.log(request);
+			console.log(errorStatus);
+			console.log(errorThrown);
+		}
 	});
 }

@@ -31,22 +31,33 @@ class Attribute extends Model
             ->get();
     }
 
-    public static function getAllAttributeCategories()
+    public static function getAllAttributeCategories($filter = false)
     {
-        return DB::table('attribute_categories')
+        if ( $filter ) {
+            return DB::table('attribute_categories')
                 ->orderBy('attribute_categories.id')
-                ->select('attribute_categories.id', 'attribute_categories.title', 'attribute_categories.type')
+                ->select('attribute_categories.id', 'attribute_categories.title', 'attribute_categories.add_filter', 'attribute_categories.type')
+                ->where('attribute_categories.add_filter', 'on')
                 ->get();
+        }else{
+
+            return DB::table('attribute_categories')
+                ->orderBy('attribute_categories.id')
+                ->select('attribute_categories.id', 'attribute_categories.title', 'attribute_categories.add_filter', 'attribute_categories.type')
+                ->get();
+        }
+        
     }
 
-    public static function getTreeAttrCategoies()
+    public static function getTreeAttrCategoies($filter = false)
     {
         $item = new static;
-        $categories = $item::getAllAttributeCategories();
+        $categories = $item::getAllAttributeCategories($filter);
         $attributes = $item::get_all();
         $attributesTree = [];
 
         foreach ($categories as $cat) {
+            
             foreach ( $attributes as $attr ) {
 
                 if ( $cat->id === $attr->category_id ) {
@@ -56,6 +67,8 @@ class Attribute extends Model
                     ];
                 }
             }
+            // $filter = $cat->add_filter;
+            // $attributesTree[$cat->title][] = $filter; 
         }
         return $attributesTree;
     }

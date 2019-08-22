@@ -12,22 +12,27 @@ use Illuminate\Support\Facades\DB;
 use \Cookie;
 use Illuminate\Support\Facades\Validator;
 use App\Bet;
+use Illuminate\Support\Facades\Auth;
+use App\Mail\LotOrderSuccess;
+use App\Mail\LotOrderSuccessAdmin;
 
 
 class LotController extends Controller
 {
     public function index($model, $routes)
     {
-    	$data['lot'] = Lot::find($model->id);
-        
+    	$data['lot'] = Lot::find($model->id); 
+        //dd($data['lot']->lot_bet);      
     	$data['lot_images'] = LotImage::where('lot_id', $data['lot']->id)->take(5)->get();
     	$data['lot_attribute'] = $this->getLotsAttributes($model->id);
     	$data['general_attrs'] = $this->getMainAttributes($model->id);
     	$data['additional_attrs'] = $this->getAdditionalAttributes($model->id);
         $data['active_lots'] = Lot::where('status', 1)->take(4)->inRandomOrder()->get();
+        $data['lot_is_opened'] = 1;
 
         // Нахожу максимальную ставку
         $data['max_bet'] = Bet::get_by_lot($model->id)->max('price');
+        
         $cookie_data = json_decode(Cookie::get('favorite'));
 
         $data['cookies'] = [];
@@ -173,8 +178,9 @@ class LotController extends Controller
 
     public function buy_now(Request $request)
     {
-        $lot = lot::find( $request->get('lot_id') );
+        $lot = lot::find( $request->get('lot_id') );       
         $lot->lot_time = null;
+        //dd($lot->lot_time);
         $lot->save();
 
         $bet = new Bet;
@@ -183,6 +189,15 @@ class LotController extends Controller
         $bet->user_id = $new_bet['user'];
         $bet->lot_id = $new_bet['lot_id'];
         $bet->save();
+
+        $data['user'] = Auth::user()->email;
+        $data['lot_name'] = $lot->title;
+        $data['lot_id'] = $lot->id;
+        $data['link_to_lot'] = $lot->slug;
+        $to = 'kdo@webernetic.by';
+
+        \Mail::to($data['user'])->send(new LotOrderSuccess($data));
+        \Mail::to($to)->send(new LotOrderSuccessAdmin($data));
 
         return redirect()->back()->with('byu_one_click_success', "Вы купили авто по стоимости {$lot->getPrice($lot->buy_one_click_price, $lot->currency)}. Подробную информацию Вы можете посмотреть в личном кабинете.");
     }

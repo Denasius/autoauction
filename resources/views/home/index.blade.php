@@ -21,19 +21,23 @@
             <div class="tp-caption third-line lfb tp-resizeme start" data-x="center" data-hoffset="0" data-y="280" data-speed="1000" data-start="800" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">{!! $item->descr !!}</div>
             <div class="tp-caption slider-thumb sfb tp-resizeme start container hidden-xs hidden-sm" data-x="center" data-hoffset="0" data-y="460" data-speed="1000" data-start="2200" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">
               @foreach ($randomLots as $item)
-                <div class="col-md-4">
-                  <a href="{{ $item->slug }}"><div class="thumb-item">
-                      <div class="top-content">
-                        <span>{{ number_format($item->price, 0) }}</span>
-                        <div class="span-bg"></div>
-                        <h2>{{ $item->title }}</h2>
-                      </div>
-                      <div class="down-content">
-                        <p>{{ strip_tags($item->getFormatString($item->desr)) }}</p>
-                        <img class="slide-image" src="{{ asset( $item->image) }}" alt="{{ $item->title }}">
-                      </div>
-                    </div></a>
-                </div>
+
+              @if( $item->image )
+              <div class="col-md-4">
+                <a href="{{ $item->slug }}"><div class="thumb-item">
+                    <div class="top-content">
+                      <span>{{ number_format($item->price, 0) }}</span>
+                      <div class="span-bg"></div>
+                      <h2>{{ $item->title }}</h2>
+                    </div>
+                    <div class="down-content">
+                      <p>{{ strip_tags($item->getFormatString($item->desr)) }}</p>
+                      <img class="slide-image" src="{{ asset( $item->image) }}" alt="{{ $item->title }}">
+                    </div>
+                  </div></a>
+              </div>
+              @endif
+                
               @endforeach
             </div>
           </li>
@@ -110,7 +114,7 @@
       <div id="featured-cars">
         @foreach($lots as $lot)
           <div class="featured-item col-md-15 col-sm-6">
-            <img class="lazyloading" src="data:image/gif;base64,R0lGODlhBgHDAIAAAP///wAAACH5BAEAAAEALAAAAAAGAcMAAAL+jI+py+0Po5y02ouz3rz7D4biSJbmiabqyrbuC8fyTNf2jef6zvf+DwwKh8Si8YhMKpfMpvMJjUqn1Kr1is1qt9yu9wsOi8fksvmMTqvX7Lb7DY/L5/S6/Y7P6/f8vv8PGCg4SFhoeIiYqLjI2Oj4CBkpOUlZaXmJmam5ydnp+QkaKjpKWmp6ipqqusra6voKGys7S1tre4ubq7vL2+v7CxwsPExcbHyMnKy8zNzs/AwdLT1NXW19jZ2tvc3d7f0NHi4+Tl5ufo6err7O3u7+Dh8vP09fb3+Pn6+/z9/v/w8woMCBBAsaPIgwocKFDBs6fAgxosSJFCtavIgxo8YxjRw7evwIMqTIkSRLmjyJMqXKlSxbunwJM6bMmTRr2ryJM6fOnTx7+vwJNKjQoTYKAAA7" data-src="{{ asset($lot->image) }}" alt="{{ $lot->title }}">
+            <img class="lazyloading" src="{{ asset('img/th.jpg') }}" data-src="{{ asset($lot->image) }}" alt="{{ $lot->title }}">
             <div class="down-content">
               <a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
               <span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
@@ -144,10 +148,9 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div id="time-out-cars" class="cars-list">
+      <div class="row last-auctions">
           @foreach($timeOutLots as $lot)
-            <div class="featured-item col-md-15 col-sm-6">
+            <div class="featured-item col-sm-6 col-md-4 col-lg-3">
               <img src="{{ asset($lot->image) }}" alt="{{ $lot->title }}">
               <div class="down-content">
                 <a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
@@ -164,7 +167,6 @@
               </div>
             </div>
           @endforeach
-        </div>
       </div>
     </div>
   </section>

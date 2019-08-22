@@ -27,6 +27,17 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">Выводить в фильтр</label>
+                                <div class="col-sm-10">
+                                    
+                                    <div class="radio" style="padding-left: 0;">
+                                            <input name="add_filter" type="checkbox" value="1" class="checkbox-attr-categories">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">Тип</label>
                                 <div class="col-sm-10">
                                     <div class="radio">

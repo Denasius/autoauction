@@ -17,6 +17,7 @@ mix.styles([
 	'resources/assets/admin/css/font-awesome.min.css',
 	'resources/assets/admin/css/jquery-ui.min.css',
 	'resources/assets/admin/datetime/jquery.datetimepicker.css',
+	'resources/assets/admin/switcehr-js/switch.css',
 	'resources/assets/admin/css/style.css',
 	'resources/assets/admin/css/custom.css',
 ], 'public/css/admin.css');
@@ -51,7 +52,11 @@ mix.styles([
 mix.sass('resources/assets/admin/style-custom.scss', 'public/css/custom-admin.css');
 // Наши стили для фронта
 mix.sass('resources/front/assets/css/custom.scss', 'public/css/custom-style.css');
-mix.sass('resources/sass/app.scss', 'public/css/styles.css');
+mix.sass('resources/sass/app.scss', 'public/css', [
+	require('autoprefixer')({
+		browsers: ['last 10 versions']
+	})
+]);
 
 // Скрипты для админки
 mix.scripts([
@@ -60,6 +65,8 @@ mix.scripts([
 	'resources/assets/admin/js/jquery-ui.min.js',
 	'resources/assets/admin/js/datepicker-ru.js',
 	'resources/assets/admin/datetime/jquery.datetimepicker.full.js',
+	'resources/assets/admin/switcehr-js/switch.js',
+	'resources/assets/admin/switcehr-js/custom-switch.js',
 	'resources/assets/admin/js/scripts.js',
 	'resources/assets/admin/js/custom.js',
 	'resources/assets/admin/js/custom-dropzone.js',
@@ -76,6 +83,7 @@ mix.scripts([
 	'resources/front/assets/js/lazy-load/lazyload.min.js',
 	'resources/front/assets/js/timer/jquery.downCount.js',
 	'resources/front/assets/fancybox/jquery.fancybox.js',
+	'resources/front/assets/calculating-tax/calc_price_tax.js',
 	'resources/front/assets/js/autoauction.js',
 ], 'public/js/scripts.js');
 

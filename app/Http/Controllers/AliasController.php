@@ -15,11 +15,11 @@ class AliasController extends Controller
 {
     public function alias($url)
     {
-    	$routs_array = [];
-    	$routes = explode('/', $url);
+        $routs_array = [];
+        $routes = explode('/', $url);
 
-    	foreach ($routes as $alias) {
-    		$item = Aliase::where('slug', $alias)->firstOrFail();
+        foreach ($routes as $alias) {
+            $item = Aliase::where('slug', $alias)->firstOrFail();
     		switch ($item->type) {
     			case 'page':
     				array_push($routs_array, Pages::find($item->type_id));
@@ -37,7 +37,7 @@ class AliasController extends Controller
     				break;
     		}
     	}
-
+        
     	$model = array_pop($routs_array);
 		switch ($item->type) {
 			case 'page':
