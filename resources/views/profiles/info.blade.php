@@ -14,7 +14,7 @@
 				<div class="col-md-12">
 					
 					<div class="image_steps">
-						<a href="{{ route('profile') }}">
+						<a href="@if( $user->confirm_register == null ) {{ route('profile') }} @else javascript:void(0) @endif">
 							<div class="item">
 								<img class="lazyloading" src="{{ asset('img/th.jpg') }}" data-src="{{ asset('img/input_data.png') }}" alt="image">
 								<div class="radio">
@@ -24,7 +24,7 @@
 							</div>
 						</a>
 						
-						<a href="{{ route('profile.info') }}">
+						<a href="@if( $user->confirm_register == null ) {{ route('profile.info') }} @else javascript:void(0) @endif">
 							<div class="item">
 								<img class="lazyloading" src="{{ asset('img/th.jpg') }}" data-src="{{ asset('img/upload_doc_2.png') }}" alt="image">
 								<div class="radio">
@@ -34,7 +34,7 @@
 							</div>
 						</a>
 						
-						<a href="">
+						<a href="javascript:void(0)">
 							<div class="item">
 								<img class="lazyloading" src="{{ asset('img/th.jpg') }}" data-src="{{ asset('img/buy_auto.png') }}" alt="image">
 								<div class="radio">

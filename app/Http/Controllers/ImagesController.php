@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Lot;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
+use Illuminate\Filesystem\Filesystem;
+use App\UserImages;
 
 class ImagesController extends Controller
 {
@@ -50,5 +52,15 @@ class ImagesController extends Controller
         //Добавляем размер файла(для уникальности) и расширение
         $result .= '-' . $image->getClientSize() . '.' . $image->getClientOriginalExtension();
         return $result;
+    }
+
+    // Удаление только для файлов, которые лежат в папке uploads/docs
+    public function removeImage( Request $request )
+    {
+        if ( $request->get('file') != null ) {
+            $image = UserImages::where('image_src', $request->get('file'))->where('user_id', $request->get('user_id'));
+            $image->delete();
+            unlink(public_path('uploads/docs/' . $request->get('file')));
+        }
     }
 }

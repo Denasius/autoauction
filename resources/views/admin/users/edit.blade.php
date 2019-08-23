@@ -159,18 +159,20 @@
                                         <div class="item">
                                             <label>
                                                 <span class="previews">
-                                                    <img src="/{{$image}}" alt="">
+                                                    <a data-fancybox="gallery" href="{{ asset('uploads/docs/' . $image) }}">
+                                                    <img data-src="{{$image}}" data-user={{$user->id}} src="{{ asset('uploads/docs/' . $image) }}" alt="">
+                                                    </a>
                                                 </span>
                                                 <input type="file" class="input_img_upload" style="display:none;">
                                                 <input type="hidden" name="images[]" value="{{$image}}">
                                             </label>
-                                            <button type="button" class="btn btn-danger" onclick="remove_item(this)">Delete</button>
+                                            <button type="button" class="btn btn-danger" onclick="remove_item(this)">Удалить</button>
                                         </div>
-                                    @endforeach
+                                    @endforeach 
                                 </div>
-                                <div class="col-sm-10 col-sm-offset-2">
+                                {{-- <div class="col-sm-10 col-sm-offset-2">
                                     <button type="button" class="btn btn-info add_image">Добавить еще картинки</button>
-                                </div>
+                                </div> --}}
 
                             </div>
 
@@ -251,7 +253,37 @@
         }
 
         function remove_item(this_item) {
-            $(this_item).parent().remove();
+            var this_image = $(this_item).closest('.item').find('img').data('src');
+            var user_id = $(this_item).closest('.item').find('img').data('user');
+            
+            var form_data = new FormData();
+            form_data.append('file', this_image);
+            form_data.append('user_id', user_id);
+            
+            return $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '{{route("delete.image")}}',
+                data: form_data,
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                type: 'post',
+                beforeSend: function () {
+                    $(this_item).text('Ожидайте...');
+                },
+                success: function (response) {
+                    console.log(response);
+                    $(this_item).parent().remove();
+                },
+                error: function (request, errorStatus, errorThrown) {
+				console.log(request);
+				console.log(errorStatus);
+				console.log(errorThrown);
+			}
+            });
         }
 
     </script>

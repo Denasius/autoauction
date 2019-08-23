@@ -10,6 +10,7 @@ use App\User;
 use File;
 use Illuminate\Support\Str;
 use App\UserImages;
+use Illuminate\Support\Facades\Validator;
 
 class ProfilesController extends Controller
 {
@@ -29,7 +30,7 @@ class ProfilesController extends Controller
     public function store(Request $request)
     {
         $user = User::find($request->get('user_id'));
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'entity' => 'required',
             'name' => 'required|min:3',
             'user_surname' => 'required|min:3',
@@ -45,6 +46,9 @@ class ProfilesController extends Controller
             'user_dob' => 'required'
         ]);
 
+        if ( $validator->fails() )
+            return redirect()->back()->withInput()->withErrors($validator, 'confirmRigister');
+
         $user->entity = $request->get('entity');
         $user->user_surname = $request->get('user_surname');
         $user->user_company = $request->get('user_company');
@@ -57,7 +61,6 @@ class ProfilesController extends Controller
         $user->user_dob = $request->get('user_dob');
         $user->user_interested = $request->get('user_interested');
         $user->user_for = $request->get('user_for');
-        $user->confirm_register = Str::random(100);
 
         $user->save();
 
@@ -68,7 +71,9 @@ class ProfilesController extends Controller
     {
         $data['images'] = UserImages::where('user_id', Auth::user()->id)->take(5)->get();
     	$data['meta_title'] = 'Инфо';
-    	$data['meta_description'] = 'Страница профиля';
+        $data['meta_description'] = 'Страница профиля';
+        $user = Auth::user();
+        $data['user'] = $user;
     	return view('profiles.info', $data);
     }
 

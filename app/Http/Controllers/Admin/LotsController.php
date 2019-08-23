@@ -90,7 +90,7 @@ class LotsController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',
-            'vin' => 'required',
+            // 'vin' => 'required',
             'date' => 'required|numeric',
             'address' => 'required',
             'car_mileage' => 'required|numeric',
@@ -197,7 +197,7 @@ class LotsController extends Controller
         //dd($request->all());
         $this->validate($request, [
             'title' => 'required',
-            'vin' => 'required',
+            // 'vin' => 'required',
         ]);
 
 

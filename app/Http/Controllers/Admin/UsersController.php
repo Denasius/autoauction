@@ -7,7 +7,9 @@ use App\UserRole;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\UserImages;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
@@ -77,7 +79,8 @@ class UsersController extends Controller
         $data['roles'] = UserRole::all();
         $data['user'] = User::find($id);
 
-        $data['images'] = json_decode($data['user']->images);
+        $data['images'] = UserImages::where('user_id', $data['user']->id)->pluck('image_src');
+        //dd($data['images']);
 
         return view('admin.users.edit', $data);
     }
@@ -122,4 +125,5 @@ class UsersController extends Controller
 
         return redirect()->route('users.index');
     }
+
 }

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str;
 use \Storage;
 
 class User extends Authenticatable
@@ -39,15 +40,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /*
-    * создаем пользователя
-    * метод fill принимает все поля, которые я определил в переменной fillable
-    * фича laravel - массовое заполнение
-    */
     public static function add($fields)
     {
         $user = new static;
         $user->fill($fields);
+        $user->confirm_register = Str::random(100);
         $user->save();
 
         return $user;

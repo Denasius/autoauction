@@ -18,6 +18,7 @@ mix.styles([
 	'resources/assets/admin/css/jquery-ui.min.css',
 	'resources/assets/admin/datetime/jquery.datetimepicker.css',
 	'resources/assets/admin/switcehr-js/switch.css',
+	'resources/front/assets/fancybox/jquery.fancybox.css',
 	'resources/assets/admin/css/style.css',
 	'resources/assets/admin/css/custom.css',
 ], 'public/css/admin.css');
@@ -69,6 +70,7 @@ mix.scripts([
 	'resources/assets/admin/switcehr-js/custom-switch.js',
 	'resources/assets/admin/js/scripts.js',
 	'resources/front/assets/jQuery-Mask-Plugin-master/jquery.mask.js',
+	'resources/front/assets/fancybox/jquery.fancybox.js',
 	'resources/assets/admin/js/custom.js',
 	'resources/assets/admin/js/custom-dropzone.js',
 ], 'public/js/admin.js');

@@ -77,6 +77,8 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::post('/finish-lot', 'LotsController@finish_lot')->name('finish.lot');
 });
 
+Route::post('/delete-image', 'ImagesController@removeImage')->name('delete.image');
+
 //Загрузка изображения для профиля
 Route::post('/upload_image_profile', 'ImagesController@upload_image_profile')->name('upload_image_profile');
 

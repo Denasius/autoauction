@@ -314,3 +314,8 @@ input.edit-menu-item-title{
 	width: 100%;
 	text-align: right;
 }
+
+.previews img{
+	max-width: 200px;
+	object-fit: cover;
+}
