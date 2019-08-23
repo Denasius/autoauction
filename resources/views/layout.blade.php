@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <link rel="icon" href="{{ asset('assets/images/favicon/favicon.ico') }}" type="image/x-icon">
 
     @yield('seo')
 
@@ -125,6 +126,14 @@
                                     @endforeach
                                 </div>
                             @endif
+                            @if(session('status-subscribe'))
+                                <div class="alert alert-block alert-success fade in">
+                                    <button data-dismiss="alert" class="close close-sm" type="button">
+                                        <i class="icon-remove"></i>
+                                    </button>
+                                    {{ session('status-subscribe') }}
+                                </div>
+                            @endif
                             <div class="left-content">
                                 <h2>Подписаться на новости</h2>
                                 <form method="POST" id="subscribe" class="blog-search" action="{{ route('subscribe') }}">
@@ -157,7 +166,7 @@
             <footer>
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="about-us">
                                 <img src="assets/images/logo-2.png" alt="">
                                 <p>VIN.by Аукцион авто из всего мира!</p>
@@ -192,7 +201,7 @@
                             </div>
                         </div>
                         @include('layouts.footer_menu')
-                        <div class="col-md-3">
+                        {{-- <div class="col-md-3">
                             <div class="latest-news">
                                 <h4>Последние новости</h4>
                                 @foreach($latestNews as $item)
@@ -210,7 +219,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-3">
                             <div class="gallery">
                                 <h4>Свяжитесь с нами</h4>
@@ -218,7 +227,7 @@
                                     @csrf
                                     <input type="hidden" name="_method" value="POST">
                                     <input type="text" name="name" placeholder="Имя" value="{{ old('name') }}">
-                                    <input type="text" name="phone" placeholder="Телефон" value="{{ old('telephone') }}">
+                                    <input type="text" name="phone" value="{{ old('telephone') }}">
 
                                     <button type="submit" class="btn-callback-send">Отправить</button>
                                 </form>

@@ -5,6 +5,17 @@ jQuery(document).ready(function ($) {
 		$(this).find('.profile-dropdown').toggleClass('active');
 	});
 
+	// Маска для телефонов
+	$('input[name="phone"]').mask('+375 (00) 000-00-00', {placeholder: '+375 (__) ___-__-__'});
+
+	// Запрещаю переход по пустым ссылкам в меню навишации
+	$('.responsive-menu, .main-navigation').on('click','a:not(.showLink, .hideLink)', function (e) {		
+		if ( $(this).attr('href') === 'http://' || $(this).attr('href') === 'https://' ) {
+				e.preventDefault();
+				return false;
+			}
+	});
+
 	$('.form-general__handler').on('submit', function (e){
 		e.preventDefault();
 		var $form = $(this),

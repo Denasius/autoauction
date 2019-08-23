@@ -6,7 +6,7 @@ $(function() {
             for (var i = 0; i < filesAmount; i++) {
                 var parth = upload_image(input.files[i],'lots', true);
                 if (parth) {
-                    console.log(parth);
+                    // console.log(parth);
                     $('.gallery.gallery__images').append('<div class="uploadedImage">' +
                         '<div class="img">' +
                         '<img src="/' +parth + '"></div>' +
@@ -15,12 +15,19 @@ $(function() {
                         '<input type="text" placeholder="Описание (description)" name="images[descr][]">' +
                         '<input type="hidden" name="images[src][]" value="' + parth + '">' +
                         '<a href="javascript:void(0);" class="btn btn-info btn-remove">Удалить</a></div>');
+                        $('.uploadedImage a.btn-remove').on('click', function () {
+                            $(this).closest('.uploadedImage').remove();
+                        });
                 }
             }
         }
     }
     $('#gallery-photo-add').on('change', function () {
         imagesPreview(this, 'div.gallery');
+    });
+
+    $('.uploadedImage a.btn-remove').on('click', function () {
+        $(this).closest('.uploadedImage').remove();
     });
 });
 //Загрузка файлов, функция вернет урл до картинки который положила на сервер

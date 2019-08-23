@@ -31,7 +31,7 @@
 			<div id="listing-cars" class="col-md-9">
 				<div class="pre-featured clearfix">
 					<div class="info-text">
-						<h4><span id="lot_counted">{{ $lots->count() }}</span> results founded</h4>
+						<h4>Найдено <span id="lot_counted">{{ $lots->count() }}</span> лотов</h4>
 					</div>
 					<div class="right-content">
 						<form class="form-filter" action="{{ route('filter') }}" method="POST">
@@ -76,7 +76,16 @@
 						@foreach ($lots as $lot)
 							<div class="featured-item col-md-4">
 								<div class="lot-image">
-									<img class="lazyloading" src="{{ asset('img/th.jpg') }}" data-src="{{ asset($lot->image) }}" alt="{{ $lot->title }}">
+									<img 
+										class="lazyloading" 
+										src="{{ asset('img/th.jpg') }}" 
+										@if($lot->image == null)
+											data-src="{{ asset('img/no-image.png') }}"
+										@else
+											data-src="{{ asset($lot->image) }}" 
+										@endif
+										alt="{{ $lot->title }}"
+									>
 								</div>
 								<div class="down-content">
 									<a href="{{ $lot->slug }}"><h2 class="h2">{{ $lot->title }}</h2></a>
@@ -91,7 +100,7 @@
 										</ul>
 									</div>
 								</div>
-							</div>						
+							</div>
 						@endforeach
 					</div>
 				</div>
@@ -178,7 +187,12 @@
 					@foreach ($buy_one_click as $item)
 						<div class="video-post">
 							<div class="video-holder">
-								<img class="img-buy-one-click lazyloading" src="data:image/gif;base64,R0lGODlhBgGvAIAAAP///wAAACH5BAEAAAEALAAAAAAGAa8AAAL+jI+py+0Po5y02ouz3rz7D4biSJbmiabqyrbuC8fyTNf2jef6zvf+DwwKh8Si8YhMKpfMpvMJjUqn1Kr1is1qt9yu9wsOi8fksvmMTqvX7Lb7DY/L5/S6/Y7P6/f8vv8PGCg4SFhoeIiYqLjI2Oj4CBkpOUlZaXmJmam5ydnp+QkaKjpKWmp6ipqqusra6voKGys7S1tre4ubq7vL2+v7CxwsPExcbHyMnKy8zNzs/AwdLT1NXW19jZ2tvc3d7f0NHi4+Tl5ufo6err7O3u7+Dh8vP09fb3+Pn6+/z9/v/w8woMCBBAsaPIgwocKFDBs6fAgxosSJFCtavIgxo8YejRw7evwIMqTIkSRLmjyJMqXKlSxbunwJM6bMMgUAADs=" data-src="{{ asset($item->image) }}" alt="{{ $item->title }}">
+								<img 
+									class="img-buy-one-click lazyloading" 
+									src="{{ asset('img/th.jpg') }}" 
+									data-src="{{ asset($item->image) }}" 
+									alt="{{ $item->title }}"
+								>
 								<div class="video-content">
 									<a href="{{ $item->slug }}"><h4>{{ $item->title }}</h4></a>
 								</div>

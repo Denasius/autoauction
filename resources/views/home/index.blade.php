@@ -90,21 +90,46 @@
       </div>
       <div class="col-md-4">
         <div class="right-img">
-          <img src="http://dummyimage.com/370x340/cccccc/fff.jpg" alt="">
+            <img 
+            class="lazyloading" 
+            src="{{ asset('img/th.jpg') }}"
+            data-src="{{ asset('assets/images/min_ban.jpg') }}"
+            alt="ЧТО ПРЕДЛАГАЕТ VIN.BY"
+          >
           <div class="img-bg"></div>
         </div>
       </div>
     </div>
   </div>
 </section>
+@if( $info->isNotEmpty() )
+<section class="additional-information" id="seo-info">
+  <div class="container">
+    <div class="row">
+      @foreach ($info as $title => $description)
+        <div class="col-md-12">
+          <div class="info">
+            <div class="info-title">
+              <span class="info-title__head">{{ $title }}</span>
+            </div>
+            <div class="info-description">
+              <p class="info-description__desc">{{ $description }}</p>
+            </div>
+          </div>
+        </div>
+      @endforeach
+      
+    </div>
+  </div>
+</section>
+@endif
 
 <section class="featured-listing">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
         <div class="heading-section-2 text-center">
-          <h2>Featured Cars Listing</h2>
-          <span>Vivamus gravida magna massa in cursus mi vehicula at. Nunc sem quam suscipit</span>
+          <h2>Текущие аукцтоны</h2>
           <div class="dec"><i class="fa fa-car"></i></div>
           <div class="line-dec"></div>
         </div>
@@ -114,7 +139,16 @@
       <div id="featured-cars">
         @foreach($lots as $lot)
           <div class="featured-item col-md-15 col-sm-6">
-            <img class="lazyloading" src="{{ asset('img/th.jpg') }}" data-src="{{ asset($lot->image) }}" alt="{{ $lot->title }}">
+            <img 
+              class="lazyloading" 
+              src="{{ asset('img/th.jpg') }}" 
+              @if($lot->image == null)
+              data-src="{{ asset('img/no-image.png') }}"
+              @else 
+              data-src="{{ asset($lot->image) }}"
+              @endif
+              alt="{{ $lot->title }}"
+            >
             <div class="down-content">
               <a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
               <span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>

@@ -25,8 +25,10 @@ class HomeController extends Controller
         $data['actions_text'] = Setting::where('tab', 4)->where('name', 'action-sequence-title')->pluck('value')->first();
         $data['under_actions_text'] = Setting::where('tab', 4)->where('name', 'under-action-text')->pluck('value')->first();
 
-        /* Кастылюга... Ну а что делать...? потом переделаю */
-        $data['actions'] = Setting::where('tab', 4)->whereIn('name', ['fa-wrench', 'fa-tasks', 'fa-ellipsis-v', 'fa-user-cog'])->get();
+        /* Кастылюга...потом переделаю */
+        $data['actions'] = Setting::where('tab', 4)->where('name', 'like', 'fa-%')->get();
+        $data['info'] = Setting::where('tab', 4)->where('name', 'like', 'info-%')->pluck('value', 'descr');
+        //dd($data['info']);
        
 
         return view('home.index', $data);

@@ -14,6 +14,7 @@ use App\Attribute;
 use App\Bet;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\ImageManager;
+use Carbon\Carbon;
 
 class Lot extends Model
 {
@@ -67,17 +68,39 @@ class Lot extends Model
 
         //Добавляем картинки
         if (isset($fields['images']) && $fields['images'] != null){
+            // foreach ( $fields['images']['src'] as $key => $src ) {
+            //     $main_img_name = Lot::generate_image_name_base64($src, $fields['images']['name'][$key]);
+            //     $img = Image::make($src);
+            //     $img->save('uploads/'. $main_img_name);
+            //     LotImage::create([
+            //         'lot_id'        => $lot->id,
+            //         'image_src'     => 'uploads/'. $main_img_name,
+            //         'image_alt'     => $fields['images']['alt'][$key],
+            //         'image_title'   => $fields['images']['title'][$key],
+            //         'image_descr'   => $fields['images']['descr'][$key],
+            //     ]);
+            // }
             foreach ( $fields['images']['src'] as $key => $src ) {
-                $main_img_name = Lot::generate_image_name_base64($src, $fields['images']['name'][$key]);
-                $img = Image::make($src);
-                $img->save('uploads/'. $main_img_name);
-                LotImage::create([
-                    'lot_id'        => $lot->id,
-                    'image_src'     => 'uploads/'. $main_img_name,
-                    'image_alt'     => $fields['images']['alt'][$key],
-                    'image_title'   => $fields['images']['title'][$key],
-                    'image_descr'   => $fields['images']['descr'][$key],
-                ]);
+                if (strripos($src,'uploads/') !== false) {
+                    LotImage::create([
+                        'lot_id'        => $lot->id,
+                        'image_src'     => $src,
+                        'image_alt'     => $fields['images']['alt'][$key],
+                        'image_title'   => $fields['images']['title'][$key],
+                        'image_descr'   => $fields['images']['descr'][$key],
+                    ]);
+                }else {
+                    $main_img_name = Lot::generate_image_name_base64($src, $fields['images']['name'][$key]);
+                    $img = Image::make($src);
+                    $img->save('uploads/'. $main_img_name);
+                    LotImage::create([
+                        'lot_id'        => $lot->id,
+                        'image_src'     => 'uploads/'. $main_img_name,
+                        'image_alt'     => $fields['images']['alt'][$key],
+                        'image_title'   => $fields['images']['title'][$key],
+                        'image_descr'   => $fields['images']['descr'][$key],
+                    ]);
+                }
             }
         }
 
@@ -366,4 +389,18 @@ class Lot extends Model
             return Category::where('id', $id)->where('parent_category', '!=', 0)->pluck('id')->first();
             
     }
+
+    // // Устанавливаю mutator для изменения формата даты
+    // public function setDateAttribute($value)
+    // {
+    //     $date = Carbon::createFromFormat('d/m/y', $value)->format('Y-m-d');
+    //     $this->attributes['date'] = $date;
+    // }
+
+    // // Устанавливаю accessor для вывода даты из БД в нужном мне формате
+    // public function getDateAttribute($value)
+    // {
+    //     $date = Carbon::createFromFormat('Y-m-d', $value)->format('d/m/y');
+    //     return $date;
+    // }
 }

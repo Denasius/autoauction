@@ -47,8 +47,8 @@ class AuctionController extends Controller
         $data['milleage'] = $all_lots->sortBy('car_mileage');
         $data['attr_tree'] = Lot::getAttr(true);
 
-        $data['buy_one_click'] = $all_lots->where('buy_one_click', 'on')->take(3);
-        $data['category_image'] = Category::find($model->id)->only('image');        
+        $data['buy_one_click'] = $all_lots->where('buy_one_click', 'on')->take(1);
+        $data['category_image'] = Category::find($model->id)->only('image');
 
         return view('auctions.index', $data);
     }

@@ -55,21 +55,20 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Название</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="title" class="form-control" placeholder="Название">
+                                        <input type="text" name="title" class="form-control" placeholder="Название" value="{{ old('title') }}">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Описание</label>
                                         <div class="col-sm-10">
-                                            <textarea type="text" name="descr" id="ckeditor" class="form-control" placeholder="Описание"></textarea>
+                                        <textarea type="text" name="descr" id="ckeditor" class="form-control" placeholder="Описание">{{ old('descr') }}</textarea>
                                         </div>
                                     </div>
 
                                     <div class="form-group form-brand">
                                         <label class="col-sm-2 control-label">Марка</label>
                                         <div class="col-sm-10">
-                                                                                         
                                             <select id="car_brend" name="car_brend" class="form-control">
                                                 <option value="-1" selected>Выберите марку</option>
                                                 @foreach ($brands as $brand)
@@ -93,14 +92,14 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Год выпуска</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="date" class="form-control" placeholder="Год выпуска">
+                                        <input type="text" name="date" class="form-control" placeholder="Год выпуска" value="{{ old('date') }}">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">VIN</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="vin" class="form-control" placeholder="VIN">
+                                        <input type="text" name="vin" class="form-control" placeholder="VIN" value="{{ old('vin') }}">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -118,41 +117,41 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Адрес</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="address" class="form-control" placeholder="Адрес">
+                                        <input type="text" name="address" class="form-control" placeholder="Адрес" value="{{ old('address') }}">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Пробег</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="car_mileage" class="form-control" placeholder="Пробег">
+                                        <input type="text" name="car_mileage" class="form-control" placeholder="Пробег" value="{{ old('car_mileage') }}">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Вид топлива</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="fuel" class="form-control" placeholder="Вид топлива">
+                                        <input type="text" name="fuel" class="form-control" placeholder="Вид топлива" value="{{ old('fuel') }}">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Цена</label>
                                         <div class="col-sm-10">
-                                            <input type="number" name="price" class="form-control" placeholder="Цена">
+                                        <input type="number" name="price" class="form-control" placeholder="Цена" value="{{ old('price') }}">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Минимальная ставка</label>
                                         <div class="col-sm-10">
-                                            <input type="number" name="lot_bet" class="form-control" placeholder="Ставка">
+                                        <input type="number" name="lot_bet" class="form-control" placeholder="Ставка" value="{{ old('lot_bet', 0) }}">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Минимальный шаг в ставке</label>
                                         <div class="col-sm-10">
-                                            <input type="number" name="min_bet" class="form-control" placeholder="Минимальный шаг в ставке">
+                                        <input type="number" name="min_bet" class="form-control" placeholder="Минимальный шаг в ставке" value="{{ old('min_bet', 0) }}">
                                         </div>
                                     </div>
 
@@ -164,9 +163,6 @@
                                             <input type="checkbox" id="tax" name="tax" class="checkbox-switch-tax">
                                         </div>
                                     </div>
-
-
-
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" style="padding-top:0;">Купить в один клик</label>
                                         <div class="col-sm-10">
@@ -177,7 +173,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Цена купить в один клик</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="buy_one_click_price" class="form-control" placeholder="Цена купить в один клик">
+                                        <input type="text" name="buy_one_click_price" class="form-control" placeholder="Цена купить в один клик" value="{{ old('buy_one_click_price') }}">
                                         </div>
                                     </div>
 
@@ -194,7 +190,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Опции</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="car_options" class="form-control" placeholder="Опции">
+                                        <input type="text" name="car_options" class="form-control" placeholder="Опции" value="{{ old('car_options') }}">
                                         </div>
                                     </div>
 
@@ -207,48 +203,50 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Просмотры</label>
                                         <div class="col-sm-10">
-                                            <input type="number" name="views" class="form-control" placeholder="Просмотры" value="0">
+                                        <input type="number" name="views" class="form-control" placeholder="Просмотры" value="{{ old('views', 0) }}">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Шаг в ставке</label>
                                         <div class="col-sm-10">
-                                            <input type="number" name="lot_step" class="form-control" placeholder="Шаг в ставке" value="1">
+                                        <input type="number" name="lot_step" class="form-control" placeholder="Шаг в ставке" value="{{ old('lot_step', 1) }}">
                                         </div>
                                     </div>
 
                                     <div class="form-group form-group-europe">
                                         <label class="col-sm-2 control-label">Дополнительные сборы</label>
                                         <div class="col-sm-10">
-                                            <input type="number" name="fees_all" class="form-control" placeholder="Дополнительные сборы">
+                                        <input type="number" name="fees_all" class="form-control" placeholder="Дополнительные сборы" value="{{ old('fees_all') }}">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Дата открытия торгов</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="lot_start" class="form-control" placeholder="Дата открытия торгов">
+                                        <input type="text" name="lot_start" class="form-control" placeholder="Дата открытия торгов" value="{{ old('lot_start') }}">
+                                        <small style="font-size: 12px; opacity: 0.6; font-style:italic;">Сначала ГОД, потом МЕСЯЦ, потом ДЕНЬ</small>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Дата завершения торгов</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="lot_time" class="form-control" placeholder="Дата завершения торгов">
+                                        <input type="text" name="lot_time" class="form-control" placeholder="Дата завершения торгов" value="{{ old('lot_time') }}">
+                                        <small style="font-size: 12px; opacity: 0.6; font-style:italic;">Сначала ГОД, потом МЕСЯЦ, потом ДЕНЬ, затем ЧАСЫ, МИНУТЫ и СЕКУНДЫ (секунды можно не указывать)</small>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Meta title</label>
+                                        <label class="col-sm-2 control-label">Мета теги (title)</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="meta_title" class="form-control" placeholder="Meta title">
+                                        <input type="text" name="meta_title" class="form-control" placeholder="Meta title" value="{{ old('meta_title') }}">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Meta descr</label>
+                                        <label class="col-sm-2 control-label">Мета теги (description)</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="meta_description" class="form-control" placeholder="Meta descr">
+                                        <input type="text" name="meta_description" class="form-control" placeholder="Meta descr" value="{{ old('meta_description') }}">
                                         </div>
                                     </div>
 
@@ -269,14 +267,14 @@
                                     <div class="form-group form-group-europe">
                                         <label class="col-sm-2 control-label">Стоимость доставки</label>
                                         <div class="col-sm-10">
-                                            <input type="number" name="shipping" class="form-control" placeholder="Стоимость доставки">
+                                        <input type="number" name="shipping" class="form-control" placeholder="Стоимость доставки" value="{{ old('shipping') }}">
                                         </div>
                                     </div>
 
                                     <div class="form-group form-group-europe">
                                         <label class="col-sm-2 control-label">Дополнительные сборы для Европы</label>
                                         <div class="col-sm-10">
-                                            <input type="number" name="fees" class="form-control" placeholder="Дополнительные сборы для Европы">
+                                        <input type="number" name="fees" class="form-control" placeholder="Дополнительные сборы для Европы" value="{{ old('fees') }}">
                                         </div>
                                     </div>
 

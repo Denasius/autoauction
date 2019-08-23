@@ -259,16 +259,18 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Дата открытия торгов</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="lot_start" class="form-control" placeholder="Дата открытия торгов" value="{{ date('Y/m/d', strtotime($lot->lot_start)) }}">
+                                            <input type="text" name="lot_start" class="form-control" placeholder="Дата открытия торгов" @if($lot->lot_start != null) value="{{ date('Y-m-d', strtotime($lot->lot_start)) }}" @endif>
+                                            <small style="font-size: 12px; opacity: 0.6; font-style:italic;">Сначала ГОД, потом МЕСЯЦ, потом ДЕНЬ</small>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Дата завершения торгов</label>
                                         <div class="col-sm-10">
-                                            <input type="text" name="lot_time" class="form-control" placeholder="Дата завершения торгов" value="{{ date('Y/m/d H:i:s', strtotime($lot->lot_time)) }}">
+                                            <input type="text" name="lot_time" class="form-control" placeholder="Дата завершения торгов" @if($lot->lot_time != null) value="{{ date('Y-m-d H:i:s', strtotime($lot->lot_time)) }}" @endif>
+                                            <small style="font-size: 12px; opacity: 0.6; font-style:italic;">Сначала ГОД, потом МЕСЯЦ, потом ДЕНЬ, затем ЧАСЫ, МИНУТЫ и СЕКУНДЫ (секунды можно не указывать)</small>
                                         </div>
-                                    </div>                                    
+                                    </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Meta title</label>

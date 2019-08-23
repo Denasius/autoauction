@@ -32,8 +32,7 @@
 									<input type="text" class="blog-search-field" name="query" autocomplete="off" placeholder="Поиск по сайту" value="{{ request()->input('query') }}">
 								</form>
 								<p><a href="#" id="example-hide" class="hideLink" 
-								onclick="showHide('example');return false;"><i class="
-								fa fa-close"></i></a></p>
+								onclick="showHide('example');return false;"><i class="fas fa-times"></i></a></p>
 							</div>
 						</li>
 					</ul>

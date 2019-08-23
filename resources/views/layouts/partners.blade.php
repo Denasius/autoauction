@@ -1,4 +1,4 @@
-<section class="clients">
+<section class="clients" id="partners">
     <div class="container">
         <div class="row">
             <div class="col-md-12">

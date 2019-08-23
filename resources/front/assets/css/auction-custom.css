@@ -183,6 +183,7 @@ nav.main-navigation ul li ul.sub-menu{
 
 .advanced-button i{
 	margin-left: 10px;
+	background-color: transparent;
 }
 
 .featured-listing #featured-cars .featured-item img{
@@ -2097,6 +2098,34 @@ input[name="check"] {
 	display: inline-block;
 }
 
+#seo-info{
+	padding-top: 0;
+}
+
+.why-us{
+	padding-bottom: 0;
+}
+
+.info-title__head {
+	font-family: 'Montserrat', sans-serif;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #222222;
+	font-weight: 700;
+}
+
+.slider-thumb .thumb-item .top-content h2,#sidebar .video-post .video-holder .video-content h4{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.tp-caption a:hover h2{
+	text-decoration: none;
+}
+
 @media screen and ( max-width: 1199px ) {
 	.seller-page-template img{
 		max-height: 230px;
@@ -2414,5 +2443,11 @@ input[name="check"] {
 @media screen and ( max-width: 320px ) {
 	.vin-input, select.vin-form-width-small {
 		width: 290px;
+	}
+}
+
+@media screen and ( min-width: 1200px ) {
+	#cta-2 .alert-success{
+		max-width: 94%;
 	}
 }

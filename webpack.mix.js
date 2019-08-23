@@ -68,6 +68,7 @@ mix.scripts([
 	'resources/assets/admin/switcehr-js/switch.js',
 	'resources/assets/admin/switcehr-js/custom-switch.js',
 	'resources/assets/admin/js/scripts.js',
+	'resources/front/assets/jQuery-Mask-Plugin-master/jquery.mask.js',
 	'resources/assets/admin/js/custom.js',
 	'resources/assets/admin/js/custom-dropzone.js',
 ], 'public/js/admin.js');
@@ -84,6 +85,7 @@ mix.scripts([
 	'resources/front/assets/js/timer/jquery.downCount.js',
 	'resources/front/assets/fancybox/jquery.fancybox.js',
 	'resources/front/assets/calculating-tax/calc_price_tax.js',
+	'resources/front/assets/jQuery-Mask-Plugin-master/jquery.mask.js',
 	'resources/front/assets/js/autoauction.js',
 ], 'public/js/scripts.js');
 

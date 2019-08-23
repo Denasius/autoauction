@@ -76,12 +76,15 @@ $('#search_form .form-control').on('input',function () {
 
 });
 
-jQuery.datetimepicker.setLocale('ru');
+// jQuery.datetimepicker.setLocale('ru');
 
-$('[name="lot_start"]').datetimepicker({
-	format: 'Y/m/d H:i:s'
-});
+// $('[name="lot_start"]').datetimepicker({
+// 	format: 'Y-m-d H:i:s'
+// });
 
-$('[name="lot_time"]').datetimepicker({
-    format: 'y/m/d H:i:s'
-});
+// $('[name="lot_time"]').datetimepicker({
+//     format: 'y-m-d H:i:s'
+// });
+
+$('input[name="lot_start"]').mask('0000-00-00', {placeholder: '2000-12-30'});
+$('input[name="lot_time"]').mask('0000-00-00 00:00:00', {placeholder: '2000-12-30 00:00:00'});
