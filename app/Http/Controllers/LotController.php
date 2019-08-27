@@ -143,10 +143,11 @@ class LotController extends Controller
     {
         $bets = new Lot;
         $bet_cur = Lot::find($request->get('lot_id'))->only(['currency']);
+        $bet_price = Lot::find($request->get('lot_id'))->only(['price']);
         $bet = Bet::get_by_lot($request->get('lot_id'))->max('price');
         
         if ( $request->ajax() ) {
-            return $bets->getPrice($bet, $bet_cur['currency']);
+            return ['bet' => $bets->getPrice($bet, $bet_cur['currency']), 'fullPrice' => $bets->getCurrentPrice($bet, $bet_price['price'], $bet_cur['currency'])];
         }
     }
 

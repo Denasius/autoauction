@@ -39,7 +39,7 @@
 											<li>{{ $news->getFormatDate( $news->created_at ) }}</li>
 										</ul>
 										<div class="tittle">
-											<a href="{{ asset( $news->getAliaseForNews($news->id)->slug ) }}"><h2>{{ $news->title }}</h2></a>
+											<a href="{{ asset( $news->getAliaseForNews($news->id)->slug ) }}"><p class="news-title">{{ $news->title }}</p></a>
 										</div>
 									</div>
 									<p>{{ strip_tags($news->getFormatString($news->descr, 150)) }}</p>

@@ -73,7 +73,7 @@
                                 '<span>Марка: ' + data.Results[0].Make + '</span><br />' +
                                 '<span>Модель: '+ data.Results[0].Model + '</span><br />' +
                                 '<span>Тип кузова: '+ data.Results[0].Trim + '</span><br />' +
-                                '<span>Модельный год: '+ data.Results[0].ModelYear + '</span><br />' +
+                                '<span>Год выпуска: '+ data.Results[0].ModelYear + '</span><br />' +
                                 '<span>Производитель двигателя: '+ data.Results[0].EngineManufacturer + '</span><br />' +
                                 '<span>Тип топлива: '+ typeFuel + '</span><br />' +
                                 '<span>Модель двигателя: '+ data.Results[0].EngineModel + '</span><br />' +

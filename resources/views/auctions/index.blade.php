@@ -31,7 +31,7 @@
 			<div id="listing-cars" class="col-md-9">
 				<div class="pre-featured clearfix">
 					<div class="info-text">
-						<h4>Найдено <span id="lot_counted">{{ $lots->count() }}</span> лотов</h4>
+						<p class="search-result">Найдено <span id="lot_counted">{{ $lots->count() }}</span> лотов</p>
 					</div>
 					<div class="right-content">
 						<form class="form-filter" action="{{ route('filter') }}" method="POST">
@@ -88,7 +88,7 @@
 									>
 								</div>
 								<div class="down-content">
-									<a href="{{ $lot->slug }}"><h2 class="h2">{{ $lot->title }}</h2></a>
+									<a href="{{ $lot->slug }}"><p class="h2">{{ $lot->title }}</p></a>
 									<span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
 									<div class="light-line"></div>
 									<p>{{ strip_tags( $lot->getFormatString($lot->desr, 55) ) }}</p>
@@ -115,7 +115,7 @@
 				<div id="sidebar" class="col-md-3">
 					<div class="sidebar-content">
 						<div class="head-side-bar">
-							<h4>Расширенный поиск</h4>
+							<p class="searching-title">Расширенный поиск</p>
 						</div>
 						<div class="search-form">
 							<div class="select">

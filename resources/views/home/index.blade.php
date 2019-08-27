@@ -78,7 +78,7 @@
                 <div class="service-item">
                   <i class="fas {{ $action->name }}"></i>
                   <div class="tittle">
-                    <h2>{{ $action->descr }}</h2>
+                    <h1>{{ $action->descr }}</h1>
                   </div>
                   <p>{{ $action->value }}</p>
                 </div>
@@ -150,7 +150,7 @@
               alt="{{ $lot->title }}"
             >
             <div class="down-content">
-              <a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
+              <a href="{{ $lot->slug }}"><p class="h2">{{ $lot->title }}</p></a>
               <span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
               <div class="light-line"></div>
               <p>{{ strip_tags($lot->getFormatString($lot->desr, 60)) }}</p>
@@ -187,7 +187,7 @@
             <div class="featured-item col-sm-6 col-md-4 col-lg-3">
               <img src="{{ asset($lot->image) }}" alt="{{ $lot->title }}">
               <div class="down-content">
-                <a href="{{ $lot->slug }}"><h2>{{ $lot->title }}</h2></a>
+                <a href="{{ $lot->slug }}"><p class="h2">{{ $lot->title }}</p></a>
                 <span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
                 <div class="light-line"></div>
                 <p>{{ strip_tags($lot->getFormatString($lot->desr, 60)) }}</p>

@@ -46,15 +46,15 @@
 </div>
 <script type="text/javascript">
 	(function ($) {
-		var makeButtonDisable = function () {
-			$('form.form-result-searching .field-checkbox input[type="checkbox"], form.form-result-searching .field-checkbox label').on('click', function () {
-				if ( $('form.form-result-searching .field-checkbox input[type="checkbox"]').is(':checked') ) {
-					$('form.form-result-searching .fields button').prop('disabled', false);
-				}else{
-					$('form.form-result-searching .fields button').prop('disabled', true);
-				}
-			});
-		}
+		// var makeButtonDisable = function () {
+		// 	$('form.form-result-searching .field-checkbox input[type="checkbox"], form.form-result-searching .field-checkbox label').on('click', function () {
+		// 		if ( $('form.form-result-searching .field-checkbox input[type="checkbox"]').is(':checked') ) {
+		// 			$('form.form-result-searching .fields button').prop('disabled', false);
+		// 		}else{
+		// 			$('form.form-result-searching .fields button').prop('disabled', true);
+		// 		}
+		// 	});
+		// }
 
 		var chexkInput = function () {
 			if ( $('form.form-result-searching .field-checkbox input[type="checkbox"]').is(':checked') ) {
@@ -72,41 +72,45 @@
 					_url = $form.attr('action'),
 					_token = $form.find('input[name="_token"]').val();
 
-				return $.ajax({
-					headers: {
-						'X-CSRF-TOKEN':_token
-					},
-					type: method,
-					url: _url,
-					data: $form.serialize(),
-					beforeSend:function () {
-						$form.find('[type="submit"]').text('Отправка...');
-					},
-					success: function (data) {
-						if ( data.errors ) {
-							var nameError = data.errors.name != undefined ? '<li>'+data.errors.name+'</li>' : '';
-							var phoneError = data.errors.phone != undefined ? '<li>'+data.errors.phone+'</li>' : ''; 
-							
-							$form.closest('.form-not-founded').find('.answer').append('<div class="alert alert-danger"><ul class="list-errors">'+nameError+phoneError+'</ul></div>');
-							$form.find('[type="submit"]').text('Отправить');
-						}else{
-							var success = data.success != undefined ? '<li>'+data.success+'</li>' : '';
-							$form.closest('.form-not-founded').find('.alert-danger').remove();
-							$form.closest('.form-not-founded').find('.answer').append('<div class="alert alert-success"><ul class="list-success">'+success+'</ul></div>');
-							$form.find('[type="submit"]').text('Отправить');
-						}
-					},
-					error: function (request, errorStatus, errorThrown) {
-		                console.log(request);
-		                console.log(errorStatus);
-		                console.log(errorThrown);
-		            }
-				});
+				// Если чекбокс не выбран, то вывожу alert с текстом подвердить согласие на обработку персональных данных
+				if ( $('form.form-result-searching .field-checkbox input[type="checkbox"]').is(':checked') ) {
+					return $.ajax({
+						headers: {
+							'X-CSRF-TOKEN':_token
+						},
+						type: method,
+						url: _url,
+						data: $form.serialize(),
+						beforeSend:function () {
+							$form.find('[type="submit"]').text('Отправка...');
+						},
+						success: function (data) {
+							if ( data.errors ) {
+								var nameError = data.errors.name != undefined ? '<li>'+data.errors.name+'</li>' : '';
+								var phoneError = data.errors.phone != undefined ? '<li>'+data.errors.phone+'</li>' : ''; 
+								
+								$form.closest('.form-not-founded').find('.answer').append('<div class="alert alert-danger"><ul class="list-errors">'+nameError+phoneError+'</ul></div>');
+								$form.find('[type="submit"]').text('Отправить');
+							}else{
+								var success = data.success != undefined ? '<li>'+data.success+'</li>' : '';
+								$form.closest('.form-not-founded').find('.alert-danger').remove();
+								$form.closest('.form-not-founded').find('.answer').append('<div class="alert alert-success"><ul class="list-success">'+success+'</ul></div>');
+								$form.find('[type="submit"]').text('Отправить');
+							}
+						},
+						error: function (request, errorStatus, errorThrown) {
+											console.log(request);
+											console.log(errorStatus);
+											console.log(errorThrown);
+									}
+					});
+				}else{
+					alert('Подвердите Ваше согласие на обработку персональных данных!');
+				}
 			});
 		}
 
 		$(document).ready(function () {
-			makeButtonDisable();
 			chexkInput();
 			sendForm();
 		});

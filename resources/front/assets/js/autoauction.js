@@ -6,7 +6,7 @@ jQuery(document).ready(function ($) {
 	});
 
 	// Маска для телефонов
-	$('input[name="phone"]').mask('+375 (00) 000-00-00', {placeholder: '+375 (__) ___-__-__'});
+	$('input[name="phone"], input[name="user_phone"]').mask('+375 (00) 000-00-00', {placeholder: '+375 (__) ___-__-__'});
 
 	// Запрещаю переход по пустым ссылкам в меню навишации
 	$('.responsive-menu, .main-navigation').on('click','a:not(.showLink, .hideLink)', function (e) {		
@@ -251,7 +251,9 @@ jQuery(document).ready(function ($) {
 				this_form.show();
 				this_form.next('.reload-gif').removeClass('active');
 				this_form.closest('.lot-bet').find('.current-bet > .current-bet_price > strong').remove();
-				this_form.closest('.lot-bet').find('.current-bet > .current-bet_price').append('<strong>' + response + '</strong>').hide().fadeIn(500);
+				this_form.closest('.lot-bet').find('.current-bet > .current_lot_price > strong').remove();
+				this_form.closest('.lot-bet').find('.current-bet > .current-bet_price').append('<strong>' + response.bet + '</strong>').hide().fadeIn(500);
+				this_form.closest('.lot-bet').find('.current-bet > .current_lot_price').append('<strong>' + response.fullPrice + '</strong>').hide().fadeIn(500);
 			},
 			error: function (request, errorStatus, errorThrown) {
 				console.log(request);
@@ -296,6 +298,7 @@ jQuery(document).ready(function ($) {
 					var success = response.success != undefined ? '<li>'+response.success+'</li>' : '';
 					this_form.trigger('reset');
 					this_form.closest('.lot-bet').find('.current-bet_price strong').load(window.location.pathname + ' #current-bet_price strong');
+					this_form.closest('.lot-bet').find('.current_lot_price strong').load(window.location.pathname + ' #current_lot_price strong');
 					this_form.closest('.max-bet').find('.alert.alert-danger').remove();
 					this_form.closest('.max-bet').find('.alert.alert-success').remove();
 					this_form.closest('.max-bet').find('.answer').append('<ul class="alert alert-success">'+ success + '</ul>'); 

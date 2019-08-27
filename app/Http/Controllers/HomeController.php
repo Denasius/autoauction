@@ -40,7 +40,8 @@ class HomeController extends Controller
     		'query' => 'required'
     	]);
     	$query = $request->input('query');
-    	$lots = Lot::where('title', 'like', "%$query%")->get();
+        $lots = Lot::where('title', 'like', "%$query%")->select('image','created_at', 'updated_at', 'slug', 'title', 'desr')->get();
+        //dd($lots);
 
     	return view('layouts.search', ['lots' => $lots]);
     }

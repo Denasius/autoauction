@@ -33,7 +33,7 @@
 									<li>{{ $page->getFormatDate( $page->created_at ) }}</li>
 								</ul>
 								<div class="tittle">
-									<h2>{{ $page->title }}</h2>
+									<p class="news-title">{{ $page->title }}</p>
 								</div>
 							</div>
 							{!! $page->descr !!}

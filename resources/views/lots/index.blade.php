@@ -57,7 +57,7 @@
 				<div id="left-info" class="col-md-7">
 					<div class="details">
 						<div class="head-side-bar">
-							<h4>{{ $lot->title }}</h4>
+							<h1 class="main-lot-title">{{ $lot->title }}</h1>
 							@if (Auth::check())
 								@include('lots.layouts._wishlist_buttons')
 							@endif
@@ -70,10 +70,17 @@
 						<div class="lot-bet">
 							
 								<div class="current-bet">
+									
 									@if( $max_bet != null )
 									<span id="current-bet_price" class="current-bet_price">Текущая ставка <strong>{!! $lot->getPrice($max_bet, $lot->currency) !!}</strong></span>
+									<span id="current_lot_price" class="current_lot_price">
+										Итоговая цена <strong>{{ $lot->getCurrentPrice( $max_bet, $lot->price, $lot->currency ) }}</strong>
+									</span>
 									@else
 									<span id="current-bet_price" class="current-bet_price">Текущая ставка <strong>{!! $lot->getPrice($lot->lot_bet, $lot->currency) !!}</strong></span>
+									<span id="current_lot_price" class="current_lot_price">
+										Итоговая цена <strong>{{ $lot->getCurrentPrice( $lot->lot_bet, $lot->price, $lot->currency ) }}</strong>
+									</span>
 									@endif
 
 									<span class="min-bet">Минимальный шаг: <strong>{!! $lot->getPrice($lot->min_bet, $lot->currency) !!}</strong></span>
@@ -199,7 +206,7 @@
 						<div class="featured-item col-md-3">
 							<img src="{{ asset($active_lot->image) }}" alt="{{ $active_lot->title }}">
 							<div class="down-content">
-								<a href="{{ $active_lot->slug }}"><h2>{{ $active_lot->title }}</h2></a>
+								<a href="{{ $active_lot->slug }}"><p class="h2">{{ $active_lot->title }}</p></a>
 								<span>{!! $active_lot->getPrice($active_lot->price, $active_lot->currency) !!}</span>
 								<div class="light-line"></div>
 								<p>{{ strip_tags($lot->getFormatString($lot->desr, 60)) }}</p>

@@ -17,7 +17,8 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500,700' rel='stylesheet' type='text/css'>
     {!! Html::style('css/styles.css') !!}
 
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    {{-- <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script> --}}
+    <script src="{{ asset('js/jquery-1-12/jquery.js') }}" type="text/javascript"></script>
 
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -135,7 +136,7 @@
                                 </div>
                             @endif
                             <div class="left-content">
-                                <h2>Подписаться на новости</h2>
+                                <p class="subscribe-title">Подписаться на новости</p>
                                 <form method="POST" id="subscribe" class="blog-search" action="{{ route('subscribe') }}">
                                     @csrf
                                     <input type="text" class="blog-search-field" name="email" placeholder="E-mail Address" value="{{ old('email') }}">
@@ -168,8 +169,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="about-us">
-                                <img src="assets/images/logo-2.png" alt="">
-                                <p>VIN.by Аукцион авто из всего мира!</p>
+                                
+                                <p style="margin-top:0;">VIN.by Аукцион авто из всего мира!</p>
                                 <ul>
                                     @isset( $addresses )
                                         @foreach ($addresses as $item)
@@ -222,7 +223,7 @@
                         </div> --}}
                         <div class="col-md-3">
                             <div class="gallery">
-                                <h4>Свяжитесь с нами</h4>
+                                <p class="order-form-title">Свяжитесь с нами</p>
                                 <form action="{{ route('callback') }}" class="form-general form-general__handler" id="form-general" method="POST">
                                     @csrf
                                     <input type="hidden" name="_method" value="POST">

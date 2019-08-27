@@ -64,6 +64,7 @@ nav.main-navigation ul li ul.sub-menu{
 .img-search img{
 	object-fit: cover;
 	height: 100%;
+	width: 100%;
 }
 
 .form-general{
@@ -223,12 +224,73 @@ nav.main-navigation ul li ul.sub-menu{
 	background-color: #ffffff;
 }
 
+.pre-featured .search-result{
+	font-family: 'Montserrat', sans-serif;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: 700;
+	float: left;
+	margin-left: 20px;
+	margin-top: 25px;
+	color: #000;
+}
+#sidebar .sidebar-content .head-side-bar .searching-title{
+
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 20px;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 14px;
+	color: #ffffff;
+	text-transform: uppercase;
+	font-weight: 700;
+	border-left: 4px solid #f4c23d;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	padding-left: 10px;
+}
+
+#cta-2 .left-content .subscribe-title{
+	font-family: 'Montserrat', sans-serif;
+	font-size: 18px;
+	text-transform: uppercase;
+	font-weight: 700;
+	color: #ffffff;
+	float: left;
+	margin-right: 60px;
+	margin-top: 27px;
+}
+
+footer .order-form-title{
+	font-family: 'Montserrat', sans-serif;
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #ffffff;
+	font-weight: 700;
+	margin-bottom: 45px;
+	margin-top: 15px;
+}
+
 #featured-cars .featured-item .down-content .h2,
 .featured-listing #featured-cars .featured-item h2,
 .last-auctions .featured-item .down-content .h2{
+	font-family: 'Montserrat', sans-serif;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #222222;
+	font-weight: 700;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	margin-bottom: 5px !important;
+
+}
+
+.searching-result-page .img-search img{
+	width: 100%;
+	object-fit: cover;
 }
 
 .last-auctions .featured-item .down-content{
@@ -2126,6 +2188,50 @@ input[name="check"] {
 	text-decoration: none;
 }
 
+.ptitle{
+	font-family: Montserrat, sans-serif;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 13px;
+    line-height: 16px;
+    text-transform: uppercase;
+    display: block;
+		margin-bottom: 24px;
+		color: #000;
+}
+
+.main-lot-title{
+	font-size: 18px;
+	color: #000;
+	font-family: Roboto;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 24px;
+	line-height: 22px;
+	border-left: none;
+	margin-right: 16px;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+.news-title{
+	font-family: 'Montserrat', sans-serif;
+	margin-top: 6px;
+	margin-bottom: 5px;
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #222222;
+	font-weight: 700;
+}
+
+footer .featured-links ul{
+	vertical-align: text-top;
+}
+
+#current_lot_price{
+	display: block;
+}
+
 @media screen and ( max-width: 1199px ) {
 	.seller-page-template img{
 		max-height: 230px;
@@ -2158,6 +2264,11 @@ input[name="check"] {
 	.vin-input, select.vin-form-width-small{
 		margin-right: 0;
 		
+	}
+
+	.searching-result-title{
+		font-size: 20px !important;
+		margin-top: -100px !important;
 	}
 }
 
@@ -2290,7 +2401,6 @@ input[name="check"] {
 		max-width: 160px;
 	}
 }
-
 
 @media screen and ( max-width: 619px ) {
 	.grids{
@@ -2449,5 +2559,19 @@ input[name="check"] {
 @media screen and ( min-width: 1200px ) {
 	#cta-2 .alert-success{
 		max-width: 94%;
+	}
+}
+
+@media screen and ( min-width: 1199px ) {
+	.featured-listing #featured-cars .featured-item .down-content .car-info ul,
+	.listing-grid .featured-item .down-content .car-info ul{
+		justify-content: center;
+	}
+	
+	.featured-listing #featured-cars .featured-item .down-content .car-info ul li,
+	.listing-grid .featured-item .down-content .car-info ul li{
+		min-width: 50px;
+		padding-right: 5px !important;
+		text-align: left;
 	}
 }

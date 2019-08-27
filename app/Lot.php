@@ -283,6 +283,11 @@ class Lot extends Model
         return str_limit($string, $number, '...');
     }
 
+    public function getFormatStringWithoutHtml($string, $sympols = 40)
+    {
+        return strip_tags(str_limit( $string, $sympols, '...' ));
+    }
+
     public function getImage()
     {
         if ( $this->image == null )
@@ -347,6 +352,19 @@ class Lot extends Model
             return '&#8364; ' . number_format($price, 0, ' ', ' ');
         }
     }
+
+    
+
+    public function getCurrentPrice( $maxBet,  $startPrice, $currency)
+    {
+        if ( $currency == 'BYN' ) {
+            return number_format( ( (int)$maxBet + (int)$startPrice ), 0, ' ', ' ' ) . ' ' . $currency;
+        }
+
+        if ( $currency == 'EUR' ) {
+            return '&#8364; ' . number_format( ( (int)$maxBet + (int)$startPrice ), 0, ' ', ' ' );
+        }
+    } 
 
     public function allow()
     {
