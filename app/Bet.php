@@ -16,7 +16,7 @@ class Bet extends Model
             ->orderByDesc('bets.updated_at')
             ->join('users', 'bets.user_id', '=', 'users.id')
             ->join('lots', 'bets.lot_id', '=', 'lots.id')
-            ->select('bets.*', 'users.name as user_name', 'users.email as user_email', 'lots.title as lot_title')
+            ->select('bets.*', 'users.name as user_name', 'users.email as user_email', 'lots.title as lot_title', 'lots.price as lot_price', 'lots.currency as lot_currency')
             ->get();
     }
 

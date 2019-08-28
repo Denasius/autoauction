@@ -18,6 +18,7 @@
                             <tr>
                                 <th><i class="fas fa-id-card-alt"></i> ID</th>
                                 <th><i class="fas fa-hand-holding-usd"></i>  Ставка</th>
+                                <th><i class="fas fa-money-bill-alt"></i>  Общая стоимость</th>
                                 <th><i class="fas fa-car"></i> Лот</th>
                                 <th><i class="fas fa-users"></i> Пользователь</th>
                                 <th class="text-right"><i class="icon_cogs"></i> Действия</th>
@@ -26,6 +27,11 @@
                                 <tr>
                                     <td>{{$item->id}}</td>
                                     <td>{{$item->price}}</td>
+                                    @if($item->lot_currency == 'BYN')
+                                    <td>{{ number_format( ((int)$item->price + (int)$item->lot_price), 0, ' ', ' ' ) }} BYN</td>
+                                    @elseif($item->lot_currency == 'EUR')
+                                    <td>&#8364; {{ number_format( ((int)$item->price + (int)$item->lot_price), 0, ' ', ' ' ) }}</td>
+                                    @endif
                                     <td><a href="lots/{{$item->lot_id}}/edit">{{$item->lot_title}}</a></td>
                                     <td>{{$item->user_name}} ({{$item->user_email}})</td>
                                     <td class="text-right">

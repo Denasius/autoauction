@@ -22,6 +22,7 @@ class BetsController extends Controller
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
         $data['bets'] = Bet::get_all();
+        //dd($data['bets']);
 
         return view('admin.bets.index', $data);
     }
