@@ -29,6 +29,7 @@ class HomeController extends Controller
         $data['actions'] = Setting::where('tab', 4)->where('name', 'like', 'fa-%')->get();
         $data['info'] = Setting::where('tab', 4)->where('name', 'like', 'info-%')->pluck('value', 'descr');
         //dd($data['info']);
+        
        
 
         return view('home.index', $data);
@@ -61,7 +62,7 @@ class HomeController extends Controller
 
             $data['name'] = $request->get('name');
             $data['phone'] = $request->get('phone');
-            $to = 'kdo@webernetic.by';
+            $to = Setting::where('tab', 2)->where('name', 'email_general')->pluck('value')->first();
             \Mail::to($to)->send(new SendMail($data));
             
             return response()->json([

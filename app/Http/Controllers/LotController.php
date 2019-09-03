@@ -7,6 +7,7 @@ use App\Lot;
 use App\LotImage;
 use App\Attribute;
 use App\LotAttributes;
+use App\Setting;
 use App\AttributeCategory;
 use Illuminate\Support\Facades\DB;
 use \Cookie;
@@ -142,23 +143,31 @@ class LotController extends Controller
     public function reload_bet(Request $request)
     {
         $bets = new Lot;
+        
         $bet_cur = Lot::find($request->get('lot_id'))->only(['currency']);
         $bet_price = Lot::find($request->get('lot_id'))->only(['price']);
         $bet = Bet::get_by_lot($request->get('lot_id'))->max('price');
         
         if ( $request->ajax() ) {
-            return ['bet' => $bets->getPrice($bet, $bet_cur['currency']), 'fullPrice' => $bets->getCurrentPrice($bet, $bet_price['price'], $bet_cur['currency'])];
+            return ['bet' => $bets->getPrice($bet, $bet_cur['currency']), 'fullPrice' => $bets->getPrice($bet, $bet_cur['currency'])];
         }
     }
-
+    
     public function make_bet(Request $request)
     {
         $min_bet = Lot::find($request->get('lot_id'))->pluck('min_bet')->first();
+        // Максимальная ставка
         $min_value = Bet::get_by_lot($request->get('lot_id'))->max('price');
-        $bet_validation = $min_bet + $min_value;
+        // Начальная цена лота, с которой начинаюися ставки
+        $start_price = Lot::find($request->get('lot_id'))->only('price');
+        if( $min_value == null || $min_value <= $start_price ){
+            $bet_validation = $start_price['price'];
+        }else{
+            $bet_validation = $min_value;
+        }
         
         $validator = Validator::make($request->all(), [
-            'price' => "required|numeric|min:{$bet_validation}",
+            'price' => "required|numeric|gt:{$bet_validation}",
         ]);
 
         if ($validator->fails()) {
@@ -169,7 +178,7 @@ class LotController extends Controller
 
             $bet_user = new Bet;
             
-            $bet_user->add($request->all());           
+            $bet_user->add($request->all());
             
             return response()->json([
                 'success' => 'Ваша ставка прошла успешно!'
@@ -195,7 +204,7 @@ class LotController extends Controller
         $data['lot_name'] = $lot->title;
         $data['lot_id'] = $lot->id;
         $data['link_to_lot'] = $lot->slug;
-        $to = 'kdo@webernetic.by';
+        $to = Setting::where('tab', 2)->where('name', 'buy_one_click')->pluck('value')->first();
 
         \Mail::to($data['user'])->send(new LotOrderSuccess($data));
         \Mail::to($to)->send(new LotOrderSuccessAdmin($data));

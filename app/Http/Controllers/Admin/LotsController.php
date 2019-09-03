@@ -29,11 +29,13 @@ class LotsController extends Controller
      */
     public function index()
     {
+
         $data = [];
         $data['breadcrumb_header'] = AppServiceProvider::get_breadcrumb_header();
 
         $data['lots'] = Lot::where('status', 1)->get();
         $data['unactive_lots'] = Lot::where('status', 0)->get();
+       
         return view('admin.lots.index', $data);
     }
 
@@ -118,8 +120,6 @@ class LotsController extends Controller
         $data['lot'] = Lot::find($id);
         $data['categories'] = Category::pluck('title', 'id')->all();
         $data['tags'] = Tag::all();
-
-
 
         //Получаем список атрибутов
         $data['lot_attr'] = [];

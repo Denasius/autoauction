@@ -15,7 +15,7 @@
           <li class="first-slide" data-transition="fade" data-slotamount="10" data-masterspeed="300">
             <img src="{{asset($item->image)}}" data-fullwidthcentering="on" alt="slide">
             @if (!Auth::check())
-              <div class="tp-caption first-line lft tp-resizeme start" data-x="center" data-hoffset="0" data-y="160" data-speed="1000" data-start="200" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">Регистрация</div>
+              <div class="tp-caption first-line lft tp-resizeme start" data-x="center" data-hoffset="0" data-y="160" data-speed="1000" data-start="200" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0"><a href="{{route('registerView')}}" style="color: #fff;text-decoration:none;">Регистрация</a></div>
             @endif
             <div class="tp-caption second-line lfb tp-resizeme start" data-x="center" data-hoffset="0" data-y="210" data-speed="1000" data-start="800" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">{{$item->title}}</div>
             <div class="tp-caption third-line lfb tp-resizeme start" data-x="center" data-hoffset="0" data-y="280" data-speed="1000" data-start="800" data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0" data-endelementdelay="0">{!! $item->descr !!}</div>
@@ -78,7 +78,7 @@
                 <div class="service-item">
                   <i class="fas {{ $action->name }}"></i>
                   <div class="tittle">
-                    <h1>{{ $action->descr }}</h1>
+                    <p class="action-title">{{ $action->descr }}</p>
                   </div>
                   <p>{{ $action->value }}</p>
                 </div>
@@ -110,7 +110,7 @@
         <div class="col-md-12">
           <div class="info">
             <div class="info-title">
-              <span class="info-title__head">{{ $title }}</span>
+              <h2 class="info-title__head">{{ $title }}</h2>
             </div>
             <div class="info-description">
               <p class="info-description__desc">{{ $description }}</p>
@@ -129,7 +129,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="heading-section-2 text-center">
-          <h2>Текущие аукцтоны</h2>
+          <h2>Текущие аукционы</h2>
           <div class="dec"><i class="fa fa-car"></i></div>
           <div class="line-dec"></div>
         </div>
@@ -153,7 +153,7 @@
               <a href="{{ $lot->slug }}"><p class="h2">{{ $lot->title }}</p></a>
               <span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
               <div class="light-line"></div>
-              <p>{{ strip_tags($lot->getFormatString($lot->desr, 60)) }}</p>
+              <p>{{ $lot->getFormatString(strip_tags($lot->desr), 60) }}</p>
               <div class="car-info">
                 <ul>
                   <li><i class="icon-gaspump"></i>{{ $lot->fuel }}</li>
@@ -176,7 +176,6 @@
         <div class="col-md-12">
           <div class="heading-section-2 text-center">
             <h2>Прошедшие аукционы</h2>
-            <span>Vivamus gravida magna massa in cursus mi vehicula at. Nunc sem quam suscipit</span>
             <div class="dec"><i class="fa fa-file"></i></div>
             <div class="line-dec"></div>
           </div>
@@ -190,7 +189,7 @@
                 <a href="{{ $lot->slug }}"><p class="h2">{{ $lot->title }}</p></a>
                 <span>{{ number_format($lot->price, 0) }} {{ $lot->currency }}</span>
                 <div class="light-line"></div>
-                <p>{{ strip_tags($lot->getFormatString($lot->desr, 60)) }}</p>
+                <p>{{ $lot->getFormatString(strip_tags($lot->desr), 60) }}</p>
                 <div class="car-info">
                   <ul>
                     <li><i class="icon-gaspump"></i>{{ $lot->fuel }}</li>

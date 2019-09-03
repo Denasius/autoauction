@@ -80,6 +80,11 @@
     <section class="profiles profiles-info">
         <div class="container">
             <div class="col-sm-12">
+                @if(session('profile-success-update'))
+                <div class="alert alert-success">
+                    {{ session('profile-success-update') }}
+                </div>
+                @endif
                 <div class="contact-form">
                     <form id="contact_form" data-toggle="validator" role="form" action="{{ route('profile.edit') }}" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -162,6 +167,10 @@
                             @if( $user->confirm_register != null )
                                 <div class="advanced-button">
                                     <button type="submit">Следующий шаг<i class="fa fa-paper-plane"></i></button>
+                                </div>
+                            @else
+                            <div class="advanced-button">
+                                    <button type="submit">Обновить<i class="fa fa-paper-plane"></i></button>
                                 </div>
                             @endif
                             </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Lot;
 use App\CarModel;
+use App\Setting;
 use App\Category;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Validator;
@@ -69,7 +70,7 @@ class AuctionController extends Controller
 
                 $data['name'] = $request->get('email');
                 $data['phone'] = $request->get('phone');
-                $to = 'kdo@webernetic.by';
+                $to = Setting::where('tab', 2)->where('name', 'lot_not_found')->pluck('value')->first();
                 \Mail::to($to)->send(new SendMail($data));
                 
                 return response()->json([

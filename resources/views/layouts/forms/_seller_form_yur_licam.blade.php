@@ -1,4 +1,5 @@
 <div class="grids-row grids-row-form" data-action="seller-form" data-method="post">
+    <input type="hidden" name="type" value="yur_car">
    <div class="form-grid-center">
    <div class="block">
       <label for="name"><span>Имя</span>

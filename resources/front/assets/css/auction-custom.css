@@ -1,3 +1,7 @@
+button, input, a, button:focus, input:focus, a:focus{
+	outline: none !important;
+}
+
 .tp-leftarrow.preview4::after {
   font-family: "FontAwesome";
   content: '\f104';
@@ -199,8 +203,6 @@ nav.main-navigation ul li ul.sub-menu{
 	display: -ms-flex;
 	display: -o-flex;
 	display: flex;
-	white-space: nowrap;
-	text-overflow: ellipsis;
 }
 
 #featured-cars .featured-item .down-content .car-info ul li{
@@ -2224,12 +2226,26 @@ input[name="check"] {
 	font-weight: 700;
 }
 
+footer .about-us ul li.footer-address:hover{
+	color: #8997a5;
+	cursor: default;
+}
+
 footer .featured-links ul{
 	vertical-align: text-top;
 }
 
 #current_lot_price{
 	display: block;
+}
+.action-title{	
+	font-family: Montserrat,sans-serif;
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #222;
+	font-weight: 700;
 }
 
 @media screen and ( max-width: 1199px ) {
@@ -2565,13 +2581,27 @@ footer .featured-links ul{
 @media screen and ( min-width: 1199px ) {
 	.featured-listing #featured-cars .featured-item .down-content .car-info ul,
 	.listing-grid .featured-item .down-content .car-info ul{
-		justify-content: center;
+		justify-content: space-between;
+	}
+
+	.featured-listing #featured-cars .featured-item .down-content .car-info ul{
+		margin: 0;
 	}
 	
 	.featured-listing #featured-cars .featured-item .down-content .car-info ul li,
 	.listing-grid .featured-item .down-content .car-info ul li{
-		min-width: 50px;
+		min-width: 70px;
 		padding-right: 5px !important;
-		text-align: left;
+		text-align: center;
+		white-space: nowrap;
+    overflow: hidden;
+		text-overflow: ellipsis;
+		margin-left: 0;
+		margin-right: 0;
 	}
+}
+
+.page-contacts iframe{
+	width: 100%;
+	min-height: 400px;
 }

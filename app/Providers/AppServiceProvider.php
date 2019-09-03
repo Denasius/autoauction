@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-
-
 use App\Attribute;
 use App\Category;
 use App\Setting;

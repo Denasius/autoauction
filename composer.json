@@ -19,7 +19,8 @@
         "jenssegers/date": "^3.5",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
-        "laravelcollective/html": "^5.8"
+        "laravelcollective/html": "^5.8",
+        "spatie/laravel-sitemap": "^5.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

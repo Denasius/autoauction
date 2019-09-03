@@ -109,6 +109,7 @@ jQuery(document).ready(function ($) {
 			_data = {
 				token: _token,
 				name: _form.find('[name="name"]').val(),
+				type: _form.find('[name="yur_car"]').val(),
 				lastname: _form.find('[name="lastname"]').val(),
 				address: _form.find('[name="address"]').val(),
 				manufacturer: _form.find('[name="manufacturer"]').val(),
@@ -133,7 +134,7 @@ jQuery(document).ready(function ($) {
 	});
 
 
-	// Подгружаю страницы по клику на табы на странице лота
+	// Подгружаю страницы по  у на табы на странице лота
 	
 	$('.car-details .tabs .tab-links li a').on('click', function (e) {
 		e.preventDefault();

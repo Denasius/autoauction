@@ -10,6 +10,7 @@ use App\Mail\SendMailPurchaseAuto;
 use App\CarBrand;
 use App\Aliase;
 use App\Category;
+use App\Setting;
 
 class PageController extends Controller
 {
@@ -158,22 +159,32 @@ class PageController extends Controller
 			
 			switch ($request->get('type')) {
 				 case 'purchase_car':
-					 $to = 'denkostyuk1989@gmail.com';
+					 $to = Setting::where('tab', 2)->where('name', 'purchase_car')->pluck('value')->first();
 					\Mail::to($to)->send(new SendMailPurchaseAuto($data));
 					 break;
-
+				// Страница Физ лицам
+				case 'natural_persone':
+					 $to = Setting::where('tab', 2)->where('name', 'email_natural_person')->pluck('value')->first();
+					\Mail::to($to)->send(new SendMailPurchaseAuto($data));
+					 break;
+				// Страница Юр лицам
+				case 'yur_car':
+					 $to = Setting::where('tab', 2)->where('name', 'email_legal_persone')->pluck('value')->first();
+					\Mail::to($to)->send(new SendMailPurchaseAuto($data));
+					 break;
+				
 				case 'cost_estimate':
-					 $to = 'kdo@webernetic.by';
+					 $to = Setting::where('tab', 2)->where('name', 'emaiil_cost_estimate')->pluck('value')->first();
 					\Mail::to($to)->send(new SendMailPurchaseAuto($data));
 					 break;
 
 				case 'europe_shipping':
-					 $to = 'dostavka@vin.by';
+					 $to = Setting::where('tab', 2)->where('name', 'europe_shipping')->pluck('value')->first();
 					\Mail::to($to)->send(new SendMailPurchaseAuto($data));
 					 break;
 				 
 				 default:
-					$to = 'kdo@webernetic.by';
+					$to = Setting::where('tab', 2)->where('name', 'email_general')->pluck('value')->first();
 					\Mail::to($to)->send(new SendMail($data));
 					 break;
 			 } 

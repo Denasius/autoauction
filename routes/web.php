@@ -148,3 +148,4 @@ Route::post('/comment', 'CommentsController@store')->name('comment.add');
 
 // Роутинг для отслеживания страниц по URL
 Route::get('/{path}', 'AliasController@alias')->where('path', '.+')->name('aliases');
+

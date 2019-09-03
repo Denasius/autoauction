@@ -72,14 +72,14 @@
 								<div class="current-bet">
 									
 									@if( $max_bet != null )
-									<span id="current-bet_price" class="current-bet_price">Текущая ставка <strong>{!! $lot->getPrice($max_bet, $lot->currency) !!}</strong></span>
+									<span id="current-bet_price" class="current-bet_price" style="display:none; visibility: hidden">Текущая ставка <strong>{!! $lot->getPrice($max_bet, $lot->currency) !!}</strong></span>
 									<span id="current_lot_price" class="current_lot_price">
-										Итоговая цена <strong>{{ $lot->getCurrentPrice( $max_bet, $lot->price, $lot->currency ) }}</strong>
+										Текущая ставка <strong>{!! $lot->getPrice($max_bet, $lot->currency) !!}</strong>
 									</span>
 									@else
-									<span id="current-bet_price" class="current-bet_price">Текущая ставка <strong>{!! $lot->getPrice($lot->lot_bet, $lot->currency) !!}</strong></span>
+									<span id="current-bet_price" class="current-bet_price" style="display:none; visibility: hidden">Текущая ставка <strong>{!! $lot->getPrice($lot->lot_bet, $lot->currency) !!}</strong></span>
 									<span id="current_lot_price" class="current_lot_price">
-										Итоговая цена <strong>{{ $lot->getCurrentPrice( $lot->lot_bet, $lot->price, $lot->currency ) }}</strong>
+										Текущая ставка <strong>{!! $lot->getPrice($lot->price, $lot->currency) !!}</strong>
 									</span>
 									@endif
 
@@ -135,10 +135,10 @@
 							<form class="form-buy-one-click" action="{{ route('buy.one.click') }}" method="post">
 								@csrf
 								<input type="hidden" name="buy_one_click_price" value="{{ $lot->buy_one_click_price }}">
-								@if(Auth::check())
+								@if(Auth::check() && $lot->lot_time != null )
 									<input type="hidden" name="user" value="{{ Auth::user()->id }}">
 									<input type="hidden" name="lot_id" value="{{ $lot->id }}">
-									<button>Купить сейчас</button>
+									<button onclick="return confirm('Вы хотите приобрести авто по цене {!! $lot->getPrice($lot->buy_one_click_price, $lot->currency) !!}?');">Купить сейчас</button>
 								@endif
 							</form>
 							@endif

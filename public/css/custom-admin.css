@@ -1,1 +1,35 @@
-.upload{margin-top:20px}.uploadedImage{display:flex;align-items:center;justify-content:space-between;padding:10px;width:100%}.uploadedImage:nth-child(2n){background-color:rgba(0,0,0,.2)}.uploadedImage img{max-width:100px;margin-right:20px}.uploadedImage input{width:100%;margin-right:20px;border-radius:8px;border:1px solid rgba(0,0,0,.5);padding:10px 10px 10px 20px}.gallery__images{width:100%;border:1px solid #000;min-height:200px}
+.upload {
+  margin-top: 20px;
+}
+
+.uploadedImage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+}
+
+.uploadedImage:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.uploadedImage img {
+  max-width: 100px;
+  margin-right: 20px;
+}
+
+.uploadedImage input {
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 10px 10px 10px 20px;
+}
+
+.gallery__images {
+  width: 100%;
+  border: 1px solid #000;
+  min-height: 200px;
+}
+

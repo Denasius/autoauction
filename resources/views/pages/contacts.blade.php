@@ -10,7 +10,7 @@
 	@include('layouts._breadcrumbs_pages')
 
 	<div class="contact-form">
-		<div class="container">
+		<div class="container page-contacts">
 			<div class="row">
 				<div class="col-md-12">
 					{!! $page->descr !!}

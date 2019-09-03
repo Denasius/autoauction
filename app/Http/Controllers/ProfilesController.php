@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use App\User;
 use File;
 use Illuminate\Support\Str;
+use App\Setting;
 use App\UserImages;
 use Illuminate\Support\Facades\Validator;
 
@@ -45,10 +46,11 @@ class ProfilesController extends Controller
             'user_phone' => 'required',
             'user_dob' => 'required'
         ]);
-
         if ( $validator->fails() )
             return redirect()->back()->withInput()->withErrors($validator, 'confirmRigister');
 
+        $user->name = $request->get('name');
+        $user->town = $request->get('town');
         $user->entity = $request->get('entity');
         $user->user_surname = $request->get('user_surname');
         $user->user_company = $request->get('user_company');
@@ -63,8 +65,12 @@ class ProfilesController extends Controller
         $user->user_for = $request->get('user_for');
 
         $user->save();
-
-        return redirect()->route('profile.info');
+        if ( $user->confirm_register != null ) {    
+            return redirect()->route('profile.info');
+        }else{            
+            return redirect()->back()->with('profile-success-update', 'Ваши данные успешно обновлены');
+        }
+        
     }
 
     public function show_info()

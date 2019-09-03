@@ -48,7 +48,7 @@
                                         <a href="#tab_1" aria-controls="tab_1" role="tab" data-toggle="tab">Основное</a>
                                     </li>
                                     <li role="presentation">
-                                        <a href="#tab_2" aria-controls="tab_2" role="tab" data-toggle="tab">Хедер</a>
+                                        <a href="#tab_2" aria-controls="tab_2" role="tab" data-toggle="tab">Электронная почта</a>
                                     </li>
                                     <li role="presentation">
                                         <a href="#tab_3" aria-controls="tab_3" role="tab" data-toggle="tab">Футер</a>
@@ -227,10 +227,13 @@
 
                                 {{--Теги tab_2--}}
                                 <div role="tabpanel" class="tab-pane" id="tab_2">
+                                    <small 
+                                        style="color:red; font-style:italic; padding-bottom: 10px;"
+                                    >Внимание, во избежание некорректной работы писем, все поля должны быть заполнены!</small>
                                     <table class="table table-striped table-advance table-hover table-min-padding">
                                         <tbody>
                                         <tr>
-                                            <th>slug</th>
+                                            <th style="display: none; visibility:hidden;">slug</th>
                                             <th>Тип</th>
                                             <th>Название</th>
                                             <th width="40%">Значение</th>
@@ -239,7 +242,7 @@
                                         @foreach($tab_2 as $item)
                                             <tr>
                                                 {{Form::hidden('tab[]', 2)}}
-                                                <th>
+                                                <th style="display: none; visibility:hidden;">
                                                     {{Form::text('name[]', $item->name, ['class'=>'form-control', 'required'])}}
                                                 </th>
                                                 <th>
@@ -269,7 +272,7 @@
 
                                     <div class="form-group">
                                         <div class="btn-create text-center col-sm-12">
-                                            <button type="button" class="btn btn-add add_setting" title="Добавить" data-tab="2">Добавить</button>
+                                            <button type="button" class="btn btn-add add_setting" title="Добавить" data-tab="2" style="display:none">Добавить</button>
                                         </div>
                                     </div>
 

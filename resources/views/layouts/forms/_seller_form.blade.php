@@ -1,5 +1,6 @@
 <div class="col-md-12 block_with_form">
 	<form action="{{ route('seller-form') }}" method="POST" class="form-person">
+		<input type="hidden" name="type" value="natural_persone">
 		<div class="block">
 	      	<label for="name"><span>Имя</span>
 	      	<input type="text" name="name" id="name"></label>

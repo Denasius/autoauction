@@ -139,7 +139,7 @@
                                 <p class="subscribe-title">Подписаться на новости</p>
                                 <form method="POST" id="subscribe" class="blog-search" action="{{ route('subscribe') }}">
                                     @csrf
-                                    <input type="text" class="blog-search-field" name="email" placeholder="E-mail Address" value="{{ old('email') }}">
+                                    <input type="text" class="blog-search-field" name="email" placeholder="E-mail" value="{{ old('email') }}">
                                     <div class="simple-button">
                                         <button type="submit">Подписаться</button>
                                     </div>
@@ -175,7 +175,7 @@
                                     @isset( $addresses )
                                         @foreach ($addresses as $item)
                                             @if ($loop->first && ! empty( $item->value ))
-                                                <li><i class="fa fa-map-marker"></i>{{ $item->value }}</li>
+                                                <li class="footer-address"><i class="fa fa-map-marker"></i>{{ $item->value }}</li>
                                             @endif
                                         @endforeach
                                     @endisset

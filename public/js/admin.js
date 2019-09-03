@@ -1,1 +1,9602 @@
-if(!jQuery)throw new Error("Bootstrap requires jQuery");var DateFormatter;!function(t){"use strict";t.fn.emulateTransitionEnd=function(e){var n=!1,o=this;t(this).one(t.support.transition.end,function(){n=!0});return setTimeout(function(){n||t(o).trigger(t.support.transition.end)},e),this},t(function(){t.support.transition=function(){var t=document.createElement("bootstrap"),e={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};for(var n in e)if(void 0!==t.style[n])return{end:e[n]}}()})}(window.jQuery),function(t){"use strict";var e='[data-dismiss="alert"]',n=function(n){t(n).on("click",e,this.close)};n.prototype.close=function(e){function n(){r.trigger("closed.bs.alert").remove()}var o=t(this),i=o.attr("data-target");i||(i=(i=o.attr("href"))&&i.replace(/.*(?=#[^\s]*$)/,""));var r=t(i);e&&e.preventDefault(),r.length||(r=o.hasClass("alert")?o:o.parent()),r.trigger(e=t.Event("close.bs.alert")),e.isDefaultPrevented()||(r.removeClass("in"),t.support.transition&&r.hasClass("fade")?r.one(t.support.transition.end,n).emulateTransitionEnd(150):n())};var o=t.fn.alert;t.fn.alert=function(e){return this.each(function(){var o=t(this),i=o.data("bs.alert");i||o.data("bs.alert",i=new n(this)),"string"==typeof e&&i[e].call(o)})},t.fn.alert.Constructor=n,t.fn.alert.noConflict=function(){return t.fn.alert=o,this},t(document).on("click.bs.alert.data-api",e,n.prototype.close)}(window.jQuery),function(t){"use strict";var e=function(n,o){this.$element=t(n),this.options=t.extend({},e.DEFAULTS,o)};e.DEFAULTS={loadingText:"loading..."},e.prototype.setState=function(t){var e="disabled",n=this.$element,o=n.is("input")?"val":"html",i=n.data();t+="Text",i.resetText||n.data("resetText",n[o]()),n[o](i[t]||this.options[t]),setTimeout(function(){"loadingText"==t?n.addClass(e).attr(e,e):n.removeClass(e).removeAttr(e)},0)},e.prototype.toggle=function(){var t=this.$element.closest('[data-toggle="buttons"]');t.length&&("radio"===this.$element.find("input").prop("checked",!this.$element.hasClass("active")).trigger("change").prop("type")&&t.find(".active").removeClass("active"));this.$element.toggleClass("active")};var n=t.fn.button;t.fn.button=function(n){return this.each(function(){var o=t(this),i=o.data("bs.button"),r="object"==typeof n&&n;i||o.data("bs.button",i=new e(this,r)),"toggle"==n?i.toggle():n&&i.setState(n)})},t.fn.button.Constructor=e,t.fn.button.noConflict=function(){return t.fn.button=n,this},t(document).on("click.bs.button.data-api","[data-toggle^=button]",function(e){var n=t(e.target);n.hasClass("btn")||(n=n.closest(".btn")),n.button("toggle"),e.preventDefault()})}(window.jQuery),function(t){"use strict";var e=function(e,n){this.$element=t(e),this.$indicators=this.$element.find(".carousel-indicators"),this.options=n,this.paused=this.sliding=this.interval=this.$active=this.$items=null,"hover"==this.options.pause&&this.$element.on("mouseenter",t.proxy(this.pause,this)).on("mouseleave",t.proxy(this.cycle,this))};e.DEFAULTS={interval:5e3,pause:"hover",wrap:!0},e.prototype.cycle=function(e){return e||(this.paused=!1),this.interval&&clearInterval(this.interval),this.options.interval&&!this.paused&&(this.interval=setInterval(t.proxy(this.next,this),this.options.interval)),this},e.prototype.getActiveIndex=function(){return this.$active=this.$element.find(".item.active"),this.$items=this.$active.parent().children(),this.$items.index(this.$active)},e.prototype.to=function(e){var n=this,o=this.getActiveIndex();return e>this.$items.length-1||0>e?void 0:this.sliding?this.$element.one("slid",function(){n.to(e)}):o==e?this.pause().cycle():this.slide(e>o?"next":"prev",t(this.$items[e]))},e.prototype.pause=function(e){return e||(this.paused=!0),this.$element.find(".next, .prev").length&&t.support.transition.end&&(this.$element.trigger(t.support.transition.end),this.cycle(!0)),this.interval=clearInterval(this.interval),this},e.prototype.next=function(){return this.sliding?void 0:this.slide("next")},e.prototype.prev=function(){return this.sliding?void 0:this.slide("prev")},e.prototype.slide=function(e,n){var o=this.$element.find(".item.active"),i=n||o[e](),r=this.interval,a="next"==e?"left":"right",s="next"==e?"first":"last",c=this;if(!i.length){if(!this.options.wrap)return;i=this.$element.find(".item")[s]()}this.sliding=!0,r&&this.pause();var l=t.Event("slide.bs.carousel",{relatedTarget:i[0],direction:a});if(!i.hasClass("active")){if(this.$indicators.length&&(this.$indicators.find(".active").removeClass("active"),this.$element.one("slid",function(){var e=t(c.$indicators.children()[c.getActiveIndex()]);e&&e.addClass("active")})),t.support.transition&&this.$element.hasClass("slide")){if(this.$element.trigger(l),l.isDefaultPrevented())return;i.addClass(e),i[0].offsetWidth,o.addClass(a),i.addClass(a),o.one(t.support.transition.end,function(){i.removeClass([e,a].join(" ")).addClass("active"),o.removeClass(["active",a].join(" ")),c.sliding=!1,setTimeout(function(){c.$element.trigger("slid")},0)}).emulateTransitionEnd(600)}else{if(this.$element.trigger(l),l.isDefaultPrevented())return;o.removeClass("active"),i.addClass("active"),this.sliding=!1,this.$element.trigger("slid")}return r&&this.cycle(),this}};var n=t.fn.carousel;t.fn.carousel=function(n){return this.each(function(){var o=t(this),i=o.data("bs.carousel"),r=t.extend({},e.DEFAULTS,o.data(),"object"==typeof n&&n),a="string"==typeof n?n:r.slide;i||o.data("bs.carousel",i=new e(this,r)),"number"==typeof n?i.to(n):a?i[a]():r.interval&&i.pause().cycle()})},t.fn.carousel.Constructor=e,t.fn.carousel.noConflict=function(){return t.fn.carousel=n,this},t(document).on("click.bs.carousel.data-api","[data-slide], [data-slide-to]",function(e){var n,o=t(this),i=t(o.attr("data-target")||(n=o.attr("href"))&&n.replace(/.*(?=#[^\s]+$)/,"")),r=t.extend({},i.data(),o.data()),a=o.attr("data-slide-to");a&&(r.interval=!1),i.carousel(r),(a=o.attr("data-slide-to"))&&i.data("bs.carousel").to(a),e.preventDefault()}),t(window).on("load",function(){t('[data-ride="carousel"]').each(function(){var e=t(this);e.carousel(e.data())})})}(window.jQuery),function(t){"use strict";var e=function(n,o){this.$element=t(n),this.options=t.extend({},e.DEFAULTS,o),this.transitioning=null,this.options.parent&&(this.$parent=t(this.options.parent)),this.options.toggle&&this.toggle()};e.DEFAULTS={toggle:!0},e.prototype.dimension=function(){return this.$element.hasClass("width")?"width":"height"},e.prototype.show=function(){if(!this.transitioning&&!this.$element.hasClass("in")){var e=t.Event("show.bs.collapse");if(this.$element.trigger(e),!e.isDefaultPrevented()){var n=this.$parent&&this.$parent.find("> .panel > .in");if(n&&n.length){var o=n.data("bs.collapse");if(o&&o.transitioning)return;n.collapse("hide"),o||n.data("bs.collapse",null)}var i=this.dimension();this.$element.removeClass("collapse").addClass("collapsing")[i](0),this.transitioning=1;var r=function(){this.$element.removeClass("collapsing").addClass("in")[i]("auto"),this.transitioning=0,this.$element.trigger("shown.bs.collapse")};if(!t.support.transition)return r.call(this);var a=t.camelCase(["scroll",i].join("-"));this.$element.one(t.support.transition.end,t.proxy(r,this)).emulateTransitionEnd(350)[i](this.$element[0][a])}}},e.prototype.hide=function(){if(!this.transitioning&&this.$element.hasClass("in")){var e=t.Event("hide.bs.collapse");if(this.$element.trigger(e),!e.isDefaultPrevented()){var n=this.dimension();this.$element[n](this.$element[n]())[0].offsetHeight,this.$element.addClass("collapsing").removeClass("collapse").removeClass("in"),this.transitioning=1;var o=function(){this.transitioning=0,this.$element.trigger("hidden.bs.collapse").removeClass("collapsing").addClass("collapse")};return t.support.transition?void this.$element[n](0).one(t.support.transition.end,t.proxy(o,this)).emulateTransitionEnd(350):o.call(this)}}},e.prototype.toggle=function(){this[this.$element.hasClass("in")?"hide":"show"]()};var n=t.fn.collapse;t.fn.collapse=function(n){return this.each(function(){var o=t(this),i=o.data("bs.collapse"),r=t.extend({},e.DEFAULTS,o.data(),"object"==typeof n&&n);i||o.data("bs.collapse",i=new e(this,r)),"string"==typeof n&&i[n]()})},t.fn.collapse.Constructor=e,t.fn.collapse.noConflict=function(){return t.fn.collapse=n,this},t(document).on("click.bs.collapse.data-api","[data-toggle=collapse]",function(e){var n,o=t(this),i=o.attr("data-target")||e.preventDefault()||(n=o.attr("href"))&&n.replace(/.*(?=#[^\s]+$)/,""),r=t(i),a=r.data("bs.collapse"),s=a?"toggle":o.data(),c=o.attr("data-parent"),l=c&&t(c);a&&a.transitioning||(l&&l.find('[data-toggle=collapse][data-parent="'+c+'"]').not(o).addClass("collapsed"),o[r.hasClass("in")?"addClass":"removeClass"]("collapsed")),r.collapse(s)})}(window.jQuery),function(t){"use strict";function e(){t(o).remove(),t(i).each(function(e){var o=n(t(this));o.hasClass("open")&&(o.trigger(e=t.Event("hide.bs.dropdown")),e.isDefaultPrevented()||o.removeClass("open").trigger("hidden.bs.dropdown"))})}function n(e){var n=e.attr("data-target");n||(n=(n=e.attr("href"))&&/#/.test(n)&&n.replace(/.*(?=#[^\s]*$)/,""));var o=n&&t(n);return o&&o.length?o:e.parent()}var o=".dropdown-backdrop",i="[data-toggle=dropdown]",r=function(e){t(e).on("click.bs.dropdown",this.toggle)};r.prototype.toggle=function(o){var i=t(this);if(!i.is(".disabled, :disabled")){var r=n(i),a=r.hasClass("open");if(e(),!a){if("ontouchstart"in document.documentElement&&!r.closest(".navbar-nav").length&&t('<div class="dropdown-backdrop"/>').insertAfter(t(this)).on("click",e),r.trigger(o=t.Event("show.bs.dropdown")),o.isDefaultPrevented())return;r.toggleClass("open").trigger("shown.bs.dropdown"),i.focus()}return!1}},r.prototype.keydown=function(e){if(/(38|40|27)/.test(e.keyCode)){var o=t(this);if(e.preventDefault(),e.stopPropagation(),!o.is(".disabled, :disabled")){var r=n(o),a=r.hasClass("open");if(!a||a&&27==e.keyCode)return 27==e.which&&r.find(i).focus(),o.click();var s=t("[role=menu] li:not(.divider):visible a",r);if(s.length){var c=s.index(s.filter(":focus"));38==e.keyCode&&c>0&&c--,40==e.keyCode&&c<s.length-1&&c++,~c||(c=0),s.eq(c).focus()}}}};var a=t.fn.dropdown;t.fn.dropdown=function(e){return this.each(function(){var n=t(this),o=n.data("dropdown");o||n.data("dropdown",o=new r(this)),"string"==typeof e&&o[e].call(n)})},t.fn.dropdown.Constructor=r,t.fn.dropdown.noConflict=function(){return t.fn.dropdown=a,this},t(document).on("click.bs.dropdown.data-api",e).on("click.bs.dropdown.data-api",".dropdown form",function(t){t.stopPropagation()}).on("click.bs.dropdown.data-api",i,r.prototype.toggle).on("keydown.bs.dropdown.data-api",i+", [role=menu]",r.prototype.keydown)}(window.jQuery),function(t){"use strict";var e=function(e,n){this.options=n,this.$element=t(e),this.$backdrop=this.isShown=null,this.options.remote&&this.$element.load(this.options.remote)};e.DEFAULTS={backdrop:!0,keyboard:!0,show:!0},e.prototype.toggle=function(t){return this[this.isShown?"hide":"show"](t)},e.prototype.show=function(e){var n=this,o=t.Event("show.bs.modal",{relatedTarget:e});this.$element.trigger(o),this.isShown||o.isDefaultPrevented()||(this.isShown=!0,this.escape(),this.$element.on("click.dismiss.modal",'[data-dismiss="modal"]',t.proxy(this.hide,this)),this.backdrop(function(){var o=t.support.transition&&n.$element.hasClass("fade");n.$element.parent().length||n.$element.appendTo(document.body),n.$element.show(),o&&n.$element[0].offsetWidth,n.$element.addClass("in").attr("aria-hidden",!1),n.enforceFocus();var i=t.Event("shown.bs.modal",{relatedTarget:e});o?n.$element.find(".modal-dialog").one(t.support.transition.end,function(){n.$element.focus().trigger(i)}).emulateTransitionEnd(300):n.$element.focus().trigger(i)}))},e.prototype.hide=function(e){e&&e.preventDefault(),e=t.Event("hide.bs.modal"),this.$element.trigger(e),this.isShown&&!e.isDefaultPrevented()&&(this.isShown=!1,this.escape(),t(document).off("focusin.bs.modal"),this.$element.removeClass("in").attr("aria-hidden",!0).off("click.dismiss.modal"),t.support.transition&&this.$element.hasClass("fade")?this.$element.one(t.support.transition.end,t.proxy(this.hideModal,this)).emulateTransitionEnd(300):this.hideModal())},e.prototype.enforceFocus=function(){t(document).off("focusin.bs.modal").on("focusin.bs.modal",t.proxy(function(t){this.$element[0]===t.target||this.$element.has(t.target).length||this.$element.focus()},this))},e.prototype.escape=function(){this.isShown&&this.options.keyboard?this.$element.on("keyup.dismiss.bs.modal",t.proxy(function(t){27==t.which&&this.hide()},this)):this.isShown||this.$element.off("keyup.dismiss.bs.modal")},e.prototype.hideModal=function(){var t=this;this.$element.hide(),this.backdrop(function(){t.removeBackdrop(),t.$element.trigger("hidden.bs.modal")})},e.prototype.removeBackdrop=function(){this.$backdrop&&this.$backdrop.remove(),this.$backdrop=null},e.prototype.backdrop=function(e){var n=this.$element.hasClass("fade")?"fade":"";if(this.isShown&&this.options.backdrop){var o=t.support.transition&&n;if(this.$backdrop=t('<div class="modal-backdrop '+n+'" />').appendTo(document.body),this.$element.on("click.dismiss.modal",t.proxy(function(t){t.target===t.currentTarget&&("static"==this.options.backdrop?this.$element[0].focus.call(this.$element[0]):this.hide.call(this))},this)),o&&this.$backdrop[0].offsetWidth,this.$backdrop.addClass("in"),!e)return;o?this.$backdrop.one(t.support.transition.end,e).emulateTransitionEnd(150):e()}else!this.isShown&&this.$backdrop?(this.$backdrop.removeClass("in"),t.support.transition&&this.$element.hasClass("fade")?this.$backdrop.one(t.support.transition.end,e).emulateTransitionEnd(150):e()):e&&e()};var n=t.fn.modal;t.fn.modal=function(n,o){return this.each(function(){var i=t(this),r=i.data("bs.modal"),a=t.extend({},e.DEFAULTS,i.data(),"object"==typeof n&&n);r||i.data("bs.modal",r=new e(this,a)),"string"==typeof n?r[n](o):a.show&&r.show(o)})},t.fn.modal.Constructor=e,t.fn.modal.noConflict=function(){return t.fn.modal=n,this},t(document).on("click.bs.modal.data-api",'[data-toggle="modal"]',function(e){var n=t(this),o=n.attr("href"),i=t(n.attr("data-target")||o&&o.replace(/.*(?=#[^\s]+$)/,"")),r=i.data("modal")?"toggle":t.extend({remote:!/#/.test(o)&&o},i.data(),n.data());e.preventDefault(),i.modal(r,this).one("hide",function(){n.is(":visible")&&n.focus()})}),t(document).on("show.bs.modal",".modal",function(){t(document.body).addClass("modal-open")}).on("hidden.bs.modal",".modal",function(){t(document.body).removeClass("modal-open")})}(window.jQuery),function(t){"use strict";var e=function(t,e){this.type=this.options=this.enabled=this.timeout=this.hoverState=this.$element=null,this.init("tooltip",t,e)};e.DEFAULTS={animation:!0,placement:"top",selector:!1,template:'<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',trigger:"hover focus",title:"",delay:0,html:!1,container:!1},e.prototype.init=function(e,n,o){this.enabled=!0,this.type=e,this.$element=t(n),this.options=this.getOptions(o);for(var i=this.options.trigger.split(" "),r=i.length;r--;){var a=i[r];if("click"==a)this.$element.on("click."+this.type,this.options.selector,t.proxy(this.toggle,this));else if("manual"!=a){var s="hover"==a?"mouseenter":"focus",c="hover"==a?"mouseleave":"blur";this.$element.on(s+"."+this.type,this.options.selector,t.proxy(this.enter,this)),this.$element.on(c+"."+this.type,this.options.selector,t.proxy(this.leave,this))}}this.options.selector?this._options=t.extend({},this.options,{trigger:"manual",selector:""}):this.fixTitle()},e.prototype.getDefaults=function(){return e.DEFAULTS},e.prototype.getOptions=function(e){return(e=t.extend({},this.getDefaults(),this.$element.data(),e)).delay&&"number"==typeof e.delay&&(e.delay={show:e.delay,hide:e.delay}),e},e.prototype.getDelegateOptions=function(){var e={},n=this.getDefaults();return this._options&&t.each(this._options,function(t,o){n[t]!=o&&(e[t]=o)}),e},e.prototype.enter=function(e){var n=e instanceof this.constructor?e:t(e.currentTarget)[this.type](this.getDelegateOptions()).data("bs."+this.type);return clearTimeout(n.timeout),n.hoverState="in",n.options.delay&&n.options.delay.show?void(n.timeout=setTimeout(function(){"in"==n.hoverState&&n.show()},n.options.delay.show)):n.show()},e.prototype.leave=function(e){var n=e instanceof this.constructor?e:t(e.currentTarget)[this.type](this.getDelegateOptions()).data("bs."+this.type);return clearTimeout(n.timeout),n.hoverState="out",n.options.delay&&n.options.delay.hide?void(n.timeout=setTimeout(function(){"out"==n.hoverState&&n.hide()},n.options.delay.hide)):n.hide()},e.prototype.show=function(){var e=t.Event("show.bs."+this.type);if(this.hasContent()&&this.enabled){if(this.$element.trigger(e),e.isDefaultPrevented())return;var n=this.tip();this.setContent(),this.options.animation&&n.addClass("fade");var o="function"==typeof this.options.placement?this.options.placement.call(this,n[0],this.$element[0]):this.options.placement,i=/\s?auto?\s?/i,r=i.test(o);r&&(o=o.replace(i,"")||"top"),n.detach().css({top:0,left:0,display:"block"}).addClass(o),this.options.container?n.appendTo(this.options.container):n.insertAfter(this.$element);var a=this.getPosition(),s=n[0].offsetWidth,c=n[0].offsetHeight;if(r){var l=this.$element.parent(),d=o,u=document.documentElement.scrollTop||document.body.scrollTop,h="body"==this.options.container?window.innerWidth:l.outerWidth(),f="body"==this.options.container?window.innerHeight:l.outerHeight(),p="body"==this.options.container?0:l.offset().left;o="bottom"==o&&a.top+a.height+c-u>f?"top":"top"==o&&a.top-u-c<0?"bottom":"right"==o&&a.right+s>h?"left":"left"==o&&a.left-s<p?"right":o,n.removeClass(d).addClass(o)}var m=this.getCalculatedOffset(o,a,s,c);this.applyPlacement(m,o),this.$element.trigger("shown.bs."+this.type)}},e.prototype.applyPlacement=function(t,e){var n,o=this.tip(),i=o[0].offsetWidth,r=o[0].offsetHeight,a=parseInt(o.css("margin-top"),10),s=parseInt(o.css("margin-left"),10);isNaN(a)&&(a=0),isNaN(s)&&(s=0),t.top=t.top+a,t.left=t.left+s,o.offset(t).addClass("in");var c=o[0].offsetWidth,l=o[0].offsetHeight;if("top"==e&&l!=r&&(n=!0,t.top=t.top+r-l),/bottom|top/.test(e)){var d=0;t.left<0&&(d=-2*t.left,t.left=0,o.offset(t),c=o[0].offsetWidth,l=o[0].offsetHeight),this.replaceArrow(d-i+c,c,"left")}else this.replaceArrow(l-r,l,"top");n&&o.offset(t)},e.prototype.replaceArrow=function(t,e,n){this.arrow().css(n,t?50*(1-t/e)+"%":"")},e.prototype.setContent=function(){var t=this.tip(),e=this.getTitle();t.find(".tooltip-inner")[this.options.html?"html":"text"](e),t.removeClass("fade in top bottom left right")},e.prototype.hide=function(){function e(){"in"!=n.hoverState&&o.detach()}var n=this,o=this.tip(),i=t.Event("hide.bs."+this.type);return this.$element.trigger(i),i.isDefaultPrevented()?void 0:(o.removeClass("in"),t.support.transition&&this.$tip.hasClass("fade")?o.one(t.support.transition.end,e).emulateTransitionEnd(150):e(),this.$element.trigger("hidden.bs."+this.type),this)},e.prototype.fixTitle=function(){var t=this.$element;(t.attr("title")||"string"!=typeof t.attr("data-original-title"))&&t.attr("data-original-title",t.attr("title")||"").attr("title","")},e.prototype.hasContent=function(){return this.getTitle()},e.prototype.getPosition=function(){var e=this.$element[0];return t.extend({},"function"==typeof e.getBoundingClientRect?e.getBoundingClientRect():{width:e.offsetWidth,height:e.offsetHeight},this.$element.offset())},e.prototype.getCalculatedOffset=function(t,e,n,o){return"bottom"==t?{top:e.top+e.height,left:e.left+e.width/2-n/2}:"top"==t?{top:e.top-o,left:e.left+e.width/2-n/2}:"left"==t?{top:e.top+e.height/2-o/2,left:e.left-n}:{top:e.top+e.height/2-o/2,left:e.left+e.width}},e.prototype.getTitle=function(){var t=this.$element,e=this.options;return t.attr("data-original-title")||("function"==typeof e.title?e.title.call(t[0]):e.title)},e.prototype.tip=function(){return this.$tip=this.$tip||t(this.options.template)},e.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".tooltip-arrow")},e.prototype.validate=function(){this.$element[0].parentNode||(this.hide(),this.$element=null,this.options=null)},e.prototype.enable=function(){this.enabled=!0},e.prototype.disable=function(){this.enabled=!1},e.prototype.toggleEnabled=function(){this.enabled=!this.enabled},e.prototype.toggle=function(e){var n=e?t(e.currentTarget)[this.type](this.getDelegateOptions()).data("bs."+this.type):this;n.tip().hasClass("in")?n.leave(n):n.enter(n)},e.prototype.destroy=function(){this.hide().$element.off("."+this.type).removeData("bs."+this.type)};var n=t.fn.tooltip;t.fn.tooltip=function(n){return this.each(function(){var o=t(this),i=o.data("bs.tooltip"),r="object"==typeof n&&n;i||o.data("bs.tooltip",i=new e(this,r)),"string"==typeof n&&i[n]()})},t.fn.tooltip.Constructor=e,t.fn.tooltip.noConflict=function(){return t.fn.tooltip=n,this}}(window.jQuery),function(t){"use strict";var e=function(t,e){this.init("popover",t,e)};if(!t.fn.tooltip)throw new Error("Popover requires tooltip.js");e.DEFAULTS=t.extend({},t.fn.tooltip.Constructor.DEFAULTS,{placement:"right",trigger:"click",content:"",template:'<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'}),(e.prototype=t.extend({},t.fn.tooltip.Constructor.prototype)).constructor=e,e.prototype.getDefaults=function(){return e.DEFAULTS},e.prototype.setContent=function(){var t=this.tip(),e=this.getTitle(),n=this.getContent();t.find(".popover-title")[this.options.html?"html":"text"](e),t.find(".popover-content")[this.options.html?"html":"text"](n),t.removeClass("fade top bottom left right in"),t.find(".popover-title").html()||t.find(".popover-title").hide()},e.prototype.hasContent=function(){return this.getTitle()||this.getContent()},e.prototype.getContent=function(){var t=this.$element,e=this.options;return t.attr("data-content")||("function"==typeof e.content?e.content.call(t[0]):e.content)},e.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".arrow")},e.prototype.tip=function(){return this.$tip||(this.$tip=t(this.options.template)),this.$tip};var n=t.fn.popover;t.fn.popover=function(n){return this.each(function(){var o=t(this),i=o.data("bs.popover"),r="object"==typeof n&&n;i||o.data("bs.popover",i=new e(this,r)),"string"==typeof n&&i[n]()})},t.fn.popover.Constructor=e,t.fn.popover.noConflict=function(){return t.fn.popover=n,this}}(window.jQuery),function(t){"use strict";function e(n,o){var i,r=t.proxy(this.process,this);this.$element=t(n).is("body")?t(window):t(n),this.$body=t("body"),this.$scrollElement=this.$element.on("scroll.bs.scroll-spy.data-api",r),this.options=t.extend({},e.DEFAULTS,o),this.selector=(this.options.target||(i=t(n).attr("href"))&&i.replace(/.*(?=#[^\s]+$)/,"")||"")+" .nav li > a",this.offsets=t([]),this.targets=t([]),this.activeTarget=null,this.refresh(),this.process()}e.DEFAULTS={offset:10},e.prototype.refresh=function(){var e=this.$element[0]==window?"offset":"position";this.offsets=t([]),this.targets=t([]);var n=this;this.$body.find(this.selector).map(function(){var o=t(this),i=o.data("target")||o.attr("href"),r=/^#\w/.test(i)&&t(i);return r&&r.length&&[[r[e]().top+(!t.isWindow(n.$scrollElement.get(0))&&n.$scrollElement.scrollTop()),i]]||null}).sort(function(t,e){return t[0]-e[0]}).each(function(){n.offsets.push(this[0]),n.targets.push(this[1])})},e.prototype.process=function(){var t,e=this.$scrollElement.scrollTop()+this.options.offset,n=(this.$scrollElement[0].scrollHeight||this.$body[0].scrollHeight)-this.$scrollElement.height(),o=this.offsets,i=this.targets,r=this.activeTarget;if(e>=n)return r!=(t=i.last()[0])&&this.activate(t);for(t=o.length;t--;)r!=i[t]&&e>=o[t]&&(!o[t+1]||e<=o[t+1])&&this.activate(i[t])},e.prototype.activate=function(e){this.activeTarget=e,t(this.selector).parents(".active").removeClass("active");var n=this.selector+'[data-target="'+e+'"],'+this.selector+'[href="'+e+'"]',o=t(n).parents("li").addClass("active");o.parent(".dropdown-menu").length&&(o=o.closest("li.dropdown").addClass("active")),o.trigger("activate")};var n=t.fn.scrollspy;t.fn.scrollspy=function(n){return this.each(function(){var o=t(this),i=o.data("bs.scrollspy"),r="object"==typeof n&&n;i||o.data("bs.scrollspy",i=new e(this,r)),"string"==typeof n&&i[n]()})},t.fn.scrollspy.Constructor=e,t.fn.scrollspy.noConflict=function(){return t.fn.scrollspy=n,this},t(window).on("load",function(){t('[data-spy="scroll"]').each(function(){var e=t(this);e.scrollspy(e.data())})})}(window.jQuery),function(t){"use strict";var e=function(e){this.element=t(e)};e.prototype.show=function(){var e=this.element,n=e.closest("ul:not(.dropdown-menu)"),o=e.attr("data-target");if(o||(o=(o=e.attr("href"))&&o.replace(/.*(?=#[^\s]*$)/,"")),!e.parent("li").hasClass("active")){var i=n.find(".active:last a")[0],r=t.Event("show.bs.tab",{relatedTarget:i});if(e.trigger(r),!r.isDefaultPrevented()){var a=t(o);this.activate(e.parent("li"),n),this.activate(a,a.parent(),function(){e.trigger({type:"shown.bs.tab",relatedTarget:i})})}}},e.prototype.activate=function(e,n,o){function i(){r.removeClass("active").find("> .dropdown-menu > .active").removeClass("active"),e.addClass("active"),a?(e[0].offsetWidth,e.addClass("in")):e.removeClass("fade"),e.parent(".dropdown-menu")&&e.closest("li.dropdown").addClass("active"),o&&o()}var r=n.find("> .active"),a=o&&t.support.transition&&r.hasClass("fade");a?r.one(t.support.transition.end,i).emulateTransitionEnd(150):i(),r.removeClass("in")};var n=t.fn.tab;t.fn.tab=function(n){return this.each(function(){var o=t(this),i=o.data("bs.tab");i||o.data("bs.tab",i=new e(this)),"string"==typeof n&&i[n]()})},t.fn.tab.Constructor=e,t.fn.tab.noConflict=function(){return t.fn.tab=n,this},t(document).on("click.bs.tab.data-api",'[data-toggle="tab"], [data-toggle="pill"]',function(e){e.preventDefault(),t(this).tab("show")})}(window.jQuery),function(t){"use strict";var e=function(n,o){this.options=t.extend({},e.DEFAULTS,o),this.$window=t(window).on("scroll.bs.affix.data-api",t.proxy(this.checkPosition,this)).on("click.bs.affix.data-api",t.proxy(this.checkPositionWithEventLoop,this)),this.$element=t(n),this.affixed=this.unpin=null,this.checkPosition()};e.RESET="affix affix-top affix-bottom",e.DEFAULTS={offset:0},e.prototype.checkPositionWithEventLoop=function(){setTimeout(t.proxy(this.checkPosition,this),1)},e.prototype.checkPosition=function(){if(this.$element.is(":visible")){var n=t(document).height(),o=this.$window.scrollTop(),i=this.$element.offset(),r=this.options.offset,a=r.top,s=r.bottom;"object"!=typeof r&&(s=a=r),"function"==typeof a&&(a=r.top()),"function"==typeof s&&(s=r.bottom());var c=!(null!=this.unpin&&o+this.unpin<=i.top)&&(null!=s&&i.top+this.$element.height()>=n-s?"bottom":null!=a&&a>=o&&"top");this.affixed!==c&&(this.unpin&&this.$element.css("top",""),this.affixed=c,this.unpin="bottom"==c?i.top-o:null,this.$element.removeClass(e.RESET).addClass("affix"+(c?"-"+c:"")),"bottom"==c&&this.$element.offset({top:document.body.offsetHeight-s-this.$element.height()}))}};var n=t.fn.affix;t.fn.affix=function(n){return this.each(function(){var o=t(this),i=o.data("bs.affix"),r="object"==typeof n&&n;i||o.data("bs.affix",i=new e(this,r)),"string"==typeof n&&i[n]()})},t.fn.affix.Constructor=e,t.fn.affix.noConflict=function(){return t.fn.affix=n,this},t(window).on("load",function(){t('[data-spy="affix"]').each(function(){var e=t(this),n=e.data();n.offset=n.offset||{},n.offsetBottom&&(n.offset.bottom=n.offsetBottom),n.offsetTop&&(n.offset.top=n.offsetTop),e.affix(n)})})}(window.jQuery),function(t){var e=!1,n=!1,o=5e3,i=2e3,r=0,s=function(){var t;return 0<(t=(t=document.getElementsByTagName("script"))[t.length-1].src.split("?")[0]).split("/").length?t.split("/").slice(0,-1).join("/")+"/":""}(),c=["ms","moz","webkit","o"],l=window.requestAnimationFrame||!1,d=window.cancelAnimationFrame||!1;if(!l)for(var u in c){var h=c[u];l||(l=window[h+"RequestAnimationFrame"]),d||(d=window[h+"CancelAnimationFrame"]||window[h+"CancelRequestAnimationFrame"])}var f=window.MutationObserver||window.WebKitMutationObserver||!1,p={zindex:"auto",cursoropacitymin:0,cursoropacitymax:1,cursorcolor:"#424242",cursorwidth:"5px",cursorborder:"1px solid #fff",cursorborderradius:"5px",scrollspeed:60,mousescrollstep:24,touchbehavior:!1,hwacceleration:!0,usetransition:!0,boxzoom:!1,dblclickzoom:!0,gesturezoom:!0,grabcursorenabled:!0,autohidemode:!0,background:"",iframeautoresize:!0,cursorminheight:32,preservenativescrolling:!0,railoffset:!1,bouncescroll:!0,spacebarenabled:!0,railpadding:{top:0,right:0,left:0,bottom:0},disableoutline:!0,horizrailenabled:!0,railalign:"right",railvalign:"bottom",enabletranslate3d:!0,enablemousewheel:!0,enablekeyboard:!0,smoothscroll:!0,sensitiverail:!0,enablemouselockapi:!0,cursorfixedheight:!1,directionlockdeadzone:6,hidecursordelay:400,nativeparentscrolling:!0,enablescrollonselection:!0,overflowx:!0,overflowy:!0,cursordragspeed:.3,rtlmode:!1,cursordragontouch:!1,oneaxismousemode:"auto"},m=!1,g=function(a,c){function u(t,e,n){return e=t.css(e),t=parseFloat(e),isNaN(t)?(n=3==(t=k[e]||0)?n?y.win.outerHeight()-y.win.innerHeight():y.win.outerWidth()-y.win.innerWidth():1,y.isie8&&t&&(t+=1),n?t:0):t}function h(t,e,n,o){y._bind(t,e,function(o){var i={original:o=o||window.event,target:o.target||o.srcElement,type:"wheel",deltaMode:"MozMousePixelScroll"==o.type?0:1,deltaX:0,deltaZ:0,preventDefault:function(){return o.preventDefault?o.preventDefault():o.returnValue=!1,!1},stopImmediatePropagation:function(){o.stopImmediatePropagation?o.stopImmediatePropagation():o.cancelBubble=!0}};return"mousewheel"==e?(i.deltaY=-.025*o.wheelDelta,o.wheelDeltaX&&(i.deltaX=-.025*o.wheelDeltaX)):i.deltaY=o.detail,n.call(t,i)},o)}function g(t,e,n){var o,i;if(0==t.deltaMode?(o=-Math.floor(t.deltaX*(y.opt.mousescrollstep/54)),i=-Math.floor(t.deltaY*(y.opt.mousescrollstep/54))):1==t.deltaMode&&(o=-Math.floor(t.deltaX*y.opt.mousescrollstep),i=-Math.floor(t.deltaY*y.opt.mousescrollstep)),e&&y.opt.oneaxismousemode&&0==o&&i&&(o=i,i=0),o&&(y.scrollmom&&y.scrollmom.stop(),y.lastdeltax+=o,y.debounced("mousewheelx",function(){var t=y.lastdeltax;y.lastdeltax=0,y.rail.drag||y.doScrollLeftBy(t)},120)),i){if(y.opt.nativeparentscrolling&&n&&!y.ispage&&!y.zoomactive)if(0>i){if(y.getScrollTop()>=y.page.maxh)return!0}else if(0>=y.getScrollTop())return!0;y.scrollmom&&y.scrollmom.stop(),y.lastdeltay+=i,y.debounced("mousewheely",function(){var t=y.lastdeltay;y.lastdeltay=0,y.rail.drag||y.doScrollBy(t)},120)}return t.stopImmediatePropagation(),t.preventDefault()}var y=this;if(this.version="3.5.0",this.name="nicescroll",this.me=c,this.opt={doc:t("body"),win:!1},t.extend(this.opt,p),this.opt.snapbackspeed=80,a)for(var b in y.opt)void 0!==a[b]&&(y.opt[b]=a[b]);this.iddoc=(this.doc=y.opt.doc)&&this.doc[0]&&this.doc[0].id||"",this.ispage=/BODY|HTML/.test(y.opt.win?y.opt.win[0].nodeName:this.doc[0].nodeName),this.haswrapper=!1!==y.opt.win,this.win=y.opt.win||(this.ispage?t(window):this.doc),this.docscroll=this.ispage&&!this.haswrapper?t(window):this.win,this.body=t("body"),this.iframe=this.isfixed=this.viewport=!1,this.isiframe="IFRAME"==this.doc[0].nodeName&&"IFRAME"==this.win[0].nodeName,this.istextarea="TEXTAREA"==this.win[0].nodeName,this.forcescreen=!1,this.canshowonmouseevent="scroll"!=y.opt.autohidemode,this.page=this.view=this.onzoomout=this.onzoomin=this.onscrollcancel=this.onscrollend=this.onscrollstart=this.onclick=this.ongesturezoom=this.onkeypress=this.onmousewheel=this.onmousemove=this.onmouseup=this.onmousedown=!1,this.scroll={x:0,y:0},this.scrollratio={x:0,y:0},this.cursorheight=20,this.scrollvaluemax=0,this.observerremover=this.observer=this.scrollmom=this.scrollrunning=this.checkrtlmode=!1;do{this.id="ascrail"+i++}while(document.getElementById(this.id));this.hasmousefocus=this.hasfocus=this.zoomactive=this.zoom=this.selectiondrag=this.cursorfreezed=this.cursor=this.rail=!1,this.visibility=!0,this.hidden=this.locked=!1,this.cursoractive=!0,this.overflowx=y.opt.overflowx,this.overflowy=y.opt.overflowy,this.nativescrollingarea=!1,this.checkarea=0,this.events=[],this.saved={},this.delaylist={},this.synclist={},this.lastdeltay=this.lastdeltax=0,this.detected=function(){if(m)return m;var t=document.createElement("DIV"),e={haspointerlock:"pointerLockElement"in document||"mozPointerLockElement"in document||"webkitPointerLockElement"in document};e.isopera="opera"in window,e.isopera12=e.isopera&&"getUserMedia"in navigator,e.isoperamini="[object OperaMini]"===Object.prototype.toString.call(window.operamini),e.isie="all"in document&&"attachEvent"in t&&!e.isopera,e.isieold=e.isie&&!("msInterpolationMode"in t.style),e.isie7=e.isie&&!e.isieold&&(!("documentMode"in document)||7==document.documentMode),e.isie8=e.isie&&"documentMode"in document&&8==document.documentMode,e.isie9=e.isie&&"performance"in window&&9<=document.documentMode,e.isie10=e.isie&&"performance"in window&&10<=document.documentMode,e.isie9mobile=/iemobile.9/i.test(navigator.userAgent),e.isie9mobile&&(e.isie9=!1),e.isie7mobile=!e.isie9mobile&&e.isie7&&/iemobile/i.test(navigator.userAgent),e.ismozilla="MozAppearance"in t.style,e.iswebkit="WebkitAppearance"in t.style,e.ischrome="chrome"in window,e.ischrome22=e.ischrome&&e.haspointerlock,e.ischrome26=e.ischrome&&"transition"in t.style,e.cantouch="ontouchstart"in document.documentElement||"ontouchstart"in window,e.hasmstouch=window.navigator.msPointerEnabled||!1,e.ismac=/^mac$/i.test(navigator.platform),e.isios=e.cantouch&&/iphone|ipad|ipod/i.test(navigator.platform),e.isios4=e.isios&&!("seal"in Object),e.isandroid=/android/i.test(navigator.userAgent),e.trstyle=!1,e.hastransform=!1,e.hastranslate3d=!1,e.transitionstyle=!1,e.hastransition=!1,e.transitionend=!1;for(var n=["transform","msTransform","webkitTransform","MozTransform","OTransform"],o=0;o<n.length;o++)if(void 0!==t.style[n[o]]){e.trstyle=n[o];break}e.hastransform=0!=e.trstyle,e.hastransform&&(t.style[e.trstyle]="translate3d(1px,2px,3px)",e.hastranslate3d=/translate3d/.test(t.style[e.trstyle])),e.transitionstyle=!1,e.prefixstyle="",e.transitionend=!1;n="transition webkitTransition MozTransition OTransition OTransition msTransition KhtmlTransition".split(" ");var i=" -webkit- -moz- -o- -o -ms- -khtml-".split(" "),r="transitionend webkitTransitionEnd transitionend otransitionend oTransitionEnd msTransitionEnd KhtmlTransitionEnd".split(" ");for(o=0;o<n.length;o++)if(n[o]in t.style){e.transitionstyle=n[o],e.prefixstyle=i[o],e.transitionend=r[o];break}e.ischrome26&&(e.prefixstyle=i[1]),e.hastransition=e.transitionstyle;t:{for(n=["-moz-grab","-webkit-grab","grab"],(e.ischrome&&!e.ischrome22||e.isie)&&(n=[]),o=0;o<n.length;o++)if(i=n[o],t.style.cursor=i,t.style.cursor==i){n=i;break t}n="url(http://www.google.com/intl/en_ALL/mapfiles/openhand.cur),n-resize"}return e.cursorgrabvalue=n,e.hasmousecapture="setCapture"in t,e.hasMutationObserver=!1!==f,m=e}();var w=t.extend({},this.detected);if(this.ishwscroll=(this.canhwscroll=w.hastransform&&y.opt.hwacceleration)&&y.haswrapper,this.istouchcapable=!1,w.cantouch&&w.ischrome&&!w.isios&&!w.isandroid&&(this.istouchcapable=!0,w.cantouch=!1),w.cantouch&&w.ismozilla&&!w.isios&&!w.isandroid&&(this.istouchcapable=!0,w.cantouch=!1),y.opt.enablemouselockapi||(w.hasmousecapture=!1,w.haspointerlock=!1),this.delayed=function(t,e,n,o){var i=y.delaylist[t],r=(new Date).getTime();if(!o&&i&&i.tt)return!1;i&&i.tt&&clearTimeout(i.tt),i&&i.last+n>r&&!i.tt?y.delaylist[t]={last:r+n,tt:setTimeout(function(){y.delaylist[t].tt=0,e.call()},n)}:i&&i.tt||(y.delaylist[t]={last:r,tt:0},setTimeout(function(){e.call()},0))},this.debounced=function(t,e,n){var o=y.delaylist[t];(new Date).getTime(),y.delaylist[t]=e,o||setTimeout(function(){var e=y.delaylist[t];y.delaylist[t]=!1,e.call()},n)},this.synched=function(t,e){return y.synclist[t]=e,y.onsync||(l(function(){for(t in y.onsync=!1,y.synclist){var e=y.synclist[t];e&&e.call(y),y.synclist[t]=!1}}),y.onsync=!0),t},this.unsynched=function(t){y.synclist[t]&&(y.synclist[t]=!1)},this.css=function(t,e){for(var n in e)y.saved.css.push([t,n,t.css(n)]),t.css(n,e[n])},this.scrollTop=function(t){return void 0===t?y.getScrollTop():y.setScrollTop(t)},this.scrollLeft=function(t){return void 0===t?y.getScrollLeft():y.setScrollLeft(t)},BezierClass=function(t,e,n,o,i,r,a){this.st=t,this.ed=e,this.spd=n,this.p1=o||0,this.p2=i||1,this.p3=r||0,this.p4=a||1,this.ts=(new Date).getTime(),this.df=this.ed-this.st},BezierClass.prototype={B2:function(t){return 3*t*t*(1-t)},B3:function(t){return 3*t*(1-t)*(1-t)},B4:function(t){return(1-t)*(1-t)*(1-t)},getNow:function(){var t=1-((new Date).getTime()-this.ts)/this.spd,e=this.B2(t)+this.B3(t)+this.B4(t);return 0>t?this.ed:this.st+Math.round(this.df*e)},update:function(t,e){return this.st=this.getNow(),this.ed=t,this.spd=e,this.ts=(new Date).getTime(),this.df=this.ed-this.st,this}},this.ishwscroll){this.doc.translate={x:0,y:0,tx:"0px",ty:"0px"},w.hastranslate3d&&w.isios&&this.doc.css("-webkit-backface-visibility","hidden");var x=function(){var t=y.doc.css(w.trstyle);return!(!t||"matrix"!=t.substr(0,6))&&t.replace(/^.*\((.*)\)$/g,"$1").replace(/px/g,"").split(/, +/)};this.getScrollTop=function(t){if(!t){if(t=x())return 16==t.length?-t[13]:-t[5];if(y.timerscroll&&y.timerscroll.bz)return y.timerscroll.bz.getNow()}return y.doc.translate.y},this.getScrollLeft=function(t){if(!t){if(t=x())return 16==t.length?-t[12]:-t[4];if(y.timerscroll&&y.timerscroll.bh)return y.timerscroll.bh.getNow()}return y.doc.translate.x},this.notifyScrollEvent=document.createEvent?function(t){var e=document.createEvent("UIEvents");e.initUIEvent("scroll",!1,!0,window,1),t.dispatchEvent(e)}:document.fireEvent?function(t){var e=document.createEventObject();t.fireEvent("onscroll"),e.cancelBubble=!0}:function(t,e){},w.hastranslate3d&&y.opt.enabletranslate3d?(this.setScrollTop=function(t,e){y.doc.translate.y=t,y.doc.translate.ty=-1*t+"px",y.doc.css(w.trstyle,"translate3d("+y.doc.translate.tx+","+y.doc.translate.ty+",0px)"),e||y.notifyScrollEvent(y.win[0])},this.setScrollLeft=function(t,e){y.doc.translate.x=t,y.doc.translate.tx=-1*t+"px",y.doc.css(w.trstyle,"translate3d("+y.doc.translate.tx+","+y.doc.translate.ty+",0px)"),e||y.notifyScrollEvent(y.win[0])}):(this.setScrollTop=function(t,e){y.doc.translate.y=t,y.doc.translate.ty=-1*t+"px",y.doc.css(w.trstyle,"translate("+y.doc.translate.tx+","+y.doc.translate.ty+")"),e||y.notifyScrollEvent(y.win[0])},this.setScrollLeft=function(t,e){y.doc.translate.x=t,y.doc.translate.tx=-1*t+"px",y.doc.css(w.trstyle,"translate("+y.doc.translate.tx+","+y.doc.translate.ty+")"),e||y.notifyScrollEvent(y.win[0])})}else this.getScrollTop=function(){return y.docscroll.scrollTop()},this.setScrollTop=function(t){return y.docscroll.scrollTop(t)},this.getScrollLeft=function(){return y.docscroll.scrollLeft()},this.setScrollLeft=function(t){return y.docscroll.scrollLeft(t)};this.getTarget=function(t){return!!t&&(t.target?t.target:!!t.srcElement&&t.srcElement)},this.hasParent=function(t,e){if(!t)return!1;for(var n=t.target||t.srcElement||t||!1;n&&n.id!=e;)n=n.parentNode||!1;return!1!==n};var k={thin:1,medium:3,thick:5};this.getOffset=function(){if(y.isfixed)return{top:parseFloat(y.win.css("top")),left:parseFloat(y.win.css("left"))};if(!y.viewport)return y.win.offset();var t=y.win.offset(),e=y.viewport.offset();return{top:t.top-e.top+y.viewport.scrollTop(),left:t.left-e.left+y.viewport.scrollLeft()}},this.updateScrollBar=function(t){if(y.ishwscroll)y.rail.css({height:y.win.innerHeight()}),y.railh&&y.railh.css({width:y.win.innerWidth()});else{var e=y.getOffset(),n=e.top,o=e.left;n=n+u(y.win,"border-top-width",!0);y.win.outerWidth(),y.win.innerWidth();o=o+(y.rail.align?y.win.outerWidth()-u(y.win,"border-right-width")-y.rail.width:u(y.win,"border-left-width"));var i=y.opt.railoffset;i&&(i.top&&(n+=i.top),y.rail.align&&i.left&&(o+=i.left)),y.locked||y.rail.css({top:n,left:o,height:t?t.h:y.win.innerHeight()}),y.zoom&&y.zoom.css({top:n+1,left:1==y.rail.align?o-20:o+y.rail.width+4}),y.railh&&!y.locked&&(n=e.top,o=e.left,t=y.railh.align?n+u(y.win,"border-top-width",!0)+y.win.innerHeight()-y.railh.height:n+u(y.win,"border-top-width",!0),o+=u(y.win,"border-left-width"),y.railh.css({top:t,left:o,width:y.railh.width}))}},this.doRailClick=function(t,e,n){var o;y.locked||(y.cancelEvent(t),e?(e=n?y.doScrollLeft:y.doScrollTop)(o=n?(t.pageX-y.railh.offset().left-y.cursorwidth/2)*y.scrollratio.x:(t.pageY-y.rail.offset().top-y.cursorheight/2)*y.scrollratio.y):(e=n?y.doScrollLeftBy:y.doScrollBy,o=n?y.scroll.x:y.scroll.y,t=n?t.pageX-y.railh.offset().left:t.pageY-y.rail.offset().top,n=n?y.view.w:y.view.h,e(o>=t?n:-n)))},y.hasanimationframe=l,y.hascancelanimationframe=d,y.hasanimationframe?y.hascancelanimationframe||(d=function(){y.cancelAnimationFrame=!0}):(l=function(t){return setTimeout(t,15-Math.floor(+new Date/1e3)%16)},d=clearInterval),this.init=function(){if(y.saved.css=[],w.isie7mobile||w.isoperamini)return!0;if(w.hasmstouch&&y.css(y.ispage?t("html"):y.win,{"-ms-touch-action":"none"}),y.zindex="auto",y.zindex=y.ispage||"auto"!=y.opt.zindex?y.opt.zindex:function(){var t=y.win;if("zIndex"in t)return t.zIndex();for(;0<t.length&&9!=t[0].nodeType;){var e=t.css("zIndex");if(!isNaN(e)&&0!=e)return parseInt(e);t=t.parent()}return!1}()||"auto",!y.ispage&&"auto"!=y.zindex&&y.zindex>r&&(r=y.zindex),y.isie&&0==y.zindex&&"auto"==y.opt.zindex&&(y.zindex="auto"),!y.ispage||!w.cantouch&&!w.isieold&&!w.isie9mobile){var i=y.docscroll;y.ispage&&(i=y.haswrapper?y.win:y.doc),w.isie9mobile||y.css(i,{"overflow-y":"hidden"}),y.ispage&&w.isie7&&("BODY"==y.doc[0].nodeName?y.css(t("html"),{"overflow-y":"hidden"}):"HTML"==y.doc[0].nodeName&&y.css(t("body"),{"overflow-y":"hidden"})),w.isios&&!y.ispage&&!y.haswrapper&&y.css(t("body"),{"-webkit-overflow-scrolling":"touch"});var a=t(document.createElement("div"));a.css({position:"relative",top:0,float:"right",width:y.opt.cursorwidth,height:"0px","background-color":y.opt.cursorcolor,border:y.opt.cursorborder,"background-clip":"padding-box","-webkit-border-radius":y.opt.cursorborderradius,"-moz-border-radius":y.opt.cursorborderradius,"border-radius":y.opt.cursorborderradius}),a.hborder=parseFloat(a.outerHeight()-a.innerHeight()),y.cursor=a,(b=t(document.createElement("div"))).attr("id",y.id),b.addClass("nicescroll-rails");var c,l,d,u=["left","right"];for(d in u)l=u[d],(c=y.opt.railpadding[l])?b.css("padding-"+l,c+"px"):y.opt.railpadding[l]=0;if(b.append(a),b.width=Math.max(parseFloat(y.opt.cursorwidth),a.outerWidth())+y.opt.railpadding.left+y.opt.railpadding.right,b.css({width:b.width+"px",zIndex:y.zindex,background:y.opt.background,cursor:"default"}),b.visibility=!0,b.scrollable=!0,b.align="left"==y.opt.railalign?0:1,y.rail=b,a=y.rail.drag=!1,y.opt.boxzoom&&!y.ispage&&!w.isieold&&(a=document.createElement("div"),y.bind(a,"click",y.doZoom),y.zoom=t(a),y.zoom.css({cursor:"pointer","z-index":y.zindex,backgroundImage:"url("+s+"zoomico.png)",height:18,width:18,backgroundPosition:"0px 0px"}),y.opt.dblclickzoom&&y.bind(y.win,"dblclick",y.doZoom),w.cantouch&&y.opt.gesturezoom&&(y.ongesturezoom=function(t){return 1.5<t.scale&&y.doZoomIn(t),.8>t.scale&&y.doZoomOut(t),y.cancelEvent(t)},y.bind(y.win,"gestureend",y.ongesturezoom))),y.railh=!1,y.opt.horizrailenabled){y.css(i,{"overflow-x":"hidden"}),(a=t(document.createElement("div"))).css({position:"relative",top:0,height:y.opt.cursorwidth,width:"0px","background-color":y.opt.cursorcolor,border:y.opt.cursorborder,"background-clip":"padding-box","-webkit-border-radius":y.opt.cursorborderradius,"-moz-border-radius":y.opt.cursorborderradius,"border-radius":y.opt.cursorborderradius}),a.wborder=parseFloat(a.outerWidth()-a.innerWidth()),y.cursorh=a;var h=t(document.createElement("div"));h.attr("id",y.id+"-hr"),h.addClass("nicescroll-rails"),h.height=Math.max(parseFloat(y.opt.cursorwidth),a.outerHeight()),h.css({height:h.height+"px",zIndex:y.zindex,background:y.opt.background}),h.append(a),h.visibility=!0,h.scrollable=!0,h.align="top"==y.opt.railvalign?0:1,y.railh=h,y.railh.drag=!1}if(y.ispage?(b.css({position:"fixed",top:"0px",height:"100%"}),b.align?b.css({right:"0px"}):b.css({left:"0px"}),y.body.append(b),y.railh&&(h.css({position:"fixed",left:"0px",width:"100%"}),h.align?h.css({bottom:"0px"}):h.css({top:"0px"}),y.body.append(h))):(y.ishwscroll?("static"==y.win.css("position")&&y.css(y.win,{position:"relative"}),i="HTML"==y.win[0].nodeName?y.body:y.win,y.zoom&&(y.zoom.css({position:"absolute",top:1,right:0,"margin-right":b.width+4}),i.append(y.zoom)),b.css({position:"absolute",top:0}),b.align?b.css({right:0}):b.css({left:0}),i.append(b),h&&(h.css({position:"absolute",left:0,bottom:0}),h.align?h.css({bottom:0}):h.css({top:0}),i.append(h))):(y.isfixed="fixed"==y.win.css("position"),i=y.isfixed?"fixed":"absolute",y.isfixed||(y.viewport=y.getViewport(y.win[0])),y.viewport&&(y.body=y.viewport,0==/fixed|relative|absolute/.test(y.viewport.css("position"))&&y.css(y.viewport,{position:"relative"})),b.css({position:i}),y.zoom&&y.zoom.css({position:i}),y.updateScrollBar(),y.body.append(b),y.zoom&&y.body.append(y.zoom),y.railh&&(h.css({position:i}),y.body.append(h))),w.isios&&y.css(y.win,{"-webkit-tap-highlight-color":"rgba(0,0,0,0)","-webkit-touch-callout":"none"}),w.isie&&y.opt.disableoutline&&y.win.attr("hideFocus","true"),w.iswebkit&&y.opt.disableoutline&&y.win.css({outline:"none"})),!1===y.opt.autohidemode?(y.autohidedom=!1,y.rail.css({opacity:y.opt.cursoropacitymax}),y.railh&&y.railh.css({opacity:y.opt.cursoropacitymax})):!0===y.opt.autohidemode||"leave"===y.opt.autohidemode?(y.autohidedom=t().add(y.rail),w.isie8&&(y.autohidedom=y.autohidedom.add(y.cursor)),y.railh&&(y.autohidedom=y.autohidedom.add(y.railh)),y.railh&&w.isie8&&(y.autohidedom=y.autohidedom.add(y.cursorh))):"scroll"==y.opt.autohidemode?(y.autohidedom=t().add(y.rail),y.railh&&(y.autohidedom=y.autohidedom.add(y.railh))):"cursor"==y.opt.autohidemode?(y.autohidedom=t().add(y.cursor),y.railh&&(y.autohidedom=y.autohidedom.add(y.cursorh))):"hidden"==y.opt.autohidemode&&(y.autohidedom=!1,y.hide(),y.locked=!1),w.isie9mobile)y.scrollmom=new v(y),y.onmangotouch=function(t){t=y.getScrollTop();var e=y.getScrollLeft();if(t==y.scrollmom.lastscrolly&&e==y.scrollmom.lastscrollx)return!0;var n=t-y.mangotouch.sy,o=e-y.mangotouch.sx;if(0!=Math.round(Math.sqrt(Math.pow(o,2)+Math.pow(n,2)))){var i=0>n?-1:1,r=0>o?-1:1,a=+new Date;y.mangotouch.lazy&&clearTimeout(y.mangotouch.lazy),80<a-y.mangotouch.tm||y.mangotouch.dry!=i||y.mangotouch.drx!=r?(y.scrollmom.stop(),y.scrollmom.reset(e,t),y.mangotouch.sy=t,y.mangotouch.ly=t,y.mangotouch.sx=e,y.mangotouch.lx=e,y.mangotouch.dry=i,y.mangotouch.drx=r,y.mangotouch.tm=a):(y.scrollmom.stop(),y.scrollmom.update(y.mangotouch.sx-o,y.mangotouch.sy-n),y.mangotouch.tm=a,n=Math.max(Math.abs(y.mangotouch.ly-t),Math.abs(y.mangotouch.lx-e)),y.mangotouch.ly=t,y.mangotouch.lx=e,2<n&&(y.mangotouch.lazy=setTimeout(function(){y.mangotouch.lazy=!1,y.mangotouch.dry=0,y.mangotouch.drx=0,y.mangotouch.tm=0,y.scrollmom.doMomentum(30)},100)))}},b=y.getScrollTop(),h=y.getScrollLeft(),y.mangotouch={sy:b,ly:b,dry:0,sx:h,lx:h,drx:0,lazy:!1,tm:0},y.bind(y.docscroll,"scroll",y.onmangotouch);else{if(w.cantouch||y.istouchcapable||y.opt.touchbehavior||w.hasmstouch){y.scrollmom=new v(y),y.ontouchstart=function(e){if(e.pointerType&&2!=e.pointerType)return!1;if(!y.locked){if(w.hasmstouch)for(var n=!!e.target&&e.target;n;){if(0<(o=t(n).getNiceScroll()).length&&o[0].me==y.me)break;if(0<o.length)return!1;if("DIV"==n.nodeName&&n.id==y.id)break;n=!!n.parentNode&&n.parentNode}if(y.cancelScroll(),(n=y.getTarget(e))&&/INPUT/i.test(n.nodeName)&&/range/i.test(n.type))return y.stopPropagation(e);if(!("clientX"in e)&&"changedTouches"in e&&(e.clientX=e.changedTouches[0].clientX,e.clientY=e.changedTouches[0].clientY),y.forcescreen&&(o=e,(e={original:e.original?e.original:e}).clientX=o.screenX,e.clientY=o.screenY),y.rail.drag={x:e.clientX,y:e.clientY,sx:y.scroll.x,sy:y.scroll.y,st:y.getScrollTop(),sl:y.getScrollLeft(),pt:2,dl:!1},y.ispage||!y.opt.directionlockdeadzone)y.rail.drag.dl="f";else{var o=t(window).width(),i=t(window).height(),r=Math.max(document.body.scrollWidth,document.documentElement.scrollWidth),a=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);i=Math.max(0,a-i),o=Math.max(0,r-o);y.rail.drag.ck=!y.rail.scrollable&&y.railh.scrollable?0<i&&"v":!(!y.rail.scrollable||y.railh.scrollable)&&(0<o&&"h"),y.rail.drag.ck||(y.rail.drag.dl="f")}if(y.opt.touchbehavior&&y.isiframe&&w.isie&&(o=y.win.position(),y.rail.drag.x+=o.left,y.rail.drag.y+=o.top),y.hasmoving=!1,y.lastmouseup=!1,y.scrollmom.reset(e.clientX,e.clientY),!w.cantouch&&!this.istouchcapable&&!w.hasmstouch){if(!n||!/INPUT|SELECT|TEXTAREA/i.test(n.nodeName))return!y.ispage&&w.hasmousecapture&&n.setCapture(),y.opt.touchbehavior?y.cancelEvent(e):y.stopPropagation(e);/SUBMIT|CANCEL|BUTTON/i.test(t(n).attr("type"))&&(pc={tg:n,click:!1},y.preventclick=pc)}}},y.ontouchend=function(t){return(!t.pointerType||2==t.pointerType)&&(y.rail.drag&&2==y.rail.drag.pt&&(y.scrollmom.doMomentum(),y.rail.drag=!1,y.hasmoving&&(y.hasmoving=!1,y.lastmouseup=!0,y.hideCursor(),w.hasmousecapture&&document.releaseCapture(),!w.cantouch))?y.cancelEvent(t):void 0)};var p=y.opt.touchbehavior&&y.isiframe&&!w.hasmousecapture;y.ontouchmove=function(e,n){if(e.pointerType&&2!=e.pointerType)return!1;if(y.rail.drag&&2==y.rail.drag.pt){if(w.cantouch&&void 0===e.original)return!0;if(y.hasmoving=!0,y.preventclick&&!y.preventclick.click&&(y.preventclick.click=y.preventclick.tg.onclick||!1,y.preventclick.tg.onclick=y.onpreventclick),"changedTouches"in(e=t.extend({original:e},e))&&(e.clientX=e.changedTouches[0].clientX,e.clientY=e.changedTouches[0].clientY),y.forcescreen){var o=e;(e={original:e.original?e.original:e}).clientX=o.screenX,e.clientY=o.screenY}if(o=ofy=0,p&&!n){o=-(r=y.win.position()).left;ofy=-r.top}var i=e.clientY+ofy,r=i-y.rail.drag.y,a=e.clientX+o,s=a-y.rail.drag.x,c=y.rail.drag.st-r;if(y.ishwscroll&&y.opt.bouncescroll?0>c?c=Math.round(c/2):c>y.page.maxh&&(c=y.page.maxh+Math.round((c-y.page.maxh)/2)):(0>c&&(i=c=0),c>y.page.maxh&&(c=y.page.maxh,i=0)),y.railh&&y.railh.scrollable){var l=y.rail.drag.sl-s;y.ishwscroll&&y.opt.bouncescroll?0>l?l=Math.round(l/2):l>y.page.maxw&&(l=y.page.maxw+Math.round((l-y.page.maxw)/2)):(0>l&&(a=l=0),l>y.page.maxw&&(l=y.page.maxw,a=0))}if(o=!1,y.rail.drag.dl)o=!0,"v"==y.rail.drag.dl?l=y.rail.drag.sl:"h"==y.rail.drag.dl&&(c=y.rail.drag.st);else{r=Math.abs(r),s=Math.abs(s);var d=y.opt.directionlockdeadzone;if("v"==y.rail.drag.ck){if(r>d&&s<=.3*r)return y.rail.drag=!1,!0;s>d&&(y.rail.drag.dl="f",t("body").scrollTop(t("body").scrollTop()))}else if("h"==y.rail.drag.ck){if(s>d&&r<=.3*s)return y.rail.drag=!1,!0;r>d&&(y.rail.drag.dl="f",t("body").scrollLeft(t("body").scrollLeft()))}}if(y.synched("touchmove",function(){y.rail.drag&&2==y.rail.drag.pt&&(y.prepareTransition&&y.prepareTransition(0),y.rail.scrollable&&y.setScrollTop(c),y.scrollmom.update(a,i),y.railh&&y.railh.scrollable?(y.setScrollLeft(l),y.showCursor(c,l)):y.showCursor(c),w.isie10&&document.selection.clear())}),w.ischrome&&y.istouchcapable&&(o=!1),o)return y.cancelEvent(e)}}}if(y.onmousedown=function(t,e){if(!y.rail.drag||1==y.rail.drag.pt){if(y.locked)return y.cancelEvent(t);y.cancelScroll(),y.rail.drag={x:t.clientX,y:t.clientY,sx:y.scroll.x,sy:y.scroll.y,pt:1,hr:!!e};var n=y.getTarget(t);return!y.ispage&&w.hasmousecapture&&n.setCapture(),y.isiframe&&!w.hasmousecapture&&(y.saved.csspointerevents=y.doc.css("pointer-events"),y.css(y.doc,{"pointer-events":"none"})),y.cancelEvent(t)}},y.onmouseup=function(t){if(y.rail.drag&&(w.hasmousecapture&&document.releaseCapture(),y.isiframe&&!w.hasmousecapture&&y.doc.css("pointer-events",y.saved.csspointerevents),1==y.rail.drag.pt))return y.rail.drag=!1,y.cancelEvent(t)},y.onmousemove=function(t){if(y.rail.drag&&1==y.rail.drag.pt){if(w.ischrome&&0==t.which)return y.onmouseup(t);if(y.cursorfreezed=!0,y.rail.drag.hr){y.scroll.x=y.rail.drag.sx+(t.clientX-y.rail.drag.x),0>y.scroll.x&&(y.scroll.x=0);var e=y.scrollvaluemaxw;y.scroll.x>e&&(y.scroll.x=e)}else y.scroll.y=y.rail.drag.sy+(t.clientY-y.rail.drag.y),0>y.scroll.y&&(y.scroll.y=0),e=y.scrollvaluemax,y.scroll.y>e&&(y.scroll.y=e);return y.synched("mousemove",function(){y.rail.drag&&1==y.rail.drag.pt&&(y.showCursor(),y.rail.drag.hr?y.doScrollLeft(Math.round(y.scroll.x*y.scrollratio.x),y.opt.cursordragspeed):y.doScrollTop(Math.round(y.scroll.y*y.scrollratio.y),y.opt.cursordragspeed))}),y.cancelEvent(t)}},w.cantouch||y.opt.touchbehavior)y.onpreventclick=function(t){if(y.preventclick)return y.preventclick.tg.onclick=y.preventclick.click,y.preventclick=!1,y.cancelEvent(t)},y.bind(y.win,"mousedown",y.ontouchstart),y.onclick=!w.isios&&function(t){return!y.lastmouseup||(y.lastmouseup=!1,y.cancelEvent(t))},y.opt.grabcursorenabled&&w.cursorgrabvalue&&(y.css(y.ispage?y.doc:y.win,{cursor:w.cursorgrabvalue}),y.css(y.rail,{cursor:w.cursorgrabvalue}));else{var m=function(t){if(y.selectiondrag){if(t){var e=y.win.outerHeight();0<(t=t.pageY-y.selectiondrag.top)&&t<e&&(t=0),t>=e&&(t-=e),y.selectiondrag.df=t}0!=y.selectiondrag.df&&(y.doScrollBy(2*-Math.floor(y.selectiondrag.df/6)),y.debounced("doselectionscroll",function(){m()},50))}};y.hasTextSelected="getSelection"in document?function(){return 0<document.getSelection().rangeCount}:"selection"in document?function(){return"None"!=document.selection.type}:function(){return!1},y.onselectionstart=function(t){y.ispage||(y.selectiondrag=y.win.offset())},y.onselectionend=function(t){y.selectiondrag=!1},y.onselectiondrag=function(t){y.selectiondrag&&y.hasTextSelected()&&y.debounced("selectionscroll",function(){m(t)},250)}}w.hasmstouch&&(y.css(y.rail,{"-ms-touch-action":"none"}),y.css(y.cursor,{"-ms-touch-action":"none"}),y.bind(y.win,"MSPointerDown",y.ontouchstart),y.bind(document,"MSPointerUp",y.ontouchend),y.bind(document,"MSPointerMove",y.ontouchmove),y.bind(y.cursor,"MSGestureHold",function(t){t.preventDefault()}),y.bind(y.cursor,"contextmenu",function(t){t.preventDefault()})),this.istouchcapable&&(y.bind(y.win,"touchstart",y.ontouchstart),y.bind(document,"touchend",y.ontouchend),y.bind(document,"touchcancel",y.ontouchend),y.bind(document,"touchmove",y.ontouchmove)),y.bind(y.cursor,"mousedown",y.onmousedown),y.bind(y.cursor,"mouseup",y.onmouseup),y.railh&&(y.bind(y.cursorh,"mousedown",function(t){y.onmousedown(t,!0)}),y.bind(y.cursorh,"mouseup",function(t){if(!y.rail.drag||2!=y.rail.drag.pt)return y.rail.drag=!1,y.hasmoving=!1,y.hideCursor(),w.hasmousecapture&&document.releaseCapture(),y.cancelEvent(t)})),(y.opt.cursordragontouch||!w.cantouch&&!y.opt.touchbehavior)&&(y.rail.css({cursor:"default"}),y.railh&&y.railh.css({cursor:"default"}),y.jqbind(y.rail,"mouseenter",function(){y.canshowonmouseevent&&y.showCursor(),y.rail.active=!0}),y.jqbind(y.rail,"mouseleave",function(){y.rail.active=!1,y.rail.drag||y.hideCursor()}),y.opt.sensitiverail&&(y.bind(y.rail,"click",function(t){y.doRailClick(t,!1,!1)}),y.bind(y.rail,"dblclick",function(t){y.doRailClick(t,!0,!1)}),y.bind(y.cursor,"click",function(t){y.cancelEvent(t)}),y.bind(y.cursor,"dblclick",function(t){y.cancelEvent(t)})),y.railh&&(y.jqbind(y.railh,"mouseenter",function(){y.canshowonmouseevent&&y.showCursor(),y.rail.active=!0}),y.jqbind(y.railh,"mouseleave",function(){y.rail.active=!1,y.rail.drag||y.hideCursor()}),y.opt.sensitiverail&&(y.bind(y.railh,"click",function(t){y.doRailClick(t,!1,!0)}),y.bind(y.railh,"dblclick",function(t){y.doRailClick(t,!0,!0)}),y.bind(y.cursorh,"click",function(t){y.cancelEvent(t)}),y.bind(y.cursorh,"dblclick",function(t){y.cancelEvent(t)})))),w.cantouch||y.opt.touchbehavior?(y.bind(w.hasmousecapture?y.win:document,"mouseup",y.ontouchend),y.bind(document,"mousemove",y.ontouchmove),y.onclick&&y.bind(document,"click",y.onclick),y.opt.cursordragontouch&&(y.bind(y.cursor,"mousedown",y.onmousedown),y.bind(y.cursor,"mousemove",y.onmousemove),y.cursorh&&y.bind(y.cursorh,"mousedown",function(t){y.onmousedown(t,!0)}),y.cursorh&&y.bind(y.cursorh,"mousemove",y.onmousemove))):(y.bind(w.hasmousecapture?y.win:document,"mouseup",y.onmouseup),y.bind(document,"mousemove",y.onmousemove),y.onclick&&y.bind(document,"click",y.onclick),!y.ispage&&y.opt.enablescrollonselection&&(y.bind(y.win[0],"mousedown",y.onselectionstart),y.bind(document,"mouseup",y.onselectionend),y.bind(y.cursor,"mouseup",y.onselectionend),y.cursorh&&y.bind(y.cursorh,"mouseup",y.onselectionend),y.bind(document,"mousemove",y.onselectiondrag)),y.zoom&&(y.jqbind(y.zoom,"mouseenter",function(){y.canshowonmouseevent&&y.showCursor(),y.rail.active=!0}),y.jqbind(y.zoom,"mouseleave",function(){y.rail.active=!1,y.rail.drag||y.hideCursor()}))),y.opt.enablemousewheel&&(y.isiframe||y.bind(w.isie&&y.ispage?document:y.win,"mousewheel",y.onmousewheel),y.bind(y.rail,"mousewheel",y.onmousewheel),y.railh&&y.bind(y.railh,"mousewheel",y.onmousewheelhr)),!y.ispage&&!w.cantouch&&!/HTML|BODY/.test(y.win[0].nodeName)&&(y.win.attr("tabindex")||y.win.attr({tabindex:o++}),y.jqbind(y.win,"focus",function(t){e=y.getTarget(t).id||!0,y.hasfocus=!0,y.canshowonmouseevent&&y.noticeCursor()}),y.jqbind(y.win,"blur",function(t){e=!1,y.hasfocus=!1}),y.jqbind(y.win,"mouseenter",function(t){n=y.getTarget(t).id||!0,y.hasmousefocus=!0,y.canshowonmouseevent&&y.noticeCursor()}),y.jqbind(y.win,"mouseleave",function(){n=!1,y.hasmousefocus=!1,y.rail.drag||y.hideCursor()}))}if(y.onkeypress=function(t){if(y.locked&&0==y.page.maxh)return!0;t=t||window.e;var o=y.getTarget(t);if(o&&/INPUT|TEXTAREA|SELECT|OPTION/.test(o.nodeName)&&(!o.getAttribute("type")&&!o.type||!/submit|button|cancel/i.tp))return!0;if(y.hasfocus||y.hasmousefocus&&!e||y.ispage&&!e&&!n){if(o=t.keyCode,y.locked&&27!=o)return y.cancelEvent(t);var i=t.ctrlKey||!1,r=t.shiftKey||!1,a=!1;switch(o){case 38:case 63233:y.doScrollBy(72),a=!0;break;case 40:case 63235:y.doScrollBy(-72),a=!0;break;case 37:case 63232:y.railh&&(i?y.doScrollLeft(0):y.doScrollLeftBy(72),a=!0);break;case 39:case 63234:y.railh&&(i?y.doScrollLeft(y.page.maxw):y.doScrollLeftBy(-72),a=!0);break;case 33:case 63276:y.doScrollBy(y.view.h),a=!0;break;case 34:case 63277:y.doScrollBy(-y.view.h),a=!0;break;case 36:case 63273:y.railh&&i?y.doScrollPos(0,0):y.doScrollTo(0),a=!0;break;case 35:case 63275:y.railh&&i?y.doScrollPos(y.page.maxw,y.page.maxh):y.doScrollTo(y.page.maxh),a=!0;break;case 32:y.opt.spacebarenabled&&(r?y.doScrollBy(y.view.h):y.doScrollBy(-y.view.h),a=!0);break;case 27:y.zoomactive&&(y.doZoom(),a=!0)}if(a)return y.cancelEvent(t)}},y.opt.enablekeyboard&&y.bind(document,w.isopera&&!w.isopera12?"keypress":"keydown",y.onkeypress),y.bind(window,"resize",y.lazyResize),y.bind(window,"orientationchange",y.lazyResize),y.bind(window,"load",y.lazyResize),w.ischrome&&!y.ispage&&!y.haswrapper){var g=y.win.attr("style"),b=parseFloat(y.win.css("width"))+1;y.win.css("width",b),y.synched("chromefix",function(){y.win.attr("style",g)})}y.onAttributeChange=function(t){y.lazyResize(250)},!y.ispage&&!y.haswrapper&&(!1!==f?(y.observer=new f(function(t){t.forEach(y.onAttributeChange)}),y.observer.observe(y.win[0],{childList:!0,characterData:!1,attributes:!0,subtree:!1}),y.observerremover=new f(function(t){t.forEach(function(t){if(0<t.removedNodes.length)for(var e in t.removedNodes)if(t.removedNodes[e]==y.win[0])return y.remove()})}),y.observerremover.observe(y.win[0].parentNode,{childList:!0,characterData:!1,attributes:!1,subtree:!1})):(y.bind(y.win,w.isie&&!w.isie9?"propertychange":"DOMAttrModified",y.onAttributeChange),w.isie9&&y.win[0].attachEvent("onpropertychange",y.onAttributeChange),y.bind(y.win,"DOMNodeRemoved",function(t){t.target==y.win[0]&&y.remove()}))),!y.ispage&&y.opt.boxzoom&&y.bind(window,"resize",y.resizeZoom),y.istextarea&&y.bind(y.win,"mouseup",y.lazyResize),y.checkrtlmode=!0,y.lazyResize(30)}if("IFRAME"==this.doc[0].nodeName){var x=function(e){y.iframexd=!1;try{var n="contentDocument"in this?this.contentDocument:this.contentWindow.document}catch(t){y.iframexd=!0,n=!1}if(y.iframexd)return"console"in window&&console.log("NiceScroll error: policy restriced iframe"),!0;y.forcescreen=!0,y.isiframe&&(y.iframe={doc:t(n),html:y.doc.contents().find("html")[0],body:y.doc.contents().find("body")[0]},y.getContentSize=function(){return{w:Math.max(y.iframe.html.scrollWidth,y.iframe.body.scrollWidth),h:Math.max(y.iframe.html.scrollHeight,y.iframe.body.scrollHeight)}},y.docscroll=t(y.iframe.body)),!w.isios&&y.opt.iframeautoresize&&!y.isiframe&&(y.win.scrollTop(0),y.doc.height(""),e=Math.max(n.getElementsByTagName("html")[0].scrollHeight,n.body.scrollHeight),y.doc.height(e)),y.lazyResize(30),w.isie7&&y.css(t(y.iframe.html),{"overflow-y":"hidden"}),y.css(t(y.iframe.body),{"overflow-y":"hidden"}),w.isios&&y.haswrapper&&y.css(t(n.body),{"-webkit-transform":"translate3d(0,0,0)"}),"contentWindow"in this?y.bind(this.contentWindow,"scroll",y.onscroll):y.bind(n,"scroll",y.onscroll),y.opt.enablemousewheel&&y.bind(n,"mousewheel",y.onmousewheel),y.opt.enablekeyboard&&y.bind(n,w.isopera?"keypress":"keydown",y.onkeypress),(w.cantouch||y.opt.touchbehavior)&&(y.bind(n,"mousedown",y.ontouchstart),y.bind(n,"mousemove",function(t){y.ontouchmove(t,!0)}),y.opt.grabcursorenabled&&w.cursorgrabvalue&&y.css(t(n.body),{cursor:w.cursorgrabvalue})),y.bind(n,"mouseup",y.ontouchend),y.zoom&&(y.opt.dblclickzoom&&y.bind(n,"dblclick",y.doZoom),y.ongesturezoom&&y.bind(n,"gestureend",y.ongesturezoom))};this.doc[0].readyState&&"complete"==this.doc[0].readyState&&setTimeout(function(){x.call(y.doc[0],!1)},500),y.bind(this.doc,"load",x)}},this.showCursor=function(t,e){y.cursortimeout&&(clearTimeout(y.cursortimeout),y.cursortimeout=0),y.rail&&(y.autohidedom&&(y.autohidedom.stop().css({opacity:y.opt.cursoropacitymax}),y.cursoractive=!0),y.rail.drag&&1==y.rail.drag.pt||(void 0!==t&&!1!==t&&(y.scroll.y=Math.round(1*t/y.scrollratio.y)),void 0!==e&&(y.scroll.x=Math.round(1*e/y.scrollratio.x))),y.cursor.css({height:y.cursorheight,top:y.scroll.y}),y.cursorh&&(!y.rail.align&&y.rail.visibility?y.cursorh.css({width:y.cursorwidth,left:y.scroll.x+y.rail.width}):y.cursorh.css({width:y.cursorwidth,left:y.scroll.x}),y.cursoractive=!0),y.zoom&&y.zoom.stop().css({opacity:y.opt.cursoropacitymax}))},this.hideCursor=function(t){!y.cursortimeout&&y.rail&&y.autohidedom&&(!y.hasmousefocus||"leave"!=y.opt.autohidemode)&&(y.cursortimeout=setTimeout(function(){y.rail.active&&y.showonmouseevent||(y.autohidedom.stop().animate({opacity:y.opt.cursoropacitymin}),y.zoom&&y.zoom.stop().animate({opacity:y.opt.cursoropacitymin}),y.cursoractive=!1),y.cursortimeout=0},t||y.opt.hidecursordelay))},this.noticeCursor=function(t,e,n){y.showCursor(e,n),y.rail.active||y.hideCursor(t)},this.getContentSize=y.ispage?function(){return{w:Math.max(document.body.scrollWidth,document.documentElement.scrollWidth),h:Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)}}:y.haswrapper?function(){return{w:y.doc.outerWidth()+parseInt(y.win.css("paddingLeft"))+parseInt(y.win.css("paddingRight")),h:y.doc.outerHeight()+parseInt(y.win.css("paddingTop"))+parseInt(y.win.css("paddingBottom"))}}:function(){return{w:y.docscroll[0].scrollWidth,h:y.docscroll[0].scrollHeight}},this.onResize=function(t,e){if(!y.win)return!1;if(!y.haswrapper&&!y.ispage){if("none"==y.win.css("display"))return y.visibility&&y.hideRail().hideRailHr(),!1;!y.hidden&&!y.visibility&&y.showRail().showRailHr()}var n=y.page.maxh,o=y.page.maxw,i=y.view.w;if(y.view={w:y.ispage?y.win.width():parseInt(y.win[0].clientWidth),h:y.ispage?y.win.height():parseInt(y.win[0].clientHeight)},y.page=e||y.getContentSize(),y.page.maxh=Math.max(0,y.page.h-y.view.h),y.page.maxw=Math.max(0,y.page.w-y.view.w),y.page.maxh==n&&y.page.maxw==o&&y.view.w==i){if(y.ispage)return y;if(n=y.win.offset(),y.lastposition&&((o=y.lastposition).top==n.top&&o.left==n.left))return y;y.lastposition=n}return 0==y.page.maxh?(y.hideRail(),y.scrollvaluemax=0,y.scroll.y=0,y.scrollratio.y=0,y.cursorheight=0,y.setScrollTop(0),y.rail.scrollable=!1):y.rail.scrollable=!0,0==y.page.maxw?(y.hideRailHr(),y.scrollvaluemaxw=0,y.scroll.x=0,y.scrollratio.x=0,y.cursorwidth=0,y.setScrollLeft(0),y.railh.scrollable=!1):y.railh.scrollable=!0,y.locked=0==y.page.maxh&&0==y.page.maxw,y.locked?(y.ispage||y.updateScrollBar(y.view),!1):(y.hidden||y.visibility?!y.hidden&&!y.railh.visibility&&y.showRailHr():y.showRail().showRailHr(),y.istextarea&&y.win.css("resize")&&"none"!=y.win.css("resize")&&(y.view.h-=20),y.cursorheight=Math.min(y.view.h,Math.round(y.view.h*(y.view.h/y.page.h))),y.cursorheight=y.opt.cursorfixedheight?y.opt.cursorfixedheight:Math.max(y.opt.cursorminheight,y.cursorheight),y.cursorwidth=Math.min(y.view.w,Math.round(y.view.w*(y.view.w/y.page.w))),y.cursorwidth=y.opt.cursorfixedheight?y.opt.cursorfixedheight:Math.max(y.opt.cursorminheight,y.cursorwidth),y.scrollvaluemax=y.view.h-y.cursorheight-y.cursor.hborder,y.railh&&(y.railh.width=0<y.page.maxh?y.view.w-y.rail.width:y.view.w,y.scrollvaluemaxw=y.railh.width-y.cursorwidth-y.cursorh.wborder),y.checkrtlmode&&y.railh&&(y.checkrtlmode=!1,y.opt.rtlmode&&0==y.scroll.x&&y.setScrollLeft(y.page.maxw)),y.ispage||y.updateScrollBar(y.view),y.scrollratio={x:y.page.maxw/y.scrollvaluemaxw,y:y.page.maxh/y.scrollvaluemax},y.getScrollTop()>y.page.maxh?y.doScrollTop(y.page.maxh):(y.scroll.y=Math.round(y.getScrollTop()*(1/y.scrollratio.y)),y.scroll.x=Math.round(y.getScrollLeft()*(1/y.scrollratio.x)),y.cursoractive&&y.noticeCursor()),y.scroll.y&&0==y.getScrollTop()&&y.doScrollTo(Math.floor(y.scroll.y*y.scrollratio.y)),y)},this.resize=y.onResize,this.lazyResize=function(t){return t=isNaN(t)?30:t,y.delayed("resize",y.resize,t),y},this._bind=function(t,e,n,o){y.events.push({e:t,n:e,f:n,b:o,q:!1}),t.addEventListener?t.addEventListener(e,n,o||!1):t.attachEvent?t.attachEvent("on"+e,n):t["on"+e]=n},this.jqbind=function(e,n,o){y.events.push({e:e,n:n,f:o,q:!0}),t(e).bind(n,o)},this.bind=function(t,e,n,o){var i="jquery"in t?t[0]:t;"mousewheel"==e?"onwheel"in y.win?y._bind(i,"wheel",n,o||!1):(t=void 0!==document.onmousewheel?"mousewheel":"DOMMouseScroll",h(i,t,n,o||!1),"DOMMouseScroll"==t&&h(i,"MozMousePixelScroll",n,o||!1)):i.addEventListener?(w.cantouch&&/mouseup|mousedown|mousemove/.test(e)&&y._bind(i,"mousedown"==e?"touchstart":"mouseup"==e?"touchend":"touchmove",function(t){if(t.touches){if(2>t.touches.length){var e=t.touches.length?t.touches[0]:t;e.original=t,n.call(this,e)}}else t.changedTouches&&((e=t.changedTouches[0]).original=t,n.call(this,e))},o||!1),y._bind(i,e,n,o||!1),w.cantouch&&"mouseup"==e&&y._bind(i,"touchcancel",n,o||!1)):y._bind(i,e,function(t){return(t=t||window.event||!1)&&t.srcElement&&(t.target=t.srcElement),"pageY"in t||(t.pageX=t.clientX+document.documentElement.scrollLeft,t.pageY=t.clientY+document.documentElement.scrollTop),!1!==n.call(i,t)&&!1!==o||y.cancelEvent(t)})},this._unbind=function(t,e,n,o){t.removeEventListener?t.removeEventListener(e,n,o):t.detachEvent?t.detachEvent("on"+e,n):t["on"+e]=!1},this.unbindAll=function(){for(var t=0;t<y.events.length;t++){var e=y.events[t];e.q?e.e.unbind(e.n,e.f):y._unbind(e.e,e.n,e.f,e.b)}},this.cancelEvent=function(t){return!!(t=t.original?t.original:t||(window.event||!1))&&(t.preventDefault&&t.preventDefault(),t.stopPropagation&&t.stopPropagation(),t.preventManipulation&&t.preventManipulation(),t.cancelBubble=!0,t.cancel=!0,t.returnValue=!1)},this.stopPropagation=function(t){return!!(t=t.original?t.original:t||(window.event||!1))&&(t.stopPropagation?t.stopPropagation():(t.cancelBubble&&(t.cancelBubble=!0),!1))},this.showRail=function(){return 0==y.page.maxh||!y.ispage&&"none"==y.win.css("display")||(y.visibility=!0,y.rail.visibility=!0,y.rail.css("display","block")),y},this.showRailHr=function(){return y.railh?(0==y.page.maxw||!y.ispage&&"none"==y.win.css("display")||(y.railh.visibility=!0,y.railh.css("display","block")),y):y},this.hideRail=function(){return y.visibility=!1,y.rail.visibility=!1,y.rail.css("display","none"),y},this.hideRailHr=function(){return y.railh?(y.railh.visibility=!1,y.railh.css("display","none"),y):y},this.show=function(){return y.hidden=!1,y.locked=!1,y.showRail().showRailHr()},this.hide=function(){return y.hidden=!0,y.locked=!0,y.hideRail().hideRailHr()},this.toggle=function(){return y.hidden?y.show():y.hide()},this.remove=function(){y.stop(),y.cursortimeout&&clearTimeout(y.cursortimeout),y.doZoomOut(),y.unbindAll(),w.isie9&&y.win[0].detachEvent("onpropertychange",y.onAttributeChange),!1!==y.observer&&y.observer.disconnect(),!1!==y.observerremover&&y.observerremover.disconnect(),y.events=null,y.cursor&&y.cursor.remove(),y.cursorh&&y.cursorh.remove(),y.rail&&y.rail.remove(),y.railh&&y.railh.remove(),y.zoom&&y.zoom.remove();for(var e=0;e<y.saved.css.length;e++){var n=y.saved.css[e];n[0].css(n[1],void 0===n[2]?"":n[2])}y.saved=!1,y.me.data("__nicescroll","");var o=t.nicescroll;for(var i in o.each(function(t){if(this&&this.id===y.id){delete o[t];for(var e=++t;e<o.length;e++,t++)o[t]=o[e];o.length--,o.length&&delete o[o.length]}}),y)y[i]=null,delete y[i];y=null},this.scrollstart=function(t){return this.onscrollstart=t,y},this.scrollend=function(t){return this.onscrollend=t,y},this.scrollcancel=function(t){return this.onscrollcancel=t,y},this.zoomin=function(t){return this.onzoomin=t,y},this.zoomout=function(t){return this.onzoomout=t,y},this.isScrollable=function(e){if("OPTION"==(e=e.target?e.target:e).nodeName)return!0;for(;e&&1==e.nodeType&&!/BODY|HTML/.test(e.nodeName);){var n=(n=t(e)).css("overflowY")||n.css("overflowX")||n.css("overflow")||"";if(/scroll|auto/.test(n))return e.clientHeight!=e.scrollHeight;e=!!e.parentNode&&e.parentNode}return!1},this.getViewport=function(e){for(e=!(!e||!e.parentNode)&&e.parentNode;e&&1==e.nodeType&&!/BODY|HTML/.test(e.nodeName);){var n=t(e);if(/fixed|absolute/.test(n.css("position")))return n;var o=n.css("overflowY")||n.css("overflowX")||n.css("overflow")||"";if(/scroll|auto/.test(o)&&e.clientHeight!=e.scrollHeight||0<n.getNiceScroll().length)return n;e=!!e.parentNode&&e.parentNode}return!1},this.onmousewheel=function(t){if(y.locked)return y.debounced("checkunlock",y.resize,250),!0;if(y.rail.drag)return y.cancelEvent(t);if("auto"==y.opt.oneaxismousemode&&0!=t.deltaX&&(y.opt.oneaxismousemode=!1),y.opt.oneaxismousemode&&0==t.deltaX&&!y.rail.scrollable)return!y.railh||!y.railh.scrollable||y.onmousewheelhr(t);var e=+new Date,n=!1;return y.opt.preservenativescrolling&&y.checkarea+600<e&&(y.nativescrollingarea=y.isScrollable(t),n=!0),y.checkarea=e,!!y.nativescrollingarea||((t=g(t,!1,n))&&(y.checkarea=0),t)},this.onmousewheelhr=function(t){if(y.locked||!y.railh.scrollable)return!0;if(y.rail.drag)return y.cancelEvent(t);var e=+new Date,n=!1;return y.opt.preservenativescrolling&&y.checkarea+600<e&&(y.nativescrollingarea=y.isScrollable(t),n=!0),y.checkarea=e,!!y.nativescrollingarea||(y.locked?y.cancelEvent(t):g(t,!0,n))},this.stop=function(){return y.cancelScroll(),y.scrollmon&&y.scrollmon.stop(),y.cursorfreezed=!1,y.scroll.y=Math.round(y.getScrollTop()*(1/y.scrollratio.y)),y.noticeCursor(),y},this.getTransitionSpeed=function(t){var e=Math.round(10*y.opt.scrollspeed);return 20<(t=Math.min(e,Math.round(t/20*y.opt.scrollspeed)))?t:0},y.opt.smoothscroll?y.ishwscroll&&w.hastransition&&y.opt.usetransition?(this.prepareTransition=function(t,e){var n=e?20<t?t:0:y.getTransitionSpeed(t),o=n?w.prefixstyle+"transform "+n+"ms ease-out":"";return y.lasttransitionstyle&&y.lasttransitionstyle==o||(y.lasttransitionstyle=o,y.doc.css(w.transitionstyle,o)),n},this.doScrollLeft=function(t,e){var n=y.scrollrunning?y.newscrolly:y.getScrollTop();y.doScrollPos(t,n,e)},this.doScrollTop=function(t,e){var n=y.scrollrunning?y.newscrollx:y.getScrollLeft();y.doScrollPos(n,t,e)},this.doScrollPos=function(t,e,n){var o=y.getScrollTop(),i=y.getScrollLeft();return(0>(y.newscrolly-o)*(e-o)||0>(y.newscrollx-i)*(t-i))&&y.cancelScroll(),0==y.opt.bouncescroll&&(0>e?e=0:e>y.page.maxh&&(e=y.page.maxh),0>t?t=0:t>y.page.maxw&&(t=y.page.maxw)),(!y.scrollrunning||t!=y.newscrollx||e!=y.newscrolly)&&(y.newscrolly=e,y.newscrollx=t,y.newscrollspeed=n||!1,!y.timer&&void(y.timer=setTimeout(function(){var n,o,i=y.getScrollTop(),r=y.getScrollLeft();n=t-r,o=e-i,n=Math.round(Math.sqrt(Math.pow(n,2)+Math.pow(o,2))),n=y.newscrollspeed&&1<y.newscrollspeed?y.newscrollspeed:y.getTransitionSpeed(n),y.newscrollspeed&&1>=y.newscrollspeed&&(n*=y.newscrollspeed),y.prepareTransition(n,!0),y.timerscroll&&y.timerscroll.tm&&clearInterval(y.timerscroll.tm),0<n&&(!y.scrollrunning&&y.onscrollstart&&y.onscrollstart.call(y,{type:"scrollstart",current:{x:r,y:i},request:{x:t,y:e},end:{x:y.newscrollx,y:y.newscrolly},speed:n}),w.transitionend?y.scrollendtrapped||(y.scrollendtrapped=!0,y.bind(y.doc,w.transitionend,y.onScrollEnd,!1)):(y.scrollendtrapped&&clearTimeout(y.scrollendtrapped),y.scrollendtrapped=setTimeout(y.onScrollEnd,n)),y.timerscroll={bz:new BezierClass(i,y.newscrolly,n,0,0,.58,1),bh:new BezierClass(r,y.newscrollx,n,0,0,.58,1)},y.cursorfreezed||(y.timerscroll.tm=setInterval(function(){y.showCursor(y.getScrollTop(),y.getScrollLeft())},60))),y.synched("doScroll-set",function(){y.timer=0,y.scrollendtrapped&&(y.scrollrunning=!0),y.setScrollTop(y.newscrolly),y.setScrollLeft(y.newscrollx),y.scrollendtrapped||y.onScrollEnd()})},50)))},this.cancelScroll=function(){if(!y.scrollendtrapped)return!0;var t=y.getScrollTop(),e=y.getScrollLeft();return y.scrollrunning=!1,w.transitionend||clearTimeout(w.transitionend),y.scrollendtrapped=!1,y._unbind(y.doc,w.transitionend,y.onScrollEnd),y.prepareTransition(0),y.setScrollTop(t),y.railh&&y.setScrollLeft(e),y.timerscroll&&y.timerscroll.tm&&clearInterval(y.timerscroll.tm),y.timerscroll=!1,y.cursorfreezed=!1,y.showCursor(t,e),y},this.onScrollEnd=function(){y.scrollendtrapped&&y._unbind(y.doc,w.transitionend,y.onScrollEnd),y.scrollendtrapped=!1,y.prepareTransition(0),y.timerscroll&&y.timerscroll.tm&&clearInterval(y.timerscroll.tm),y.timerscroll=!1;var t=y.getScrollTop(),e=y.getScrollLeft();if(y.setScrollTop(t),y.railh&&y.setScrollLeft(e),y.noticeCursor(!1,t,e),y.cursorfreezed=!1,0>t?t=0:t>y.page.maxh&&(t=y.page.maxh),0>e?e=0:e>y.page.maxw&&(e=y.page.maxw),t!=y.newscrolly||e!=y.newscrollx)return y.doScrollPos(e,t,y.opt.snapbackspeed);y.onscrollend&&y.scrollrunning&&y.onscrollend.call(y,{type:"scrollend",current:{x:e,y:t},end:{x:y.newscrollx,y:y.newscrolly}}),y.scrollrunning=!1}):(this.doScrollLeft=function(t,e){var n=y.scrollrunning?y.newscrolly:y.getScrollTop();y.doScrollPos(t,n,e)},this.doScrollTop=function(t,e){var n=y.scrollrunning?y.newscrollx:y.getScrollLeft();y.doScrollPos(n,t,e)},this.doScrollPos=function(t,e,n){if(e=void 0===e||!1===e?y.getScrollTop(!0):e,y.timer&&y.newscrolly==e&&y.newscrollx==t)return!0;y.timer&&d(y.timer),y.timer=0;var o=y.getScrollTop(),i=y.getScrollLeft();(0>(y.newscrolly-o)*(e-o)||0>(y.newscrollx-i)*(t-i))&&y.cancelScroll(),y.newscrolly=e,y.newscrollx=t,y.bouncescroll&&y.rail.visibility||(0>y.newscrolly?y.newscrolly=0:y.newscrolly>y.page.maxh&&(y.newscrolly=y.page.maxh)),y.bouncescroll&&y.railh.visibility||(0>y.newscrollx?y.newscrollx=0:y.newscrollx>y.page.maxw&&(y.newscrollx=y.page.maxw)),y.dst={},y.dst.x=t-i,y.dst.y=e-o,y.dst.px=i,y.dst.py=o;var r=Math.round(Math.sqrt(Math.pow(y.dst.x,2)+Math.pow(y.dst.y,2)));y.dst.ax=y.dst.x/r,y.dst.ay=y.dst.y/r;var a=0,s=r;if(0==y.dst.x?(a=o,s=e,y.dst.ay=1,y.dst.py=0):0==y.dst.y&&(a=i,s=t,y.dst.ax=1,y.dst.px=0),r=y.getTransitionSpeed(r),n&&1>=n&&(r*=n),y.bzscroll=0<r&&(y.bzscroll?y.bzscroll.update(s,r):new BezierClass(a,s,r,0,1,0,1)),!y.timer){(o==y.page.maxh&&e>=y.page.maxh||i==y.page.maxw&&t>=y.page.maxw)&&y.checkContentSize();var c=1;y.cancelAnimationFrame=!1,y.timer=1,y.onscrollstart&&!y.scrollrunning&&y.onscrollstart.call(y,{type:"scrollstart",current:{x:i,y:o},request:{x:t,y:e},end:{x:y.newscrollx,y:y.newscrolly},speed:r}),function t(){if(y.cancelAnimationFrame)return!0;if(y.scrollrunning=!0,c=1-c)return y.timer=l(t)||1;var e=0,n=sy=y.getScrollTop();if(y.dst.ay){var o=(n=y.bzscroll?y.dst.py+y.bzscroll.getNow()*y.dst.ay:y.newscrolly)-sy;(0>o&&n<y.newscrolly||0<o&&n>y.newscrolly)&&(n=y.newscrolly),y.setScrollTop(n),n==y.newscrolly&&(e=1)}else e=1;var i=sx=y.getScrollLeft();y.dst.ax?((0>(o=(i=y.bzscroll?y.dst.px+y.bzscroll.getNow()*y.dst.ax:y.newscrollx)-sx)&&i<y.newscrollx||0<o&&i>y.newscrollx)&&(i=y.newscrollx),y.setScrollLeft(i),i==y.newscrollx&&(e+=1)):e+=1,2==e?(y.timer=0,y.cursorfreezed=!1,y.bzscroll=!1,y.scrollrunning=!1,0>n?n=0:n>y.page.maxh&&(n=y.page.maxh),0>i?i=0:i>y.page.maxw&&(i=y.page.maxw),i!=y.newscrollx||n!=y.newscrolly?y.doScrollPos(i,n):y.onscrollend&&y.onscrollend.call(y,{type:"scrollend",current:{x:sx,y:sy},end:{x:y.newscrollx,y:y.newscrolly}})):y.timer=l(t)||1}(),(o==y.page.maxh&&e>=o||i==y.page.maxw&&t>=i)&&y.checkContentSize(),y.noticeCursor()}},this.cancelScroll=function(){return y.timer&&d(y.timer),y.timer=0,y.bzscroll=!1,y.scrollrunning=!1,y}):(this.doScrollLeft=function(t,e){var n=y.getScrollTop();y.doScrollPos(t,n,e)},this.doScrollTop=function(t,e){var n=y.getScrollLeft();y.doScrollPos(n,t,e)},this.doScrollPos=function(t,e,n){var o=t>y.page.maxw?y.page.maxw:t;0>o&&(o=0);var i=e>y.page.maxh?y.page.maxh:e;0>i&&(i=0),y.synched("scroll",function(){y.setScrollTop(i),y.setScrollLeft(o)})},this.cancelScroll=function(){}),this.doScrollBy=function(t,e){var n=0;n=e?Math.floor((y.scroll.y-t)*y.scrollratio.y):(y.timer?y.newscrolly:y.getScrollTop(!0))-t;if(y.bouncescroll){var o=Math.round(y.view.h/2);n<-o?n=-o:n>y.page.maxh+o&&(n=y.page.maxh+o)}return y.cursorfreezed=!1,py=y.getScrollTop(!0),0>n&&0>=py?y.noticeCursor():n>y.page.maxh&&py>=y.page.maxh?(y.checkContentSize(),y.noticeCursor()):void y.doScrollTop(n)},this.doScrollLeftBy=function(t,e){var n=0;n=e?Math.floor((y.scroll.x-t)*y.scrollratio.x):(y.timer?y.newscrollx:y.getScrollLeft(!0))-t;if(y.bouncescroll){var o=Math.round(y.view.w/2);n<-o?n=-o:n>y.page.maxw+o&&(n=y.page.maxw+o)}if(y.cursorfreezed=!1,px=y.getScrollLeft(!0),0>n&&0>=px||n>y.page.maxw&&px>=y.page.maxw)return y.noticeCursor();y.doScrollLeft(n)},this.doScrollTo=function(t,e){e&&Math.round(t*y.scrollratio.y),y.cursorfreezed=!1,y.doScrollTop(t)},this.checkContentSize=function(){var t=y.getContentSize();(t.h!=y.page.h||t.w!=y.page.w)&&y.resize(!1,t)},y.onscroll=function(t){y.rail.drag||y.cursorfreezed||y.synched("scroll",function(){y.scroll.y=Math.round(y.getScrollTop()*(1/y.scrollratio.y)),y.railh&&(y.scroll.x=Math.round(y.getScrollLeft()*(1/y.scrollratio.x))),y.noticeCursor()})},y.bind(y.docscroll,"scroll",y.onscroll),this.doZoomIn=function(e){if(!y.zoomactive){y.zoomactive=!0,y.zoomrestore={style:{}};var n,o="position top left zIndex backgroundColor marginTop marginBottom marginLeft marginRight".split(" "),i=y.win[0].style;for(n in o){var a=o[n];y.zoomrestore.style[a]=void 0!==i[a]?i[a]:""}return y.zoomrestore.style.width=y.win.css("width"),y.zoomrestore.style.height=y.win.css("height"),y.zoomrestore.padding={w:y.win.outerWidth()-y.win.width(),h:y.win.outerHeight()-y.win.height()},w.isios4&&(y.zoomrestore.scrollTop=t(window).scrollTop(),t(window).scrollTop(0)),y.win.css({position:w.isios4?"absolute":"fixed",top:0,left:0,"z-index":r+100,margin:"0px"}),(""==(o=y.win.css("backgroundColor"))||/transparent|rgba\(0, 0, 0, 0\)|rgba\(0,0,0,0\)/.test(o))&&y.win.css("backgroundColor","#fff"),y.rail.css({"z-index":r+101}),y.zoom.css({"z-index":r+102}),y.zoom.css("backgroundPosition","0px -18px"),y.resizeZoom(),y.onzoomin&&y.onzoomin.call(y),y.cancelEvent(e)}},this.doZoomOut=function(e){if(y.zoomactive)return y.zoomactive=!1,y.win.css("margin",""),y.win.css(y.zoomrestore.style),w.isios4&&t(window).scrollTop(y.zoomrestore.scrollTop),y.rail.css({"z-index":y.zindex}),y.zoom.css({"z-index":y.zindex}),y.zoomrestore=!1,y.zoom.css("backgroundPosition","0px 0px"),y.onResize(),y.onzoomout&&y.onzoomout.call(y),y.cancelEvent(e)},this.doZoom=function(t){return y.zoomactive?y.doZoomOut(t):y.doZoomIn(t)},this.resizeZoom=function(){if(y.zoomactive){var e=y.getScrollTop();y.win.css({width:t(window).width()-y.zoomrestore.padding.w+"px",height:t(window).height()-y.zoomrestore.padding.h+"px"}),y.onResize(),y.setScrollTop(Math.min(y.page.maxh,e))}},this.init(),t.nicescroll.push(this)},v=function(t){var e=this;this.nc=t,this.steptime=this.lasttime=this.speedy=this.speedx=this.lasty=this.lastx=0,this.snapy=this.snapx=!1,this.demuly=this.demulx=0,this.lastscrolly=this.lastscrollx=-1,this.timer=this.chky=this.chkx=0,this.time=function(){return+new Date},this.reset=function(t,n){e.stop();var o=e.time();e.steptime=0,e.lasttime=o,e.speedx=0,e.speedy=0,e.lastx=t,e.lasty=n,e.lastscrollx=-1,e.lastscrolly=-1},this.update=function(t,n){var o=e.time();e.steptime=o-e.lasttime,e.lasttime=o;o=n-e.lasty;var i=t-e.lastx,r=(r=e.nc.getScrollTop())+o,a=(a=e.nc.getScrollLeft())+i;e.snapx=0>a||a>e.nc.page.maxw,e.snapy=0>r||r>e.nc.page.maxh,e.speedx=i,e.speedy=o,e.lastx=t,e.lasty=n},this.stop=function(){e.nc.unsynched("domomentum2d"),e.timer&&clearTimeout(e.timer),e.timer=0,e.lastscrollx=-1,e.lastscrolly=-1},this.doSnapy=function(t,n){var o=!1;0>n?(n=0,o=!0):n>e.nc.page.maxh&&(n=e.nc.page.maxh,o=!0),0>t?(t=0,o=!0):t>e.nc.page.maxw&&(t=e.nc.page.maxw,o=!0),o&&e.nc.doScrollPos(t,n,e.nc.opt.snapbackspeed)},this.doMomentum=function(t){var n=e.time(),o=t?n+t:e.lasttime;t=e.nc.getScrollLeft();var i=e.nc.getScrollTop(),r=e.nc.page.maxh,a=e.nc.page.maxw;if(e.speedx=0<a?Math.min(60,e.speedx):0,e.speedy=0<r?Math.min(60,e.speedy):0,o=o&&60>=n-o,(0>i||i>r||0>t||t>a)&&(o=!1),t=!(!e.speedx||!o)&&e.speedx,e.speedy&&o&&e.speedy||t){var s=Math.max(16,e.steptime);50<s&&(t=s/50,e.speedx*=t,e.speedy*=t,s=50),e.demulxy=0,e.lastscrollx=e.nc.getScrollLeft(),e.chkx=e.lastscrollx,e.lastscrolly=e.nc.getScrollTop(),e.chky=e.lastscrolly;var c=e.lastscrollx,l=e.lastscrolly,d=function(){var t=600<e.time()-n?.04:.02;e.speedx&&(c=Math.floor(e.lastscrollx-e.speedx*(1-e.demulxy)),e.lastscrollx=c,0>c||c>a)&&(t=.1),e.speedy&&(l=Math.floor(e.lastscrolly-e.speedy*(1-e.demulxy)),e.lastscrolly=l,0>l||l>r)&&(t=.1),e.demulxy=Math.min(1,e.demulxy+t),e.nc.synched("domomentum2d",function(){e.speedx&&(e.nc.getScrollLeft()!=e.chkx&&e.stop(),e.chkx=c,e.nc.setScrollLeft(c)),e.speedy&&(e.nc.getScrollTop()!=e.chky&&e.stop(),e.chky=l,e.nc.setScrollTop(l)),e.timer||(e.nc.hideCursor(),e.doSnapy(c,l))}),1>e.demulxy?e.timer=setTimeout(d,s):(e.stop(),e.nc.hideCursor(),e.doSnapy(c,l))};d()}else e.doSnapy(e.nc.getScrollLeft(),e.nc.getScrollTop())}},y=t.fn.scrollTop;t.cssHooks.pageYOffset={get:function(e,n,o){return(n=t.data(e,"__nicescroll")||!1)&&n.ishwscroll?n.getScrollTop():y.call(e)},set:function(e,n){var o=t.data(e,"__nicescroll")||!1;return o&&o.ishwscroll?o.setScrollTop(parseInt(n)):y.call(e,n),this}},t.fn.scrollTop=function(e){if(void 0===e){var n=this[0]&&t.data(this[0],"__nicescroll")||!1;return n&&n.ishwscroll?n.getScrollTop():y.call(this)}return this.each(function(){var n=t.data(this,"__nicescroll")||!1;n&&n.ishwscroll?n.setScrollTop(parseInt(e)):y.call(t(this),e)})};var b=t.fn.scrollLeft;t.cssHooks.pageXOffset={get:function(e,n,o){return(n=t.data(e,"__nicescroll")||!1)&&n.ishwscroll?n.getScrollLeft():b.call(e)},set:function(e,n){var o=t.data(e,"__nicescroll")||!1;return o&&o.ishwscroll?o.setScrollLeft(parseInt(n)):b.call(e,n),this}},t.fn.scrollLeft=function(e){if(void 0===e){var n=this[0]&&t.data(this[0],"__nicescroll")||!1;return n&&n.ishwscroll?n.getScrollLeft():b.call(this)}return this.each(function(){var n=t.data(this,"__nicescroll")||!1;n&&n.ishwscroll?n.setScrollLeft(parseInt(e)):b.call(t(this),e)})};var w=function(e){var n=this;if(this.length=0,this.name="nicescrollarray",this.each=function(t){for(var e=0,o=0;e<n.length;e++)t.call(n[e],o++);return n},this.push=function(t){n[n.length]=t,n.length++},this.eq=function(t){return n[t]},e)for(a=0;a<e.length;a++){var o=t.data(e[a],"__nicescroll")||!1;o&&(this[this.length]=o,this.length++)}return this};!function(t,e,n){for(var o=0;o<e.length;o++)n(t,e[o])}(w.prototype,"show hide toggle onResize resize remove stop doScrollPos".split(" "),function(t,e){t[e]=function(){var t=arguments;return this.each(function(){this[e].apply(this,t)})}}),t.fn.getNiceScroll=function(e){return void 0===e?new w(this):this[e]&&t.data(this[e],"__nicescroll")||!1},t.extend(t.expr[":"],{nicescroll:function(e){return!!t.data(e,"__nicescroll")}}),t.fn.niceScroll=function(e,n){void 0===n&&"object"==typeof e&&!("jquery"in e)&&(n=e,e=!1);var o=new w;void 0===n&&(n={}),e&&(n.doc=t(e),n.win=t(this));var i=!("doc"in n);return!i&&!("win"in n)&&(n.win=t(this)),this.each(function(){var e=t(this).data("__nicescroll")||!1;e||(n.doc=i?t(this):n.doc,e=new g(n,t(this)),t(this).data("__nicescroll",e)),o.push(e)}),1==o.length?o[0]:o},window.NiceScroll={getjQuery:function(){return t}},t.nicescroll||(t.nicescroll=new w,t.nicescroll.options=p)}(jQuery),function(t){"function"==typeof define&&define.amd?define(["jquery"],t):t(jQuery)}(function(t){function e(){this._curInst=null,this._keyEvent=!1,this._disabledInputs=[],this._datepickerShowing=!1,this._inDialog=!1,this._mainDivId="ui-datepicker-div",this._inlineClass="ui-datepicker-inline",this._appendClass="ui-datepicker-append",this._triggerClass="ui-datepicker-trigger",this._dialogClass="ui-datepicker-dialog",this._disableClass="ui-datepicker-disabled",this._unselectableClass="ui-datepicker-unselectable",this._currentClass="ui-datepicker-current-day",this._dayOverClass="ui-datepicker-days-cell-over",this.regional=[],this.regional[""]={closeText:"Done",prevText:"Prev",nextText:"Next",currentText:"Today",monthNames:["January","February","March","April","May","June","July","August","September","October","November","December"],monthNamesShort:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],dayNames:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],dayNamesShort:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],dayNamesMin:["Su","Mo","Tu","We","Th","Fr","Sa"],weekHeader:"Wk",dateFormat:"mm/dd/yy",firstDay:0,isRTL:!1,showMonthAfterYear:!1,yearSuffix:""},this._defaults={showOn:"focus",showAnim:"fadeIn",showOptions:{},defaultDate:null,appendText:"",buttonText:"...",buttonImage:"",buttonImageOnly:!1,hideIfNoPrevNext:!1,navigationAsDateFormat:!1,gotoCurrent:!1,changeMonth:!1,changeYear:!1,yearRange:"c-10:c+10",showOtherMonths:!1,selectOtherMonths:!1,showWeek:!1,calculateWeek:this.iso8601Week,shortYearCutoff:"+10",minDate:null,maxDate:null,duration:"fast",beforeShowDay:null,beforeShow:null,onSelect:null,onChangeMonthYear:null,onClose:null,numberOfMonths:1,showCurrentAtPos:0,stepMonths:1,stepBigMonths:12,altField:"",altFormat:"",constrainInput:!0,showButtonPanel:!1,autoSize:!1,disabled:!1},t.extend(this._defaults,this.regional[""]),this.regional.en=t.extend(!0,{},this.regional[""]),this.regional["en-US"]=t.extend(!0,{},this.regional.en),this.dpDiv=n(t("<div id='"+this._mainDivId+"' class='ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'></div>"))}function n(e){var n="button, .ui-datepicker-prev, .ui-datepicker-next, .ui-datepicker-calendar td a";return e.on("mouseout",n,function(){t(this).removeClass("ui-state-hover"),-1!==this.className.indexOf("ui-datepicker-prev")&&t(this).removeClass("ui-datepicker-prev-hover"),-1!==this.className.indexOf("ui-datepicker-next")&&t(this).removeClass("ui-datepicker-next-hover")}).on("mouseover",n,o)}function o(){t.datepicker._isDisabledDatepicker(r.inline?r.dpDiv.parent()[0]:r.input[0])||(t(this).parents(".ui-datepicker-calendar").find("a").removeClass("ui-state-hover"),t(this).addClass("ui-state-hover"),-1!==this.className.indexOf("ui-datepicker-prev")&&t(this).addClass("ui-datepicker-prev-hover"),-1!==this.className.indexOf("ui-datepicker-next")&&t(this).addClass("ui-datepicker-next-hover"))}function i(e,n){for(var o in t.extend(e,n),n)null==n[o]&&(e[o]=n[o]);return e}var r;t.ui=t.ui||{},t.ui.version="1.12.1",t.extend(t.expr[":"],{data:t.expr.createPseudo?t.expr.createPseudo(function(e){return function(n){return!!t.data(n,e)}}):function(e,n,o){return!!t.data(e,o[3])}}),t.ui.keyCode={BACKSPACE:8,COMMA:188,DELETE:46,DOWN:40,END:35,ENTER:13,ESCAPE:27,HOME:36,LEFT:37,PAGE_DOWN:34,PAGE_UP:33,PERIOD:190,RIGHT:39,SPACE:32,TAB:9,UP:38},t.extend(t.ui,{datepicker:{version:"1.12.1"}}),t.extend(e.prototype,{markerClassName:"hasDatepicker",maxRows:4,_widgetDatepicker:function(){return this.dpDiv},setDefaults:function(t){return i(this._defaults,t||{}),this},_attachDatepicker:function(e,n){var o,i,r;i="div"===(o=e.nodeName.toLowerCase())||"span"===o,e.id||(this.uuid+=1,e.id="dp"+this.uuid),(r=this._newInst(t(e),i)).settings=t.extend({},n||{}),"input"===o?this._connectDatepicker(e,r):i&&this._inlineDatepicker(e,r)},_newInst:function(e,o){return{id:e[0].id.replace(/([^A-Za-z0-9_\-])/g,"\\\\$1"),input:e,selectedDay:0,selectedMonth:0,selectedYear:0,drawMonth:0,drawYear:0,inline:o,dpDiv:o?n(t("<div class='"+this._inlineClass+" ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'></div>")):this.dpDiv}},_connectDatepicker:function(e,n){var o=t(e);n.append=t([]),n.trigger=t([]),o.hasClass(this.markerClassName)||(this._attachments(o,n),o.addClass(this.markerClassName).on("keydown",this._doKeyDown).on("keypress",this._doKeyPress).on("keyup",this._doKeyUp),this._autoSize(n),t.data(e,"datepicker",n),n.settings.disabled&&this._disableDatepicker(e))},_attachments:function(e,n){var o,i,r,a=this._get(n,"appendText"),s=this._get(n,"isRTL");n.append&&n.append.remove(),a&&(n.append=t("<span class='"+this._appendClass+"'>"+a+"</span>"),e[s?"before":"after"](n.append)),e.off("focus",this._showDatepicker),n.trigger&&n.trigger.remove(),("focus"===(o=this._get(n,"showOn"))||"both"===o)&&e.on("focus",this._showDatepicker),("button"===o||"both"===o)&&(i=this._get(n,"buttonText"),r=this._get(n,"buttonImage"),n.trigger=t(this._get(n,"buttonImageOnly")?t("<img/>").addClass(this._triggerClass).attr({src:r,alt:i,title:i}):t("<button type='button'></button>").addClass(this._triggerClass).html(r?t("<img/>").attr({src:r,alt:i,title:i}):i)),e[s?"before":"after"](n.trigger),n.trigger.on("click",function(){return t.datepicker._datepickerShowing&&t.datepicker._lastInput===e[0]?t.datepicker._hideDatepicker():t.datepicker._datepickerShowing&&t.datepicker._lastInput!==e[0]?(t.datepicker._hideDatepicker(),t.datepicker._showDatepicker(e[0])):t.datepicker._showDatepicker(e[0]),!1}))},_autoSize:function(t){if(this._get(t,"autoSize")&&!t.inline){var e,n,o,i,r=new Date(2009,11,20),a=this._get(t,"dateFormat");a.match(/[DM]/)&&(e=function(t){for(n=0,o=0,i=0;t.length>i;i++)t[i].length>n&&(n=t[i].length,o=i);return o},r.setMonth(e(this._get(t,a.match(/MM/)?"monthNames":"monthNamesShort"))),r.setDate(e(this._get(t,a.match(/DD/)?"dayNames":"dayNamesShort"))+20-r.getDay())),t.input.attr("size",this._formatDate(t,r).length)}},_inlineDatepicker:function(e,n){var o=t(e);o.hasClass(this.markerClassName)||(o.addClass(this.markerClassName).append(n.dpDiv),t.data(e,"datepicker",n),this._setDate(n,this._getDefaultDate(n),!0),this._updateDatepicker(n),this._updateAlternate(n),n.settings.disabled&&this._disableDatepicker(e),n.dpDiv.css("display","block"))},_dialogDatepicker:function(e,n,o,r,a){var s,c,l,d,u,h=this._dialogInst;return h||(this.uuid+=1,s="dp"+this.uuid,this._dialogInput=t("<input type='text' id='"+s+"' style='position: absolute; top: -100px; width: 0px;'/>"),this._dialogInput.on("keydown",this._doKeyDown),t("body").append(this._dialogInput),(h=this._dialogInst=this._newInst(this._dialogInput,!1)).settings={},t.data(this._dialogInput[0],"datepicker",h)),i(h.settings,r||{}),n=n&&n.constructor===Date?this._formatDate(h,n):n,this._dialogInput.val(n),this._pos=a?a.length?a:[a.pageX,a.pageY]:null,this._pos||(c=document.documentElement.clientWidth,l=document.documentElement.clientHeight,d=document.documentElement.scrollLeft||document.body.scrollLeft,u=document.documentElement.scrollTop||document.body.scrollTop,this._pos=[c/2-100+d,l/2-150+u]),this._dialogInput.css("left",this._pos[0]+20+"px").css("top",this._pos[1]+"px"),h.settings.onSelect=o,this._inDialog=!0,this.dpDiv.addClass(this._dialogClass),this._showDatepicker(this._dialogInput[0]),t.blockUI&&t.blockUI(this.dpDiv),t.data(this._dialogInput[0],"datepicker",h),this},_destroyDatepicker:function(e){var n,o=t(e),i=t.data(e,"datepicker");o.hasClass(this.markerClassName)&&(n=e.nodeName.toLowerCase(),t.removeData(e,"datepicker"),"input"===n?(i.append.remove(),i.trigger.remove(),o.removeClass(this.markerClassName).off("focus",this._showDatepicker).off("keydown",this._doKeyDown).off("keypress",this._doKeyPress).off("keyup",this._doKeyUp)):("div"===n||"span"===n)&&o.removeClass(this.markerClassName).empty(),r===i&&(r=null))},_enableDatepicker:function(e){var n,o,i=t(e),r=t.data(e,"datepicker");i.hasClass(this.markerClassName)&&("input"===(n=e.nodeName.toLowerCase())?(e.disabled=!1,r.trigger.filter("button").each(function(){this.disabled=!1}).end().filter("img").css({opacity:"1.0",cursor:""})):("div"===n||"span"===n)&&((o=i.children("."+this._inlineClass)).children().removeClass("ui-state-disabled"),o.find("select.ui-datepicker-month, select.ui-datepicker-year").prop("disabled",!1)),this._disabledInputs=t.map(this._disabledInputs,function(t){return t===e?null:t}))},_disableDatepicker:function(e){var n,o,i=t(e),r=t.data(e,"datepicker");i.hasClass(this.markerClassName)&&("input"===(n=e.nodeName.toLowerCase())?(e.disabled=!0,r.trigger.filter("button").each(function(){this.disabled=!0}).end().filter("img").css({opacity:"0.5",cursor:"default"})):("div"===n||"span"===n)&&((o=i.children("."+this._inlineClass)).children().addClass("ui-state-disabled"),o.find("select.ui-datepicker-month, select.ui-datepicker-year").prop("disabled",!0)),this._disabledInputs=t.map(this._disabledInputs,function(t){return t===e?null:t}),this._disabledInputs[this._disabledInputs.length]=e)},_isDisabledDatepicker:function(t){if(!t)return!1;for(var e=0;this._disabledInputs.length>e;e++)if(this._disabledInputs[e]===t)return!0;return!1},_getInst:function(e){try{return t.data(e,"datepicker")}catch(t){throw"Missing instance data for this datepicker"}},_optionDatepicker:function(e,n,o){var r,a,s,c,l=this._getInst(e);return 2===arguments.length&&"string"==typeof n?"defaults"===n?t.extend({},t.datepicker._defaults):l?"all"===n?t.extend({},l.settings):this._get(l,n):null:(r=n||{},"string"==typeof n&&((r={})[n]=o),void(l&&(this._curInst===l&&this._hideDatepicker(),a=this._getDateDatepicker(e,!0),s=this._getMinMaxDate(l,"min"),c=this._getMinMaxDate(l,"max"),i(l.settings,r),null!==s&&void 0!==r.dateFormat&&void 0===r.minDate&&(l.settings.minDate=this._formatDate(l,s)),null!==c&&void 0!==r.dateFormat&&void 0===r.maxDate&&(l.settings.maxDate=this._formatDate(l,c)),"disabled"in r&&(r.disabled?this._disableDatepicker(e):this._enableDatepicker(e)),this._attachments(t(e),l),this._autoSize(l),this._setDate(l,a),this._updateAlternate(l),this._updateDatepicker(l))))},_changeDatepicker:function(t,e,n){this._optionDatepicker(t,e,n)},_refreshDatepicker:function(t){var e=this._getInst(t);e&&this._updateDatepicker(e)},_setDateDatepicker:function(t,e){var n=this._getInst(t);n&&(this._setDate(n,e),this._updateDatepicker(n),this._updateAlternate(n))},_getDateDatepicker:function(t,e){var n=this._getInst(t);return n&&!n.inline&&this._setDateFromField(n,e),n?this._getDate(n):null},_doKeyDown:function(e){var n,o,i,r=t.datepicker._getInst(e.target),a=!0,s=r.dpDiv.is(".ui-datepicker-rtl");if(r._keyEvent=!0,t.datepicker._datepickerShowing)switch(e.keyCode){case 9:t.datepicker._hideDatepicker(),a=!1;break;case 13:return(i=t("td."+t.datepicker._dayOverClass+":not(."+t.datepicker._currentClass+")",r.dpDiv))[0]&&t.datepicker._selectDay(e.target,r.selectedMonth,r.selectedYear,i[0]),(n=t.datepicker._get(r,"onSelect"))?(o=t.datepicker._formatDate(r),n.apply(r.input?r.input[0]:null,[o,r])):t.datepicker._hideDatepicker(),!1;case 27:t.datepicker._hideDatepicker();break;case 33:t.datepicker._adjustDate(e.target,e.ctrlKey?-t.datepicker._get(r,"stepBigMonths"):-t.datepicker._get(r,"stepMonths"),"M");break;case 34:t.datepicker._adjustDate(e.target,e.ctrlKey?+t.datepicker._get(r,"stepBigMonths"):+t.datepicker._get(r,"stepMonths"),"M");break;case 35:(e.ctrlKey||e.metaKey)&&t.datepicker._clearDate(e.target),a=e.ctrlKey||e.metaKey;break;case 36:(e.ctrlKey||e.metaKey)&&t.datepicker._gotoToday(e.target),a=e.ctrlKey||e.metaKey;break;case 37:(e.ctrlKey||e.metaKey)&&t.datepicker._adjustDate(e.target,s?1:-1,"D"),a=e.ctrlKey||e.metaKey,e.originalEvent.altKey&&t.datepicker._adjustDate(e.target,e.ctrlKey?-t.datepicker._get(r,"stepBigMonths"):-t.datepicker._get(r,"stepMonths"),"M");break;case 38:(e.ctrlKey||e.metaKey)&&t.datepicker._adjustDate(e.target,-7,"D"),a=e.ctrlKey||e.metaKey;break;case 39:(e.ctrlKey||e.metaKey)&&t.datepicker._adjustDate(e.target,s?-1:1,"D"),a=e.ctrlKey||e.metaKey,e.originalEvent.altKey&&t.datepicker._adjustDate(e.target,e.ctrlKey?+t.datepicker._get(r,"stepBigMonths"):+t.datepicker._get(r,"stepMonths"),"M");break;case 40:(e.ctrlKey||e.metaKey)&&t.datepicker._adjustDate(e.target,7,"D"),a=e.ctrlKey||e.metaKey;break;default:a=!1}else 36===e.keyCode&&e.ctrlKey?t.datepicker._showDatepicker(this):a=!1;a&&(e.preventDefault(),e.stopPropagation())},_doKeyPress:function(e){var n,o,i=t.datepicker._getInst(e.target);return t.datepicker._get(i,"constrainInput")?(n=t.datepicker._possibleChars(t.datepicker._get(i,"dateFormat")),o=String.fromCharCode(null==e.charCode?e.keyCode:e.charCode),e.ctrlKey||e.metaKey||" ">o||!n||n.indexOf(o)>-1):void 0},_doKeyUp:function(e){var n=t.datepicker._getInst(e.target);if(n.input.val()!==n.lastVal)try{t.datepicker.parseDate(t.datepicker._get(n,"dateFormat"),n.input?n.input.val():null,t.datepicker._getFormatConfig(n))&&(t.datepicker._setDateFromField(n),t.datepicker._updateAlternate(n),t.datepicker._updateDatepicker(n))}catch(t){}return!0},_showDatepicker:function(e){var n,o,r,a,s,c,l;("input"!==(e=e.target||e).nodeName.toLowerCase()&&(e=t("input",e.parentNode)[0]),t.datepicker._isDisabledDatepicker(e)||t.datepicker._lastInput===e)||(n=t.datepicker._getInst(e),t.datepicker._curInst&&t.datepicker._curInst!==n&&(t.datepicker._curInst.dpDiv.stop(!0,!0),n&&t.datepicker._datepickerShowing&&t.datepicker._hideDatepicker(t.datepicker._curInst.input[0])),!1!==(r=(o=t.datepicker._get(n,"beforeShow"))?o.apply(e,[e,n]):{})&&(i(n.settings,r),n.lastVal=null,t.datepicker._lastInput=e,t.datepicker._setDateFromField(n),t.datepicker._inDialog&&(e.value=""),t.datepicker._pos||(t.datepicker._pos=t.datepicker._findPos(e),t.datepicker._pos[1]+=e.offsetHeight),a=!1,t(e).parents().each(function(){return!(a|="fixed"===t(this).css("position"))}),s={left:t.datepicker._pos[0],top:t.datepicker._pos[1]},t.datepicker._pos=null,n.dpDiv.empty(),n.dpDiv.css({position:"absolute",display:"block",top:"-1000px"}),t.datepicker._updateDatepicker(n),s=t.datepicker._checkOffset(n,s,a),n.dpDiv.css({position:t.datepicker._inDialog&&t.blockUI?"static":a?"fixed":"absolute",display:"none",left:s.left+"px",top:s.top+"px"}),n.inline||(c=t.datepicker._get(n,"showAnim"),l=t.datepicker._get(n,"duration"),n.dpDiv.css("z-index",function(t){for(var e,n;t.length&&t[0]!==document;){if(("absolute"===(e=t.css("position"))||"relative"===e||"fixed"===e)&&(n=parseInt(t.css("zIndex"),10),!isNaN(n)&&0!==n))return n;t=t.parent()}return 0}(t(e))+1),t.datepicker._datepickerShowing=!0,t.effects&&t.effects.effect[c]?n.dpDiv.show(c,t.datepicker._get(n,"showOptions"),l):n.dpDiv[c||"show"](c?l:null),t.datepicker._shouldFocusInput(n)&&n.input.trigger("focus"),t.datepicker._curInst=n)))},_updateDatepicker:function(e){this.maxRows=4,r=e,e.dpDiv.empty().append(this._generateHTML(e)),this._attachHandlers(e);var n,i=this._getNumberOfMonths(e),a=i[1],s=e.dpDiv.find("."+this._dayOverClass+" a");s.length>0&&o.apply(s.get(0)),e.dpDiv.removeClass("ui-datepicker-multi-2 ui-datepicker-multi-3 ui-datepicker-multi-4").width(""),a>1&&e.dpDiv.addClass("ui-datepicker-multi-"+a).css("width",17*a+"em"),e.dpDiv[(1!==i[0]||1!==i[1]?"add":"remove")+"Class"]("ui-datepicker-multi"),e.dpDiv[(this._get(e,"isRTL")?"add":"remove")+"Class"]("ui-datepicker-rtl"),e===t.datepicker._curInst&&t.datepicker._datepickerShowing&&t.datepicker._shouldFocusInput(e)&&e.input.trigger("focus"),e.yearshtml&&(n=e.yearshtml,setTimeout(function(){n===e.yearshtml&&e.yearshtml&&e.dpDiv.find("select.ui-datepicker-year:first").replaceWith(e.yearshtml),n=e.yearshtml=null},0))},_shouldFocusInput:function(t){return t.input&&t.input.is(":visible")&&!t.input.is(":disabled")&&!t.input.is(":focus")},_checkOffset:function(e,n,o){var i=e.dpDiv.outerWidth(),r=e.dpDiv.outerHeight(),a=e.input?e.input.outerWidth():0,s=e.input?e.input.outerHeight():0,c=document.documentElement.clientWidth+(o?0:t(document).scrollLeft()),l=document.documentElement.clientHeight+(o?0:t(document).scrollTop());return n.left-=this._get(e,"isRTL")?i-a:0,n.left-=o&&n.left===e.input.offset().left?t(document).scrollLeft():0,n.top-=o&&n.top===e.input.offset().top+s?t(document).scrollTop():0,n.left-=Math.min(n.left,n.left+i>c&&c>i?Math.abs(n.left+i-c):0),n.top-=Math.min(n.top,n.top+r>l&&l>r?Math.abs(r+s):0),n},_findPos:function(e){for(var n,o=this._getInst(e),i=this._get(o,"isRTL");e&&("hidden"===e.type||1!==e.nodeType||t.expr.filters.hidden(e));)e=e[i?"previousSibling":"nextSibling"];return[(n=t(e).offset()).left,n.top]},_hideDatepicker:function(e){var n,o,i,r,a=this._curInst;!a||e&&a!==t.data(e,"datepicker")||this._datepickerShowing&&(n=this._get(a,"showAnim"),o=this._get(a,"duration"),i=function(){t.datepicker._tidyDialog(a)},t.effects&&(t.effects.effect[n]||t.effects[n])?a.dpDiv.hide(n,t.datepicker._get(a,"showOptions"),o,i):a.dpDiv["slideDown"===n?"slideUp":"fadeIn"===n?"fadeOut":"hide"](n?o:null,i),n||i(),this._datepickerShowing=!1,(r=this._get(a,"onClose"))&&r.apply(a.input?a.input[0]:null,[a.input?a.input.val():"",a]),this._lastInput=null,this._inDialog&&(this._dialogInput.css({position:"absolute",left:"0",top:"-100px"}),t.blockUI&&(t.unblockUI(),t("body").append(this.dpDiv))),this._inDialog=!1)},_tidyDialog:function(t){t.dpDiv.removeClass(this._dialogClass).off(".ui-datepicker-calendar")},_checkExternalClick:function(e){if(t.datepicker._curInst){var n=t(e.target),o=t.datepicker._getInst(n[0]);(n[0].id!==t.datepicker._mainDivId&&0===n.parents("#"+t.datepicker._mainDivId).length&&!n.hasClass(t.datepicker.markerClassName)&&!n.closest("."+t.datepicker._triggerClass).length&&t.datepicker._datepickerShowing&&(!t.datepicker._inDialog||!t.blockUI)||n.hasClass(t.datepicker.markerClassName)&&t.datepicker._curInst!==o)&&t.datepicker._hideDatepicker()}},_adjustDate:function(e,n,o){var i=t(e),r=this._getInst(i[0]);this._isDisabledDatepicker(i[0])||(this._adjustInstDate(r,n+("M"===o?this._get(r,"showCurrentAtPos"):0),o),this._updateDatepicker(r))},_gotoToday:function(e){var n,o=t(e),i=this._getInst(o[0]);this._get(i,"gotoCurrent")&&i.currentDay?(i.selectedDay=i.currentDay,i.drawMonth=i.selectedMonth=i.currentMonth,i.drawYear=i.selectedYear=i.currentYear):(n=new Date,i.selectedDay=n.getDate(),i.drawMonth=i.selectedMonth=n.getMonth(),i.drawYear=i.selectedYear=n.getFullYear()),this._notifyChange(i),this._adjustDate(o)},_selectMonthYear:function(e,n,o){var i=t(e),r=this._getInst(i[0]);r["selected"+("M"===o?"Month":"Year")]=r["draw"+("M"===o?"Month":"Year")]=parseInt(n.options[n.selectedIndex].value,10),this._notifyChange(r),this._adjustDate(i)},_selectDay:function(e,n,o,i){var r,a=t(e);t(i).hasClass(this._unselectableClass)||this._isDisabledDatepicker(a[0])||((r=this._getInst(a[0])).selectedDay=r.currentDay=t("a",i).html(),r.selectedMonth=r.currentMonth=n,r.selectedYear=r.currentYear=o,this._selectDate(e,this._formatDate(r,r.currentDay,r.currentMonth,r.currentYear)))},_clearDate:function(e){var n=t(e);this._selectDate(n,"")},_selectDate:function(e,n){var o,i=t(e),r=this._getInst(i[0]);n=null!=n?n:this._formatDate(r),r.input&&r.input.val(n),this._updateAlternate(r),(o=this._get(r,"onSelect"))?o.apply(r.input?r.input[0]:null,[n,r]):r.input&&r.input.trigger("change"),r.inline?this._updateDatepicker(r):(this._hideDatepicker(),this._lastInput=r.input[0],"object"!=typeof r.input[0]&&r.input.trigger("focus"),this._lastInput=null)},_updateAlternate:function(e){var n,o,i,r=this._get(e,"altField");r&&(n=this._get(e,"altFormat")||this._get(e,"dateFormat"),o=this._getDate(e),i=this.formatDate(n,o,this._getFormatConfig(e)),t(r).val(i))},noWeekends:function(t){var e=t.getDay();return[e>0&&6>e,""]},iso8601Week:function(t){var e,n=new Date(t.getTime());return n.setDate(n.getDate()+4-(n.getDay()||7)),e=n.getTime(),n.setMonth(0),n.setDate(1),Math.floor(Math.round((e-n)/864e5)/7)+1},parseDate:function(e,n,o){if(null==e||null==n)throw"Invalid arguments";if(""===(n="object"==typeof n?""+n:n+""))return null;var i,r,a,s,c=0,l=(o?o.shortYearCutoff:null)||this._defaults.shortYearCutoff,d="string"!=typeof l?l:(new Date).getFullYear()%100+parseInt(l,10),u=(o?o.dayNamesShort:null)||this._defaults.dayNamesShort,h=(o?o.dayNames:null)||this._defaults.dayNames,f=(o?o.monthNamesShort:null)||this._defaults.monthNamesShort,p=(o?o.monthNames:null)||this._defaults.monthNames,m=-1,g=-1,v=-1,y=-1,b=!1,w=function(t){var n=e.length>i+1&&e.charAt(i+1)===t;return n&&i++,n},x=function(t){var e=w(t),o="@"===t?14:"!"===t?20:"y"===t&&e?4:"o"===t?3:2,i=RegExp("^\\d{"+("y"===t?o:1)+","+o+"}"),r=n.substring(c).match(i);if(!r)throw"Missing number at position "+c;return c+=r[0].length,parseInt(r[0],10)},k=function(e,o,i){var r=-1,a=t.map(w(e)?i:o,function(t,e){return[[e,t]]}).sort(function(t,e){return-(t[1].length-e[1].length)});if(t.each(a,function(t,e){var o=e[1];return n.substr(c,o.length).toLowerCase()===o.toLowerCase()?(r=e[0],c+=o.length,!1):void 0}),-1!==r)return r+1;throw"Unknown name at position "+c},S=function(){if(n.charAt(c)!==e.charAt(i))throw"Unexpected literal at position "+c;c++};for(i=0;e.length>i;i++)if(b)"'"!==e.charAt(i)||w("'")?S():b=!1;else switch(e.charAt(i)){case"d":v=x("d");break;case"D":k("D",u,h);break;case"o":y=x("o");break;case"m":g=x("m");break;case"M":g=k("M",f,p);break;case"y":m=x("y");break;case"@":m=(s=new Date(x("@"))).getFullYear(),g=s.getMonth()+1,v=s.getDate();break;case"!":m=(s=new Date((x("!")-this._ticksTo1970)/1e4)).getFullYear(),g=s.getMonth()+1,v=s.getDate();break;case"'":w("'")?S():b=!0;break;default:S()}if(n.length>c&&(a=n.substr(c),!/^\s+/.test(a)))throw"Extra/unparsed characters found in date: "+a;if(-1===m?m=(new Date).getFullYear():100>m&&(m+=(new Date).getFullYear()-(new Date).getFullYear()%100+(d>=m?0:-100)),y>-1)for(g=1,v=y;!((r=this._getDaysInMonth(m,g-1))>=v);)g++,v-=r;if((s=this._daylightSavingAdjust(new Date(m,g-1,v))).getFullYear()!==m||s.getMonth()+1!==g||s.getDate()!==v)throw"Invalid date";return s},ATOM:"yy-mm-dd",COOKIE:"D, dd M yy",ISO_8601:"yy-mm-dd",RFC_822:"D, d M y",RFC_850:"DD, dd-M-y",RFC_1036:"D, d M y",RFC_1123:"D, d M yy",RFC_2822:"D, d M yy",RSS:"D, d M y",TICKS:"!",TIMESTAMP:"@",W3C:"yy-mm-dd",_ticksTo1970:864e9*(718685+Math.floor(492.5)-Math.floor(19.7)+Math.floor(4.925)),formatDate:function(t,e,n){if(!e)return"";var o,i=(n?n.dayNamesShort:null)||this._defaults.dayNamesShort,r=(n?n.dayNames:null)||this._defaults.dayNames,a=(n?n.monthNamesShort:null)||this._defaults.monthNamesShort,s=(n?n.monthNames:null)||this._defaults.monthNames,c=function(e){var n=t.length>o+1&&t.charAt(o+1)===e;return n&&o++,n},l=function(t,e,n){var o=""+e;if(c(t))for(;n>o.length;)o="0"+o;return o},d=function(t,e,n,o){return c(t)?o[e]:n[e]},u="",h=!1;if(e)for(o=0;t.length>o;o++)if(h)"'"!==t.charAt(o)||c("'")?u+=t.charAt(o):h=!1;else switch(t.charAt(o)){case"d":u+=l("d",e.getDate(),2);break;case"D":u+=d("D",e.getDay(),i,r);break;case"o":u+=l("o",Math.round((new Date(e.getFullYear(),e.getMonth(),e.getDate()).getTime()-new Date(e.getFullYear(),0,0).getTime())/864e5),3);break;case"m":u+=l("m",e.getMonth()+1,2);break;case"M":u+=d("M",e.getMonth(),a,s);break;case"y":u+=c("y")?e.getFullYear():(10>e.getFullYear()%100?"0":"")+e.getFullYear()%100;break;case"@":u+=e.getTime();break;case"!":u+=1e4*e.getTime()+this._ticksTo1970;break;case"'":c("'")?u+="'":h=!0;break;default:u+=t.charAt(o)}return u},_possibleChars:function(t){var e,n="",o=!1,i=function(n){var o=t.length>e+1&&t.charAt(e+1)===n;return o&&e++,o};for(e=0;t.length>e;e++)if(o)"'"!==t.charAt(e)||i("'")?n+=t.charAt(e):o=!1;else switch(t.charAt(e)){case"d":case"m":case"y":case"@":n+="0123456789";break;case"D":case"M":return null;case"'":i("'")?n+="'":o=!0;break;default:n+=t.charAt(e)}return n},_get:function(t,e){return void 0!==t.settings[e]?t.settings[e]:this._defaults[e]},_setDateFromField:function(t,e){if(t.input.val()!==t.lastVal){var n=this._get(t,"dateFormat"),o=t.lastVal=t.input?t.input.val():null,i=this._getDefaultDate(t),r=i,a=this._getFormatConfig(t);try{r=this.parseDate(n,o,a)||i}catch(t){o=e?"":o}t.selectedDay=r.getDate(),t.drawMonth=t.selectedMonth=r.getMonth(),t.drawYear=t.selectedYear=r.getFullYear(),t.currentDay=o?r.getDate():0,t.currentMonth=o?r.getMonth():0,t.currentYear=o?r.getFullYear():0,this._adjustInstDate(t)}},_getDefaultDate:function(t){return this._restrictMinMax(t,this._determineDate(t,this._get(t,"defaultDate"),new Date))},_determineDate:function(e,n,o){var i=null==n||""===n?o:"string"==typeof n?function(n){try{return t.datepicker.parseDate(t.datepicker._get(e,"dateFormat"),n,t.datepicker._getFormatConfig(e))}catch(t){}for(var o=(n.toLowerCase().match(/^c/)?t.datepicker._getDate(e):null)||new Date,i=o.getFullYear(),r=o.getMonth(),a=o.getDate(),s=/([+\-]?[0-9]+)\s*(d|D|w|W|m|M|y|Y)?/g,c=s.exec(n);c;){switch(c[2]||"d"){case"d":case"D":a+=parseInt(c[1],10);break;case"w":case"W":a+=7*parseInt(c[1],10);break;case"m":case"M":r+=parseInt(c[1],10),a=Math.min(a,t.datepicker._getDaysInMonth(i,r));break;case"y":case"Y":i+=parseInt(c[1],10),a=Math.min(a,t.datepicker._getDaysInMonth(i,r))}c=s.exec(n)}return new Date(i,r,a)}(n):"number"==typeof n?isNaN(n)?o:function(t){var e=new Date;return e.setDate(e.getDate()+t),e}(n):new Date(n.getTime());return(i=i&&"Invalid Date"==""+i?o:i)&&(i.setHours(0),i.setMinutes(0),i.setSeconds(0),i.setMilliseconds(0)),this._daylightSavingAdjust(i)},_daylightSavingAdjust:function(t){return t?(t.setHours(t.getHours()>12?t.getHours()+2:0),t):null},_setDate:function(t,e,n){var o=!e,i=t.selectedMonth,r=t.selectedYear,a=this._restrictMinMax(t,this._determineDate(t,e,new Date));t.selectedDay=t.currentDay=a.getDate(),t.drawMonth=t.selectedMonth=t.currentMonth=a.getMonth(),t.drawYear=t.selectedYear=t.currentYear=a.getFullYear(),i===t.selectedMonth&&r===t.selectedYear||n||this._notifyChange(t),this._adjustInstDate(t),t.input&&t.input.val(o?"":this._formatDate(t))},_getDate:function(t){return!t.currentYear||t.input&&""===t.input.val()?null:this._daylightSavingAdjust(new Date(t.currentYear,t.currentMonth,t.currentDay))},_attachHandlers:function(e){var n=this._get(e,"stepMonths"),o="#"+e.id.replace(/\\\\/g,"\\");e.dpDiv.find("[data-handler]").map(function(){var e={prev:function(){t.datepicker._adjustDate(o,-n,"M")},next:function(){t.datepicker._adjustDate(o,+n,"M")},hide:function(){t.datepicker._hideDatepicker()},today:function(){t.datepicker._gotoToday(o)},selectDay:function(){return t.datepicker._selectDay(o,+this.getAttribute("data-month"),+this.getAttribute("data-year"),this),!1},selectMonth:function(){return t.datepicker._selectMonthYear(o,this,"M"),!1},selectYear:function(){return t.datepicker._selectMonthYear(o,this,"Y"),!1}};t(this).on(this.getAttribute("data-event"),e[this.getAttribute("data-handler")])})},_generateHTML:function(t){var e,n,o,i,r,a,s,c,l,d,u,h,f,p,m,g,v,y,b,w,x,k,S,D,T,_,C,M,E,$,P,O,F,I,z,A,j,L,W,Y=new Date,N=this._daylightSavingAdjust(new Date(Y.getFullYear(),Y.getMonth(),Y.getDate())),H=this._get(t,"isRTL"),R=this._get(t,"showButtonPanel"),B=this._get(t,"hideIfNoPrevNext"),q=this._get(t,"navigationAsDateFormat"),X=this._getNumberOfMonths(t),J=this._get(t,"showCurrentAtPos"),U=this._get(t,"stepMonths"),K=1!==X[0]||1!==X[1],V=this._daylightSavingAdjust(t.currentDay?new Date(t.currentYear,t.currentMonth,t.currentDay):new Date(9999,9,9)),Q=this._getMinMaxDate(t,"min"),G=this._getMinMaxDate(t,"max"),Z=t.drawMonth-J,tt=t.drawYear;if(0>Z&&(Z+=12,tt--),G)for(e=this._daylightSavingAdjust(new Date(G.getFullYear(),G.getMonth()-X[0]*X[1]+1,G.getDate())),e=Q&&Q>e?Q:e;this._daylightSavingAdjust(new Date(tt,Z,1))>e;)0>--Z&&(Z=11,tt--);for(t.drawMonth=Z,t.drawYear=tt,n=this._get(t,"prevText"),n=q?this.formatDate(n,this._daylightSavingAdjust(new Date(tt,Z-U,1)),this._getFormatConfig(t)):n,o=this._canAdjustMonth(t,-1,tt,Z)?"<a class='ui-datepicker-prev ui-corner-all' data-handler='prev' data-event='click' title='"+n+"'><span class='ui-icon ui-icon-circle-triangle-"+(H?"e":"w")+"'>"+n+"</span></a>":B?"":"<a class='ui-datepicker-prev ui-corner-all ui-state-disabled' title='"+n+"'><span class='ui-icon ui-icon-circle-triangle-"+(H?"e":"w")+"'>"+n+"</span></a>",i=this._get(t,"nextText"),i=q?this.formatDate(i,this._daylightSavingAdjust(new Date(tt,Z+U,1)),this._getFormatConfig(t)):i,r=this._canAdjustMonth(t,1,tt,Z)?"<a class='ui-datepicker-next ui-corner-all' data-handler='next' data-event='click' title='"+i+"'><span class='ui-icon ui-icon-circle-triangle-"+(H?"w":"e")+"'>"+i+"</span></a>":B?"":"<a class='ui-datepicker-next ui-corner-all ui-state-disabled' title='"+i+"'><span class='ui-icon ui-icon-circle-triangle-"+(H?"w":"e")+"'>"+i+"</span></a>",a=this._get(t,"currentText"),s=this._get(t,"gotoCurrent")&&t.currentDay?V:N,a=q?this.formatDate(a,s,this._getFormatConfig(t)):a,c=t.inline?"":"<button type='button' class='ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all' data-handler='hide' data-event='click'>"+this._get(t,"closeText")+"</button>",l=R?"<div class='ui-datepicker-buttonpane ui-widget-content'>"+(H?c:"")+(this._isInRange(t,s)?"<button type='button' class='ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all' data-handler='today' data-event='click'>"+a+"</button>":"")+(H?"":c)+"</div>":"",d=parseInt(this._get(t,"firstDay"),10),d=isNaN(d)?0:d,u=this._get(t,"showWeek"),h=this._get(t,"dayNames"),f=this._get(t,"dayNamesMin"),p=this._get(t,"monthNames"),m=this._get(t,"monthNamesShort"),g=this._get(t,"beforeShowDay"),v=this._get(t,"showOtherMonths"),y=this._get(t,"selectOtherMonths"),b=this._getDefaultDate(t),w="",k=0;X[0]>k;k++){for(S="",this.maxRows=4,D=0;X[1]>D;D++){if(T=this._daylightSavingAdjust(new Date(tt,Z,t.selectedDay)),_=" ui-corner-all",C="",K){if(C+="<div class='ui-datepicker-group",X[1]>1)switch(D){case 0:C+=" ui-datepicker-group-first",_=" ui-corner-"+(H?"right":"left");break;case X[1]-1:C+=" ui-datepicker-group-last",_=" ui-corner-"+(H?"left":"right");break;default:C+=" ui-datepicker-group-middle",_=""}C+="'>"}for(C+="<div class='ui-datepicker-header ui-widget-header ui-helper-clearfix"+_+"'>"+(/all|left/.test(_)&&0===k?H?r:o:"")+(/all|right/.test(_)&&0===k?H?o:r:"")+this._generateMonthYearHeader(t,Z,tt,Q,G,k>0||D>0,p,m)+"</div><table class='ui-datepicker-calendar'><thead><tr>",M=u?"<th class='ui-datepicker-week-col'>"+this._get(t,"weekHeader")+"</th>":"",x=0;7>x;x++)M+="<th scope='col'"+((x+d+6)%7>=5?" class='ui-datepicker-week-end'":"")+"><span title='"+h[E=(x+d)%7]+"'>"+f[E]+"</span></th>";for(C+=M+"</tr></thead><tbody>",$=this._getDaysInMonth(tt,Z),tt===t.selectedYear&&Z===t.selectedMonth&&(t.selectedDay=Math.min(t.selectedDay,$)),P=(this._getFirstDayOfMonth(tt,Z)-d+7)%7,O=Math.ceil((P+$)/7),F=K&&this.maxRows>O?this.maxRows:O,this.maxRows=F,I=this._daylightSavingAdjust(new Date(tt,Z,1-P)),z=0;F>z;z++){for(C+="<tr>",A=u?"<td class='ui-datepicker-week-col'>"+this._get(t,"calculateWeek")(I)+"</td>":"",x=0;7>x;x++)j=g?g.apply(t.input?t.input[0]:null,[I]):[!0,""],W=(L=I.getMonth()!==Z)&&!y||!j[0]||Q&&Q>I||G&&I>G,A+="<td class='"+((x+d+6)%7>=5?" ui-datepicker-week-end":"")+(L?" ui-datepicker-other-month":"")+(I.getTime()===T.getTime()&&Z===t.selectedMonth&&t._keyEvent||b.getTime()===I.getTime()&&b.getTime()===T.getTime()?" "+this._dayOverClass:"")+(W?" "+this._unselectableClass+" ui-state-disabled":"")+(L&&!v?"":" "+j[1]+(I.getTime()===V.getTime()?" "+this._currentClass:"")+(I.getTime()===N.getTime()?" ui-datepicker-today":""))+"'"+(L&&!v||!j[2]?"":" title='"+j[2].replace(/'/g,"&#39;")+"'")+(W?"":" data-handler='selectDay' data-event='click' data-month='"+I.getMonth()+"' data-year='"+I.getFullYear()+"'")+">"+(L&&!v?"&#xa0;":W?"<span class='ui-state-default'>"+I.getDate()+"</span>":"<a class='ui-state-default"+(I.getTime()===N.getTime()?" ui-state-highlight":"")+(I.getTime()===V.getTime()?" ui-state-active":"")+(L?" ui-priority-secondary":"")+"' href='#'>"+I.getDate()+"</a>")+"</td>",I.setDate(I.getDate()+1),I=this._daylightSavingAdjust(I);C+=A+"</tr>"}++Z>11&&(Z=0,tt++),S+=C+="</tbody></table>"+(K?"</div>"+(X[0]>0&&D===X[1]-1?"<div class='ui-datepicker-row-break'></div>":""):"")}w+=S}return w+=l,t._keyEvent=!1,w},_generateMonthYearHeader:function(t,e,n,o,i,r,a,s){var c,l,d,u,h,f,p,m,g=this._get(t,"changeMonth"),v=this._get(t,"changeYear"),y=this._get(t,"showMonthAfterYear"),b="<div class='ui-datepicker-title'>",w="";if(r||!g)w+="<span class='ui-datepicker-month'>"+a[e]+"</span>";else{for(c=o&&o.getFullYear()===n,l=i&&i.getFullYear()===n,w+="<select class='ui-datepicker-month' data-handler='selectMonth' data-event='change'>",d=0;12>d;d++)(!c||d>=o.getMonth())&&(!l||i.getMonth()>=d)&&(w+="<option value='"+d+"'"+(d===e?" selected='selected'":"")+">"+s[d]+"</option>");w+="</select>"}if(y||(b+=w+(!r&&g&&v?"":"&#xa0;")),!t.yearshtml)if(t.yearshtml="",r||!v)b+="<span class='ui-datepicker-year'>"+n+"</span>";else{for(u=this._get(t,"yearRange").split(":"),h=(new Date).getFullYear(),p=(f=function(t){var e=t.match(/c[+\-].*/)?n+parseInt(t.substring(1),10):t.match(/[+\-].*/)?h+parseInt(t,10):parseInt(t,10);return isNaN(e)?h:e})(u[0]),m=Math.max(p,f(u[1]||"")),p=o?Math.max(p,o.getFullYear()):p,m=i?Math.min(m,i.getFullYear()):m,t.yearshtml+="<select class='ui-datepicker-year' data-handler='selectYear' data-event='change'>";m>=p;p++)t.yearshtml+="<option value='"+p+"'"+(p===n?" selected='selected'":"")+">"+p+"</option>";t.yearshtml+="</select>",b+=t.yearshtml,t.yearshtml=null}return b+=this._get(t,"yearSuffix"),y&&(b+=(!r&&g&&v?"":"&#xa0;")+w),b+"</div>"},_adjustInstDate:function(t,e,n){var o=t.selectedYear+("Y"===n?e:0),i=t.selectedMonth+("M"===n?e:0),r=Math.min(t.selectedDay,this._getDaysInMonth(o,i))+("D"===n?e:0),a=this._restrictMinMax(t,this._daylightSavingAdjust(new Date(o,i,r)));t.selectedDay=a.getDate(),t.drawMonth=t.selectedMonth=a.getMonth(),t.drawYear=t.selectedYear=a.getFullYear(),("M"===n||"Y"===n)&&this._notifyChange(t)},_restrictMinMax:function(t,e){var n=this._getMinMaxDate(t,"min"),o=this._getMinMaxDate(t,"max"),i=n&&n>e?n:e;return o&&i>o?o:i},_notifyChange:function(t){var e=this._get(t,"onChangeMonthYear");e&&e.apply(t.input?t.input[0]:null,[t.selectedYear,t.selectedMonth+1,t])},_getNumberOfMonths:function(t){var e=this._get(t,"numberOfMonths");return null==e?[1,1]:"number"==typeof e?[1,e]:e},_getMinMaxDate:function(t,e){return this._determineDate(t,this._get(t,e+"Date"),null)},_getDaysInMonth:function(t,e){return 32-this._daylightSavingAdjust(new Date(t,e,32)).getDate()},_getFirstDayOfMonth:function(t,e){return new Date(t,e,1).getDay()},_canAdjustMonth:function(t,e,n,o){var i=this._getNumberOfMonths(t),r=this._daylightSavingAdjust(new Date(n,o+(0>e?e:i[0]*i[1]),1));return 0>e&&r.setDate(this._getDaysInMonth(r.getFullYear(),r.getMonth())),this._isInRange(t,r)},_isInRange:function(t,e){var n,o,i=this._getMinMaxDate(t,"min"),r=this._getMinMaxDate(t,"max"),a=null,s=null,c=this._get(t,"yearRange");return c&&(n=c.split(":"),o=(new Date).getFullYear(),a=parseInt(n[0],10),s=parseInt(n[1],10),n[0].match(/[+\-].*/)&&(a+=o),n[1].match(/[+\-].*/)&&(s+=o)),(!i||e.getTime()>=i.getTime())&&(!r||e.getTime()<=r.getTime())&&(!a||e.getFullYear()>=a)&&(!s||s>=e.getFullYear())},_getFormatConfig:function(t){var e=this._get(t,"shortYearCutoff");return{shortYearCutoff:e="string"!=typeof e?e:(new Date).getFullYear()%100+parseInt(e,10),dayNamesShort:this._get(t,"dayNamesShort"),dayNames:this._get(t,"dayNames"),monthNamesShort:this._get(t,"monthNamesShort"),monthNames:this._get(t,"monthNames")}},_formatDate:function(t,e,n,o){e||(t.currentDay=t.selectedDay,t.currentMonth=t.selectedMonth,t.currentYear=t.selectedYear);var i=e?"object"==typeof e?e:this._daylightSavingAdjust(new Date(o,n,e)):this._daylightSavingAdjust(new Date(t.currentYear,t.currentMonth,t.currentDay));return this.formatDate(this._get(t,"dateFormat"),i,this._getFormatConfig(t))}}),t.fn.datepicker=function(e){if(!this.length)return this;t.datepicker.initialized||(t(document).on("mousedown",t.datepicker._checkExternalClick),t.datepicker.initialized=!0),0===t("#"+t.datepicker._mainDivId).length&&t("body").append(t.datepicker.dpDiv);var n=Array.prototype.slice.call(arguments,1);return"string"!=typeof e||"isDisabled"!==e&&"getDate"!==e&&"widget"!==e?"option"===e&&2===arguments.length&&"string"==typeof arguments[1]?t.datepicker["_"+e+"Datepicker"].apply(t.datepicker,[this[0]].concat(n)):this.each(function(){"string"==typeof e?t.datepicker["_"+e+"Datepicker"].apply(t.datepicker,[this].concat(n)):t.datepicker._attachDatepicker(this,e)}):t.datepicker["_"+e+"Datepicker"].apply(t.datepicker,[this[0]].concat(n))},t.datepicker=new e,t.datepicker.initialized=!1,t.datepicker.uuid=(new Date).getTime(),t.datepicker.version="1.12.1",t.datepicker;var a="ui-effects-",s="ui-effects-style",c="ui-effects-animated",l=t;t.effects={effect:{}},function(t,e){function n(t,e,n){var o=d[e.type]||{};return null==t?n||!e.def?null:e.def:(t=o.floor?~~t:parseFloat(t),isNaN(t)?e.def:o.mod?(t+o.mod)%o.mod:0>t?0:t>o.max?o.max:t)}function o(n){var o=c(),i=o._rgba=[];return n=n.toLowerCase(),f(s,function(t,r){var a,s=r.re.exec(n),c=s&&r.parse(s),d=r.space||"rgba";return c?(a=o[d](c),o[l[d].cache]=a[l[d].cache],i=o._rgba=a._rgba,!1):e}),i.length?("0,0,0,0"===i.join()&&t.extend(i,r.transparent),o):r[n]}function i(t,e,n){return 1>6*(n=(n+1)%1)?t+6*(e-t)*n:1>2*n?e:2>3*n?t+6*(e-t)*(2/3-n):t}var r,a=/^([\-+])=\s*(\d+\.?\d*)/,s=[{re:/rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d?(?:\.\d+)?)\s*)?\)/,parse:function(t){return[t[1],t[2],t[3],t[4]]}},{re:/rgba?\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d?(?:\.\d+)?)\s*)?\)/,parse:function(t){return[2.55*t[1],2.55*t[2],2.55*t[3],t[4]]}},{re:/#([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})/,parse:function(t){return[parseInt(t[1],16),parseInt(t[2],16),parseInt(t[3],16)]}},{re:/#([a-f0-9])([a-f0-9])([a-f0-9])/,parse:function(t){return[parseInt(t[1]+t[1],16),parseInt(t[2]+t[2],16),parseInt(t[3]+t[3],16)]}},{re:/hsla?\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d?(?:\.\d+)?)\s*)?\)/,space:"hsla",parse:function(t){return[t[1],t[2]/100,t[3]/100,t[4]]}}],c=t.Color=function(e,n,o,i){return new t.Color.fn.parse(e,n,o,i)},l={rgba:{props:{red:{idx:0,type:"byte"},green:{idx:1,type:"byte"},blue:{idx:2,type:"byte"}}},hsla:{props:{hue:{idx:0,type:"degrees"},saturation:{idx:1,type:"percent"},lightness:{idx:2,type:"percent"}}}},d={byte:{floor:!0,max:255},percent:{max:1},degrees:{mod:360,floor:!0}},u=c.support={},h=t("<p>")[0],f=t.each;h.style.cssText="background-color:rgba(1,1,1,.5)",u.rgba=h.style.backgroundColor.indexOf("rgba")>-1,f(l,function(t,e){e.cache="_"+t,e.props.alpha={idx:3,type:"percent",def:1}}),c.fn=t.extend(c.prototype,{parse:function(i,a,s,d){if(i===e)return this._rgba=[null,null,null,null],this;(i.jquery||i.nodeType)&&(i=t(i).css(a),a=e);var u=this,h=t.type(i),p=this._rgba=[];return a!==e&&(i=[i,a,s,d],h="array"),"string"===h?this.parse(o(i)||r._default):"array"===h?(f(l.rgba.props,function(t,e){p[e.idx]=n(i[e.idx],e)}),this):"object"===h?(f(l,i instanceof c?function(t,e){i[e.cache]&&(u[e.cache]=i[e.cache].slice())}:function(e,o){var r=o.cache;f(o.props,function(t,e){if(!u[r]&&o.to){if("alpha"===t||null==i[t])return;u[r]=o.to(u._rgba)}u[r][e.idx]=n(i[t],e,!0)}),u[r]&&0>t.inArray(null,u[r].slice(0,3))&&(u[r][3]=1,o.from&&(u._rgba=o.from(u[r])))}),this):e},is:function(t){var n=c(t),o=!0,i=this;return f(l,function(t,r){var a,s=n[r.cache];return s&&(a=i[r.cache]||r.to&&r.to(i._rgba)||[],f(r.props,function(t,n){return null!=s[n.idx]?o=s[n.idx]===a[n.idx]:e})),o}),o},_space:function(){var t=[],e=this;return f(l,function(n,o){e[o.cache]&&t.push(n)}),t.pop()},transition:function(t,e){var o=c(t),i=o._space(),r=l[i],a=0===this.alpha()?c("transparent"):this,s=a[r.cache]||r.to(a._rgba),u=s.slice();return o=o[r.cache],f(r.props,function(t,i){var r=i.idx,a=s[r],c=o[r],l=d[i.type]||{};null!==c&&(null===a?u[r]=c:(l.mod&&(c-a>l.mod/2?a+=l.mod:a-c>l.mod/2&&(a-=l.mod)),u[r]=n((c-a)*e+a,i)))}),this[i](u)},blend:function(e){if(1===this._rgba[3])return this;var n=this._rgba.slice(),o=n.pop(),i=c(e)._rgba;return c(t.map(n,function(t,e){return(1-o)*i[e]+o*t}))},toRgbaString:function(){var e="rgba(",n=t.map(this._rgba,function(t,e){return null==t?e>2?1:0:t});return 1===n[3]&&(n.pop(),e="rgb("),e+n.join()+")"},toHslaString:function(){var e="hsla(",n=t.map(this.hsla(),function(t,e){return null==t&&(t=e>2?1:0),e&&3>e&&(t=Math.round(100*t)+"%"),t});return 1===n[3]&&(n.pop(),e="hsl("),e+n.join()+")"},toHexString:function(e){var n=this._rgba.slice(),o=n.pop();return e&&n.push(~~(255*o)),"#"+t.map(n,function(t){return 1===(t=(t||0).toString(16)).length?"0"+t:t}).join("")},toString:function(){return 0===this._rgba[3]?"transparent":this.toRgbaString()}}),c.fn.parse.prototype=c.fn,l.hsla.to=function(t){if(null==t[0]||null==t[1]||null==t[2])return[null,null,null,t[3]];var e,n,o=t[0]/255,i=t[1]/255,r=t[2]/255,a=t[3],s=Math.max(o,i,r),c=Math.min(o,i,r),l=s-c,d=s+c,u=.5*d;return e=c===s?0:o===s?60*(i-r)/l+360:i===s?60*(r-o)/l+120:60*(o-i)/l+240,n=0===l?0:.5>=u?l/d:l/(2-d),[Math.round(e)%360,n,u,null==a?1:a]},l.hsla.from=function(t){if(null==t[0]||null==t[1]||null==t[2])return[null,null,null,t[3]];var e=t[0]/360,n=t[1],o=t[2],r=t[3],a=.5>=o?o*(1+n):o+n-o*n,s=2*o-a;return[Math.round(255*i(s,a,e+1/3)),Math.round(255*i(s,a,e)),Math.round(255*i(s,a,e-1/3)),r]},f(l,function(o,i){var r=i.props,s=i.cache,l=i.to,d=i.from;c.fn[o]=function(o){if(l&&!this[s]&&(this[s]=l(this._rgba)),o===e)return this[s].slice();var i,a=t.type(o),u="array"===a||"object"===a?o:arguments,h=this[s].slice();return f(r,function(t,e){var o=u["object"===a?t:e.idx];null==o&&(o=h[e.idx]),h[e.idx]=n(o,e)}),d?((i=c(d(h)))[s]=h,i):c(h)},f(r,function(e,n){c.fn[e]||(c.fn[e]=function(i){var r,s=t.type(i),c="alpha"===e?this._hsla?"hsla":"rgba":o,l=this[c](),d=l[n.idx];return"undefined"===s?d:("function"===s&&(i=i.call(this,d),s=t.type(i)),null==i&&n.empty?this:("string"===s&&((r=a.exec(i))&&(i=d+parseFloat(r[2])*("+"===r[1]?1:-1))),l[n.idx]=i,this[c](l)))})})}),c.hook=function(e){var n=e.split(" ");f(n,function(e,n){t.cssHooks[n]={set:function(e,i){var r,a,s="";if("transparent"!==i&&("string"!==t.type(i)||(r=o(i)))){if(i=c(r||i),!u.rgba&&1!==i._rgba[3]){for(a="backgroundColor"===n?e.parentNode:e;(""===s||"transparent"===s)&&a&&a.style;)try{s=t.css(a,"backgroundColor"),a=a.parentNode}catch(t){}i=i.blend(s&&"transparent"!==s?s:"_default")}i=i.toRgbaString()}try{e.style[n]=i}catch(t){}}},t.fx.step[n]=function(e){e.colorInit||(e.start=c(e.elem,n),e.end=c(e.end),e.colorInit=!0),t.cssHooks[n].set(e.elem,e.start.transition(e.end,e.pos))}})},c.hook("backgroundColor borderBottomColor borderLeftColor borderRightColor borderTopColor color columnRuleColor outlineColor textDecorationColor textEmphasisColor"),t.cssHooks.borderColor={expand:function(t){var e={};return f(["Top","Right","Bottom","Left"],function(n,o){e["border"+o+"Color"]=t}),e}},r=t.Color.names={aqua:"#00ffff",black:"#000000",blue:"#0000ff",fuchsia:"#ff00ff",gray:"#808080",green:"#008000",lime:"#00ff00",maroon:"#800000",navy:"#000080",olive:"#808000",purple:"#800080",red:"#ff0000",silver:"#c0c0c0",teal:"#008080",white:"#ffffff",yellow:"#ffff00",transparent:[null,null,null,0],_default:"#ffffff"}}(l),function(){function e(e){var n,o,i=e.ownerDocument.defaultView?e.ownerDocument.defaultView.getComputedStyle(e,null):e.currentStyle,r={};if(i&&i.length&&i[0]&&i[i[0]])for(o=i.length;o--;)"string"==typeof i[n=i[o]]&&(r[t.camelCase(n)]=i[n]);else for(n in i)"string"==typeof i[n]&&(r[n]=i[n]);return r}function n(e,n){var o,r,a={};for(o in n)r=n[o],e[o]!==r&&(i[o]||(t.fx.step[o]||!isNaN(parseFloat(r)))&&(a[o]=r));return a}var o=["add","remove","toggle"],i={border:1,borderBottom:1,borderColor:1,borderLeft:1,borderRight:1,borderTop:1,borderWidth:1,margin:1,padding:1};t.each(["borderLeftStyle","borderRightStyle","borderBottomStyle","borderTopStyle"],function(e,n){t.fx.step[n]=function(t){("none"!==t.end&&!t.setAttr||1===t.pos&&!t.setAttr)&&(l.style(t.elem,n,t.end),t.setAttr=!0)}}),t.fn.addBack||(t.fn.addBack=function(t){return this.add(null==t?this.prevObject:this.prevObject.filter(t))}),t.effects.animateClass=function(i,r,a,s){var c=t.speed(r,a,s);return this.queue(function(){var r,a=t(this),s=a.attr("class")||"",l=c.children?a.find("*").addBack():a;l=l.map(function(){return{el:t(this),start:e(this)}}),(r=function(){t.each(o,function(t,e){i[e]&&a[e+"Class"](i[e])})})(),l=l.map(function(){return this.end=e(this.el[0]),this.diff=n(this.start,this.end),this}),a.attr("class",s),l=l.map(function(){var e=this,n=t.Deferred(),o=t.extend({},c,{queue:!1,complete:function(){n.resolve(e)}});return this.el.animate(this.diff,o),n.promise()}),t.when.apply(t,l.get()).done(function(){r(),t.each(arguments,function(){var e=this.el;t.each(this.diff,function(t){e.css(t,"")})}),c.complete.call(a[0])})})},t.fn.extend({addClass:function(e){return function(n,o,i,r){return o?t.effects.animateClass.call(this,{add:n},o,i,r):e.apply(this,arguments)}}(t.fn.addClass),removeClass:function(e){return function(n,o,i,r){return arguments.length>1?t.effects.animateClass.call(this,{remove:n},o,i,r):e.apply(this,arguments)}}(t.fn.removeClass),toggleClass:function(e){return function(n,o,i,r,a){return"boolean"==typeof o||void 0===o?i?t.effects.animateClass.call(this,o?{add:n}:{remove:n},i,r,a):e.apply(this,arguments):t.effects.animateClass.call(this,{toggle:n},o,i,r)}}(t.fn.toggleClass),switchClass:function(e,n,o,i,r){return t.effects.animateClass.call(this,{add:n,remove:e},o,i,r)}})}(),function(){function e(e,n,o,i){return t.isPlainObject(e)&&(n=e,e=e.effect),e={effect:e},null==n&&(n={}),t.isFunction(n)&&(i=n,o=null,n={}),("number"==typeof n||t.fx.speeds[n])&&(i=o,o=n,n={}),t.isFunction(o)&&(i=o,o=null),n&&t.extend(e,n),o=o||n.duration,e.duration=t.fx.off?0:"number"==typeof o?o:o in t.fx.speeds?t.fx.speeds[o]:t.fx.speeds._default,e.complete=i||n.complete,e}function n(e){return!(e&&"number"!=typeof e&&!t.fx.speeds[e])||("string"==typeof e&&!t.effects.effect[e]||(!!t.isFunction(e)||"object"==typeof e&&!e.effect))}function o(t,e){var n=e.outerWidth(),o=e.outerHeight(),i=/^rect\((-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto)\)$/.exec(t)||["",0,n,o,0];return{top:parseFloat(i[1])||0,right:"auto"===i[2]?n:parseFloat(i[2]),bottom:"auto"===i[3]?o:parseFloat(i[3]),left:parseFloat(i[4])||0}}t.expr&&t.expr.filters&&t.expr.filters.animated&&(t.expr.filters.animated=function(e){return function(n){return!!t(n).data(c)||e(n)}}(t.expr.filters.animated)),!1!==t.uiBackCompat&&t.extend(t.effects,{save:function(t,e){for(var n=0,o=e.length;o>n;n++)null!==e[n]&&t.data(a+e[n],t[0].style[e[n]])},restore:function(t,e){for(var n,o=0,i=e.length;i>o;o++)null!==e[o]&&(n=t.data(a+e[o]),t.css(e[o],n))},setMode:function(t,e){return"toggle"===e&&(e=t.is(":hidden")?"show":"hide"),e},createWrapper:function(e){if(e.parent().is(".ui-effects-wrapper"))return e.parent();var n={width:e.outerWidth(!0),height:e.outerHeight(!0),float:e.css("float")},o=t("<div></div>").addClass("ui-effects-wrapper").css({fontSize:"100%",background:"transparent",border:"none",margin:0,padding:0}),i={width:e.width(),height:e.height()},r=document.activeElement;try{r.id}catch(t){r=document.body}return e.wrap(o),(e[0]===r||t.contains(e[0],r))&&t(r).trigger("focus"),o=e.parent(),"static"===e.css("position")?(o.css({position:"relative"}),e.css({position:"relative"})):(t.extend(n,{position:e.css("position"),zIndex:e.css("z-index")}),t.each(["top","left","bottom","right"],function(t,o){n[o]=e.css(o),isNaN(parseInt(n[o],10))&&(n[o]="auto")}),e.css({position:"relative",top:0,left:0,right:"auto",bottom:"auto"})),e.css(i),o.css(n).show()},removeWrapper:function(e){var n=document.activeElement;return e.parent().is(".ui-effects-wrapper")&&(e.parent().replaceWith(e),(e[0]===n||t.contains(e[0],n))&&t(n).trigger("focus")),e}}),t.extend(t.effects,{version:"1.12.1",define:function(e,n,o){return o||(o=n,n="effect"),t.effects.effect[e]=o,t.effects.effect[e].mode=n,o},scaledDimensions:function(t,e,n){if(0===e)return{height:0,width:0,outerHeight:0,outerWidth:0};var o="horizontal"!==n?(e||100)/100:1,i="vertical"!==n?(e||100)/100:1;return{height:t.height()*i,width:t.width()*o,outerHeight:t.outerHeight()*i,outerWidth:t.outerWidth()*o}},clipToBox:function(t){return{width:t.clip.right-t.clip.left,height:t.clip.bottom-t.clip.top,left:t.clip.left,top:t.clip.top}},unshift:function(t,e,n){var o=t.queue();e>1&&o.splice.apply(o,[1,0].concat(o.splice(e,n))),t.dequeue()},saveStyle:function(t){t.data(s,t[0].style.cssText)},restoreStyle:function(t){t[0].style.cssText=t.data(s)||"",t.removeData(s)},mode:function(t,e){var n=t.is(":hidden");return"toggle"===e&&(e=n?"show":"hide"),(n?"hide"===e:"show"===e)&&(e="none"),e},getBaseline:function(t,e){var n,o;switch(t[0]){case"top":n=0;break;case"middle":n=.5;break;case"bottom":n=1;break;default:n=t[0]/e.height}switch(t[1]){case"left":o=0;break;case"center":o=.5;break;case"right":o=1;break;default:o=t[1]/e.width}return{x:o,y:n}},createPlaceholder:function(e){var n,o=e.css("position"),i=e.position();return e.css({marginTop:e.css("marginTop"),marginBottom:e.css("marginBottom"),marginLeft:e.css("marginLeft"),marginRight:e.css("marginRight")}).outerWidth(e.outerWidth()).outerHeight(e.outerHeight()),/^(static|relative)/.test(o)&&(o="absolute",n=t("<"+e[0].nodeName+">").insertAfter(e).css({display:/^(inline|ruby)/.test(e.css("display"))?"inline-block":"block",visibility:"hidden",marginTop:e.css("marginTop"),marginBottom:e.css("marginBottom"),marginLeft:e.css("marginLeft"),marginRight:e.css("marginRight"),float:e.css("float")}).outerWidth(e.outerWidth()).outerHeight(e.outerHeight()).addClass("ui-effects-placeholder"),e.data(a+"placeholder",n)),e.css({position:o,left:i.left,top:i.top}),n},removePlaceholder:function(t){var e=a+"placeholder",n=t.data(e);n&&(n.remove(),t.removeData(e))},cleanUp:function(e){t.effects.restoreStyle(e),t.effects.removePlaceholder(e)},setTransition:function(e,n,o,i){return i=i||{},t.each(n,function(t,n){var r=e.cssUnit(n);r[0]>0&&(i[n]=r[0]*o+r[1])}),i}}),t.fn.extend({effect:function(){function n(e){function n(){t.isFunction(l)&&l.call(a[0]),t.isFunction(e)&&e()}var a=t(this);o.mode=u.shift(),!1===t.uiBackCompat||r?"none"===o.mode?(a[d](),n()):i.call(a[0],o,function(){a.removeData(c),t.effects.cleanUp(a),"hide"===o.mode&&a.hide(),n()}):(a.is(":hidden")?"hide"===d:"show"===d)?(a[d](),n()):i.call(a[0],o,n)}var o=e.apply(this,arguments),i=t.effects.effect[o.effect],r=i.mode,a=o.queue,s=a||"fx",l=o.complete,d=o.mode,u=[],h=function(e){var n=t(this),o=t.effects.mode(n,d)||r;n.data(c,!0),u.push(o),r&&("show"===o||o===r&&"hide"===o)&&n.show(),r&&"none"===o||t.effects.saveStyle(n),t.isFunction(e)&&e()};return t.fx.off||!i?d?this[d](o.duration,l):this.each(function(){l&&l.call(this)}):!1===a?this.each(h).each(n):this.queue(s,h).queue(s,n)},show:function(t){return function(o){if(n(o))return t.apply(this,arguments);var i=e.apply(this,arguments);return i.mode="show",this.effect.call(this,i)}}(t.fn.show),hide:function(t){return function(o){if(n(o))return t.apply(this,arguments);var i=e.apply(this,arguments);return i.mode="hide",this.effect.call(this,i)}}(t.fn.hide),toggle:function(t){return function(o){if(n(o)||"boolean"==typeof o)return t.apply(this,arguments);var i=e.apply(this,arguments);return i.mode="toggle",this.effect.call(this,i)}}(t.fn.toggle),cssUnit:function(e){var n=this.css(e),o=[];return t.each(["em","px","%","pt"],function(t,e){n.indexOf(e)>0&&(o=[parseFloat(n),e])}),o},cssClip:function(t){return t?this.css("clip","rect("+t.top+"px "+t.right+"px "+t.bottom+"px "+t.left+"px)"):o(this.css("clip"),this)},transfer:function(e,n){var o=t(this),i=t(e.to),r="fixed"===i.css("position"),a=t("body"),s=r?a.scrollTop():0,c=r?a.scrollLeft():0,l=i.offset(),d={top:l.top-s,left:l.left-c,height:i.innerHeight(),width:i.innerWidth()},u=o.offset(),h=t("<div class='ui-effects-transfer'></div>").appendTo("body").addClass(e.className).css({top:u.top-s,left:u.left-c,height:o.innerHeight(),width:o.innerWidth(),position:r?"fixed":"absolute"}).animate(d,e.duration,e.easing,function(){h.remove(),t.isFunction(n)&&n()})}}),t.fx.step.clip=function(e){e.clipInit||(e.start=t(e.elem).cssClip(),"string"==typeof e.end&&(e.end=o(e.end,e.elem)),e.clipInit=!0),t(e.elem).cssClip({top:e.pos*(e.end.top-e.start.top)+e.start.top,right:e.pos*(e.end.right-e.start.right)+e.start.right,bottom:e.pos*(e.end.bottom-e.start.bottom)+e.start.bottom,left:e.pos*(e.end.left-e.start.left)+e.start.left})}}(),function(){var e={};t.each(["Quad","Cubic","Quart","Quint","Expo"],function(t,n){e[n]=function(e){return Math.pow(e,t+2)}}),t.extend(e,{Sine:function(t){return 1-Math.cos(t*Math.PI/2)},Circ:function(t){return 1-Math.sqrt(1-t*t)},Elastic:function(t){return 0===t||1===t?t:-Math.pow(2,8*(t-1))*Math.sin((80*(t-1)-7.5)*Math.PI/15)},Back:function(t){return t*t*(3*t-2)},Bounce:function(t){for(var e,n=4;((e=Math.pow(2,--n))-1)/11>t;);return 1/Math.pow(4,3-n)-7.5625*Math.pow((3*e-2)/22-t,2)}}),t.each(e,function(e,n){t.easing["easeIn"+e]=n,t.easing["easeOut"+e]=function(t){return 1-n(1-t)},t.easing["easeInOut"+e]=function(t){return.5>t?n(2*t)/2:1-n(-2*t+2)/2}})}();t.effects;t.effects.define("blind","hide",function(e,n){var o={up:["bottom","top"],vertical:["bottom","top"],down:["top","bottom"],left:["right","left"],horizontal:["right","left"],right:["left","right"]},i=t(this),r=e.direction||"up",a=i.cssClip(),s={clip:t.extend({},a)},c=t.effects.createPlaceholder(i);s.clip[o[r][0]]=s.clip[o[r][1]],"show"===e.mode&&(i.cssClip(s.clip),c&&c.css(t.effects.clipToBox(s)),s.clip=a),c&&c.animate(t.effects.clipToBox(s),e.duration,e.easing),i.animate(s,{queue:!1,duration:e.duration,easing:e.easing,complete:n})}),t.effects.define("bounce",function(e,n){var o,i,r,a=t(this),s=e.mode,c="hide"===s,l="show"===s,d=e.direction||"up",u=e.distance,h=e.times||5,f=2*h+(l||c?1:0),p=e.duration/f,m=e.easing,g="up"===d||"down"===d?"top":"left",v="up"===d||"left"===d,y=0,b=a.queue().length;for(t.effects.createPlaceholder(a),r=a.css(g),u||(u=a["top"===g?"outerHeight":"outerWidth"]()/3),l&&((i={opacity:1})[g]=r,a.css("opacity",0).css(g,v?2*-u:2*u).animate(i,p,m)),c&&(u/=Math.pow(2,h-1)),(i={})[g]=r;h>y;y++)(o={})[g]=(v?"-=":"+=")+u,a.animate(o,p,m).animate(i,p,m),u=c?2*u:u/2;c&&((o={opacity:0})[g]=(v?"-=":"+=")+u,a.animate(o,p,m)),a.queue(n),t.effects.unshift(a,b,f+1)}),t.effects.define("clip","hide",function(e,n){var o,i={},r=t(this),a=e.direction||"vertical",s="both"===a,c=s||"horizontal"===a,l=s||"vertical"===a;o=r.cssClip(),i.clip={top:l?(o.bottom-o.top)/2:o.top,right:c?(o.right-o.left)/2:o.right,bottom:l?(o.bottom-o.top)/2:o.bottom,left:c?(o.right-o.left)/2:o.left},t.effects.createPlaceholder(r),"show"===e.mode&&(r.cssClip(i.clip),i.clip=o),r.animate(i,{queue:!1,duration:e.duration,easing:e.easing,complete:n})}),t.effects.define("drop","hide",function(e,n){var o,i=t(this),r="show"===e.mode,a=e.direction||"left",s="up"===a||"down"===a?"top":"left",c="up"===a||"left"===a?"-=":"+=",l="+="===c?"-=":"+=",d={opacity:0};t.effects.createPlaceholder(i),o=e.distance||i["top"===s?"outerHeight":"outerWidth"](!0)/2,d[s]=c+o,r&&(i.css(d),d[s]=l+o,d.opacity=1),i.animate(d,{queue:!1,duration:e.duration,easing:e.easing,complete:n})}),t.effects.define("explode","hide",function(e,n){function o(){v.push(this),v.length===d*u&&(h.css({visibility:"visible"}),t(v).remove(),n())}var i,r,a,s,c,l,d=e.pieces?Math.round(Math.sqrt(e.pieces)):3,u=d,h=t(this),f="show"===e.mode,p=h.show().css("visibility","hidden").offset(),m=Math.ceil(h.outerWidth()/u),g=Math.ceil(h.outerHeight()/d),v=[];for(i=0;d>i;i++)for(s=p.top+i*g,l=i-(d-1)/2,r=0;u>r;r++)a=p.left+r*m,c=r-(u-1)/2,h.clone().appendTo("body").wrap("<div></div>").css({position:"absolute",visibility:"visible",left:-r*m,top:-i*g}).parent().addClass("ui-effects-explode").css({position:"absolute",overflow:"hidden",width:m,height:g,left:a+(f?c*m:0),top:s+(f?l*g:0),opacity:f?0:1}).animate({left:a+(f?0:c*m),top:s+(f?0:l*g),opacity:f?1:0},e.duration||500,e.easing,o)}),t.effects.define("fade","toggle",function(e,n){var o="show"===e.mode;t(this).css("opacity",o?0:1).animate({opacity:o?1:0},{queue:!1,duration:e.duration,easing:e.easing,complete:n})}),t.effects.define("fold","hide",function(e,n){var o=t(this),i=e.mode,r="show"===i,a="hide"===i,s=e.size||15,c=/([0-9]+)%/.exec(s),l=!!e.horizFirst?["right","bottom"]:["bottom","right"],d=e.duration/2,u=t.effects.createPlaceholder(o),h=o.cssClip(),f={clip:t.extend({},h)},p={clip:t.extend({},h)},m=[h[l[0]],h[l[1]]],g=o.queue().length;c&&(s=parseInt(c[1],10)/100*m[a?0:1]),f.clip[l[0]]=s,p.clip[l[0]]=s,p.clip[l[1]]=0,r&&(o.cssClip(p.clip),u&&u.css(t.effects.clipToBox(p)),p.clip=h),o.queue(function(n){u&&u.animate(t.effects.clipToBox(f),d,e.easing).animate(t.effects.clipToBox(p),d,e.easing),n()}).animate(f,d,e.easing).animate(p,d,e.easing).queue(n),t.effects.unshift(o,g,4)}),t.effects.define("highlight","show",function(e,n){var o=t(this),i={backgroundColor:o.css("backgroundColor")};"hide"===e.mode&&(i.opacity=0),t.effects.saveStyle(o),o.css({backgroundImage:"none",backgroundColor:e.color||"#ffff99"}).animate(i,{queue:!1,duration:e.duration,easing:e.easing,complete:n})}),t.effects.define("size",function(e,n){var o,i,r,a=t(this),s=["fontSize"],c=["borderTopWidth","borderBottomWidth","paddingTop","paddingBottom"],l=["borderLeftWidth","borderRightWidth","paddingLeft","paddingRight"],d=e.mode,u="effect"!==d,h=e.scale||"both",f=e.origin||["middle","center"],p=a.css("position"),m=a.position(),g=t.effects.scaledDimensions(a),v=e.from||g,y=e.to||t.effects.scaledDimensions(a,0);t.effects.createPlaceholder(a),"show"===d&&(r=v,v=y,y=r),i={from:{y:v.height/g.height,x:v.width/g.width},to:{y:y.height/g.height,x:y.width/g.width}},("box"===h||"both"===h)&&(i.from.y!==i.to.y&&(v=t.effects.setTransition(a,c,i.from.y,v),y=t.effects.setTransition(a,c,i.to.y,y)),i.from.x!==i.to.x&&(v=t.effects.setTransition(a,l,i.from.x,v),y=t.effects.setTransition(a,l,i.to.x,y))),("content"===h||"both"===h)&&i.from.y!==i.to.y&&(v=t.effects.setTransition(a,s,i.from.y,v),y=t.effects.setTransition(a,s,i.to.y,y)),f&&(o=t.effects.getBaseline(f,g),v.top=(g.outerHeight-v.outerHeight)*o.y+m.top,v.left=(g.outerWidth-v.outerWidth)*o.x+m.left,y.top=(g.outerHeight-y.outerHeight)*o.y+m.top,y.left=(g.outerWidth-y.outerWidth)*o.x+m.left),a.css(v),("content"===h||"both"===h)&&(c=c.concat(["marginTop","marginBottom"]).concat(s),l=l.concat(["marginLeft","marginRight"]),a.find("*[width]").each(function(){var n=t(this),o=t.effects.scaledDimensions(n),r={height:o.height*i.from.y,width:o.width*i.from.x,outerHeight:o.outerHeight*i.from.y,outerWidth:o.outerWidth*i.from.x},a={height:o.height*i.to.y,width:o.width*i.to.x,outerHeight:o.height*i.to.y,outerWidth:o.width*i.to.x};i.from.y!==i.to.y&&(r=t.effects.setTransition(n,c,i.from.y,r),a=t.effects.setTransition(n,c,i.to.y,a)),i.from.x!==i.to.x&&(r=t.effects.setTransition(n,l,i.from.x,r),a=t.effects.setTransition(n,l,i.to.x,a)),u&&t.effects.saveStyle(n),n.css(r),n.animate(a,e.duration,e.easing,function(){u&&t.effects.restoreStyle(n)})})),a.animate(y,{queue:!1,duration:e.duration,easing:e.easing,complete:function(){var e=a.offset();0===y.opacity&&a.css("opacity",v.opacity),u||(a.css("position","static"===p?"relative":p).offset(e),t.effects.saveStyle(a)),n()}})}),t.effects.define("scale",function(e,n){var o=t(this),i=e.mode,r=parseInt(e.percent,10)||(0===parseInt(e.percent,10)?0:"effect"!==i?0:100),a=t.extend(!0,{from:t.effects.scaledDimensions(o),to:t.effects.scaledDimensions(o,r,e.direction||"both"),origin:e.origin||["middle","center"]},e);e.fade&&(a.from.opacity=1,a.to.opacity=0),t.effects.effect.size.call(this,a,n)}),t.effects.define("puff","hide",function(e,n){var o=t.extend(!0,{},e,{fade:!0,percent:parseInt(e.percent,10)||150});t.effects.effect.scale.call(this,o,n)}),t.effects.define("pulsate","show",function(e,n){var o=t(this),i=e.mode,r="show"===i,a=r||"hide"===i,s=2*(e.times||5)+(a?1:0),c=e.duration/s,l=0,d=1,u=o.queue().length;for((r||!o.is(":visible"))&&(o.css("opacity",0).show(),l=1);s>d;d++)o.animate({opacity:l},c,e.easing),l=1-l;o.animate({opacity:l},c,e.easing),o.queue(n),t.effects.unshift(o,u,s+1)}),t.effects.define("shake",function(e,n){var o=1,i=t(this),r=e.direction||"left",a=e.distance||20,s=e.times||3,c=2*s+1,l=Math.round(e.duration/c),d="up"===r||"down"===r?"top":"left",u="up"===r||"left"===r,h={},f={},p={},m=i.queue().length;for(t.effects.createPlaceholder(i),h[d]=(u?"-=":"+=")+a,f[d]=(u?"+=":"-=")+2*a,p[d]=(u?"-=":"+=")+2*a,i.animate(h,l,e.easing);s>o;o++)i.animate(f,l,e.easing).animate(p,l,e.easing);i.animate(f,l,e.easing).animate(h,l/2,e.easing).queue(n),t.effects.unshift(i,m,c+1)}),t.effects.define("slide","show",function(e,n){var o,i,r=t(this),a={up:["bottom","top"],down:["top","bottom"],left:["right","left"],right:["left","right"]},s=e.mode,c=e.direction||"left",l="up"===c||"down"===c?"top":"left",d="up"===c||"left"===c,u=e.distance||r["top"===l?"outerHeight":"outerWidth"](!0),h={};t.effects.createPlaceholder(r),o=r.cssClip(),i=r.position()[l],h[l]=(d?-1:1)*u+i,h.clip=r.cssClip(),h.clip[a[c][1]]=h.clip[a[c][0]],"show"===s&&(r.cssClip(h.clip),r.css(l,h[l]),h.clip=o,h[l]=i),r.animate(h,{queue:!1,duration:e.duration,easing:e.easing,complete:n})}),!1!==t.uiBackCompat&&t.effects.define("transfer",function(e,n){t(this).transfer(e,n)})}),function(t){"function"==typeof define&&define.amd?define(["../widgets/datepicker"],t):t(jQuery.datepicker)}(function(t){return t.regional.ru={closeText:"Закрыть",prevText:"&#x3C;Пред",nextText:"След&#x3E;",currentText:"Сегодня",monthNames:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],monthNamesShort:["Янв","Фев","Мар","Апр","Май","Июн","Июл","Авг","Сен","Окт","Ноя","Дек"],dayNames:["воскресенье","понедельник","вторник","среда","четверг","пятница","суббота"],dayNamesShort:["вск","пнд","втр","срд","чтв","птн","сбт"],dayNamesMin:["Вс","Пн","Вт","Ср","Чт","Пт","Сб"],weekHeader:"Нед",dateFormat:"dd.mm.yy",firstDay:1,isRTL:!1,showMonthAfterYear:!1,yearSuffix:""},t.setDefaults(t.regional.ru),t.regional.ru}),function(){"use strict";var t,e,n,o,i;t=function(t,e){return"string"==typeof t&&"string"==typeof e&&t.toLowerCase()===e.toLowerCase()},e=function(t,n,o){var i=o||"0",r=t.toString();return r.length<n?e(i+r,n):r},n=function(t){var e,o;for(t=t||{},e=1;e<arguments.length;e++)if(o=arguments[e])for(var i in o)o.hasOwnProperty(i)&&("object"==typeof o[i]?n(t[i],o[i]):t[i]=o[i]);return t},o=function(t,e){for(var n=0;n<e.length;n++)if(e[n].toLowerCase()===t.toLowerCase())return n;return-1},i={dateSettings:{days:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],daysShort:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],months:["January","February","March","April","May","June","July","August","September","October","November","December"],monthsShort:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],meridiem:["AM","PM"],ordinal:function(t){var e=t%10,n={1:"st",2:"nd",3:"rd"};return 1!==Math.floor(t%100/10)&&n[e]?n[e]:"th"}},separators:/[ \-+\/\.T:@]/g,validParts:/[dDjlNSwzWFmMntLoYyaABgGhHisueTIOPZcrU]/g,intParts:/[djwNzmnyYhHgGis]/g,tzParts:/\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,tzClip:/[^-+\dA-Z]/g},(DateFormatter=function(t){var e=this,o=n(i,t);e.dateSettings=o.dateSettings,e.separators=o.separators,e.validParts=o.validParts,e.intParts=o.intParts,e.tzParts=o.tzParts,e.tzClip=o.tzClip}).prototype={constructor:DateFormatter,getMonth:function(t){var e;return 0===(e=o(t,this.dateSettings.monthsShort)+1)&&(e=o(t,this.dateSettings.months)+1),e},parseDate:function(e,n){var o,i,r,a,s,c,l,d,u,h,f=this,p=!1,m=!1,g=f.dateSettings,v={date:null,year:null,month:null,day:null,hour:0,min:0,sec:0};if(!e)return null;if(e instanceof Date)return e;if("U"===n)return(r=parseInt(e))?new Date(1e3*r):e;switch(typeof e){case"number":return new Date(e);case"string":break;default:return null}if(!(o=n.match(f.validParts))||0===o.length)throw new Error("Invalid date format definition.");for(i=e.replace(f.separators,"\0").split("\0"),r=0;r<i.length;r++)switch(a=i[r],s=parseInt(a),o[r]){case"y":case"Y":if(!s)return null;u=a.length,v.year=2===u?parseInt((70>s?"20":"19")+a):s,p=!0;break;case"m":case"n":case"M":case"F":if(isNaN(s)){if(!((c=f.getMonth(a))>0))return null;v.month=c}else{if(!(s>=1&&12>=s))return null;v.month=s}p=!0;break;case"d":case"j":if(!(s>=1&&31>=s))return null;v.day=s,p=!0;break;case"g":case"h":if(h=i[l=o.indexOf("a")>-1?o.indexOf("a"):o.indexOf("A")>-1?o.indexOf("A"):-1],l>-1)d=t(h,g.meridiem[0])?0:t(h,g.meridiem[1])?12:-1,s>=1&&12>=s&&d>-1?v.hour=s+d-1:s>=0&&23>=s&&(v.hour=s);else{if(!(s>=0&&23>=s))return null;v.hour=s}m=!0;break;case"G":case"H":if(!(s>=0&&23>=s))return null;v.hour=s,m=!0;break;case"i":if(!(s>=0&&59>=s))return null;v.min=s,m=!0;break;case"s":if(!(s>=0&&59>=s))return null;v.sec=s,m=!0}if(!0===p&&v.year&&v.month&&v.day)v.date=new Date(v.year,v.month-1,v.day,v.hour,v.min,v.sec,0);else{if(!0!==m)return null;v.date=new Date(0,0,0,v.hour,v.min,v.sec,0)}return v.date},guessDate:function(t,e){if("string"!=typeof t)return t;var n,o,i,r,a,s,c=t.replace(this.separators,"\0").split("\0"),l=e.match(this.validParts),d=new Date,u=0;if(!/^[djmn]/g.test(l[0]))return t;for(i=0;i<c.length;i++){if(u=2,a=c[i],s=parseInt(a.substr(0,2)),isNaN(s))return null;switch(i){case 0:"m"===l[0]||"n"===l[0]?d.setMonth(s-1):d.setDate(s);break;case 1:"m"===l[0]||"n"===l[0]?d.setDate(s):d.setMonth(s-1);break;case 2:if(o=d.getFullYear(),u=4>(n=a.length)?n:4,!(o=parseInt(4>n?o.toString().substr(0,4-n)+a:a.substr(0,4))))return null;d.setFullYear(o);break;case 3:d.setHours(s);break;case 4:d.setMinutes(s);break;case 5:d.setSeconds(s)}(r=a.substr(u)).length>0&&c.splice(i+1,0,r)}return d},parseFormat:function(t,n){var o,i=this,r=i.dateSettings,a=/\\?(.?)/gi,s=function(t,e){return o[t]?o[t]():e};return o={d:function(){return e(o.j(),2)},D:function(){return r.daysShort[o.w()]},j:function(){return n.getDate()},l:function(){return r.days[o.w()]},N:function(){return o.w()||7},w:function(){return n.getDay()},z:function(){var t=new Date(o.Y(),o.n()-1,o.j()),e=new Date(o.Y(),0,1);return Math.round((t-e)/864e5)},W:function(){var t=new Date(o.Y(),o.n()-1,o.j()-o.N()+3),n=new Date(t.getFullYear(),0,4);return e(1+Math.round((t-n)/864e5/7),2)},F:function(){return r.months[n.getMonth()]},m:function(){return e(o.n(),2)},M:function(){return r.monthsShort[n.getMonth()]},n:function(){return n.getMonth()+1},t:function(){return new Date(o.Y(),o.n(),0).getDate()},L:function(){var t=o.Y();return t%4==0&&t%100!=0||t%400==0?1:0},o:function(){var t=o.n(),e=o.W();return o.Y()+(12===t&&9>e?1:1===t&&e>9?-1:0)},Y:function(){return n.getFullYear()},y:function(){return o.Y().toString().slice(-2)},a:function(){return o.A().toLowerCase()},A:function(){var t=o.G()<12?0:1;return r.meridiem[t]},B:function(){var t=3600*n.getUTCHours(),o=60*n.getUTCMinutes(),i=n.getUTCSeconds();return e(Math.floor((t+o+i+3600)/86.4)%1e3,3)},g:function(){return o.G()%12||12},G:function(){return n.getHours()},h:function(){return e(o.g(),2)},H:function(){return e(o.G(),2)},i:function(){return e(n.getMinutes(),2)},s:function(){return e(n.getSeconds(),2)},u:function(){return e(1e3*n.getMilliseconds(),6)},e:function(){return/\((.*)\)/.exec(String(n))[1]||"Coordinated Universal Time"},I:function(){return new Date(o.Y(),0)-Date.UTC(o.Y(),0)!=new Date(o.Y(),6)-Date.UTC(o.Y(),6)?1:0},O:function(){var t=n.getTimezoneOffset(),o=Math.abs(t);return(t>0?"-":"+")+e(100*Math.floor(o/60)+o%60,4)},P:function(){var t=o.O();return t.substr(0,3)+":"+t.substr(3,2)},T:function(){return(String(n).match(i.tzParts)||[""]).pop().replace(i.tzClip,"")||"UTC"},Z:function(){return 60*-n.getTimezoneOffset()},c:function(){return"Y-m-d\\TH:i:sP".replace(a,s)},r:function(){return"D, d M Y H:i:s O".replace(a,s)},U:function(){return n.getTime()/1e3||0}},s(t,t)},formatDate:function(t,e){var n,o,i,r,a,s=this,c="";if("string"==typeof t&&!(t=s.parseDate(t,e)))return null;if(t instanceof Date){for(i=e.length,n=0;i>n;n++)"S"!==(a=e.charAt(n))&&"\\"!==a&&(n>0&&"\\"===e.charAt(n-1)?c+=a:(r=s.parseFormat(a,t),n!==i-1&&s.intParts.test(a)&&"S"===e.charAt(n+1)&&(o=parseInt(r)||0,r+=s.dateSettings.ordinal(o)),c+=r));return c}return""}}}();var datetimepickerFactory=function(t){"use strict";var e={i18n:{ar:{months:["كانون الثاني","شباط","آذار","نيسان","مايو","حزيران","تموز","آب","أيلول","تشرين الأول","تشرين الثاني","كانون الأول"],dayOfWeekShort:["ن","ث","ع","خ","ج","س","ح"],dayOfWeek:["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت","الأحد"]},ro:{months:["Ianuarie","Februarie","Martie","Aprilie","Mai","Iunie","Iulie","August","Septembrie","Octombrie","Noiembrie","Decembrie"],dayOfWeekShort:["Du","Lu","Ma","Mi","Jo","Vi","Sâ"],dayOfWeek:["Duminică","Luni","Marţi","Miercuri","Joi","Vineri","Sâmbătă"]},id:{months:["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"],dayOfWeekShort:["Min","Sen","Sel","Rab","Kam","Jum","Sab"],dayOfWeek:["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"]},is:{months:["Janúar","Febrúar","Mars","Apríl","Maí","Júní","Júlí","Ágúst","September","Október","Nóvember","Desember"],dayOfWeekShort:["Sun","Mán","Þrið","Mið","Fim","Fös","Lau"],dayOfWeek:["Sunnudagur","Mánudagur","Þriðjudagur","Miðvikudagur","Fimmtudagur","Föstudagur","Laugardagur"]},bg:{months:["Януари","Февруари","Март","Април","Май","Юни","Юли","Август","Септември","Октомври","Ноември","Декември"],dayOfWeekShort:["Нд","Пн","Вт","Ср","Чт","Пт","Сб"],dayOfWeek:["Неделя","Понеделник","Вторник","Сряда","Четвъртък","Петък","Събота"]},fa:{months:["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"],dayOfWeekShort:["یکشنبه","دوشنبه","سه شنبه","چهارشنبه","پنجشنبه","جمعه","شنبه"],dayOfWeek:["یک‌شنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنج‌شنبه","جمعه","شنبه","یک‌شنبه"]},ru:{months:["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],dayOfWeekShort:["Вс","Пн","Вт","Ср","Чт","Пт","Сб"],dayOfWeek:["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"]},uk:{months:["Січень","Лютий","Березень","Квітень","Травень","Червень","Липень","Серпень","Вересень","Жовтень","Листопад","Грудень"],dayOfWeekShort:["Ндл","Пнд","Втр","Срд","Чтв","Птн","Сбт"],dayOfWeek:["Неділя","Понеділок","Вівторок","Середа","Четвер","П'ятниця","Субота"]},en:{months:["January","February","March","April","May","June","July","August","September","October","November","December"],dayOfWeekShort:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],dayOfWeek:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]},el:{months:["Ιανουάριος","Φεβρουάριος","Μάρτιος","Απρίλιος","Μάιος","Ιούνιος","Ιούλιος","Αύγουστος","Σεπτέμβριος","Οκτώβριος","Νοέμβριος","Δεκέμβριος"],dayOfWeekShort:["Κυρ","Δευ","Τρι","Τετ","Πεμ","Παρ","Σαβ"],dayOfWeek:["Κυριακή","Δευτέρα","Τρίτη","Τετάρτη","Πέμπτη","Παρασκευή","Σάββατο"]},de:{months:["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"],dayOfWeekShort:["So","Mo","Di","Mi","Do","Fr","Sa"],dayOfWeek:["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"]},nl:{months:["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"],dayOfWeekShort:["zo","ma","di","wo","do","vr","za"],dayOfWeek:["zondag","maandag","dinsdag","woensdag","donderdag","vrijdag","zaterdag"]},tr:{months:["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"],dayOfWeekShort:["Paz","Pts","Sal","Çar","Per","Cum","Cts"],dayOfWeek:["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"]},fr:{months:["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"],dayOfWeekShort:["Dim","Lun","Mar","Mer","Jeu","Ven","Sam"],dayOfWeek:["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"]},es:{months:["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],dayOfWeekShort:["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"],dayOfWeek:["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"]},th:{months:["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"],dayOfWeekShort:["อา.","จ.","อ.","พ.","พฤ.","ศ.","ส."],dayOfWeek:["อาทิตย์","จันทร์","อังคาร","พุธ","พฤหัส","ศุกร์","เสาร์","อาทิตย์"]},pl:{months:["styczeń","luty","marzec","kwiecień","maj","czerwiec","lipiec","sierpień","wrzesień","październik","listopad","grudzień"],dayOfWeekShort:["nd","pn","wt","śr","cz","pt","sb"],dayOfWeek:["niedziela","poniedziałek","wtorek","środa","czwartek","piątek","sobota"]},pt:{months:["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],dayOfWeekShort:["Dom","Seg","Ter","Qua","Qui","Sex","Sab"],dayOfWeek:["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"]},ch:{months:["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],dayOfWeekShort:["日","一","二","三","四","五","六"]},se:{months:["Januari","Februari","Mars","April","Maj","Juni","Juli","Augusti","September","Oktober","November","December"],dayOfWeekShort:["Sön","Mån","Tis","Ons","Tor","Fre","Lör"]},km:{months:["មករា​","កុម្ភៈ","មិនា​","មេសា​","ឧសភា​","មិថុនា​","កក្កដា​","សីហា​","កញ្ញា​","តុលា​","វិច្ឆិកា","ធ្នូ​"],dayOfWeekShort:["អាទិ​","ច័ន្ទ​","អង្គារ​","ពុធ​","ព្រហ​​","សុក្រ​","សៅរ៍"],dayOfWeek:["អាទិត្យ​","ច័ន្ទ​","អង្គារ​","ពុធ​","ព្រហស្បតិ៍​","សុក្រ​","សៅរ៍"]},kr:{months:["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],dayOfWeekShort:["일","월","화","수","목","금","토"],dayOfWeek:["일요일","월요일","화요일","수요일","목요일","금요일","토요일"]},it:{months:["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"],dayOfWeekShort:["Dom","Lun","Mar","Mer","Gio","Ven","Sab"],dayOfWeek:["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"]},da:{months:["Januar","Februar","Marts","April","Maj","Juni","Juli","August","September","Oktober","November","December"],dayOfWeekShort:["Søn","Man","Tir","Ons","Tor","Fre","Lør"],dayOfWeek:["søndag","mandag","tirsdag","onsdag","torsdag","fredag","lørdag"]},no:{months:["Januar","Februar","Mars","April","Mai","Juni","Juli","August","September","Oktober","November","Desember"],dayOfWeekShort:["Søn","Man","Tir","Ons","Tor","Fre","Lør"],dayOfWeek:["Søndag","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag"]},ja:{months:["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],dayOfWeekShort:["日","月","火","水","木","金","土"],dayOfWeek:["日曜","月曜","火曜","水曜","木曜","金曜","土曜"]},vi:{months:["Tháng 1","Tháng 2","Tháng 3","Tháng 4","Tháng 5","Tháng 6","Tháng 7","Tháng 8","Tháng 9","Tháng 10","Tháng 11","Tháng 12"],dayOfWeekShort:["CN","T2","T3","T4","T5","T6","T7"],dayOfWeek:["Chủ nhật","Thứ hai","Thứ ba","Thứ tư","Thứ năm","Thứ sáu","Thứ bảy"]},sl:{months:["Januar","Februar","Marec","April","Maj","Junij","Julij","Avgust","September","Oktober","November","December"],dayOfWeekShort:["Ned","Pon","Tor","Sre","Čet","Pet","Sob"],dayOfWeek:["Nedelja","Ponedeljek","Torek","Sreda","Četrtek","Petek","Sobota"]},cs:{months:["Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec"],dayOfWeekShort:["Ne","Po","Út","St","Čt","Pá","So"]},hu:{months:["Január","Február","Március","Április","Május","Június","Július","Augusztus","Szeptember","Október","November","December"],dayOfWeekShort:["Va","Hé","Ke","Sze","Cs","Pé","Szo"],dayOfWeek:["vasárnap","hétfő","kedd","szerda","csütörtök","péntek","szombat"]},az:{months:["Yanvar","Fevral","Mart","Aprel","May","Iyun","Iyul","Avqust","Sentyabr","Oktyabr","Noyabr","Dekabr"],dayOfWeekShort:["B","Be","Ça","Ç","Ca","C","Ş"],dayOfWeek:["Bazar","Bazar ertəsi","Çərşənbə axşamı","Çərşənbə","Cümə axşamı","Cümə","Şənbə"]},bs:{months:["Januar","Februar","Mart","April","Maj","Jun","Jul","Avgust","Septembar","Oktobar","Novembar","Decembar"],dayOfWeekShort:["Ned","Pon","Uto","Sri","Čet","Pet","Sub"],dayOfWeek:["Nedjelja","Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak","Subota"]},ca:{months:["Gener","Febrer","Març","Abril","Maig","Juny","Juliol","Agost","Setembre","Octubre","Novembre","Desembre"],dayOfWeekShort:["Dg","Dl","Dt","Dc","Dj","Dv","Ds"],dayOfWeek:["Diumenge","Dilluns","Dimarts","Dimecres","Dijous","Divendres","Dissabte"]},"en-GB":{months:["January","February","March","April","May","June","July","August","September","October","November","December"],dayOfWeekShort:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],dayOfWeek:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]},et:{months:["Jaanuar","Veebruar","Märts","Aprill","Mai","Juuni","Juuli","August","September","Oktoober","November","Detsember"],dayOfWeekShort:["P","E","T","K","N","R","L"],dayOfWeek:["Pühapäev","Esmaspäev","Teisipäev","Kolmapäev","Neljapäev","Reede","Laupäev"]},eu:{months:["Urtarrila","Otsaila","Martxoa","Apirila","Maiatza","Ekaina","Uztaila","Abuztua","Iraila","Urria","Azaroa","Abendua"],dayOfWeekShort:["Ig.","Al.","Ar.","Az.","Og.","Or.","La."],dayOfWeek:["Igandea","Astelehena","Asteartea","Asteazkena","Osteguna","Ostirala","Larunbata"]},fi:{months:["Tammikuu","Helmikuu","Maaliskuu","Huhtikuu","Toukokuu","Kesäkuu","Heinäkuu","Elokuu","Syyskuu","Lokakuu","Marraskuu","Joulukuu"],dayOfWeekShort:["Su","Ma","Ti","Ke","To","Pe","La"],dayOfWeek:["sunnuntai","maanantai","tiistai","keskiviikko","torstai","perjantai","lauantai"]},gl:{months:["Xan","Feb","Maz","Abr","Mai","Xun","Xul","Ago","Set","Out","Nov","Dec"],dayOfWeekShort:["Dom","Lun","Mar","Mer","Xov","Ven","Sab"],dayOfWeek:["Domingo","Luns","Martes","Mércores","Xoves","Venres","Sábado"]},hr:{months:["Siječanj","Veljača","Ožujak","Travanj","Svibanj","Lipanj","Srpanj","Kolovoz","Rujan","Listopad","Studeni","Prosinac"],dayOfWeekShort:["Ned","Pon","Uto","Sri","Čet","Pet","Sub"],dayOfWeek:["Nedjelja","Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak","Subota"]},ko:{months:["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],dayOfWeekShort:["일","월","화","수","목","금","토"],dayOfWeek:["일요일","월요일","화요일","수요일","목요일","금요일","토요일"]},lt:{months:["Sausio","Vasario","Kovo","Balandžio","Gegužės","Birželio","Liepos","Rugpjūčio","Rugsėjo","Spalio","Lapkričio","Gruodžio"],dayOfWeekShort:["Sek","Pir","Ant","Tre","Ket","Pen","Šeš"],dayOfWeek:["Sekmadienis","Pirmadienis","Antradienis","Trečiadienis","Ketvirtadienis","Penktadienis","Šeštadienis"]},lv:{months:["Janvāris","Februāris","Marts","Aprīlis ","Maijs","Jūnijs","Jūlijs","Augusts","Septembris","Oktobris","Novembris","Decembris"],dayOfWeekShort:["Sv","Pr","Ot","Tr","Ct","Pk","St"],dayOfWeek:["Svētdiena","Pirmdiena","Otrdiena","Trešdiena","Ceturtdiena","Piektdiena","Sestdiena"]},mk:{months:["јануари","февруари","март","април","мај","јуни","јули","август","септември","октомври","ноември","декември"],dayOfWeekShort:["нед","пон","вто","сре","чет","пет","саб"],dayOfWeek:["Недела","Понеделник","Вторник","Среда","Четврток","Петок","Сабота"]},mn:{months:["1-р сар","2-р сар","3-р сар","4-р сар","5-р сар","6-р сар","7-р сар","8-р сар","9-р сар","10-р сар","11-р сар","12-р сар"],dayOfWeekShort:["Дав","Мяг","Лха","Пүр","Бсн","Бям","Ням"],dayOfWeek:["Даваа","Мягмар","Лхагва","Пүрэв","Баасан","Бямба","Ням"]},"pt-BR":{months:["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],dayOfWeekShort:["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"],dayOfWeek:["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"]},sk:{months:["Január","Február","Marec","Apríl","Máj","Jún","Júl","August","September","Október","November","December"],dayOfWeekShort:["Ne","Po","Ut","St","Št","Pi","So"],dayOfWeek:["Nedeľa","Pondelok","Utorok","Streda","Štvrtok","Piatok","Sobota"]},sq:{months:["Janar","Shkurt","Mars","Prill","Maj","Qershor","Korrik","Gusht","Shtator","Tetor","Nëntor","Dhjetor"],dayOfWeekShort:["Die","Hën","Mar","Mër","Enj","Pre","Shtu"],dayOfWeek:["E Diel","E Hënë","E Martē","E Mërkurë","E Enjte","E Premte","E Shtunë"]},"sr-YU":{months:["Januar","Februar","Mart","April","Maj","Jun","Jul","Avgust","Septembar","Oktobar","Novembar","Decembar"],dayOfWeekShort:["Ned","Pon","Uto","Sre","čet","Pet","Sub"],dayOfWeek:["Nedelja","Ponedeljak","Utorak","Sreda","Četvrtak","Petak","Subota"]},sr:{months:["јануар","фебруар","март","април","мај","јун","јул","август","септембар","октобар","новембар","децембар"],dayOfWeekShort:["нед","пон","уто","сре","чет","пет","суб"],dayOfWeek:["Недеља","Понедељак","Уторак","Среда","Четвртак","Петак","Субота"]},sv:{months:["Januari","Februari","Mars","April","Maj","Juni","Juli","Augusti","September","Oktober","November","December"],dayOfWeekShort:["Sön","Mån","Tis","Ons","Tor","Fre","Lör"],dayOfWeek:["Söndag","Måndag","Tisdag","Onsdag","Torsdag","Fredag","Lördag"]},"zh-TW":{months:["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],dayOfWeekShort:["日","一","二","三","四","五","六"],dayOfWeek:["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]},zh:{months:["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],dayOfWeekShort:["日","一","二","三","四","五","六"],dayOfWeek:["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]},ug:{months:["1-ئاي","2-ئاي","3-ئاي","4-ئاي","5-ئاي","6-ئاي","7-ئاي","8-ئاي","9-ئاي","10-ئاي","11-ئاي","12-ئاي"],dayOfWeek:["يەكشەنبە","دۈشەنبە","سەيشەنبە","چارشەنبە","پەيشەنبە","جۈمە","شەنبە"]},he:{months:["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"],dayOfWeekShort:["א'","ב'","ג'","ד'","ה'","ו'","שבת"],dayOfWeek:["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת","ראשון"]},hy:{months:["Հունվար","Փետրվար","Մարտ","Ապրիլ","Մայիս","Հունիս","Հուլիս","Օգոստոս","Սեպտեմբեր","Հոկտեմբեր","Նոյեմբեր","Դեկտեմբեր"],dayOfWeekShort:["Կի","Երկ","Երք","Չոր","Հնգ","Ուրբ","Շբթ"],dayOfWeek:["Կիրակի","Երկուշաբթի","Երեքշաբթի","Չորեքշաբթի","Հինգշաբթի","Ուրբաթ","Շաբաթ"]},kg:{months:["Үчтүн айы","Бирдин айы","Жалган Куран","Чын Куран","Бугу","Кулжа","Теке","Баш Оона","Аяк Оона","Тогуздун айы","Жетинин айы","Бештин айы"],dayOfWeekShort:["Жек","Дүй","Шей","Шар","Бей","Жум","Ише"],dayOfWeek:["Жекшемб","Дүйшөмб","Шейшемб","Шаршемб","Бейшемби","Жума","Ишенб"]},rm:{months:["Schaner","Favrer","Mars","Avrigl","Matg","Zercladur","Fanadur","Avust","Settember","October","November","December"],dayOfWeekShort:["Du","Gli","Ma","Me","Gie","Ve","So"],dayOfWeek:["Dumengia","Glindesdi","Mardi","Mesemna","Gievgia","Venderdi","Sonda"]},ka:{months:["იანვარი","თებერვალი","მარტი","აპრილი","მაისი","ივნისი","ივლისი","აგვისტო","სექტემბერი","ოქტომბერი","ნოემბერი","დეკემბერი"],dayOfWeekShort:["კვ","ორშ","სამშ","ოთხ","ხუთ","პარ","შაბ"],dayOfWeek:["კვირა","ორშაბათი","სამშაბათი","ოთხშაბათი","ხუთშაბათი","პარასკევი","შაბათი"]}},ownerDocument:document,contentWindow:window,value:"",rtl:!1,format:"Y/m/d H:i",formatTime:"H:i",formatDate:"Y/m/d",startDate:!1,step:60,monthChangeSpinner:!0,closeOnDateSelect:!1,closeOnTimeSelect:!0,closeOnWithoutClick:!0,closeOnInputClick:!0,openOnFocus:!0,timepicker:!0,datepicker:!0,weeks:!1,defaultTime:!1,defaultDate:!1,minDate:!1,maxDate:!1,minTime:!1,maxTime:!1,minDateTime:!1,maxDateTime:!1,allowTimes:[],opened:!1,initTime:!0,inline:!1,theme:"",touchMovedThreshold:5,onSelectDate:function(){},onSelectTime:function(){},onChangeMonth:function(){},onGetWeekOfYear:function(){},onChangeYear:function(){},onChangeDateTime:function(){},onShow:function(){},onClose:function(){},onGenerate:function(){},withoutCopyright:!0,inverseButton:!1,hours12:!1,next:"xdsoft_next",prev:"xdsoft_prev",dayOfWeekStart:0,parentID:"body",timeHeightInTimePicker:25,timepickerScrollbar:!0,todayButton:!0,prevButton:!0,nextButton:!0,defaultSelect:!0,scrollMonth:!0,scrollTime:!0,scrollInput:!0,lazyInit:!1,mask:!1,validateOnBlur:!0,allowBlank:!0,yearStart:1950,yearEnd:2050,monthStart:0,monthEnd:11,style:"",id:"",fixed:!1,roundTime:"round",className:"",weekends:[],highlightedDates:[],highlightedPeriods:[],allowDates:[],allowDateRe:null,disabledDates:[],disabledWeekDays:[],yearOffset:0,beforeShowDay:null,enterLikeTab:!0,showApplyButton:!1,insideParent:!1},n=null,o=null,i="en",r={meridiem:["AM","PM"]},a=function(){var a=e.i18n[i],s={days:a.dayOfWeek,daysShort:a.dayOfWeekShort,months:a.months,monthsShort:t.map(a.months,function(t){return t.substring(0,3)})};"function"==typeof DateFormatter&&(n=o=new DateFormatter({dateSettings:t.extend({},r,s)}))},s={moment:{default_options:{format:"YYYY/MM/DD HH:mm",formatDate:"YYYY/MM/DD",formatTime:"HH:mm"},formatter:{parseDate:function(t,e){if(l(e))return o.parseDate(t,e);var n=moment(t,e);return!!n.isValid()&&n.toDate()},formatDate:function(t,e){return l(e)?o.formatDate(t,e):moment(t).format(e)},formatMask:function(t){return t.replace(/Y{4}/g,"9999").replace(/Y{2}/g,"99").replace(/M{2}/g,"19").replace(/D{2}/g,"39").replace(/H{2}/g,"29").replace(/m{2}/g,"59").replace(/s{2}/g,"59")}}}};t.datetimepicker={setLocale:function(t){var n=e.i18n[t]?t:"en";i!==n&&(i=n,a())},setDateFormatter:function(o){if("string"==typeof o&&s.hasOwnProperty(o)){var i=s[o];t.extend(e,i.default_options),n=i.formatter}else n=o}};var c={RFC_2822:"D, d M Y H:i:s O",ATOM:"Y-m-dTH:i:sP",ISO_8601:"Y-m-dTH:i:sO",RFC_822:"D, d M y H:i:s O",RFC_850:"l, d-M-y H:i:s T",RFC_1036:"D, d M y H:i:s O",RFC_1123:"D, d M Y H:i:s O",RSS:"D, d M Y H:i:s O",W3C:"Y-m-dTH:i:sP"},l=function(t){return-1!==Object.values(c).indexOf(t)};function d(t,e,n){this.date=t,this.desc=e,this.style=n}t.extend(t.datetimepicker,c),a(),window.getComputedStyle||(window.getComputedStyle=function(t){return this.el=t,this.getPropertyValue=function(e){var n=/(-([a-z]))/g;return"float"===e&&(e="styleFloat"),n.test(e)&&(e=e.replace(n,function(t,e,n){return n.toUpperCase()})),t.currentStyle[e]||null},this}),Array.prototype.indexOf||(Array.prototype.indexOf=function(t,e){var n,o;for(n=e||0,o=this.length;n<o;n+=1)if(this[n]===t)return n;return-1}),Date.prototype.countDaysInMonth=function(){return new Date(this.getFullYear(),this.getMonth()+1,0).getDate()},t.fn.xdsoftScroller=function(e,n){return this.each(function(){var o,i,r,a,s,c=t(this),l=function(t){var e,n={x:0,y:0};return"touchstart"===t.type||"touchmove"===t.type||"touchend"===t.type||"touchcancel"===t.type?(e=t.originalEvent.touches[0]||t.originalEvent.changedTouches[0],n.x=e.clientX,n.y=e.clientY):"mousedown"!==t.type&&"mouseup"!==t.type&&"mousemove"!==t.type&&"mouseover"!==t.type&&"mouseout"!==t.type&&"mouseenter"!==t.type&&"mouseleave"!==t.type||(n.x=t.clientX,n.y=t.clientY),n},d=100,u=!1,h=0,f=0,p=0,m=!1,g=0,v=function(){};"hide"!==n?(t(this).hasClass("xdsoft_scroller_box")||(o=c.children().eq(0),i=c[0].clientHeight,r=o[0].offsetHeight,a=t('<div class="xdsoft_scrollbar"></div>'),s=t('<div class="xdsoft_scroller"></div>'),a.append(s),c.addClass("xdsoft_scroller_box").append(a),v=function(t){var e=l(t).y-h+g;e<0&&(e=0),e+s[0].offsetHeight>p&&(e=p-s[0].offsetHeight),c.trigger("scroll_element.xdsoft_scroller",[d?e/d:0])},s.on("touchstart.xdsoft_scroller mousedown.xdsoft_scroller",function(o){i||c.trigger("resize_scroll.xdsoft_scroller",[n]),h=l(o).y,g=parseInt(s.css("margin-top"),10),p=a[0].offsetHeight,"mousedown"===o.type||"touchstart"===o.type?(e.ownerDocument&&t(e.ownerDocument.body).addClass("xdsoft_noselect"),t([e.ownerDocument.body,e.contentWindow]).on("touchend mouseup.xdsoft_scroller",function n(){t([e.ownerDocument.body,e.contentWindow]).off("touchend mouseup.xdsoft_scroller",n).off("mousemove.xdsoft_scroller",v).removeClass("xdsoft_noselect")}),t(e.ownerDocument.body).on("mousemove.xdsoft_scroller",v)):(m=!0,o.stopPropagation(),o.preventDefault())}).on("touchmove",function(t){m&&(t.preventDefault(),v(t))}).on("touchend touchcancel",function(){m=!1,g=0}),c.on("scroll_element.xdsoft_scroller",function(t,e){i||c.trigger("resize_scroll.xdsoft_scroller",[e,!0]),e=e>1?1:e<0||isNaN(e)?0:e,s.css("margin-top",d*e),setTimeout(function(){o.css("marginTop",-parseInt((o[0].offsetHeight-i)*e,10))},10)}).on("resize_scroll.xdsoft_scroller",function(t,e,n){var l,u;i=c[0].clientHeight,r=o[0].offsetHeight,u=(l=i/r)*a[0].offsetHeight,l>1?s.hide():(s.show(),s.css("height",parseInt(u>10?u:10,10)),d=a[0].offsetHeight-s[0].offsetHeight,!0!==n&&c.trigger("scroll_element.xdsoft_scroller",[e||Math.abs(parseInt(o.css("marginTop"),10))/(r-i)]))}),c.on("mousewheel",function(t){var e=Math.abs(parseInt(o.css("marginTop"),10));return(e-=20*t.deltaY)<0&&(e=0),c.trigger("scroll_element.xdsoft_scroller",[e/(r-i)]),t.stopPropagation(),!1}),c.on("touchstart",function(t){u=l(t),f=Math.abs(parseInt(o.css("marginTop"),10))}),c.on("touchmove",function(t){if(u){t.preventDefault();var e=l(t);c.trigger("scroll_element.xdsoft_scroller",[(f-(e.y-u.y))/(r-i)])}}),c.on("touchend touchcancel",function(){u=!1,f=0})),c.trigger("resize_scroll.xdsoft_scroller",[n])):c.find(".xdsoft_scrollbar").hide()})},t.fn.datetimepicker=function(o,r){var a,s,c=this,l=48,u=57,h=96,f=105,p=17,m=46,g=13,v=27,y=8,b=37,w=38,x=39,k=40,S=9,D=116,T=65,_=67,C=86,M=90,E=89,$=!1,P=t.isPlainObject(o)||!o?t.extend(!0,{},e,o):t.extend(!0,{},e),O=0;return a=function(e){var r,a,s,c,O,F,I=t('<div class="xdsoft_datetimepicker xdsoft_noselect"></div>'),z=t('<div class="xdsoft_copyright"><a target="_blank" href="http://xdsoft.net/jqplugins/datetimepicker/">xdsoft.net</a></div>'),A=t('<div class="xdsoft_datepicker active"></div>'),j=t('<div class="xdsoft_monthpicker"><button type="button" class="xdsoft_prev"></button><button type="button" class="xdsoft_today_button"></button><div class="xdsoft_label xdsoft_month"><span></span><i></i></div><div class="xdsoft_label xdsoft_year"><span></span><i></i></div><button type="button" class="xdsoft_next"></button></div>'),L=t('<div class="xdsoft_calendar"></div>'),W=t('<div class="xdsoft_timepicker active"><button type="button" class="xdsoft_prev"></button><div class="xdsoft_time_box"></div><button type="button" class="xdsoft_next"></button></div>'),Y=W.find(".xdsoft_time_box").eq(0),N=t('<div class="xdsoft_time_variant"></div>'),H=t('<button type="button" class="xdsoft_save_selected blue-gradient-button">Save Selected</button>'),R=t('<div class="xdsoft_select xdsoft_monthselect"><div></div></div>'),B=t('<div class="xdsoft_select xdsoft_yearselect"><div></div></div>'),q=!1,X=0;P.id&&I.attr("id",P.id),P.style&&I.attr("style",P.style),P.weeks&&I.addClass("xdsoft_showweeks"),P.rtl&&I.addClass("xdsoft_rtl"),I.addClass("xdsoft_"+P.theme),I.addClass(P.className),j.find(".xdsoft_month span").after(R),j.find(".xdsoft_year span").after(B),j.find(".xdsoft_month,.xdsoft_year").on("touchstart mousedown.xdsoft",function(e){var n,o,i=t(this).find(".xdsoft_select").eq(0),r=0,a=0,s=i.is(":visible");for(j.find(".xdsoft_select").hide(),O.currentTime&&(r=O.currentTime[t(this).hasClass("xdsoft_month")?"getMonth":"getFullYear"]()),i[s?"hide":"show"](),n=i.find("div.xdsoft_option"),o=0;o<n.length&&n.eq(o).data("value")!==r;o+=1)a+=n[0].offsetHeight;return i.xdsoftScroller(P,a/(i.children()[0].offsetHeight-i[0].clientHeight)),e.stopPropagation(),!1});var J=function(t){var e=t.originalEvent,n=e.touches?e.touches[0]:e;this.touchStartPosition=this.touchStartPosition||n;var o=Math.abs(this.touchStartPosition.clientX-n.clientX),i=Math.abs(this.touchStartPosition.clientY-n.clientY);Math.sqrt(o*o+i*i)>P.touchMovedThreshold&&(this.touchMoved=!0)};function U(){var t,n=!1;return P.startDate?n=O.strToDate(P.startDate):(n=P.value||(e&&e.val&&e.val()?e.val():""))?(n=O.strToDateTime(n),P.yearOffset&&(n=new Date(n.getFullYear()-P.yearOffset,n.getMonth(),n.getDate(),n.getHours(),n.getMinutes(),n.getSeconds(),n.getMilliseconds()))):P.defaultDate&&(n=O.strToDateTime(P.defaultDate),P.defaultTime&&(t=O.strtotime(P.defaultTime),n.setHours(t.getHours()),n.setMinutes(t.getMinutes()))),n&&O.isValidDate(n)?I.data("changed",!0):n="",n||0}function K(o){var i=function(t,e){var n=t.replace(/([\[\]\/\{\}\(\)\-\.\+]{1})/g,"\\$1").replace(/_/g,"{digit+}").replace(/([0-9]{1})/g,"{digit$1}").replace(/\{digit([0-9]{1})\}/g,"[0-$1_]{1}").replace(/\{digit[\+]\}/g,"[0-9_]{1}");return new RegExp(n).test(e)},r=function(t,e){if(!(t="string"==typeof t||t instanceof String?o.ownerDocument.getElementById(t):t))return!1;if(t.createTextRange){var n=t.createTextRange();return n.collapse(!0),n.moveEnd("character",e),n.moveStart("character",e),n.select(),!0}return!!t.setSelectionRange&&(t.setSelectionRange(e,e),!0)};o.mask&&e.off("keydown.xdsoft"),!0===o.mask&&(n.formatMask?o.mask=n.formatMask(o.format):o.mask=o.format.replace(/Y/g,"9999").replace(/F/g,"9999").replace(/m/g,"19").replace(/d/g,"39").replace(/H/g,"29").replace(/i/g,"59").replace(/s/g,"59")),"string"===t.type(o.mask)&&(i(o.mask,e.val())||(e.val(o.mask.replace(/[0-9]/g,"_")),r(e[0],0)),e.on("paste.xdsoft",function(n){var a=(n.clipboardData||n.originalEvent.clipboardData||window.clipboardData).getData("text"),s=this.value,c=this.selectionStart,l=s.substr(0,c),d=s.substr(c+a.length);return s=l+a+d,c+=a.length,i(o.mask,s)?(this.value=s,r(this,c)):""===t.trim(s)?this.value=o.mask.replace(/[0-9]/g,"_"):e.trigger("error_input.xdsoft"),n.preventDefault(),!1}),e.on("keydown.xdsoft",function(n){var a,s=this.value,c=n.which,d=this.selectionStart,P=this.selectionEnd,O=d!==P;if(c>=l&&c<=u||c>=h&&c<=f||c===y||c===m){for(a=c===y||c===m?"_":String.fromCharCode(h<=c&&c<=f?c-l:c),c===y&&d&&!O&&(d-=1);;){var F=o.mask.substr(d,1),I=d<o.mask.length,z=d>0;if(!(/[^0-9_]/.test(F)&&I&&z))break;d+=c!==y||O?1:-1}if(n.metaKey&&(d=0,O=!0),O){var A=P-d,j=o.mask.replace(/[0-9]/g,"_"),L=j.substr(d,A).substr(1),W=s.substr(0,d),Y=a+L,N=s.substr(d+A);s=W+Y+N}else{var H=s.substr(0,d),R=a,B=s.substr(d+1);s=H+R+B}if(""===t.trim(s))s=j;else if(d===o.mask.length)return n.preventDefault(),!1;for(d+=c===y?0:1;/[^0-9_]/.test(o.mask.substr(d,1))&&d<o.mask.length&&d>0;)d+=c===y?0:1;i(o.mask,s)?(this.value=s,r(this,d)):""===t.trim(s)?this.value=o.mask.replace(/[0-9]/g,"_"):e.trigger("error_input.xdsoft")}else if(-1!==[T,_,C,M,E].indexOf(c)&&$||-1!==[v,w,k,b,x,D,p,S,g].indexOf(c))return!0;return n.preventDefault(),!1}))}j.find(".xdsoft_select").xdsoftScroller(P).on("touchstart mousedown.xdsoft",function(t){var e=t.originalEvent;this.touchMoved=!1,this.touchStartPosition=e.touches?e.touches[0]:e,t.stopPropagation(),t.preventDefault()}).on("touchmove",".xdsoft_option",J).on("touchend mousedown.xdsoft",".xdsoft_option",function(){if(!this.touchMoved){void 0!==O.currentTime&&null!==O.currentTime||(O.currentTime=O.now());var e=O.currentTime.getFullYear();O&&O.currentTime&&O.currentTime[t(this).parent().parent().hasClass("xdsoft_monthselect")?"setMonth":"setFullYear"](t(this).data("value")),t(this).parent().parent().hide(),I.trigger("xchange.xdsoft"),P.onChangeMonth&&t.isFunction(P.onChangeMonth)&&P.onChangeMonth.call(I,O.currentTime,I.data("input")),e!==O.currentTime.getFullYear()&&t.isFunction(P.onChangeYear)&&P.onChangeYear.call(I,O.currentTime,I.data("input"))}}),I.getValue=function(){return O.getCurrentTime()},I.setOptions=function(o){var i={};P=t.extend(!0,{},P,o),o.allowTimes&&t.isArray(o.allowTimes)&&o.allowTimes.length&&(P.allowTimes=t.extend(!0,[],o.allowTimes)),o.weekends&&t.isArray(o.weekends)&&o.weekends.length&&(P.weekends=t.extend(!0,[],o.weekends)),o.allowDates&&t.isArray(o.allowDates)&&o.allowDates.length&&(P.allowDates=t.extend(!0,[],o.allowDates)),o.allowDateRe&&"[object String]"===Object.prototype.toString.call(o.allowDateRe)&&(P.allowDateRe=new RegExp(o.allowDateRe)),o.highlightedDates&&t.isArray(o.highlightedDates)&&o.highlightedDates.length&&(t.each(o.highlightedDates,function(e,o){var r,a=t.map(o.split(","),t.trim),s=new d(n.parseDate(a[0],P.formatDate),a[1],a[2]),c=n.formatDate(s.date,P.formatDate);void 0!==i[c]?(r=i[c].desc)&&r.length&&s.desc&&s.desc.length&&(i[c].desc=r+"\n"+s.desc):i[c]=s}),P.highlightedDates=t.extend(!0,[],i)),o.highlightedPeriods&&t.isArray(o.highlightedPeriods)&&o.highlightedPeriods.length&&(i=t.extend(!0,[],P.highlightedDates),t.each(o.highlightedPeriods,function(e,o){var r,a,s,c,l,u,h;if(t.isArray(o))r=o[0],a=o[1],s=o[2],h=o[3];else{var f=t.map(o.split(","),t.trim);r=n.parseDate(f[0],P.formatDate),a=n.parseDate(f[1],P.formatDate),s=f[2],h=f[3]}for(;r<=a;)c=new d(r,s,h),l=n.formatDate(r,P.formatDate),r.setDate(r.getDate()+1),void 0!==i[l]?(u=i[l].desc)&&u.length&&c.desc&&c.desc.length&&(i[l].desc=u+"\n"+c.desc):i[l]=c}),P.highlightedDates=t.extend(!0,[],i)),o.disabledDates&&t.isArray(o.disabledDates)&&o.disabledDates.length&&(P.disabledDates=t.extend(!0,[],o.disabledDates)),o.disabledWeekDays&&t.isArray(o.disabledWeekDays)&&o.disabledWeekDays.length&&(P.disabledWeekDays=t.extend(!0,[],o.disabledWeekDays)),!P.open&&!P.opened||P.inline||e.trigger("open.xdsoft"),P.inline&&(q=!0,I.addClass("xdsoft_inline"),e.after(I).hide()),P.inverseButton&&(P.next="xdsoft_prev",P.prev="xdsoft_next"),P.datepicker?A.addClass("active"):A.removeClass("active"),P.timepicker?W.addClass("active"):W.removeClass("active"),P.value&&(O.setCurrentTime(P.value),e&&e.val&&e.val(O.str)),isNaN(P.dayOfWeekStart)?P.dayOfWeekStart=0:P.dayOfWeekStart=parseInt(P.dayOfWeekStart,10)%7,P.timepickerScrollbar||Y.xdsoftScroller(P,"hide"),P.minDate&&/^[\+\-](.*)$/.test(P.minDate)&&(P.minDate=n.formatDate(O.strToDateTime(P.minDate),P.formatDate)),P.maxDate&&/^[\+\-](.*)$/.test(P.maxDate)&&(P.maxDate=n.formatDate(O.strToDateTime(P.maxDate),P.formatDate)),P.minDateTime&&/^\+(.*)$/.test(P.minDateTime)&&(P.minDateTime=O.strToDateTime(P.minDateTime).dateFormat(P.formatDate)),P.maxDateTime&&/^\+(.*)$/.test(P.maxDateTime)&&(P.maxDateTime=O.strToDateTime(P.maxDateTime).dateFormat(P.formatDate)),H.toggle(P.showApplyButton),j.find(".xdsoft_today_button").css("visibility",P.todayButton?"visible":"hidden"),j.find("."+P.prev).css("visibility",P.prevButton?"visible":"hidden"),j.find("."+P.next).css("visibility",P.nextButton?"visible":"hidden"),K(P),P.validateOnBlur&&e.off("blur.xdsoft").on("blur.xdsoft",function(){if(P.allowBlank&&(!t.trim(t(this).val()).length||"string"==typeof P.mask&&t.trim(t(this).val())===P.mask.replace(/[0-9]/g,"_")))t(this).val(null),I.data("xdsoft_datetime").empty();else{var e=n.parseDate(t(this).val(),P.format);if(e)t(this).val(n.formatDate(e,P.format));else{var o=+[t(this).val()[0],t(this).val()[1]].join(""),i=+[t(this).val()[2],t(this).val()[3]].join("");!P.datepicker&&P.timepicker&&o>=0&&o<24&&i>=0&&i<60?t(this).val([o,i].map(function(t){return t>9?t:"0"+t}).join(":")):t(this).val(n.formatDate(O.now(),P.format))}I.data("xdsoft_datetime").setCurrentTime(t(this).val())}I.trigger("changedatetime.xdsoft"),I.trigger("close.xdsoft")}),P.dayOfWeekStartPrev=0===P.dayOfWeekStart?6:P.dayOfWeekStart-1,I.trigger("xchange.xdsoft").trigger("afterOpen.xdsoft")},I.data("options",P).on("touchstart mousedown.xdsoft",function(t){return t.stopPropagation(),t.preventDefault(),B.hide(),R.hide(),!1}),Y.append(N),Y.xdsoftScroller(P),I.on("afterOpen.xdsoft",function(){Y.xdsoftScroller(P)}),I.append(A).append(W),!0!==P.withoutCopyright&&I.append(z),A.append(j).append(L).append(H),P.insideParent?t(e).parent().append(I):t(P.parentID).append(I),O=new function(){var e=this;e.now=function(t){var n,o,i=new Date;return!t&&P.defaultDate&&(n=e.strToDateTime(P.defaultDate),i.setFullYear(n.getFullYear()),i.setMonth(n.getMonth()),i.setDate(n.getDate())),i.setFullYear(i.getFullYear()),!t&&P.defaultTime&&(o=e.strtotime(P.defaultTime),i.setHours(o.getHours()),i.setMinutes(o.getMinutes()),i.setSeconds(o.getSeconds()),i.setMilliseconds(o.getMilliseconds())),i},e.isValidDate=function(t){return"[object Date]"===Object.prototype.toString.call(t)&&!isNaN(t.getTime())},e.setCurrentTime=function(t,n){"string"==typeof t?e.currentTime=e.strToDateTime(t):e.isValidDate(t)?e.currentTime=t:t||n||!P.allowBlank||P.inline?e.currentTime=e.now():e.currentTime=null,I.trigger("xchange.xdsoft")},e.empty=function(){e.currentTime=null},e.getCurrentTime=function(){return e.currentTime},e.nextMonth=function(){void 0!==e.currentTime&&null!==e.currentTime||(e.currentTime=e.now());var n,o=e.currentTime.getMonth()+1;return 12===o&&(e.currentTime.setFullYear(e.currentTime.getFullYear()+1),o=0),n=e.currentTime.getFullYear(),e.currentTime.setDate(Math.min(new Date(e.currentTime.getFullYear(),o+1,0).getDate(),e.currentTime.getDate())),e.currentTime.setMonth(o),P.onChangeMonth&&t.isFunction(P.onChangeMonth)&&P.onChangeMonth.call(I,O.currentTime,I.data("input")),n!==e.currentTime.getFullYear()&&t.isFunction(P.onChangeYear)&&P.onChangeYear.call(I,O.currentTime,I.data("input")),I.trigger("xchange.xdsoft"),o},e.prevMonth=function(){void 0!==e.currentTime&&null!==e.currentTime||(e.currentTime=e.now());var n=e.currentTime.getMonth()-1;return-1===n&&(e.currentTime.setFullYear(e.currentTime.getFullYear()-1),n=11),e.currentTime.setDate(Math.min(new Date(e.currentTime.getFullYear(),n+1,0).getDate(),e.currentTime.getDate())),e.currentTime.setMonth(n),P.onChangeMonth&&t.isFunction(P.onChangeMonth)&&P.onChangeMonth.call(I,O.currentTime,I.data("input")),I.trigger("xchange.xdsoft"),n},e.getWeekOfYear=function(e){if(P.onGetWeekOfYear&&t.isFunction(P.onGetWeekOfYear)){var n=P.onGetWeekOfYear.call(I,e);if(void 0!==n)return n}var o=new Date(e.getFullYear(),0,1);return 4!==o.getDay()&&o.setMonth(0,1+(4-o.getDay()+7)%7),Math.ceil(((e-o)/864e5+o.getDay()+1)/7)},e.strToDateTime=function(t){var o,i,r=[];return t&&t instanceof Date&&e.isValidDate(t)?t:((r=/^([+-]{1})(.*)$/.exec(t))&&(r[2]=n.parseDate(r[2],P.formatDate)),r&&r[2]?(o=r[2].getTime()-6e4*r[2].getTimezoneOffset(),i=new Date(e.now(!0).getTime()+parseInt(r[1]+"1",10)*o)):i=t?n.parseDate(t,P.format):e.now(),e.isValidDate(i)||(i=e.now()),i)},e.strToDate=function(t){if(t&&t instanceof Date&&e.isValidDate(t))return t;var o=t?n.parseDate(t,P.formatDate):e.now(!0);return e.isValidDate(o)||(o=e.now(!0)),o},e.strtotime=function(t){if(t&&t instanceof Date&&e.isValidDate(t))return t;var o=t?n.parseDate(t,P.formatTime):e.now(!0);return e.isValidDate(o)||(o=e.now(!0)),o},e.str=function(){var t=P.format;return P.yearOffset&&(t=(t=t.replace("Y",e.currentTime.getFullYear()+P.yearOffset)).replace("y",String(e.currentTime.getFullYear()+P.yearOffset).substring(2,4))),n.formatDate(e.currentTime,t)},e.currentTime=this.now()},H.on("touchend click",function(t){t.preventDefault(),I.data("changed",!0),O.setCurrentTime(U()),e.val(O.str()),I.trigger("close.xdsoft")}),j.find(".xdsoft_today_button").on("touchend mousedown.xdsoft",function(){I.data("changed",!0),O.setCurrentTime(0,!0),I.trigger("afterOpen.xdsoft")}).on("dblclick.xdsoft",function(){var t,n,o=O.getCurrentTime();o=new Date(o.getFullYear(),o.getMonth(),o.getDate()),t=O.strToDate(P.minDate),o<(t=new Date(t.getFullYear(),t.getMonth(),t.getDate()))||(n=O.strToDate(P.maxDate),o>(n=new Date(n.getFullYear(),n.getMonth(),n.getDate()))||(e.val(O.str()),e.trigger("change"),I.trigger("close.xdsoft")))}),j.find(".xdsoft_prev,.xdsoft_next").on("touchend mousedown.xdsoft",function(){var e=t(this),n=0,o=!1;!function t(i){e.hasClass(P.next)?O.nextMonth():e.hasClass(P.prev)&&O.prevMonth(),P.monthChangeSpinner&&(o||(n=setTimeout(t,i||100)))}(500),t([P.ownerDocument.body,P.contentWindow]).on("touchend mouseup.xdsoft",function e(){clearTimeout(n),o=!0,t([P.ownerDocument.body,P.contentWindow]).off("touchend mouseup.xdsoft",e)})}),W.find(".xdsoft_prev,.xdsoft_next").on("touchend mousedown.xdsoft",function(){var e=t(this),n=0,o=!1,i=110;!function t(r){var a=Y[0].clientHeight,s=N[0].offsetHeight,c=Math.abs(parseInt(N.css("marginTop"),10));e.hasClass(P.next)&&s-a-P.timeHeightInTimePicker>=c?N.css("marginTop","-"+(c+P.timeHeightInTimePicker)+"px"):e.hasClass(P.prev)&&c-P.timeHeightInTimePicker>=0&&N.css("marginTop","-"+(c-P.timeHeightInTimePicker)+"px"),Y.trigger("scroll_element.xdsoft_scroller",[Math.abs(parseInt(N[0].style.marginTop,10)/(s-a))]),i=i>10?10:i-10,o||(n=setTimeout(t,r||i))}(500),t([P.ownerDocument.body,P.contentWindow]).on("touchend mouseup.xdsoft",function e(){clearTimeout(n),o=!0,t([P.ownerDocument.body,P.contentWindow]).off("touchend mouseup.xdsoft",e)})}),r=0,I.on("xchange.xdsoft",function(a){clearTimeout(r),r=setTimeout(function(){void 0!==O.currentTime&&null!==O.currentTime||(O.currentTime=O.now());for(var r,a,s,c,l,d,u,h,f,p,m="",g=new Date(O.currentTime.getFullYear(),O.currentTime.getMonth(),1,12,0,0),v=0,y=O.now(),b=!1,w=!1,x=!1,k=!1,S=[],D=!0,T="";g.getDay()!==P.dayOfWeekStart;)g.setDate(g.getDate()-1);for(m+="<table><thead><tr>",P.weeks&&(m+="<th></th>"),r=0;r<7;r+=1)m+="<th>"+P.i18n[i].dayOfWeekShort[(r+P.dayOfWeekStart)%7]+"</th>";for(m+="</tr></thead>",m+="<tbody>",!1!==P.maxDate&&(b=O.strToDate(P.maxDate),b=new Date(b.getFullYear(),b.getMonth(),b.getDate(),23,59,59,999)),!1!==P.minDate&&(w=O.strToDate(P.minDate),w=new Date(w.getFullYear(),w.getMonth(),w.getDate())),!1!==P.minDateTime&&(x=O.strToDate(P.minDateTime),x=new Date(x.getFullYear(),x.getMonth(),x.getDate(),x.getHours(),x.getMinutes(),x.getSeconds())),!1!==P.maxDateTime&&(k=O.strToDate(P.maxDateTime),k=new Date(k.getFullYear(),k.getMonth(),k.getDate(),k.getHours(),k.getMinutes(),k.getSeconds())),!1!==k&&(p=31*(12*k.getFullYear()+k.getMonth())+k.getDate());v<O.currentTime.countDaysInMonth()||g.getDay()!==P.dayOfWeekStart||O.currentTime.getMonth()===g.getMonth();){S=[],v+=1,s=g.getDay(),c=g.getDate(),l=g.getFullYear(),$=g.getMonth(),d=O.getWeekOfYear(g),f="",S.push("xdsoft_date"),u=P.beforeShowDay&&t.isFunction(P.beforeShowDay.call)?P.beforeShowDay.call(I,g):null,P.allowDateRe&&"[object RegExp]"===Object.prototype.toString.call(P.allowDateRe)&&(P.allowDateRe.test(n.formatDate(g,P.formatDate))||S.push("xdsoft_disabled")),P.allowDates&&P.allowDates.length>0&&-1===P.allowDates.indexOf(n.formatDate(g,P.formatDate))&&S.push("xdsoft_disabled");var _=31*(12*g.getFullYear()+g.getMonth())+g.getDate();(!1!==b&&g>b||!1!==x&&g<x||!1!==w&&g<w||!1!==k&&_>p||u&&!1===u[0])&&S.push("xdsoft_disabled"),-1!==P.disabledDates.indexOf(n.formatDate(g,P.formatDate))&&S.push("xdsoft_disabled"),-1!==P.disabledWeekDays.indexOf(s)&&S.push("xdsoft_disabled"),e.is("[disabled]")&&S.push("xdsoft_disabled"),u&&""!==u[1]&&S.push(u[1]),O.currentTime.getMonth()!==$&&S.push("xdsoft_other_month"),(P.defaultSelect||I.data("changed"))&&n.formatDate(O.currentTime,P.formatDate)===n.formatDate(g,P.formatDate)&&S.push("xdsoft_current"),n.formatDate(y,P.formatDate)===n.formatDate(g,P.formatDate)&&S.push("xdsoft_today"),0!==g.getDay()&&6!==g.getDay()&&-1===P.weekends.indexOf(n.formatDate(g,P.formatDate))||S.push("xdsoft_weekend"),void 0!==P.highlightedDates[n.formatDate(g,P.formatDate)]&&(a=P.highlightedDates[n.formatDate(g,P.formatDate)],S.push(void 0===a.style?"xdsoft_highlighted_default":a.style),f=void 0===a.desc?"":a.desc),P.beforeShowDay&&t.isFunction(P.beforeShowDay)&&S.push(P.beforeShowDay(g)),D&&(m+="<tr>",D=!1,P.weeks&&(m+="<th>"+d+"</th>")),m+='<td data-date="'+c+'" data-month="'+$+'" data-year="'+l+'" class="xdsoft_date xdsoft_day_of_week'+g.getDay()+" "+S.join(" ")+'" title="'+f+'"><div>'+c+"</div></td>",g.getDay()===P.dayOfWeekStartPrev&&(m+="</tr>",D=!0),g.setDate(c+1)}m+="</tbody></table>",L.html(m),j.find(".xdsoft_label span").eq(0).text(P.i18n[i].months[O.currentTime.getMonth()]),j.find(".xdsoft_label span").eq(1).text(O.currentTime.getFullYear()+P.yearOffset),T="",$="";var C=0;if(!1!==P.minTime){var M=O.strtotime(P.minTime);C=60*M.getHours()+M.getMinutes()}var E=1440;if(!1!==P.maxTime){M=O.strtotime(P.maxTime);E=60*M.getHours()+M.getMinutes()}if(!1!==P.minDateTime){M=O.strToDateTime(P.minDateTime);if(n.formatDate(O.currentTime,P.formatDate)===n.formatDate(M,P.formatDate))($=60*M.getHours()+M.getMinutes())>C&&(C=$)}if(!1!==P.maxDateTime){var $;M=O.strToDateTime(P.maxDateTime);if(n.formatDate(O.currentTime,P.formatDate)===n.formatDate(M,P.formatDate))($=60*M.getHours()+M.getMinutes())<E&&(E=$)}if(h=function(o,i){var r,a=O.now(),s=P.allowTimes&&t.isArray(P.allowTimes)&&P.allowTimes.length;a.setHours(o),o=parseInt(a.getHours(),10),a.setMinutes(i),i=parseInt(a.getMinutes(),10),S=[];var c=60*o+i;(e.is("[disabled]")||c>=E||c<C)&&S.push("xdsoft_disabled"),(r=new Date(O.currentTime)).setHours(parseInt(O.currentTime.getHours(),10)),s||r.setMinutes(Math[P.roundTime](O.currentTime.getMinutes()/P.step)*P.step),(P.initTime||P.defaultSelect||I.data("changed"))&&r.getHours()===parseInt(o,10)&&(!s&&P.step>59||r.getMinutes()===parseInt(i,10))&&(P.defaultSelect||I.data("changed")?S.push("xdsoft_current"):P.initTime&&S.push("xdsoft_init_time")),parseInt(y.getHours(),10)===parseInt(o,10)&&parseInt(y.getMinutes(),10)===parseInt(i,10)&&S.push("xdsoft_today"),T+='<div class="xdsoft_time '+S.join(" ")+'" data-hour="'+o+'" data-minute="'+i+'">'+n.formatDate(a,P.formatTime)+"</div>"},P.allowTimes&&t.isArray(P.allowTimes)&&P.allowTimes.length)for(v=0;v<P.allowTimes.length;v+=1)h(O.strtotime(P.allowTimes[v]).getHours(),$=O.strtotime(P.allowTimes[v]).getMinutes());else for(v=0,r=0;v<(P.hours12?12:24);v+=1)for(r=0;r<60;r+=P.step){var F=60*v+r;F<C||(F>=E||h((v<10?"0":"")+v,$=(r<10?"0":"")+r))}for(N.html(T),o="",v=parseInt(P.yearStart,10);v<=parseInt(P.yearEnd,10);v+=1)o+='<div class="xdsoft_option '+(O.currentTime.getFullYear()===v?"xdsoft_current":"")+'" data-value="'+v+'">'+(v+P.yearOffset)+"</div>";for(B.children().eq(0).html(o),v=parseInt(P.monthStart,10),o="";v<=parseInt(P.monthEnd,10);v+=1)o+='<div class="xdsoft_option '+(O.currentTime.getMonth()===v?"xdsoft_current":"")+'" data-value="'+v+'">'+P.i18n[i].months[v]+"</div>";R.children().eq(0).html(o),t(I).trigger("generate.xdsoft")},10),a.stopPropagation()}).on("afterOpen.xdsoft",function(){var t,e,n,o;P.timepicker&&(N.find(".xdsoft_current").length?t=".xdsoft_current":N.find(".xdsoft_init_time").length&&(t=".xdsoft_init_time"),t?(e=Y[0].clientHeight,(n=N[0].offsetHeight)-e<(o=N.find(t).index()*P.timeHeightInTimePicker+1)&&(o=n-e),Y.trigger("scroll_element.xdsoft_scroller",[parseInt(o,10)/(n-e)])):Y.trigger("scroll_element.xdsoft_scroller",[0]))}),a=0,L.on("touchend click.xdsoft","td",function(n){n.stopPropagation(),a+=1;var o=t(this),i=O.currentTime;if(null==i&&(O.currentTime=O.now(),i=O.currentTime),o.hasClass("xdsoft_disabled"))return!1;i.setDate(1),i.setFullYear(o.data("year")),i.setMonth(o.data("month")),i.setDate(o.data("date")),I.trigger("select.xdsoft",[i]),e.val(O.str()),P.onSelectDate&&t.isFunction(P.onSelectDate)&&P.onSelectDate.call(I,O.currentTime,I.data("input"),n),I.data("changed",!0),I.trigger("xchange.xdsoft"),I.trigger("changedatetime.xdsoft"),(a>1||!0===P.closeOnDateSelect||!1===P.closeOnDateSelect&&!P.timepicker)&&!P.inline&&I.trigger("close.xdsoft"),setTimeout(function(){a=0},200)}),N.on("touchstart","div",function(t){this.touchMoved=!1}).on("touchmove","div",J).on("touchend click.xdsoft","div",function(e){if(!this.touchMoved){e.stopPropagation();var n=t(this),o=O.currentTime;if(null==o&&(O.currentTime=O.now(),o=O.currentTime),n.hasClass("xdsoft_disabled"))return!1;o.setHours(n.data("hour")),o.setMinutes(n.data("minute")),I.trigger("select.xdsoft",[o]),I.data("input").val(O.str()),P.onSelectTime&&t.isFunction(P.onSelectTime)&&P.onSelectTime.call(I,O.currentTime,I.data("input"),e),I.data("changed",!0),I.trigger("xchange.xdsoft"),I.trigger("changedatetime.xdsoft"),!0!==P.inline&&!0===P.closeOnTimeSelect&&I.trigger("close.xdsoft")}}),A.on("mousewheel.xdsoft",function(t){return!P.scrollMonth||(t.deltaY<0?O.nextMonth():O.prevMonth(),!1)}),e.on("mousewheel.xdsoft",function(t){return!P.scrollInput||(!P.datepicker&&P.timepicker?((s=N.find(".xdsoft_current").length?N.find(".xdsoft_current").eq(0).index():0)+t.deltaY>=0&&s+t.deltaY<N.children().length&&(s+=t.deltaY),N.children().eq(s).length&&N.children().eq(s).trigger("mousedown"),!1):P.datepicker&&!P.timepicker?(A.trigger(t,[t.deltaY,t.deltaX,t.deltaY]),e.val&&e.val(O.str()),I.trigger("changedatetime.xdsoft"),!1):void 0)}),I.on("changedatetime.xdsoft",function(e){if(P.onChangeDateTime&&t.isFunction(P.onChangeDateTime)){var n=I.data("input");P.onChangeDateTime.call(I,O.currentTime,n,e),delete P.value,n.trigger("change")}}).on("generate.xdsoft",function(){P.onGenerate&&t.isFunction(P.onGenerate)&&P.onGenerate.call(I,O.currentTime,I.data("input")),q&&(I.trigger("afterOpen.xdsoft"),q=!1)}).on("click.xdsoft",function(t){t.stopPropagation()}),s=0,F=function(t,e){do{if(!(t=t.parentNode)||!1===e(t))break}while("HTML"!==t.nodeName)},c=function(){var e,n,o,i,r,a,s,c,l,d,u,h,f;if(e=(c=I.data("input")).offset(),n=c[0],d="top",o=e.top+n.offsetHeight-1,i=e.left,r="absolute",l=t(P.contentWindow).width(),h=t(P.contentWindow).height(),f=t(P.contentWindow).scrollTop(),P.ownerDocument.documentElement.clientWidth-e.left<A.parent().outerWidth(!0)){var p=A.parent().outerWidth(!0)-n.offsetWidth;i-=p}"rtl"===c.parent().css("direction")&&(i-=I.outerWidth()-c.outerWidth()),P.fixed?(o-=f,i-=t(P.contentWindow).scrollLeft(),r="fixed"):(s=!1,F(n,function(t){return null!==t&&("fixed"===P.contentWindow.getComputedStyle(t).getPropertyValue("position")?(s=!0,!1):void 0)}),s&&!P.insideParent?(r="fixed",o+I.outerHeight()>h+f?(d="bottom",o=h+f-e.top):o-=f):o+I[0].offsetHeight>h+f&&(o=e.top-I[0].offsetHeight+1),o<0&&(o=0),i+n.offsetWidth>l&&(i=l-n.offsetWidth)),a=I[0],F(a,function(t){if("relative"===P.contentWindow.getComputedStyle(t).getPropertyValue("position")&&l>=t.offsetWidth)return i-=(l-t.offsetWidth)/2,!1}),u={position:r,left:P.insideParent?n.offsetLeft:i,top:"",bottom:""},P.insideParent?u[d]=n.offsetTop+n.offsetHeight:u[d]=o,I.css(u)},I.on("open.xdsoft",function(e){var n=!0;P.onShow&&t.isFunction(P.onShow)&&(n=P.onShow.call(I,O.currentTime,I.data("input"),e)),!1!==n&&(I.show(),c(),t(P.contentWindow).off("resize.xdsoft",c).on("resize.xdsoft",c),P.closeOnWithoutClick&&t([P.ownerDocument.body,P.contentWindow]).on("touchstart mousedown.xdsoft",function e(){I.trigger("close.xdsoft"),t([P.ownerDocument.body,P.contentWindow]).off("touchstart mousedown.xdsoft",e)}))}).on("close.xdsoft",function(e){var n=!0;j.find(".xdsoft_month,.xdsoft_year").find(".xdsoft_select").hide(),P.onClose&&t.isFunction(P.onClose)&&(n=P.onClose.call(I,O.currentTime,I.data("input"),e)),!1===n||P.opened||P.inline||I.hide(),e.stopPropagation()}).on("toggle.xdsoft",function(){I.is(":visible")?I.trigger("close.xdsoft"):I.trigger("open.xdsoft")}).data("input",e),X=0,I.data("xdsoft_datetime",O),I.setOptions(P),O.setCurrentTime(U()),e.data("xdsoft_datetimepicker",I).on("open.xdsoft focusin.xdsoft mousedown.xdsoft touchstart",function(){e.is(":disabled")||e.data("xdsoft_datetimepicker").is(":visible")&&P.closeOnInputClick||P.openOnFocus&&(clearTimeout(X),X=setTimeout(function(){e.is(":disabled")||(q=!0,O.setCurrentTime(U(),!0),P.mask&&K(P),I.trigger("open.xdsoft"))},100))}).on("keydown.xdsoft",function(e){var n,o=e.which;return-1!==[g].indexOf(o)&&P.enterLikeTab?(n=t("input:visible,textarea:visible,button:visible,a:visible"),I.trigger("close.xdsoft"),n.eq(n.index(this)+1).focus(),!1):-1!==[S].indexOf(o)?(I.trigger("close.xdsoft"),!0):void 0}).on("blur.xdsoft",function(){I.trigger("close.xdsoft")})},s=function(e){var n=e.data("xdsoft_datetimepicker");n&&(n.data("xdsoft_datetime",null),n.remove(),e.data("xdsoft_datetimepicker",null).off(".xdsoft"),t(P.contentWindow).off("resize.xdsoft"),t([P.contentWindow,P.ownerDocument.body]).off("mousedown.xdsoft touchstart"),e.unmousewheel&&e.unmousewheel())},t(P.ownerDocument).off("keydown.xdsoftctrl keyup.xdsoftctrl").off("keydown.xdsoftcmd keyup.xdsoftcmd").on("keydown.xdsoftctrl",function(t){t.keyCode===p&&($=!0)}).on("keyup.xdsoftctrl",function(t){t.keyCode===p&&($=!1)}).on("keydown.xdsoftcmd",function(t){91===t.keyCode&&!0}).on("keyup.xdsoftcmd",function(t){91===t.keyCode&&!1}),this.each(function(){var e,i=t(this).data("xdsoft_datetimepicker");if(i){if("string"===t.type(o))switch(o){case"show":t(this).select().focus(),i.trigger("open.xdsoft");break;case"hide":i.trigger("close.xdsoft");break;case"toggle":i.trigger("toggle.xdsoft");break;case"destroy":s(t(this));break;case"reset":this.value=this.defaultValue,this.value&&i.data("xdsoft_datetime").isValidDate(n.parseDate(this.value,P.format))||i.data("changed",!1),i.data("xdsoft_datetime").setCurrentTime(this.value);break;case"validate":i.data("input").trigger("blur.xdsoft");break;default:i[o]&&t.isFunction(i[o])&&(c=i[o](r))}else i.setOptions(o);return 0}"string"!==t.type(o)&&(!P.lazyInit||P.open||P.inline?a(t(this)):(e=t(this)).on("open.xdsoft focusin.xdsoft mousedown.xdsoft touchstart",function t(){e.is(":disabled")||e.data("xdsoft_datetimepicker")||(clearTimeout(O),O=setTimeout(function(){e.data("xdsoft_datetimepicker")||a(e),e.off("open.xdsoft focusin.xdsoft mousedown.xdsoft touchstart",t).trigger("open.xdsoft")},100))}))}),c},t.fn.datetimepicker.defaults=e};!function(t){"function"==typeof define&&define.amd?define(["jquery","jquery-mousewheel"],t):"object"==typeof exports?module.exports=t(require("jquery")):t(jQuery)}(datetimepickerFactory),function(t){"function"==typeof define&&define.amd?define(["jquery"],t):"object"==typeof exports?module.exports=t:t(jQuery)}(function(t){var e,n,o=["wheel","mousewheel","DOMMouseScroll","MozMousePixelScroll"],i="onwheel"in document||document.documentMode>=9?["wheel"]:["mousewheel","DomMouseScroll","MozMousePixelScroll"],r=Array.prototype.slice;if(t.event.fixHooks)for(var a=o.length;a;)t.event.fixHooks[o[--a]]=t.event.mouseHooks;var s=t.event.special.mousewheel={version:"3.1.12",setup:function(){if(this.addEventListener)for(var e=i.length;e;)this.addEventListener(i[--e],c,!1);else this.onmousewheel=c;t.data(this,"mousewheel-line-height",s.getLineHeight(this)),t.data(this,"mousewheel-page-height",s.getPageHeight(this))},teardown:function(){if(this.removeEventListener)for(var e=i.length;e;)this.removeEventListener(i[--e],c,!1);else this.onmousewheel=null;t.removeData(this,"mousewheel-line-height"),t.removeData(this,"mousewheel-page-height")},getLineHeight:function(e){var n=t(e),o=n["offsetParent"in t.fn?"offsetParent":"parent"]();return o.length||(o=t("body")),parseInt(o.css("fontSize"),10)||parseInt(n.css("fontSize"),10)||16},getPageHeight:function(e){return t(e).height()},settings:{adjustOldDeltas:!0,normalizeOffset:!0}};function c(o){var i,a=o||window.event,c=r.call(arguments,1),u=0,h=0,f=0,p=0,m=0;if((o=t.event.fix(a)).type="mousewheel","detail"in a&&(f=-1*a.detail),"wheelDelta"in a&&(f=a.wheelDelta),"wheelDeltaY"in a&&(f=a.wheelDeltaY),"wheelDeltaX"in a&&(h=-1*a.wheelDeltaX),"axis"in a&&a.axis===a.HORIZONTAL_AXIS&&(h=-1*f,f=0),u=0===f?h:f,"deltaY"in a&&(u=f=-1*a.deltaY),"deltaX"in a&&(h=a.deltaX,0===f&&(u=-1*h)),0!==f||0!==h){if(1===a.deltaMode){var g=t.data(this,"mousewheel-line-height");u*=g,f*=g,h*=g}else if(2===a.deltaMode){var v=t.data(this,"mousewheel-page-height");u*=v,f*=v,h*=v}if(i=Math.max(Math.abs(f),Math.abs(h)),(!n||i<n)&&(n=i,d(a,i)&&(n/=40)),d(a,i)&&(u/=40,h/=40,f/=40),u=Math[u>=1?"floor":"ceil"](u/n),h=Math[h>=1?"floor":"ceil"](h/n),f=Math[f>=1?"floor":"ceil"](f/n),s.settings.normalizeOffset&&this.getBoundingClientRect){var y=this.getBoundingClientRect();p=o.clientX-y.left,m=o.clientY-y.top}return o.deltaX=h,o.deltaY=f,o.deltaFactor=n,o.offsetX=p,o.offsetY=m,o.deltaMode=0,c.unshift(o,u,h,f),e&&clearTimeout(e),e=setTimeout(l,200),(t.event.dispatch||t.event.handle).apply(this,c)}}function l(){n=null}function d(t,e){return s.settings.adjustOldDeltas&&"mousewheel"===t.type&&e%120==0}t.fn.extend({mousewheel:function(t){return t?this.bind("mousewheel",t):this.trigger("mousewheel")},unmousewheel:function(t){return this.unbind("mousewheel",t)}})}),function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.Switch=e():t.Switch=e()}(this,function(){return function(t){function e(o){if(n[o])return n[o].exports;var i=n[o]={exports:{},id:o,loaded:!1};return t[o].call(i.exports,i,i.exports,e),i.loaded=!0,i.exports}var n={};return e.m=t,e.c=n,e.p="",e(0)}([function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var o=function(t){return t&&t.__esModule?t:{default:t}}(n(1));e.default=o.default,t.exports=e.default},function(t,e,n){"use strict";function o(t){return t&&t.__esModule?t:{default:t}}function i(t,e){this._init(t,e)}function r(){}function a(){this._el.checked?(this._switch.style.boxShadow="inset 0 0 0 "+this._switch.clientHeight/1.8+"px "+this._options.onSwitchColor,this._switch.style.border="1px solid "+this._options.onSwitchColor,this._switch.style.transition="border 0.4s, box-shadow 0.4s, background-color 1.4s",this._switch.style.backgroundColor=this._options.onSwitchColor,this._jack.style.backgroundColor=this._options.onJackColor):(this._switch.style.boxShadow="inset 0 0 0 0  "+this._options.offSwitchColor,this._switch.style.border="1px solid "+y,this._switch.style.transition="border 0.4s, box-shadow 0.4s",this._switch.style.backgroundColor=this._options.offSwitchColor,this._jack.style.backgroundColor=this._options.offJackColor)}function s(t){this._el.disabled=t,m(this._switch)[t?"add":"remove"]("switch-disabled"),this._switch.setAttribute("aria-disabled",t)}function c(){var t=this._switch.clientWidth-this._jack.clientWidth;this._jack.style.left=this._el.checked?t+"px":0}function l(){this._options.showText&&(this._jack.innerHTML=this._el.checked?this._options.onText:this._options.offText)}Object.defineProperty(e,"__esModule",{value:!0});var d=o(n(2)),u=o(n(55)),h=o(n(59)),f=o(n(63));n(83);var p=n(87),m=n(88),g=["default","large","small"],v={changeSwitchStateFromCheckbox:function(){this._switch._toggle(this.checked)},changeSwitchStateFromSwitch:function(){this._instance._options.disabled||this._instance._toggle()},changeSwitchStateFromKeyboard:function(t){var e=t.which||t.keyCode||0;this._instance._options.disabled||13===e&&this._instance._toggle()}},y="#dfdfdf",b="switch-on",w="switch-off";i.prototype._init=function(t,e){var n={size:"default",checked:void 0,onText:"Y",offText:"N",onSwitchColor:"#64BD63",offSwitchColor:"#fff",onJackColor:"#fff",offJackColor:"#fff",showText:!1,disabled:!1,onInit:r,beforeChange:r,onChange:r,beforeRemove:r,onRemove:r,beforeDestroy:r,onDestroy:r};if(t&&1===t.nodeType&&"checkbox"===t.type){if(t._switch)return t._switch;if(!this instanceof i)return new i(t,e);this._el=t,this._el._switch=this,this._options=function(t,e){return e?((0,h.default)(e).forEach(function(n){t[n]=e[n]}),t):t}(n,e),this._initElement(),this._initEvents(),this._options.onInit.call(this)}},i.prototype._initElement=function(){this._el.style.display="none",void 0!==this._options.checked?this._el.checked=Boolean(this._options.checked):this._options.checked=this._el.checked;var t=this._createSwitch();(function(t,e){t.setAttribute("tabindex",0),t.setAttribute("role","checkbox"),t.setAttribute("aria-checked",e.checked),t.setAttribute("aria-disabled",e.disabled)})(t,this._options),function(t,e){e.parentNode.insertBefore(t,e.nextSibling)}(t,this._el),function(t,e,n){m(t).add("switch","switch-"+(g.includes(e.size)?e.size:"default"),e.checked?b:w),l.call(n),a.call(n),c.call(n),s.call(n,n._options.disabled)}(t,this._options,this),p.attach(t)},i.prototype._createSwitch=function(){return this._switch=document.createElement("span"),this._jack=document.createElement("small"),this._switch.appendChild(this._jack),this._switch._instance=this,this._switch},i.prototype._initEvents=function(){this._events=new f.default([["change changeSwitchStateFromCheckbox",this._el],["click changeSwitchStateFromSwitch",this._switch],["keypress changeSwitchStateFromKeyboard",this._switch]]),function(t,e){var n=!0,o=!1,i=void 0;try{for(var r,a=function(){var t=(0,d.default)(r.value,2),e=t[0],n=t[1];!function(t,e){n.addEventListener(t,v[e])}((e=e.split(" "))[0],e[1])},s=(0,u.default)(t);!(n=(r=s.next()).done);n=!0)a()}catch(t){o=!0,i=t}finally{try{!n&&s.return&&s.return()}finally{if(o)throw i}}}(this._events)},i.prototype._toggle=function(t){this._options.beforeChange.call(this,this._el.checked),this._el.checked=void 0===t?!this._el.checked:t,this._options.onChange.call(this,this._el.checked);var e=this._el.checked?b:w,n=this._el.checked?w:b;this._switch.setAttribute("aria-checked",this._el.checked),m(this._switch).add(e).remove(n),c.call(this),l.call(this),a.call(this)},i.prototype.getChecked=function(){return this._el.checked},i.prototype.on=function(){this._toggle(!0)},i.prototype.off=function(){this._toggle(!1)},i.prototype.toggle=function(){this._toggle()},i.prototype.disable=function(){s.call(this,this._options.disabled=!0)},i.prototype.enable=function(){s.call(this,this._options.disabled=!1)},i.prototype.destroy=function(){this._options.beforeDestroy.call(this,this._el.checked),function(t,e){var n=!0,o=!1,i=void 0;try{for(var r,a=function(){var t=(0,d.default)(r.value,2),e=t[0],n=t[1];!function(t,e){console.log(),n.removeEventListener(t,v[e])}((e=e.split(" "))[0],e[1])},s=(0,u.default)(t);!(n=(r=s.next()).done);n=!0)a()}catch(t){o=!0,i=t}finally{try{!n&&s.return&&s.return()}finally{if(o)throw i}}}(this._events),this._options.onDestroy.call(this)},i.prototype.remove=function(){this._options.beforeRemove.call(this,this._el.checked);try{this._el.setAttribute("style",this._el.getAttribute("style").replace(/\s*display:\s*none;/g,""))}catch(t){}this._switch.parentNode&&(this._switch.parentNode.removeChild(this._switch),this._options.onRemove.call(this))},e.default=i,t.exports=e.default},function(t,e,n){"use strict";function o(t){return t&&t.__esModule?t:{default:t}}e.__esModule=!0;var i=o(n(3)),r=o(n(55));e.default=function(){return function(t,e){if(Array.isArray(t))return t;if((0,i.default)(Object(t)))return function(t,e){var n=[],o=!0,i=!1,a=void 0;try{for(var s,c=(0,r.default)(t);!(o=(s=c.next()).done)&&(n.push(s.value),!e||n.length!==e);o=!0);}catch(t){i=!0,a=t}finally{try{!o&&c.return&&c.return()}finally{if(i)throw a}}return n}(t,e);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}()},function(t,e,n){t.exports={default:n(4),__esModule:!0}},function(t,e,n){n(5),n(51),t.exports=n(53)},function(t,e,n){n(6);for(var o=n(17),i=n(21),r=n(9),a=n(48)("toStringTag"),s=["NodeList","DOMTokenList","MediaList","StyleSheetList","CSSRuleList"],c=0;c<5;c++){var l=s[c],d=o[l],u=d&&d.prototype;u&&!u[a]&&i(u,a,l),r[l]=r.Array}},function(t,e,n){"use strict";var o=n(7),i=n(8),r=n(9),a=n(10);t.exports=n(14)(Array,"Array",function(t,e){this._t=a(t),this._i=0,this._k=e},function(){var t=this._t,e=this._k,n=this._i++;return!t||n>=t.length?(this._t=void 0,i(1)):i(0,"keys"==e?n:"values"==e?t[n]:[n,t[n]])},"values"),r.Arguments=r.Array,o("keys"),o("values"),o("entries")},function(t,e){t.exports=function(){}},function(t,e){t.exports=function(t,e){return{value:e,done:!!t}}},function(t,e){t.exports={}},function(t,e,n){var o=n(11),i=n(13);t.exports=function(t){return o(i(t))}},function(t,e,n){var o=n(12);t.exports=Object("z").propertyIsEnumerable(0)?Object:function(t){return"String"==o(t)?t.split(""):Object(t)}},function(t,e){var n={}.toString;t.exports=function(t){return n.call(t).slice(8,-1)}},function(t,e){t.exports=function(t){if(null==t)throw TypeError("Can't call method on  "+t);return t}},function(t,e,n){"use strict";var o=n(15),i=n(16),r=n(31),a=n(21),s=n(32),c=n(9),l=n(33),d=n(47),u=n(49),h=n(48)("iterator"),f=!([].keys&&"next"in[].keys()),p="keys",m="values",g=function(){return this};t.exports=function(t,e,n,v,y,b,w){l(n,e,v);var x,k,S,D=function(t){if(!f&&t in M)return M[t];switch(t){case p:case m:return function(){return new n(this,t)}}return function(){return new n(this,t)}},T=e+" Iterator",_=y==m,C=!1,M=t.prototype,E=M[h]||M["@@iterator"]||y&&M[y],$=E||D(y),P=y?_?D("entries"):$:void 0,O="Array"==e&&M.entries||E;if(O&&((S=u(O.call(new t)))!==Object.prototype&&(d(S,T,!0),o||s(S,h)||a(S,h,g))),_&&E&&E.name!==m&&(C=!0,$=function(){return E.call(this)}),o&&!w||!f&&!C&&M[h]||a(M,h,$),c[e]=$,c[T]=g,y)if(x={values:_?$:D(m),keys:b?$:D(p),entries:P},w)for(k in x)k in M||r(M,k,x[k]);else i(i.P+i.F*(f||C),e,x);return x}},function(t,e){t.exports=!0},function(t,e,n){var o=n(17),i=n(18),r=n(19),a=n(21),s="prototype",c=function(t,e,n){var l,d,u,h=t&c.F,f=t&c.G,p=t&c.S,m=t&c.P,g=t&c.B,v=t&c.W,y=f?i:i[e]||(i[e]={}),b=y[s],w=f?o:p?o[e]:(o[e]||{})[s];for(l in f&&(n=e),n)(d=!h&&w&&void 0!==w[l])&&l in y||(u=d?w[l]:n[l],y[l]=f&&"function"!=typeof w[l]?n[l]:g&&d?r(u,o):v&&w[l]==u?function(t){var e=function(e,n,o){if(this instanceof t){switch(arguments.length){case 0:return new t;case 1:return new t(e);case 2:return new t(e,n)}return new t(e,n,o)}return t.apply(this,arguments)};return e[s]=t[s],e}(u):m&&"function"==typeof u?r(Function.call,u):u,m&&((y.virtual||(y.virtual={}))[l]=u,t&c.R&&b&&!b[l]&&a(b,l,u)))};c.F=1,c.G=2,c.S=4,c.P=8,c.B=16,c.W=32,c.U=64,c.R=128,t.exports=c},function(t,e){var n=t.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=n)},function(t,e){var n=t.exports={version:"2.4.0"};"number"==typeof __e&&(__e=n)},function(t,e,n){var o=n(20);t.exports=function(t,e,n){if(o(t),void 0===e)return t;switch(n){case 1:return function(n){return t.call(e,n)};case 2:return function(n,o){return t.call(e,n,o)};case 3:return function(n,o,i){return t.call(e,n,o,i)}}return function(){return t.apply(e,arguments)}}},function(t,e){t.exports=function(t){if("function"!=typeof t)throw TypeError(t+" is not a function!");return t}},function(t,e,n){var o=n(22),i=n(30);t.exports=n(26)?function(t,e,n){return o.f(t,e,i(1,n))}:function(t,e,n){return t[e]=n,t}},function(t,e,n){var o=n(23),i=n(25),r=n(29),a=Object.defineProperty;e.f=n(26)?Object.defineProperty:function(t,e,n){if(o(t),e=r(e,!0),o(n),i)try{return a(t,e,n)}catch(t){}if("get"in n||"set"in n)throw TypeError("Accessors not supported!");return"value"in n&&(t[e]=n.value),t}},function(t,e,n){var o=n(24);t.exports=function(t){if(!o(t))throw TypeError(t+" is not an object!");return t}},function(t,e){t.exports=function(t){return"object"==typeof t?null!==t:"function"==typeof t}},function(t,e,n){t.exports=!n(26)&&!n(27)(function(){return 7!=Object.defineProperty(n(28)("div"),"a",{get:function(){return 7}}).a})},function(t,e,n){t.exports=!n(27)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(t,e){t.exports=function(t){try{return!!t()}catch(t){return!0}}},function(t,e,n){var o=n(24),i=n(17).document,r=o(i)&&o(i.createElement);t.exports=function(t){return r?i.createElement(t):{}}},function(t,e,n){var o=n(24);t.exports=function(t,e){if(!o(t))return t;var n,i;if(e&&"function"==typeof(n=t.toString)&&!o(i=n.call(t)))return i;if("function"==typeof(n=t.valueOf)&&!o(i=n.call(t)))return i;if(!e&&"function"==typeof(n=t.toString)&&!o(i=n.call(t)))return i;throw TypeError("Can't convert object to primitive value")}},function(t,e){t.exports=function(t,e){return{enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:e}}},function(t,e,n){t.exports=n(21)},function(t,e){var n={}.hasOwnProperty;t.exports=function(t,e){return n.call(t,e)}},function(t,e,n){"use strict";var o=n(34),i=n(30),r=n(47),a={};n(21)(a,n(48)("iterator"),function(){return this}),t.exports=function(t,e,n){t.prototype=o(a,{next:i(1,n)}),r(t,e+" Iterator")}},function(t,e,n){var o=n(23),i=n(35),r=n(45),a=n(42)("IE_PROTO"),s=function(){},c="prototype",l=function(){var t,e=n(28)("iframe"),o=r.length;for(e.style.display="none",n(46).appendChild(e),e.src="javascript:",(t=e.contentWindow.document).open(),t.write("<script>document.F=Object<\/script>"),t.close(),l=t.F;o--;)delete l[c][r[o]];return l()};t.exports=Object.create||function(t,e){var n;return null!==t?(s[c]=o(t),n=new s,s[c]=null,n[a]=t):n=l(),void 0===e?n:i(n,e)}},function(t,e,n){var o=n(22),i=n(23),r=n(36);t.exports=n(26)?Object.defineProperties:function(t,e){i(t);for(var n,a=r(e),s=a.length,c=0;s>c;)o.f(t,n=a[c++],e[n]);return t}},function(t,e,n){var o=n(37),i=n(45);t.exports=Object.keys||function(t){return o(t,i)}},function(t,e,n){var o=n(32),i=n(10),r=n(38)(!1),a=n(42)("IE_PROTO");t.exports=function(t,e){var n,s=i(t),c=0,l=[];for(n in s)n!=a&&o(s,n)&&l.push(n);for(;e.length>c;)o(s,n=e[c++])&&(~r(l,n)||l.push(n));return l}},function(t,e,n){var o=n(10),i=n(39),r=n(41);t.exports=function(t){return function(e,n,a){var s,c=o(e),l=i(c.length),d=r(a,l);if(t&&n!=n){for(;l>d;)if((s=c[d++])!=s)return!0}else for(;l>d;d++)if((t||d in c)&&c[d]===n)return t||d||0;return!t&&-1}}},function(t,e,n){var o=n(40),i=Math.min;t.exports=function(t){return t>0?i(o(t),9007199254740991):0}},function(t,e){var n=Math.ceil,o=Math.floor;t.exports=function(t){return isNaN(t=+t)?0:(t>0?o:n)(t)}},function(t,e,n){var o=n(40),i=Math.max,r=Math.min;t.exports=function(t,e){return(t=o(t))<0?i(t+e,0):r(t,e)}},function(t,e,n){var o=n(43)("keys"),i=n(44);t.exports=function(t){return o[t]||(o[t]=i(t))}},function(t,e,n){var o=n(17),i="__core-js_shared__",r=o[i]||(o[i]={});t.exports=function(t){return r[t]||(r[t]={})}},function(t,e){var n=0,o=Math.random();t.exports=function(t){return"Symbol(".concat(void 0===t?"":t,")_",(++n+o).toString(36))}},function(t,e){t.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",")},function(t,e,n){t.exports=n(17).document&&document.documentElement},function(t,e,n){var o=n(22).f,i=n(32),r=n(48)("toStringTag");t.exports=function(t,e,n){t&&!i(t=n?t:t.prototype,r)&&o(t,r,{configurable:!0,value:e})}},function(t,e,n){var o=n(43)("wks"),i=n(44),r=n(17).Symbol,a="function"==typeof r;(t.exports=function(t){return o[t]||(o[t]=a&&r[t]||(a?r:i)("Symbol."+t))}).store=o},function(t,e,n){var o=n(32),i=n(50),r=n(42)("IE_PROTO"),a=Object.prototype;t.exports=Object.getPrototypeOf||function(t){return t=i(t),o(t,r)?t[r]:"function"==typeof t.constructor&&t instanceof t.constructor?t.constructor.prototype:t instanceof Object?a:null}},function(t,e,n){var o=n(13);t.exports=function(t){return Object(o(t))}},function(t,e,n){"use strict";var o=n(52)(!0);n(14)(String,"String",function(t){this._t=String(t),this._i=0},function(){var t,e=this._t,n=this._i;return n>=e.length?{value:void 0,done:!0}:(t=o(e,n),this._i+=t.length,{value:t,done:!1})})},function(t,e,n){var o=n(40),i=n(13);t.exports=function(t){return function(e,n){var r,a,s=String(i(e)),c=o(n),l=s.length;return c<0||c>=l?t?"":void 0:(r=s.charCodeAt(c))<55296||r>56319||c+1===l||(a=s.charCodeAt(c+1))<56320||a>57343?t?s.charAt(c):r:t?s.slice(c,c+2):a-56320+(r-55296<<10)+65536}}},function(t,e,n){var o=n(54),i=n(48)("iterator"),r=n(9);t.exports=n(18).isIterable=function(t){var e=Object(t);return void 0!==e[i]||"@@iterator"in e||r.hasOwnProperty(o(e))}},function(t,e,n){var o=n(12),i=n(48)("toStringTag"),r="Arguments"==o(function(){return arguments}());t.exports=function(t){var e,n,a;return void 0===t?"Undefined":null===t?"Null":"string"==typeof(n=function(t,e){try{return t[e]}catch(t){}}(e=Object(t),i))?n:r?o(e):"Object"==(a=o(e))&&"function"==typeof e.callee?"Arguments":a}},function(t,e,n){t.exports={default:n(56),__esModule:!0}},function(t,e,n){n(5),n(51),t.exports=n(57)},function(t,e,n){var o=n(23),i=n(58);t.exports=n(18).getIterator=function(t){var e=i(t);if("function"!=typeof e)throw TypeError(t+" is not iterable!");return o(e.call(t))}},function(t,e,n){var o=n(54),i=n(48)("iterator"),r=n(9);t.exports=n(18).getIteratorMethod=function(t){if(null!=t)return t[i]||t["@@iterator"]||r[o(t)]}},function(t,e,n){t.exports={default:n(60),__esModule:!0}},function(t,e,n){n(61),t.exports=n(18).Object.keys},function(t,e,n){var o=n(50),i=n(36);n(62)("keys",function(){return function(t){return i(o(t))}})},function(t,e,n){var o=n(16),i=n(18),r=n(27);t.exports=function(t,e){var n=(i.Object||{})[t]||Object[t],a={};a[t]=e(n),o(o.S+o.F*r(function(){n(1)}),"Object",a)}},function(t,e,n){t.exports={default:n(64),__esModule:!0}},function(t,e,n){n(65),n(51),n(5),n(66),n(80),t.exports=n(18).Map},function(t,e){},function(t,e,n){"use strict";var o=n(67);t.exports=n(75)("Map",function(t){return function(){return t(this,arguments.length>0?arguments[0]:void 0)}},{get:function(t){var e=o.getEntry(this,t);return e&&e.v},set:function(t,e){return o.def(this,0===t?0:t,e)}},o,!0)},function(t,e,n){"use strict";var o=n(22).f,i=n(34),r=n(68),a=n(19),s=n(69),c=n(13),l=n(70),d=n(14),u=n(8),h=n(73),f=n(26),p=n(74).fastKey,m=f?"_s":"size",g=function(t,e){var n,o=p(e);if("F"!==o)return t._i[o];for(n=t._f;n;n=n.n)if(n.k==e)return n};t.exports={getConstructor:function(t,e,n,d){var u=t(function(t,o){s(t,u,e,"_i"),t._i=i(null),t._f=void 0,t._l=void 0,t[m]=0,null!=o&&l(o,n,t[d],t)});return r(u.prototype,{clear:function(){for(var t=this,e=t._i,n=t._f;n;n=n.n)n.r=!0,n.p&&(n.p=n.p.n=void 0),delete e[n.i];t._f=t._l=void 0,t[m]=0},delete:function(t){var e=this,n=g(e,t);if(n){var o=n.n,i=n.p;delete e._i[n.i],n.r=!0,i&&(i.n=o),o&&(o.p=i),e._f==n&&(e._f=o),e._l==n&&(e._l=i),e[m]--}return!!n},forEach:function(t){s(this,u,"forEach");for(var e,n=a(t,arguments.length>1?arguments[1]:void 0,3);e=e?e.n:this._f;)for(n(e.v,e.k,this);e&&e.r;)e=e.p},has:function(t){return!!g(this,t)}}),f&&o(u.prototype,"size",{get:function(){return c(this[m])}}),u},def:function(t,e,n){var o,i,r=g(t,e);return r?r.v=n:(t._l=r={i:i=p(e,!0),k:e,v:n,p:o=t._l,n:void 0,r:!1},t._f||(t._f=r),o&&(o.n=r),t[m]++,"F"!==i&&(t._i[i]=r)),t},getEntry:g,setStrong:function(t,e,n){d(t,e,function(t,e){this._t=t,this._k=e,this._l=void 0},function(){for(var t=this,e=t._k,n=t._l;n&&n.r;)n=n.p;return t._t&&(t._l=n=n?n.n:t._t._f)?u(0,"keys"==e?n.k:"values"==e?n.v:[n.k,n.v]):(t._t=void 0,u(1))},n?"entries":"values",!n,!0),h(e)}}},function(t,e,n){var o=n(21);t.exports=function(t,e,n){for(var i in e)n&&t[i]?t[i]=e[i]:o(t,i,e[i]);return t}},function(t,e){t.exports=function(t,e,n,o){if(!(t instanceof e)||void 0!==o&&o in t)throw TypeError(n+": incorrect invocation!");return t}},function(t,e,n){var o=n(19),i=n(71),r=n(72),a=n(23),s=n(39),c=n(58),l={},d={};(e=t.exports=function(t,e,n,u,h){var f,p,m,g,v=h?function(){return t}:c(t),y=o(n,u,e?2:1),b=0;if("function"!=typeof v)throw TypeError(t+" is not iterable!");if(r(v)){for(f=s(t.length);f>b;b++)if((g=e?y(a(p=t[b])[0],p[1]):y(t[b]))===l||g===d)return g}else for(m=v.call(t);!(p=m.next()).done;)if((g=i(m,y,p.value,e))===l||g===d)return g}).BREAK=l,e.RETURN=d},function(t,e,n){var o=n(23);t.exports=function(t,e,n,i){try{return i?e(o(n)[0],n[1]):e(n)}catch(e){var r=t.return;throw void 0!==r&&o(r.call(t)),e}}},function(t,e,n){var o=n(9),i=n(48)("iterator"),r=Array.prototype;t.exports=function(t){return void 0!==t&&(o.Array===t||r[i]===t)}},function(t,e,n){"use strict";var o=n(17),i=n(18),r=n(22),a=n(26),s=n(48)("species");t.exports=function(t){var e="function"==typeof i[t]?i[t]:o[t];a&&e&&!e[s]&&r.f(e,s,{configurable:!0,get:function(){return this}})}},function(t,e,n){var o=n(44)("meta"),i=n(24),r=n(32),a=n(22).f,s=0,c=Object.isExtensible||function(){return!0},l=!n(27)(function(){return c(Object.preventExtensions({}))}),d=function(t){a(t,o,{value:{i:"O"+ ++s,w:{}}})},u=t.exports={KEY:o,NEED:!1,fastKey:function(t,e){if(!i(t))return"symbol"==typeof t?t:("string"==typeof t?"S":"P")+t;if(!r(t,o)){if(!c(t))return"F";if(!e)return"E";d(t)}return t[o].i},getWeak:function(t,e){if(!r(t,o)){if(!c(t))return!0;if(!e)return!1;d(t)}return t[o].w},onFreeze:function(t){return l&&u.NEED&&c(t)&&!r(t,o)&&d(t),t}}},function(t,e,n){"use strict";var o=n(17),i=n(16),r=n(74),a=n(27),s=n(21),c=n(68),l=n(70),d=n(69),u=n(24),h=n(47),f=n(22).f,p=n(76)(0),m=n(26);t.exports=function(t,e,n,g,v,y){var b=o[t],w=b,x=v?"set":"add",k=w&&w.prototype,S={};return m&&"function"==typeof w&&(y||k.forEach&&!a(function(){(new w).entries().next()}))?(w=e(function(e,n){d(e,w,t,"_c"),e._c=new b,null!=n&&l(n,v,e[x],e)}),p("add,clear,delete,forEach,get,has,set,keys,values,entries,toJSON".split(","),function(t){var e="add"==t||"set"==t;t in k&&(!y||"clear"!=t)&&s(w.prototype,t,function(n,o){if(d(this,w,t),!e&&y&&!u(n))return"get"==t&&void 0;var i=this._c[t](0===n?0:n,o);return e?this:i})}),"size"in k&&f(w.prototype,"size",{get:function(){return this._c.size}})):(w=g.getConstructor(e,t,v,x),c(w.prototype,n),r.NEED=!0),h(w,t),S[t]=w,i(i.G+i.W+i.F,S),y||g.setStrong(w,t,v),w}},function(t,e,n){var o=n(19),i=n(11),r=n(50),a=n(39),s=n(77);t.exports=function(t,e){var n=1==t,c=2==t,l=3==t,d=4==t,u=6==t,h=5==t||u,f=e||s;return function(e,s,p){for(var m,g,v=r(e),y=i(v),b=o(s,p,3),w=a(y.length),x=0,k=n?f(e,w):c?f(e,0):void 0;w>x;x++)if((h||x in y)&&(g=b(m=y[x],x,v),t))if(n)k[x]=g;else if(g)switch(t){case 3:return!0;case 5:return m;case 6:return x;case 2:k.push(m)}else if(d)return!1;return u?-1:l||d?d:k}}},function(t,e,n){var o=n(78);t.exports=function(t,e){return new(o(t))(e)}},function(t,e,n){var o=n(24),i=n(79),r=n(48)("species");t.exports=function(t){var e;return i(t)&&("function"!=typeof(e=t.constructor)||e!==Array&&!i(e.prototype)||(e=void 0),o(e)&&(null===(e=e[r])&&(e=void 0))),void 0===e?Array:e}},function(t,e,n){var o=n(12);t.exports=Array.isArray||function(t){return"Array"==o(t)}},function(t,e,n){var o=n(16);o(o.P+o.R,"Map",{toJSON:n(81)("Map")})},function(t,e,n){var o=n(54),i=n(82);t.exports=function(t){return function(){if(o(this)!=t)throw TypeError(t+"#toJSON isn't generic");return i(this)}}},function(t,e,n){var o=n(70);t.exports=function(t,e){var n=[];return o(t,!1,n.push,n,e),n}},function(t,e){},,,,function(t,e,n){var o;!function(){"use strict";function i(t,e){function n(t,e){return function(){return t.apply(e,arguments)}}var o;if(e=e||{},this.trackingClick=!1,this.trackingClickStart=0,this.targetElement=null,this.touchStartX=0,this.touchStartY=0,this.lastTouchIdentifier=0,this.touchBoundary=e.touchBoundary||10,this.layer=t,this.tapDelay=e.tapDelay||200,this.tapTimeout=e.tapTimeout||700,!i.notNeeded(t)){for(var r=["onMouse","onClick","onTouchStart","onTouchMove","onTouchEnd","onTouchCancel"],s=this,c=0,l=r.length;c<l;c++)s[r[c]]=n(s[r[c]],s);a&&(t.addEventListener("mouseover",this.onMouse,!0),t.addEventListener("mousedown",this.onMouse,!0),t.addEventListener("mouseup",this.onMouse,!0)),t.addEventListener("click",this.onClick,!0),t.addEventListener("touchstart",this.onTouchStart,!1),t.addEventListener("touchmove",this.onTouchMove,!1),t.addEventListener("touchend",this.onTouchEnd,!1),t.addEventListener("touchcancel",this.onTouchCancel,!1),Event.prototype.stopImmediatePropagation||(t.removeEventListener=function(e,n,o){var i=Node.prototype.removeEventListener;"click"===e?i.call(t,e,n.hijacked||n,o):i.call(t,e,n,o)},t.addEventListener=function(e,n,o){var i=Node.prototype.addEventListener;"click"===e?i.call(t,e,n.hijacked||(n.hijacked=function(t){t.propagationStopped||n(t)}),o):i.call(t,e,n,o)}),"function"==typeof t.onclick&&(o=t.onclick,t.addEventListener("click",function(t){o(t)},!1),t.onclick=null)}}var r=navigator.userAgent.indexOf("Windows Phone")>=0,a=navigator.userAgent.indexOf("Android")>0&&!r,s=/iP(ad|hone|od)/.test(navigator.userAgent)&&!r,c=s&&/OS 4_\d(_\d)?/.test(navigator.userAgent),l=s&&/OS [6-7]_\d/.test(navigator.userAgent),d=navigator.userAgent.indexOf("BB10")>0;i.prototype.needsClick=function(t){switch(t.nodeName.toLowerCase()){case"button":case"select":case"textarea":if(t.disabled)return!0;break;case"input":if(s&&"file"===t.type||t.disabled)return!0;break;case"label":case"iframe":case"video":return!0}return/\bneedsclick\b/.test(t.className)},i.prototype.needsFocus=function(t){switch(t.nodeName.toLowerCase()){case"textarea":return!0;case"select":return!a;case"input":switch(t.type){case"button":case"checkbox":case"file":case"image":case"radio":case"submit":return!1}return!t.disabled&&!t.readOnly;default:return/\bneedsfocus\b/.test(t.className)}},i.prototype.sendClick=function(t,e){var n,o;document.activeElement&&document.activeElement!==t&&document.activeElement.blur(),o=e.changedTouches[0],(n=document.createEvent("MouseEvents")).initMouseEvent(this.determineEventType(t),!0,!0,window,1,o.screenX,o.screenY,o.clientX,o.clientY,!1,!1,!1,!1,0,null),n.forwardedTouchEvent=!0,t.dispatchEvent(n)},i.prototype.determineEventType=function(t){return a&&"select"===t.tagName.toLowerCase()?"mousedown":"click"},i.prototype.focus=function(t){var e;s&&t.setSelectionRange&&0!==t.type.indexOf("date")&&"time"!==t.type&&"month"!==t.type?(e=t.value.length,t.setSelectionRange(e,e)):t.focus()},i.prototype.updateScrollParent=function(t){var e,n;if(!(e=t.fastClickScrollParent)||!e.contains(t)){n=t;do{if(n.scrollHeight>n.offsetHeight){e=n,t.fastClickScrollParent=n;break}n=n.parentElement}while(n)}e&&(e.fastClickLastScrollTop=e.scrollTop)},i.prototype.getTargetElementFromEventTarget=function(t){return t.nodeType===Node.TEXT_NODE?t.parentNode:t},i.prototype.onTouchStart=function(t){var e,n,o;if(t.targetTouches.length>1)return!0;if(e=this.getTargetElementFromEventTarget(t.target),n=t.targetTouches[0],s){if((o=window.getSelection()).rangeCount&&!o.isCollapsed)return!0;if(!c){if(n.identifier&&n.identifier===this.lastTouchIdentifier)return t.preventDefault(),!1;this.lastTouchIdentifier=n.identifier,this.updateScrollParent(e)}}return this.trackingClick=!0,this.trackingClickStart=t.timeStamp,this.targetElement=e,this.touchStartX=n.pageX,this.touchStartY=n.pageY,t.timeStamp-this.lastClickTime<this.tapDelay&&t.preventDefault(),!0},i.prototype.touchHasMoved=function(t){var e=t.changedTouches[0],n=this.touchBoundary;return Math.abs(e.pageX-this.touchStartX)>n||Math.abs(e.pageY-this.touchStartY)>n},i.prototype.onTouchMove=function(t){return!this.trackingClick||((this.targetElement!==this.getTargetElementFromEventTarget(t.target)||this.touchHasMoved(t))&&(this.trackingClick=!1,this.targetElement=null),!0)},i.prototype.findControl=function(t){return void 0!==t.control?t.control:t.htmlFor?document.getElementById(t.htmlFor):t.querySelector("button, input:not([type=hidden]), keygen, meter, output, progress, select, textarea")},i.prototype.onTouchEnd=function(t){var e,n,o,i,r,d=this.targetElement;if(!this.trackingClick)return!0;if(t.timeStamp-this.lastClickTime<this.tapDelay)return this.cancelNextClick=!0,!0;if(t.timeStamp-this.trackingClickStart>this.tapTimeout)return!0;if(this.cancelNextClick=!1,this.lastClickTime=t.timeStamp,n=this.trackingClickStart,this.trackingClick=!1,this.trackingClickStart=0,l&&(r=t.changedTouches[0],(d=document.elementFromPoint(r.pageX-window.pageXOffset,r.pageY-window.pageYOffset)||d).fastClickScrollParent=this.targetElement.fastClickScrollParent),"label"===(o=d.tagName.toLowerCase())){if(e=this.findControl(d)){if(this.focus(d),a)return!1;d=e}}else if(this.needsFocus(d))return t.timeStamp-n>100||s&&window.top!==window&&"input"===o?(this.targetElement=null,!1):(this.focus(d),this.sendClick(d,t),s&&"select"===o||(this.targetElement=null,t.preventDefault()),!1);return!(!s||c||(i=d.fastClickScrollParent,!i||i.fastClickLastScrollTop===i.scrollTop))||(this.needsClick(d)||(t.preventDefault(),this.sendClick(d,t)),!1)},i.prototype.onTouchCancel=function(){this.trackingClick=!1,this.targetElement=null},i.prototype.onMouse=function(t){return!(this.targetElement&&!t.forwardedTouchEvent&&t.cancelable&&(!this.needsClick(this.targetElement)||this.cancelNextClick)&&(t.stopImmediatePropagation?t.stopImmediatePropagation():t.propagationStopped=!0,t.stopPropagation(),t.preventDefault(),1))},i.prototype.onClick=function(t){var e;return this.trackingClick?(this.targetElement=null,this.trackingClick=!1,!0):"submit"===t.target.type&&0===t.detail||((e=this.onMouse(t))||(this.targetElement=null),e)},i.prototype.destroy=function(){var t=this.layer;a&&(t.removeEventListener("mouseover",this.onMouse,!0),t.removeEventListener("mousedown",this.onMouse,!0),t.removeEventListener("mouseup",this.onMouse,!0)),t.removeEventListener("click",this.onClick,!0),t.removeEventListener("touchstart",this.onTouchStart,!1),t.removeEventListener("touchmove",this.onTouchMove,!1),t.removeEventListener("touchend",this.onTouchEnd,!1),t.removeEventListener("touchcancel",this.onTouchCancel,!1)},i.notNeeded=function(t){var e,n,o;if(void 0===window.ontouchstart)return!0;if(n=+(/Chrome\/([0-9]+)/.exec(navigator.userAgent)||[,0])[1]){if(!a)return!0;if(e=document.querySelector("meta[name=viewport]")){if(-1!==e.content.indexOf("user-scalable=no"))return!0;if(n>31&&document.documentElement.scrollWidth<=window.outerWidth)return!0}}if(d&&((o=navigator.userAgent.match(/Version\/([0-9]*)\.([0-9]*)/))[1]>=10&&o[2]>=3&&(e=document.querySelector("meta[name=viewport]")))){if(-1!==e.content.indexOf("user-scalable=no"))return!0;if(document.documentElement.scrollWidth<=window.outerWidth)return!0}return"none"===t.style.msTouchAction||"manipulation"===t.style.touchAction||(!!(+(/Firefox\/([0-9]+)/.exec(navigator.userAgent)||[,0])[1]>=27&&(e=document.querySelector("meta[name=viewport]"),e&&(-1!==e.content.indexOf("user-scalable=no")||document.documentElement.scrollWidth<=window.outerWidth)))||"none"===t.style.touchAction||"manipulation"===t.style.touchAction)},i.attach=function(t,e){return new i(t,e)},void 0===(o=function(){return i}.call(e,n,e,t))||(t.exports=o)}()},function(t,e,n){"use strict";function o(t){if(!(this instanceof o))return new o(t);var e,n=r(t.className).split(/\s+/);for(this._elem=t,this.length=0,e=0;e<n.length;e+=1)n[e]&&a.push.call(this,n[e])}t.exports=o;var i=n(89),r=n(90),a=Array.prototype;o.prototype.add=function(){var t,e;for(e=0;e<arguments.length;e+=1)t=""+arguments[e],i(this,t)>=0||a.push.call(this,t);return this._elem.className=this.toString(),this},o.prototype.remove=function(){var t,e,n;for(n=0;n<arguments.length;n+=1)e=""+arguments[n],(t=i(this,e))<0||a.splice.call(this,t,1);return this._elem.className=this.toString(),this},o.prototype.contains=function(t){return i(this,t+="")>=0},o.prototype.toggle=function(t,e){return t+="",!0===e?this.add(t):!1===e?this.remove(t):this[this.contains(t)?"remove":"add"](t)},o.prototype.toString=function(){return a.join.call(this," ")}},function(t,e){t.exports=function(t,e){if(t.indexOf)return t.indexOf(e);for(var n=0;n<t.length;++n)if(t[n]===e)return n;return-1}},function(t,e){(e=t.exports=function(t){return t.replace(/^\s*|\s*$/g,"")}).left=function(t){return t.replace(/^\s*/,"")},e.right=function(t){return t.replace(/\s*$/,"")}}])});var switchElement=document.querySelector(".checkbox-switch-tax"),switchElement2=document.querySelector(".checkbox-switch-click"),switchElement3=document.querySelector(".checkbox-switch-vip"),switchElement4=document.querySelector(".checkbox-switch-europe"),switchElement5=document.querySelector(".checkbox-attr-categories"),switchElement6=document.querySelector(".checkbox-public"),options={checked:!1,size:"small",onSwitchColor:"#394a59"},switcher=new Switch(switchElement,options),switcher2=new Switch(switchElement2,options),switcher3=new Switch(switchElement3,options),switcher4=new Switch(switchElement4,options),switcher5=new Switch(switchElement5,options),switcher6=new Switch(switchElement6,options),switchElementEditing=document.querySelector(".checkbox-vip"),switchElementEditing2=document.querySelector(".checkbox-europe"),switchElementEditing3=document.querySelector(".checkbox-tax"),switchElementEditing4=document.querySelector(".checkbox-one-click"),switchElementEditing5=document.querySelector(".checkbox-attr-cats-edit"),switchElementEditing6=document.querySelector(".checkbox-published"),optionsEditing={size:"small",onSwitchColor:"#394a59"};switcher=new Switch(switchElementEditing,optionsEditing),switcher2=new Switch(switchElementEditing2,optionsEditing),switcher3=new Switch(switchElementEditing3,optionsEditing),switcher4=new Switch(switchElementEditing4,optionsEditing),switcher5=new Switch(switchElementEditing5,optionsEditing),switcher6=new Switch(switchElementEditing6,optionsEditing);function initializeJS(){jQuery(".tooltips").tooltip(),jQuery(".popovers").popover(),jQuery("html").niceScroll({styler:"fb",cursorcolor:"#007AFF",cursorwidth:"6",cursorborderradius:"10px",background:"#F7F7F7",cursorborder:"",zindex:"1000"}),jQuery("#sidebar").niceScroll({styler:"fb",cursorcolor:"#007AFF",cursorwidth:"3",cursorborderradius:"10px",background:"#F7F7F7",cursorborder:""}),jQuery(".scroll-panel").niceScroll({styler:"fb",cursorcolor:"#007AFF",cursorwidth:"3",cursorborderradius:"10px",background:"#F7F7F7",cursorborder:""}),jQuery("#sidebar .sub-menu > a").click(function(){var t=jQuery(".sub-menu.open",jQuery("#sidebar"));jQuery(".menu-arrow").removeClass("arrow_carrot-right"),jQuery(".sub",t).slideUp(200);var e=jQuery(this).next();e.is(":visible")?(jQuery(".menu-arrow").addClass("arrow_carrot-right"),e.slideUp(200)):(jQuery(".menu-arrow").addClass("arrow_carrot-down"),e.slideDown(200));var n=jQuery(this).offset();diff=200-n.top,diff>0?jQuery("#sidebar").scrollTo("-="+Math.abs(diff),500):jQuery("#sidebar").scrollTo("+="+Math.abs(diff),500)}),jQuery(function(){function t(){var t=jQuery(window).width();t<=768&&(jQuery("#container").addClass("sidebar-close"),jQuery("#sidebar > ul").hide()),t>768&&(jQuery("#container").removeClass("sidebar-close"),jQuery("#sidebar > ul").show())}jQuery(window).on("load",t),jQuery(window).on("resize",t)}),jQuery(".toggle-nav").click(function(){!0===jQuery("#sidebar > ul").is(":visible")?(jQuery("#main-content").css({"margin-left":"0px"}),jQuery("#sidebar").css({"margin-left":"-200px"}),jQuery("#sidebar > ul").hide(),jQuery("#container").addClass("sidebar-closed")):(jQuery("#main-content").css({"margin-left":"180px"}),jQuery("#sidebar > ul").show(),jQuery("#sidebar").css({"margin-left":"0"}),jQuery("#container").removeClass("sidebar-closed"))}),jQuery(".custom-custom-bar-chart")&&jQuery(".bar").each(function(){var t=jQuery(this).find(".value").html();jQuery(this).find(".value").html(""),jQuery(this).find(".value").animate({height:t},2e3)})}function readURL(t){if(t.files&&t.files[0]){var e=new FileReader;e.onload=function(e){$(t).parent().prev().attr("src",e.target.result)},e.readAsDataURL(t.files[0])}}function upload_image(t,e=!1,n=!1){var o=!1,i=new FormData;return i.append("file",t),e&&i.append("folder",e),n&&i.append("seo_url",n),$.ajax({headers:{"X-CSRF-TOKEN":$('meta[name="csrf-token"]').attr("content")},url:$('meta[name="upload_image"]').attr("content"),data:i,dataType:"text",cache:!1,async:!1,contentType:!1,processData:!1,type:"post",success:function(t){o=t}}),o}jQuery(document).ready(function(){initializeJS()}),function(t,e,n){"function"==typeof define&&define.amd?define(["jquery"],t):"object"==typeof exports&&"undefined"==typeof Meteor?module.exports=t(require("jquery")):t(e||n)}(function(t){"use strict";var e=function(e,n,o){var i={invalid:[],getCaret:function(){try{var t,n=0,o=e.get(0),r=document.selection,a=o.selectionStart;return r&&-1===navigator.appVersion.indexOf("MSIE 10")?((t=r.createRange()).moveStart("character",-i.val().length),n=t.text.length):(a||"0"===a)&&(n=a),n}catch(t){}},setCaret:function(t){try{if(e.is(":focus")){var n,o=e.get(0);o.setSelectionRange?o.setSelectionRange(t,t):((n=o.createTextRange()).collapse(!0),n.moveEnd("character",t),n.moveStart("character",t),n.select())}}catch(t){}},events:function(){e.on("keydown.mask",function(t){e.data("mask-keycode",t.keyCode||t.which),e.data("mask-previus-value",e.val()),e.data("mask-previus-caret-pos",i.getCaret()),i.maskDigitPosMapOld=i.maskDigitPosMap}).on(t.jMaskGlobals.useInput?"input.mask":"keyup.mask",i.behaviour).on("paste.mask drop.mask",function(){setTimeout(function(){e.keydown().keyup()},100)}).on("change.mask",function(){e.data("changed",!0)}).on("blur.mask",function(){s===i.val()||e.data("changed")||e.trigger("change"),e.data("changed",!1)}).on("blur.mask",function(){s=i.val()}).on("focus.mask",function(e){!0===o.selectOnFocus&&t(e.target).select()}).on("focusout.mask",function(){o.clearIfNotMatch&&!r.test(i.val())&&i.val("")})},getRegexMask:function(){for(var t,e,o,i,r,s,c=[],l=0;l<n.length;l++)(t=a.translation[n.charAt(l)])?(e=t.pattern.toString().replace(/.{1}$|^.{1}/g,""),o=t.optional,(i=t.recursive)?(c.push(n.charAt(l)),r={digit:n.charAt(l),pattern:e}):c.push(o||i?e+"?":e)):c.push(n.charAt(l).replace(/[-\/\\^$*+?.()|[\]{}]/g,"\\$&"));return s=c.join(""),r&&(s=s.replace(new RegExp("("+r.digit+"(.*"+r.digit+")?)"),"($1)?").replace(new RegExp(r.digit,"g"),r.pattern)),new RegExp(s)},destroyEvents:function(){e.off(["input","keydown","keyup","paste","drop","blur","focusout",""].join(".mask "))},val:function(t){var n,o=e.is("input")?"val":"text";return arguments.length>0?(e[o]()!==t&&e[o](t),n=e):n=e[o](),n},calculateCaretPosition:function(t){var n=i.getMasked(),o=i.getCaret();if(t!==n){var r=e.data("mask-previus-caret-pos")||0,a=n.length,s=t.length,c=0,l=0,d=0,u=0,h=0;for(h=o;h<a&&i.maskDigitPosMap[h];h++)l++;for(h=o-1;h>=0&&i.maskDigitPosMap[h];h--)c++;for(h=o-1;h>=0;h--)i.maskDigitPosMap[h]&&d++;for(h=r-1;h>=0;h--)i.maskDigitPosMapOld[h]&&u++;if(o>s)o=10*a;else if(r>=o&&r!==s){if(!i.maskDigitPosMapOld[o]){var f=o;o-=u-d,o-=c,i.maskDigitPosMap[o]&&(o=f)}}else o>r&&(o+=d-u,o+=l)}return o},behaviour:function(n){n=n||window.event,i.invalid=[];var o=e.data("mask-keycode");if(-1===t.inArray(o,a.byPassKeys)){var r=i.getMasked(),s=i.getCaret(),c=e.data("mask-previus-value")||"";return setTimeout(function(){i.setCaret(i.calculateCaretPosition(c))},t.jMaskGlobals.keyStrokeCompensation),i.val(r),i.setCaret(s),i.callbacks(n)}},getMasked:function(t,e){var r,s,c,l=[],d=void 0===e?i.val():e+"",u=0,h=n.length,f=0,p=d.length,m=1,g="push",v=-1,y=0,b=[];for(o.reverse?(g="unshift",m=-1,r=0,u=h-1,f=p-1,s=function(){return u>-1&&f>-1}):(r=h-1,s=function(){return u<h&&f<p});s();){var w=n.charAt(u),x=d.charAt(f),k=a.translation[w];k?(x.match(k.pattern)?(l[g](x),k.recursive&&(-1===v?v=u:u===r&&u!==v&&(u=v-m),r===v&&(u-=m)),u+=m):x===c?(y--,c=void 0):k.optional?(u+=m,f-=m):k.fallback?(l[g](k.fallback),u+=m,f-=m):i.invalid.push({p:f,v:x,e:k.pattern}),f+=m):(t||l[g](w),x===w?(b.push(f),f+=m):(c=w,b.push(f+y),y++),u+=m)}var S=n.charAt(r);h!==p+1||a.translation[S]||l.push(S);var D=l.join("");return i.mapMaskdigitPositions(D,b,p),D},mapMaskdigitPositions:function(t,e,n){var r=o.reverse?t.length-n:0;i.maskDigitPosMap={};for(var a=0;a<e.length;a++)i.maskDigitPosMap[e[a]+r]=1},callbacks:function(t){var r=i.val(),a=r!==s,c=[r,t,e,o],l=function(t,e,n){"function"==typeof o[t]&&e&&o[t].apply(this,n)};l("onChange",!0===a,c),l("onKeyPress",!0===a,c),l("onComplete",r.length===n.length,c),l("onInvalid",i.invalid.length>0,[r,t,e,i.invalid,o])}};e=t(e);var r,a=this,s=i.val();n="function"==typeof n?n(i.val(),void 0,e,o):n,a.mask=n,a.options=o,a.remove=function(){var t=i.getCaret();return a.options.placeholder&&e.removeAttr("placeholder"),e.data("mask-maxlength")&&e.removeAttr("maxlength"),i.destroyEvents(),i.val(a.getCleanVal()),i.setCaret(t),e},a.getCleanVal=function(){return i.getMasked(!0)},a.getMaskedVal=function(t){return i.getMasked(!1,t)},a.init=function(s){if(s=s||!1,o=o||{},a.clearIfNotMatch=t.jMaskGlobals.clearIfNotMatch,a.byPassKeys=t.jMaskGlobals.byPassKeys,a.translation=t.extend({},t.jMaskGlobals.translation,o.translation),a=t.extend(!0,{},a,o),r=i.getRegexMask(),s)i.events(),i.val(i.getMasked());else{o.placeholder&&e.attr("placeholder",o.placeholder),e.data("mask")&&e.attr("autocomplete","off");for(var c=0,l=!0;c<n.length;c++){var d=a.translation[n.charAt(c)];if(d&&d.recursive){l=!1;break}}l&&e.attr("maxlength",n.length).data("mask-maxlength",!0),i.destroyEvents(),i.events();var u=i.getCaret();i.val(i.getMasked()),i.setCaret(u)}},a.init(!e.is("input"))};t.maskWatchers={};var n=function(){var n=t(this),i={},r=n.attr("data-mask");if(n.attr("data-mask-reverse")&&(i.reverse=!0),n.attr("data-mask-clearifnotmatch")&&(i.clearIfNotMatch=!0),"true"===n.attr("data-mask-selectonfocus")&&(i.selectOnFocus=!0),o(n,r,i))return n.data("mask",new e(this,r,i))},o=function(e,n,o){o=o||{};var i=t(e).data("mask"),r=JSON.stringify,a=t(e).val()||t(e).text();try{return"function"==typeof n&&(n=n(a)),"object"!=typeof i||r(i.options)!==r(o)||i.mask!==n}catch(t){}};t.fn.mask=function(n,i){i=i||{};var r=this.selector,a=t.jMaskGlobals,s=a.watchInterval,c=i.watchInputs||a.watchInputs,l=function(){if(o(this,n,i))return t(this).data("mask",new e(this,n,i))};return t(this).each(l),r&&""!==r&&c&&(clearInterval(t.maskWatchers[r]),t.maskWatchers[r]=setInterval(function(){t(document).find(r).each(l)},s)),this},t.fn.masked=function(t){return this.data("mask").getMaskedVal(t)},t.fn.unmask=function(){return clearInterval(t.maskWatchers[this.selector]),delete t.maskWatchers[this.selector],this.each(function(){var e=t(this).data("mask");e&&e.remove().removeData("mask")})},t.fn.cleanVal=function(){return this.data("mask").getCleanVal()},t.applyDataMask=function(e){((e=e||t.jMaskGlobals.maskElements)instanceof t?e:t(e)).filter(t.jMaskGlobals.dataMaskAttr).each(n)};var i,r,a,s={maskElements:"input,td,span,div",dataMaskAttr:"*[data-mask]",dataMask:!0,watchInterval:300,watchInputs:!0,keyStrokeCompensation:10,useInput:!/Chrome\/[2-4][0-9]|SamsungBrowser/.test(window.navigator.userAgent)&&(i="input",a=document.createElement("div"),(r=(i="on"+i)in a)||(a.setAttribute(i,"return;"),r="function"==typeof a[i]),a=null,r),watchDataMask:!1,byPassKeys:[9,16,17,18,36,37,38,39,40,91],translation:{0:{pattern:/\d/},9:{pattern:/\d/,optional:!0},"#":{pattern:/\d/,recursive:!0},A:{pattern:/[a-zA-Z0-9]/},S:{pattern:/[a-zA-Z]/}}};t.jMaskGlobals=t.jMaskGlobals||{},(s=t.jMaskGlobals=t.extend(!0,{},s,t.jMaskGlobals)).dataMask&&t.applyDataMask(),setInterval(function(){t.jMaskGlobals.watchDataMask&&t.applyDataMask()},s.watchInterval)},window.jQuery,window.Zepto),function(t,e,n,o){"use strict";if(t.console=t.console||{info:function(t){}},n)if(n.fn.fancybox)console.info("fancyBox already initialized");else{var i,r,a={closeExisting:!1,loop:!1,gutter:50,keyboard:!0,preventCaptionOverlap:!0,arrows:!0,infobar:!0,smallBtn:"auto",toolbar:"auto",buttons:["zoom","slideShow","thumbs","close"],idleTime:3,protect:!1,modal:!1,image:{preload:!1},ajax:{settings:{data:{fancybox:!0}}},iframe:{tpl:'<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" allowfullscreen="allowfullscreen" allow="autoplay; fullscreen" src=""></iframe>',preload:!0,css:{},attr:{scrolling:"auto"}},video:{tpl:'<video class="fancybox-video" controls controlsList="nodownload" poster="{{poster}}"><source src="{{src}}" type="{{format}}" />Sorry, your browser doesn\'t support embedded videos, <a href="{{src}}">download</a> and watch with your favorite video player!</video>',format:"",autoStart:!0},defaultType:"image",animationEffect:"zoom",animationDuration:366,zoomOpacity:"auto",transitionEffect:"fade",transitionDuration:366,slideClass:"",baseClass:"",baseTpl:'<div class="fancybox-container" role="dialog" tabindex="-1"><div class="fancybox-bg"></div><div class="fancybox-inner"><div class="fancybox-infobar"><span data-fancybox-index></span>&nbsp;/&nbsp;<span data-fancybox-count></span></div><div class="fancybox-toolbar">{{buttons}}</div><div class="fancybox-navigation">{{arrows}}</div><div class="fancybox-stage"></div><div class="fancybox-caption"><div class="fancybox-caption__body"></div></div></div></div>',spinnerTpl:'<div class="fancybox-loading"></div>',errorTpl:'<div class="fancybox-error"><p>{{ERROR}}</p></div>',btnTpl:{download:'<a download data-fancybox-download class="fancybox-button fancybox-button--download" title="{{DOWNLOAD}}" href="javascript:;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.62 17.09V19H5.38v-1.91zm-2.97-6.96L17 11.45l-5 4.87-5-4.87 1.36-1.32 2.68 2.64V5h1.92v7.77z"/></svg></a>',zoom:'<button data-fancybox-zoom class="fancybox-button fancybox-button--zoom" title="{{ZOOM}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.7 17.3l-3-3a5.9 5.9 0 0 0-.6-7.6 5.9 5.9 0 0 0-8.4 0 5.9 5.9 0 0 0 0 8.4 5.9 5.9 0 0 0 7.7.7l3 3a1 1 0 0 0 1.3 0c.4-.5.4-1 0-1.5zM8.1 13.8a4 4 0 0 1 0-5.7 4 4 0 0 1 5.7 0 4 4 0 0 1 0 5.7 4 4 0 0 1-5.7 0z"/></svg></button>',close:'<button data-fancybox-close class="fancybox-button fancybox-button--close" title="{{CLOSE}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10.6L6.6 5.2 5.2 6.6l5.4 5.4-5.4 5.4 1.4 1.4 5.4-5.4 5.4 5.4 1.4-1.4-5.4-5.4 5.4-5.4-1.4-1.4-5.4 5.4z"/></svg></button>',arrowLeft:'<button data-fancybox-prev class="fancybox-button fancybox-button--arrow_left" title="{{PREV}}"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.28 15.7l-1.34 1.37L5 12l4.94-5.07 1.34 1.38-2.68 2.72H19v1.94H8.6z"/></svg></div></button>',arrowRight:'<button data-fancybox-next class="fancybox-button fancybox-button--arrow_right" title="{{NEXT}}"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.4 12.97l-2.68 2.72 1.34 1.38L19 12l-4.94-5.07-1.34 1.38 2.68 2.72H5v1.94z"/></svg></div></button>',smallBtn:'<button type="button" data-fancybox-close class="fancybox-button fancybox-close-small" title="{{CLOSE}}"><svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 24 24"><path d="M13 12l5-5-1-1-5 5-5-5-1 1 5 5-5 5 1 1 5-5 5 5 1-1z"/></svg></button>'},parentEl:"body",hideScrollbar:!0,autoFocus:!0,backFocus:!0,trapFocus:!0,fullScreen:{autoStart:!1},touch:{vertical:!0,momentum:!0},hash:null,media:{},slideShow:{autoStart:!1,speed:3e3},thumbs:{autoStart:!1,hideOnClose:!0,parentEl:".fancybox-container",axis:"y"},wheel:"auto",onInit:n.noop,beforeLoad:n.noop,afterLoad:n.noop,beforeShow:n.noop,afterShow:n.noop,beforeClose:n.noop,afterClose:n.noop,onActivate:n.noop,onDeactivate:n.noop,clickContent:function(t,e){return"image"===t.type&&"zoom"},clickSlide:"close",clickOutside:"close",dblclickContent:!1,dblclickSlide:!1,dblclickOutside:!1,mobile:{preventCaptionOverlap:!1,idleTime:!1,clickContent:function(t,e){return"image"===t.type&&"toggleControls"},clickSlide:function(t,e){return"image"===t.type?"toggleControls":"close"},dblclickContent:function(t,e){return"image"===t.type&&"zoom"},dblclickSlide:function(t,e){return"image"===t.type&&"zoom"}},lang:"en",i18n:{en:{CLOSE:"Close",NEXT:"Next",PREV:"Previous",ERROR:"The requested content cannot be loaded. <br/> Please try again later.",PLAY_START:"Start slideshow",PLAY_STOP:"Pause slideshow",FULL_SCREEN:"Full screen",THUMBS:"Thumbnails",DOWNLOAD:"Download",SHARE:"Share",ZOOM:"Zoom"},de:{CLOSE:"Schlie&szlig;en",NEXT:"Weiter",PREV:"Zur&uuml;ck",ERROR:"Die angeforderten Daten konnten nicht geladen werden. <br/> Bitte versuchen Sie es sp&auml;ter nochmal.",PLAY_START:"Diaschau starten",PLAY_STOP:"Diaschau beenden",FULL_SCREEN:"Vollbild",THUMBS:"Vorschaubilder",DOWNLOAD:"Herunterladen",SHARE:"Teilen",ZOOM:"Vergr&ouml;&szlig;ern"}}},s=n(t),c=n(e),l=0,d=t.requestAnimationFrame||t.webkitRequestAnimationFrame||t.mozRequestAnimationFrame||t.oRequestAnimationFrame||function(e){return t.setTimeout(e,1e3/60)},u=t.cancelAnimationFrame||t.webkitCancelAnimationFrame||t.mozCancelAnimationFrame||t.oCancelAnimationFrame||function(e){t.clearTimeout(e)},h=function(){var t,n=e.createElement("fakeelement"),o={transition:"transitionend",OTransition:"oTransitionEnd",MozTransition:"transitionend",WebkitTransition:"webkitTransitionEnd"};for(t in o)if(void 0!==n.style[t])return o[t];return"transitionend"}(),f=function(t){return t&&t.length&&t[0].offsetHeight},p=function(t,e){var o=n.extend(!0,{},t,e);return n.each(e,function(t,e){n.isArray(e)&&(o[t]=e)}),o},m=function(t,e,o){this.opts=p({index:o},n.fancybox.defaults),n.isPlainObject(e)&&(this.opts=p(this.opts,e)),n.fancybox.isMobile&&(this.opts=p(this.opts,this.opts.mobile)),this.id=this.opts.id||++l,this.currIndex=parseInt(this.opts.index,10)||0,this.prevIndex=null,this.prevPos=null,this.currPos=0,this.firstRun=!0,this.group=[],this.slides={},this.addContent(t),this.group.length&&this.init()};n.extend(m.prototype,{init:function(){var o,i,r=this,a=r.group[r.currIndex].opts;a.closeExisting&&n.fancybox.close(!0),n("body").addClass("fancybox-active"),!n.fancybox.getInstance()&&!1!==a.hideScrollbar&&!n.fancybox.isMobile&&e.body.scrollHeight>t.innerHeight&&(n("head").append('<style id="fancybox-style-noscroll" type="text/css">.compensate-for-scrollbar{margin-right:'+(t.innerWidth-e.documentElement.clientWidth)+"px;}</style>"),n("body").addClass("compensate-for-scrollbar")),i="",n.each(a.buttons,function(t,e){i+=a.btnTpl[e]||""}),o=n(r.translate(r,a.baseTpl.replace("{{buttons}}",i).replace("{{arrows}}",a.btnTpl.arrowLeft+a.btnTpl.arrowRight))).attr("id","fancybox-container-"+r.id).addClass(a.baseClass).data("FancyBox",r).appendTo(a.parentEl),r.$refs={container:o},["bg","inner","infobar","toolbar","stage","caption","navigation"].forEach(function(t){r.$refs[t]=o.find(".fancybox-"+t)}),r.trigger("onInit"),r.activate(),r.jumpTo(r.currIndex)},translate:function(t,e){var n=t.opts.i18n[t.opts.lang]||t.opts.i18n.en;return e.replace(/\{\{(\w+)\}\}/g,function(t,e){return void 0===n[e]?t:n[e]})},addContent:function(t){var e,o=this,i=n.makeArray(t);n.each(i,function(t,e){var i,r,a,s,c,l={},d={};n.isPlainObject(e)?(l=e,d=e.opts||e):"object"===n.type(e)&&n(e).length?(d=(i=n(e)).data()||{},(d=n.extend(!0,{},d,d.options)).$orig=i,l.src=o.opts.src||d.src||i.attr("href"),l.type||l.src||(l.type="inline",l.src=e)):l={type:"html",src:e+""},l.opts=n.extend(!0,{},o.opts,d),n.isArray(d.buttons)&&(l.opts.buttons=d.buttons),n.fancybox.isMobile&&l.opts.mobile&&(l.opts=p(l.opts,l.opts.mobile)),r=l.type||l.opts.type,s=l.src||"",!r&&s&&((a=s.match(/\.(mp4|mov|ogv|webm)((\?|#).*)?$/i))?(r="video",l.opts.video.format||(l.opts.video.format="video/"+("ogv"===a[1]?"ogg":a[1]))):s.match(/(^data:image\/[a-z0-9+\/=]*,)|(\.(jp(e|g|eg)|gif|png|bmp|webp|svg|ico)((\?|#).*)?$)/i)?r="image":s.match(/\.(pdf)((\?|#).*)?$/i)?(r="iframe",l=n.extend(!0,l,{contentType:"pdf",opts:{iframe:{preload:!1}}})):"#"===s.charAt(0)&&(r="inline")),r?l.type=r:o.trigger("objectNeedsType",l),l.contentType||(l.contentType=n.inArray(l.type,["html","inline","ajax"])>-1?"html":l.type),l.index=o.group.length,"auto"==l.opts.smallBtn&&(l.opts.smallBtn=n.inArray(l.type,["html","inline","ajax"])>-1),"auto"===l.opts.toolbar&&(l.opts.toolbar=!l.opts.smallBtn),l.$thumb=l.opts.$thumb||null,l.opts.$trigger&&l.index===o.opts.index&&(l.$thumb=l.opts.$trigger.find("img:first"),l.$thumb.length&&(l.opts.$orig=l.opts.$trigger)),l.$thumb&&l.$thumb.length||!l.opts.$orig||(l.$thumb=l.opts.$orig.find("img:first")),l.$thumb&&!l.$thumb.length&&(l.$thumb=null),l.thumb=l.opts.thumb||(l.$thumb?l.$thumb[0].src:null),"function"===n.type(l.opts.caption)&&(l.opts.caption=l.opts.caption.apply(e,[o,l])),"function"===n.type(o.opts.caption)&&(l.opts.caption=o.opts.caption.apply(e,[o,l])),l.opts.caption instanceof n||(l.opts.caption=void 0===l.opts.caption?"":l.opts.caption+""),"ajax"===l.type&&(c=s.split(/\s+/,2)).length>1&&(l.src=c.shift(),l.opts.filter=c.shift()),l.opts.modal&&(l.opts=n.extend(!0,l.opts,{trapFocus:!0,infobar:0,toolbar:0,smallBtn:0,keyboard:0,slideShow:0,fullScreen:0,thumbs:0,touch:0,clickContent:!1,clickSlide:!1,clickOutside:!1,dblclickContent:!1,dblclickSlide:!1,dblclickOutside:!1})),o.group.push(l)}),Object.keys(o.slides).length&&(o.updateControls(),(e=o.Thumbs)&&e.isActive&&(e.create(),e.focus()))},addEvents:function(){var e=this;e.removeEvents(),e.$refs.container.on("click.fb-close","[data-fancybox-close]",function(t){t.stopPropagation(),t.preventDefault(),e.close(t)}).on("touchstart.fb-prev click.fb-prev","[data-fancybox-prev]",function(t){t.stopPropagation(),t.preventDefault(),e.previous()}).on("touchstart.fb-next click.fb-next","[data-fancybox-next]",function(t){t.stopPropagation(),t.preventDefault(),e.next()}).on("click.fb","[data-fancybox-zoom]",function(t){e[e.isScaledDown()?"scaleToActual":"scaleToFit"]()}),s.on("orientationchange.fb resize.fb",function(t){t&&t.originalEvent&&"resize"===t.originalEvent.type?(e.requestId&&u(e.requestId),e.requestId=d(function(){e.update(t)})):(e.current&&"iframe"===e.current.type&&e.$refs.stage.hide(),setTimeout(function(){e.$refs.stage.show(),e.update(t)},n.fancybox.isMobile?600:250))}),c.on("keydown.fb",function(t){var o=(n.fancybox?n.fancybox.getInstance():null).current,i=t.keyCode||t.which;if(9!=i){if(!(!o.opts.keyboard||t.ctrlKey||t.altKey||t.shiftKey||n(t.target).is("input,textarea,video,audio,select")))return 8===i||27===i?(t.preventDefault(),void e.close(t)):37===i||38===i?(t.preventDefault(),void e.previous()):39===i||40===i?(t.preventDefault(),void e.next()):void e.trigger("afterKeydown",t,i)}else o.opts.trapFocus&&e.focus(t)}),e.group[e.currIndex].opts.idleTime&&(e.idleSecondsCounter=0,c.on("mousemove.fb-idle mouseleave.fb-idle mousedown.fb-idle touchstart.fb-idle touchmove.fb-idle scroll.fb-idle keydown.fb-idle",function(t){e.idleSecondsCounter=0,e.isIdle&&e.showControls(),e.isIdle=!1}),e.idleInterval=t.setInterval(function(){e.idleSecondsCounter++,e.idleSecondsCounter>=e.group[e.currIndex].opts.idleTime&&!e.isDragging&&(e.isIdle=!0,e.idleSecondsCounter=0,e.hideControls())},1e3))},removeEvents:function(){s.off("orientationchange.fb resize.fb"),c.off("keydown.fb .fb-idle"),this.$refs.container.off(".fb-close .fb-prev .fb-next"),this.idleInterval&&(t.clearInterval(this.idleInterval),this.idleInterval=null)},previous:function(t){return this.jumpTo(this.currPos-1,t)},next:function(t){return this.jumpTo(this.currPos+1,t)},jumpTo:function(t,e){var o,i,r,a,s,c,l,d,u,h=this,p=h.group.length;if(!(h.isDragging||h.isClosing||h.isAnimating&&h.firstRun)){if(t=parseInt(t,10),!(r=h.current?h.current.opts.loop:h.opts.loop)&&(t<0||t>=p))return!1;if(o=h.firstRun=!Object.keys(h.slides).length,s=h.current,h.prevIndex=h.currIndex,h.prevPos=h.currPos,a=h.createSlide(t),p>1&&((r||a.index<p-1)&&h.createSlide(t+1),(r||a.index>0)&&h.createSlide(t-1)),h.current=a,h.currIndex=a.index,h.currPos=a.pos,h.trigger("beforeShow",o),h.updateControls(),a.forcedDuration=void 0,n.isNumeric(e)?a.forcedDuration=e:e=a.opts[o?"animationDuration":"transitionDuration"],e=parseInt(e,10),i=h.isMoved(a),a.$slide.addClass("fancybox-slide--current"),o)return a.opts.animationEffect&&e&&h.$refs.container.css("transition-duration",e+"ms"),h.$refs.container.addClass("fancybox-is-open").trigger("focus"),h.loadSlide(a),void h.preload("image");c=n.fancybox.getTranslate(s.$slide),l=n.fancybox.getTranslate(h.$refs.stage),n.each(h.slides,function(t,e){n.fancybox.stop(e.$slide,!0)}),s.pos!==a.pos&&(s.isComplete=!1),s.$slide.removeClass("fancybox-slide--complete fancybox-slide--current"),i?(u=c.left-(s.pos*c.width+s.pos*s.opts.gutter),n.each(h.slides,function(t,o){o.$slide.removeClass("fancybox-animated").removeClass(function(t,e){return(e.match(/(^|\s)fancybox-fx-\S+/g)||[]).join(" ")});var i=o.pos*c.width+o.pos*o.opts.gutter;n.fancybox.setTranslate(o.$slide,{top:0,left:i-l.left+u}),o.pos!==a.pos&&o.$slide.addClass("fancybox-slide--"+(o.pos>a.pos?"next":"previous")),f(o.$slide),n.fancybox.animate(o.$slide,{top:0,left:(o.pos-a.pos)*c.width+(o.pos-a.pos)*o.opts.gutter},e,function(){o.$slide.css({transform:"",opacity:""}).removeClass("fancybox-slide--next fancybox-slide--previous"),o.pos===h.currPos&&h.complete()})})):e&&a.opts.transitionEffect&&(d="fancybox-animated fancybox-fx-"+a.opts.transitionEffect,s.$slide.addClass("fancybox-slide--"+(s.pos>a.pos?"next":"previous")),n.fancybox.animate(s.$slide,d,e,function(){s.$slide.removeClass(d).removeClass("fancybox-slide--next fancybox-slide--previous")},!1)),a.isLoaded?h.revealContent(a):h.loadSlide(a),h.preload("image")}},createSlide:function(t){var e,o;return o=(o=t%this.group.length)<0?this.group.length+o:o,!this.slides[t]&&this.group[o]&&(e=n('<div class="fancybox-slide"></div>').appendTo(this.$refs.stage),this.slides[t]=n.extend(!0,{},this.group[o],{pos:t,$slide:e,isLoaded:!1}),this.updateSlide(this.slides[t])),this.slides[t]},scaleToActual:function(t,e,o){var i,r,a,s,c,l=this,d=l.current,u=d.$content,h=n.fancybox.getTranslate(d.$slide).width,f=n.fancybox.getTranslate(d.$slide).height,p=d.width,m=d.height;l.isAnimating||l.isMoved()||!u||"image"!=d.type||!d.isLoaded||d.hasError||(l.isAnimating=!0,n.fancybox.stop(u),t=void 0===t?.5*h:t,e=void 0===e?.5*f:e,(i=n.fancybox.getTranslate(u)).top-=n.fancybox.getTranslate(d.$slide).top,i.left-=n.fancybox.getTranslate(d.$slide).left,s=p/i.width,c=m/i.height,r=.5*h-.5*p,a=.5*f-.5*m,p>h&&((r=i.left*s-(t*s-t))>0&&(r=0),r<h-p&&(r=h-p)),m>f&&((a=i.top*c-(e*c-e))>0&&(a=0),a<f-m&&(a=f-m)),l.updateCursor(p,m),n.fancybox.animate(u,{top:a,left:r,scaleX:s,scaleY:c},o||366,function(){l.isAnimating=!1}),l.SlideShow&&l.SlideShow.isActive&&l.SlideShow.stop())},scaleToFit:function(t){var e,o=this,i=o.current,r=i.$content;o.isAnimating||o.isMoved()||!r||"image"!=i.type||!i.isLoaded||i.hasError||(o.isAnimating=!0,n.fancybox.stop(r),e=o.getFitPos(i),o.updateCursor(e.width,e.height),n.fancybox.animate(r,{top:e.top,left:e.left,scaleX:e.width/r.width(),scaleY:e.height/r.height()},t||366,function(){o.isAnimating=!1}))},getFitPos:function(t){var e,o,i,r,a=t.$content,s=t.$slide,c=t.width||t.opts.width,l=t.height||t.opts.height,d={};return!!(t.isLoaded&&a&&a.length)&&(e=n.fancybox.getTranslate(this.$refs.stage).width,o=n.fancybox.getTranslate(this.$refs.stage).height,e-=parseFloat(s.css("paddingLeft"))+parseFloat(s.css("paddingRight"))+parseFloat(a.css("marginLeft"))+parseFloat(a.css("marginRight")),o-=parseFloat(s.css("paddingTop"))+parseFloat(s.css("paddingBottom"))+parseFloat(a.css("marginTop"))+parseFloat(a.css("marginBottom")),c&&l||(c=e,l=o),(c*=i=Math.min(1,e/c,o/l))>e-.5&&(c=e),(l*=i)>o-.5&&(l=o),"image"===t.type?(d.top=Math.floor(.5*(o-l))+parseFloat(s.css("paddingTop")),d.left=Math.floor(.5*(e-c))+parseFloat(s.css("paddingLeft"))):"video"===t.contentType&&(l>c/(r=t.opts.width&&t.opts.height?c/l:t.opts.ratio||16/9)?l=c/r:c>l*r&&(c=l*r)),d.width=c,d.height=l,d)},update:function(t){var e=this;n.each(e.slides,function(n,o){e.updateSlide(o,t)})},updateSlide:function(t,e){var o=t&&t.$content,i=t.width||t.opts.width,r=t.height||t.opts.height,a=t.$slide;this.adjustCaption(t),o&&(i||r||"video"===t.contentType)&&!t.hasError&&(n.fancybox.stop(o),n.fancybox.setTranslate(o,this.getFitPos(t)),t.pos===this.currPos&&(this.isAnimating=!1,this.updateCursor())),this.adjustLayout(t),a.length&&(a.trigger("refresh"),t.pos===this.currPos&&this.$refs.toolbar.add(this.$refs.navigation.find(".fancybox-button--arrow_right")).toggleClass("compensate-for-scrollbar",a.get(0).scrollHeight>a.get(0).clientHeight)),this.trigger("onUpdate",t,e)},centerSlide:function(t){var e=this,o=e.current,i=o.$slide;!e.isClosing&&o&&(i.siblings().css({transform:"",opacity:""}),i.parent().children().removeClass("fancybox-slide--previous fancybox-slide--next"),n.fancybox.animate(i,{top:0,left:0,opacity:1},void 0===t?0:t,function(){i.css({transform:"",opacity:""}),o.isComplete||e.complete()},!1))},isMoved:function(t){var e,o,i=t||this.current;return!!i&&(o=n.fancybox.getTranslate(this.$refs.stage),e=n.fancybox.getTranslate(i.$slide),!i.$slide.hasClass("fancybox-animated")&&(Math.abs(e.top-o.top)>.5||Math.abs(e.left-o.left)>.5))},updateCursor:function(t,e){var o,i,r=this.current,a=this.$refs.container;r&&!this.isClosing&&this.Guestures&&(a.removeClass("fancybox-is-zoomable fancybox-can-zoomIn fancybox-can-zoomOut fancybox-can-swipe fancybox-can-pan"),i=!!(o=this.canPan(t,e))||this.isZoomable(),a.toggleClass("fancybox-is-zoomable",i),n("[data-fancybox-zoom]").prop("disabled",!i),o?a.addClass("fancybox-can-pan"):i&&("zoom"===r.opts.clickContent||n.isFunction(r.opts.clickContent)&&"zoom"==r.opts.clickContent(r))?a.addClass("fancybox-can-zoomIn"):r.opts.touch&&(r.opts.touch.vertical||this.group.length>1)&&"video"!==r.contentType&&a.addClass("fancybox-can-swipe"))},isZoomable:function(){var t,e=this.current;if(e&&!this.isClosing&&"image"===e.type&&!e.hasError){if(!e.isLoaded)return!0;if((t=this.getFitPos(e))&&(e.width>t.width||e.height>t.height))return!0}return!1},isScaledDown:function(t,e){var o=!1,i=this.current,r=i.$content;return void 0!==t&&void 0!==e?o=t<i.width&&e<i.height:r&&(o=(o=n.fancybox.getTranslate(r)).width<i.width&&o.height<i.height),o},canPan:function(t,e){var o=this.current,i=null,r=!1;return"image"===o.type&&(o.isComplete||t&&e)&&!o.hasError&&(r=this.getFitPos(o),void 0!==t&&void 0!==e?i={width:t,height:e}:o.isComplete&&(i=n.fancybox.getTranslate(o.$content)),i&&r&&(r=Math.abs(i.width-r.width)>1.5||Math.abs(i.height-r.height)>1.5)),r},loadSlide:function(t){var e,o,i,r=this;if(!t.isLoading&&!t.isLoaded){if(t.isLoading=!0,!1===r.trigger("beforeLoad",t))return t.isLoading=!1,!1;switch(e=t.type,(o=t.$slide).off("refresh").trigger("onReset").addClass(t.opts.slideClass),e){case"image":r.setImage(t);break;case"iframe":r.setIframe(t);break;case"html":r.setContent(t,t.src||t.content);break;case"video":r.setContent(t,t.opts.video.tpl.replace(/\{\{src\}\}/gi,t.src).replace("{{format}}",t.opts.videoFormat||t.opts.video.format||"").replace("{{poster}}",t.thumb||""));break;case"inline":n(t.src).length?r.setContent(t,n(t.src)):r.setError(t);break;case"ajax":r.showLoading(t),i=n.ajax(n.extend({},t.opts.ajax.settings,{url:t.src,success:function(e,n){"success"===n&&r.setContent(t,e)},error:function(e,n){e&&"abort"!==n&&r.setError(t)}})),o.one("onReset",function(){i.abort()});break;default:r.setError(t)}return!0}},setImage:function(t){var o,i=this;setTimeout(function(){var e=t.$image;i.isClosing||!t.isLoading||e&&e.length&&e[0].complete||t.hasError||i.showLoading(t)},50),i.checkSrcset(t),t.$content=n('<div class="fancybox-content"></div>').addClass("fancybox-is-hidden").appendTo(t.$slide.addClass("fancybox-slide--image")),!1!==t.opts.preload&&t.opts.width&&t.opts.height&&t.thumb&&(t.width=t.opts.width,t.height=t.opts.height,(o=e.createElement("img")).onerror=function(){n(this).remove(),t.$ghost=null},o.onload=function(){i.afterLoad(t)},t.$ghost=n(o).addClass("fancybox-image").appendTo(t.$content).attr("src",t.thumb)),i.setBigImage(t)},checkSrcset:function(e){var n,o,i,r,a=e.opts.srcset||e.opts.image.srcset;if(a){i=t.devicePixelRatio||1,r=t.innerWidth*i,(o=a.split(",").map(function(t){var e={};return t.trim().split(/\s+/).forEach(function(t,n){var o=parseInt(t.substring(0,t.length-1),10);if(0===n)return e.url=t;o&&(e.value=o,e.postfix=t[t.length-1])}),e})).sort(function(t,e){return t.value-e.value});for(var s=0;s<o.length;s++){var c=o[s];if("w"===c.postfix&&c.value>=r||"x"===c.postfix&&c.value>=i){n=c;break}}!n&&o.length&&(n=o[o.length-1]),n&&(e.src=n.url,e.width&&e.height&&"w"==n.postfix&&(e.height=e.width/e.height*n.value,e.width=n.value),e.opts.srcset=a)}},setBigImage:function(t){var o=this,i=e.createElement("img"),r=n(i);t.$image=r.one("error",function(){o.setError(t)}).one("load",function(){var e;t.$ghost||(o.resolveImageSlideSize(t,this.naturalWidth,this.naturalHeight),o.afterLoad(t)),o.isClosing||(t.opts.srcset&&((e=t.opts.sizes)&&"auto"!==e||(e=(t.width/t.height>1&&s.width()/s.height()>1?"100":Math.round(t.width/t.height*100))+"vw"),r.attr("sizes",e).attr("srcset",t.opts.srcset)),t.$ghost&&setTimeout(function(){t.$ghost&&!o.isClosing&&t.$ghost.hide()},Math.min(300,Math.max(1e3,t.height/1600))),o.hideLoading(t))}).addClass("fancybox-image").attr("src",t.src).appendTo(t.$content),(i.complete||"complete"==i.readyState)&&r.naturalWidth&&r.naturalHeight?r.trigger("load"):i.error&&r.trigger("error")},resolveImageSlideSize:function(t,e,n){var o=parseInt(t.opts.width,10),i=parseInt(t.opts.height,10);t.width=e,t.height=n,o>0&&(t.width=o,t.height=Math.floor(o*n/e)),i>0&&(t.width=Math.floor(i*e/n),t.height=i)},setIframe:function(t){var e,o=this,i=t.opts.iframe,r=t.$slide;t.$content=n('<div class="fancybox-content'+(i.preload?" fancybox-is-hidden":"")+'"></div>').css(i.css).appendTo(r),r.addClass("fancybox-slide--"+t.contentType),t.$iframe=e=n(i.tpl.replace(/\{rnd\}/g,(new Date).getTime())).attr(i.attr).appendTo(t.$content),i.preload?(o.showLoading(t),e.on("load.fb error.fb",function(e){this.isReady=1,t.$slide.trigger("refresh"),o.afterLoad(t)}),r.on("refresh.fb",function(){var n,o=t.$content,a=i.css.width,s=i.css.height;if(1===e[0].isReady){try{n=e.contents().find("body")}catch(t){}n&&n.length&&n.children().length&&(r.css("overflow","visible"),o.css({width:"100%","max-width":"100%",height:"9999px"}),void 0===a&&(a=Math.ceil(Math.max(n[0].clientWidth,n.outerWidth(!0)))),o.css("width",a||"").css("max-width",""),void 0===s&&(s=Math.ceil(Math.max(n[0].clientHeight,n.outerHeight(!0)))),o.css("height",s||""),r.css("overflow","auto")),o.removeClass("fancybox-is-hidden")}})):o.afterLoad(t),e.attr("src",t.src),r.one("onReset",function(){try{n(this).find("iframe").hide().unbind().attr("src","//about:blank")}catch(t){}n(this).off("refresh.fb").empty(),t.isLoaded=!1,t.isRevealed=!1})},setContent:function(t,e){var o;this.isClosing||(this.hideLoading(t),t.$content&&n.fancybox.stop(t.$content),t.$slide.empty(),(o=e)&&o.hasOwnProperty&&o instanceof n&&e.parent().length?((e.hasClass("fancybox-content")||e.parent().hasClass("fancybox-content"))&&e.parents(".fancybox-slide").trigger("onReset"),t.$placeholder=n("<div>").hide().insertAfter(e),e.css("display","inline-block")):t.hasError||("string"===n.type(e)&&(e=n("<div>").append(n.trim(e)).contents()),t.opts.filter&&(e=n("<div>").html(e).find(t.opts.filter))),t.$slide.one("onReset",function(){n(this).find("video,audio").trigger("pause"),t.$placeholder&&(t.$placeholder.after(e.removeClass("fancybox-content").hide()).remove(),t.$placeholder=null),t.$smallBtn&&(t.$smallBtn.remove(),t.$smallBtn=null),t.hasError||(n(this).empty(),t.isLoaded=!1,t.isRevealed=!1)}),n(e).appendTo(t.$slide),n(e).is("video,audio")&&(n(e).addClass("fancybox-video"),n(e).wrap("<div></div>"),t.contentType="video",t.opts.width=t.opts.width||n(e).attr("width"),t.opts.height=t.opts.height||n(e).attr("height")),t.$content=t.$slide.children().filter("div,form,main,video,audio,article,.fancybox-content").first(),t.$content.siblings().hide(),t.$content.length||(t.$content=t.$slide.wrapInner("<div></div>").children().first()),t.$content.addClass("fancybox-content"),t.$slide.addClass("fancybox-slide--"+t.contentType),this.afterLoad(t))},setError:function(t){t.hasError=!0,t.$slide.trigger("onReset").removeClass("fancybox-slide--"+t.contentType).addClass("fancybox-slide--error"),t.contentType="html",this.setContent(t,this.translate(t,t.opts.errorTpl)),t.pos===this.currPos&&(this.isAnimating=!1)},showLoading:function(t){(t=t||this.current)&&!t.$spinner&&(t.$spinner=n(this.translate(this,this.opts.spinnerTpl)).appendTo(t.$slide).hide().fadeIn("fast"))},hideLoading:function(t){(t=t||this.current)&&t.$spinner&&(t.$spinner.stop().remove(),delete t.$spinner)},afterLoad:function(t){this.isClosing||(t.isLoading=!1,t.isLoaded=!0,this.trigger("afterLoad",t),this.hideLoading(t),!t.opts.smallBtn||t.$smallBtn&&t.$smallBtn.length||(t.$smallBtn=n(this.translate(t,t.opts.btnTpl.smallBtn)).appendTo(t.$content)),t.opts.protect&&t.$content&&!t.hasError&&(t.$content.on("contextmenu.fb",function(t){return 2==t.button&&t.preventDefault(),!0}),"image"===t.type&&n('<div class="fancybox-spaceball"></div>').appendTo(t.$content)),this.adjustCaption(t),this.adjustLayout(t),t.pos===this.currPos&&this.updateCursor(),this.revealContent(t))},adjustCaption:function(t){var e,n=t||this.current,o=n.opts.caption,i=n.opts.preventCaptionOverlap,r=this.$refs.caption,a=!1;r.toggleClass("fancybox-caption--separate",i),i&&o&&o.length&&(n.pos!==this.currPos?((e=r.clone().appendTo(r.parent())).children().eq(0).empty().html(o),a=e.outerHeight(!0),e.empty().remove()):this.$caption&&(a=this.$caption.outerHeight(!0)),n.$slide.css("padding-bottom",a||""))},adjustLayout:function(t){var e,n,o,i,r=t||this.current;r.isLoaded&&!0!==r.opts.disableLayoutFix&&(r.$content.css("margin-bottom",""),r.$content.outerHeight()>r.$slide.height()+.5&&(o=r.$slide[0].style["padding-bottom"],i=r.$slide.css("padding-bottom"),parseFloat(i)>0&&(e=r.$slide[0].scrollHeight,r.$slide.css("padding-bottom",0),Math.abs(e-r.$slide[0].scrollHeight)<1&&(n=i),r.$slide.css("padding-bottom",o))),r.$content.css("margin-bottom",n))},revealContent:function(t){var e,o,i,r,a=this,s=t.$slide,c=!1,l=!1,d=a.isMoved(t),u=t.isRevealed;return t.isRevealed=!0,e=t.opts[a.firstRun?"animationEffect":"transitionEffect"],i=t.opts[a.firstRun?"animationDuration":"transitionDuration"],i=parseInt(void 0===t.forcedDuration?i:t.forcedDuration,10),!d&&t.pos===a.currPos&&i||(e=!1),"zoom"===e&&(t.pos===a.currPos&&i&&"image"===t.type&&!t.hasError&&(l=a.getThumbPos(t))?c=a.getFitPos(t):e="fade"),"zoom"===e?(a.isAnimating=!0,c.scaleX=c.width/l.width,c.scaleY=c.height/l.height,"auto"==(r=t.opts.zoomOpacity)&&(r=Math.abs(t.width/t.height-l.width/l.height)>.1),r&&(l.opacity=.1,c.opacity=1),n.fancybox.setTranslate(t.$content.removeClass("fancybox-is-hidden"),l),f(t.$content),void n.fancybox.animate(t.$content,c,i,function(){a.isAnimating=!1,a.complete()})):(a.updateSlide(t),e?(n.fancybox.stop(s),o="fancybox-slide--"+(t.pos>=a.prevPos?"next":"previous")+" fancybox-animated fancybox-fx-"+e,s.addClass(o).removeClass("fancybox-slide--current"),t.$content.removeClass("fancybox-is-hidden"),f(s),"image"!==t.type&&t.$content.hide().show(0),void n.fancybox.animate(s,"fancybox-slide--current",i,function(){s.removeClass(o).css({transform:"",opacity:""}),t.pos===a.currPos&&a.complete()},!0)):(t.$content.removeClass("fancybox-is-hidden"),u||!d||"image"!==t.type||t.hasError||t.$content.hide().fadeIn("fast"),void(t.pos===a.currPos&&a.complete())))},getThumbPos:function(t){var o,i,r,a,s,c,l=t.$thumb;return!(!l||!function(t){var o,i;return!(!t||t.ownerDocument!==e)&&(n(".fancybox-container").css("pointer-events","none"),o={x:t.getBoundingClientRect().left+t.offsetWidth/2,y:t.getBoundingClientRect().top+t.offsetHeight/2},i=e.elementFromPoint(o.x,o.y)===t,n(".fancybox-container").css("pointer-events",""),i)}(l[0]))&&(i=n.fancybox.getTranslate(l),r=parseFloat(l.css("border-top-width")||0),a=parseFloat(l.css("border-right-width")||0),s=parseFloat(l.css("border-bottom-width")||0),c=parseFloat(l.css("border-left-width")||0),o={top:i.top+r,left:i.left+c,width:i.width-a-c,height:i.height-r-s,scaleX:1,scaleY:1},i.width>0&&i.height>0&&o)},complete:function(){var t,e=this,o=e.current,i={};!e.isMoved()&&o.isLoaded&&(o.isComplete||(o.isComplete=!0,o.$slide.siblings().trigger("onReset"),e.preload("inline"),f(o.$slide),o.$slide.addClass("fancybox-slide--complete"),n.each(e.slides,function(t,o){o.pos>=e.currPos-1&&o.pos<=e.currPos+1?i[o.pos]=o:o&&(n.fancybox.stop(o.$slide),o.$slide.off().remove())}),e.slides=i),e.isAnimating=!1,e.updateCursor(),e.trigger("afterShow"),o.opts.video.autoStart&&o.$slide.find("video,audio").filter(":visible:first").trigger("play").one("ended",function(){Document.exitFullscreen?Document.exitFullscreen():this.webkitExitFullscreen&&this.webkitExitFullscreen(),e.next()}),o.opts.autoFocus&&"html"===o.contentType&&((t=o.$content.find("input[autofocus]:enabled:visible:first")).length?t.trigger("focus"):e.focus(null,!0)),o.$slide.scrollTop(0).scrollLeft(0))},preload:function(t){var e,n;this.group.length<2||(n=this.slides[this.currPos+1],(e=this.slides[this.currPos-1])&&e.type===t&&this.loadSlide(e),n&&n.type===t&&this.loadSlide(n))},focus:function(t,o){var i,r,a=["a[href]","area[href]",'input:not([disabled]):not([type="hidden"]):not([aria-hidden])',"select:not([disabled]):not([aria-hidden])","textarea:not([disabled]):not([aria-hidden])","button:not([disabled]):not([aria-hidden])","iframe","object","embed","video","audio","[contenteditable]",'[tabindex]:not([tabindex^="-"])'].join(",");this.isClosing||((i=(i=!t&&this.current&&this.current.isComplete?this.current.$slide.find("*:visible"+(o?":not(.fancybox-close-small)":"")):this.$refs.container.find("*:visible")).filter(a).filter(function(){return"hidden"!==n(this).css("visibility")&&!n(this).hasClass("disabled")})).length?(r=i.index(e.activeElement),t&&t.shiftKey?(r<0||0==r)&&(t.preventDefault(),i.eq(i.length-1).trigger("focus")):(r<0||r==i.length-1)&&(t&&t.preventDefault(),i.eq(0).trigger("focus"))):this.$refs.container.trigger("focus"))},activate:function(){var t=this;n(".fancybox-container").each(function(){var e=n(this).data("FancyBox");e&&e.id!==t.id&&!e.isClosing&&(e.trigger("onDeactivate"),e.removeEvents(),e.isVisible=!1)}),t.isVisible=!0,(t.current||t.isIdle)&&(t.update(),t.updateControls()),t.trigger("onActivate"),t.addEvents()},close:function(t,e){var o,i,r,a,s,c,l,u=this,h=u.current,p=function(){u.cleanUp(t)};return!u.isClosing&&(u.isClosing=!0,!1===u.trigger("beforeClose",t)?(u.isClosing=!1,d(function(){u.update()}),!1):(u.removeEvents(),r=h.$content,o=h.opts.animationEffect,i=n.isNumeric(e)?e:o?h.opts.animationDuration:0,h.$slide.removeClass("fancybox-slide--complete fancybox-slide--next fancybox-slide--previous fancybox-animated"),!0!==t?n.fancybox.stop(h.$slide):o=!1,h.$slide.siblings().trigger("onReset").remove(),i&&u.$refs.container.removeClass("fancybox-is-open").addClass("fancybox-is-closing").css("transition-duration",i+"ms"),u.hideLoading(h),u.hideControls(!0),u.updateCursor(),"zoom"!==o||r&&i&&"image"===h.type&&!u.isMoved()&&!h.hasError&&(l=u.getThumbPos(h))||(o="fade"),"zoom"===o?(n.fancybox.stop(r),c={top:(a=n.fancybox.getTranslate(r)).top,left:a.left,scaleX:a.width/l.width,scaleY:a.height/l.height,width:l.width,height:l.height},"auto"==(s=h.opts.zoomOpacity)&&(s=Math.abs(h.width/h.height-l.width/l.height)>.1),s&&(l.opacity=0),n.fancybox.setTranslate(r,c),f(r),n.fancybox.animate(r,l,i,p),!0):(o&&i?n.fancybox.animate(h.$slide.addClass("fancybox-slide--previous").removeClass("fancybox-slide--current"),"fancybox-animated fancybox-fx-"+o,i,p):!0===t?setTimeout(p,i):p(),!0)))},cleanUp:function(e){var o,i,r,a=this.current.opts.$orig;this.current.$slide.trigger("onReset"),this.$refs.container.empty().remove(),this.trigger("afterClose",e),this.current.opts.backFocus&&(a&&a.length&&a.is(":visible")||(a=this.$trigger),a&&a.length&&(i=t.scrollX,r=t.scrollY,a.trigger("focus"),n("html, body").scrollTop(r).scrollLeft(i))),this.current=null,(o=n.fancybox.getInstance())?o.activate():(n("body").removeClass("fancybox-active compensate-for-scrollbar"),n("#fancybox-style-noscroll").remove())},trigger:function(t,e){var o,i=Array.prototype.slice.call(arguments,1),r=e&&e.opts?e:this.current;if(r?i.unshift(r):r=this,i.unshift(this),n.isFunction(r.opts[t])&&(o=r.opts[t].apply(r,i)),!1===o)return o;"afterClose"!==t&&this.$refs?this.$refs.container.trigger(t+".fb",i):c.trigger(t+".fb",i)},updateControls:function(){var t=this.current,o=t.index,i=this.$refs.container,r=this.$refs.caption,a=t.opts.caption;t.$slide.trigger("refresh"),a&&a.length?(this.$caption=r,r.children().eq(0).html(a)):this.$caption=null,this.hasHiddenControls||this.isIdle||this.showControls(),i.find("[data-fancybox-count]").html(this.group.length),i.find("[data-fancybox-index]").html(o+1),i.find("[data-fancybox-prev]").prop("disabled",!t.opts.loop&&o<=0),i.find("[data-fancybox-next]").prop("disabled",!t.opts.loop&&o>=this.group.length-1),"image"===t.type?i.find("[data-fancybox-zoom]").show().end().find("[data-fancybox-download]").attr("href",t.opts.image.src||t.src).show():t.opts.toolbar&&i.find("[data-fancybox-download],[data-fancybox-zoom]").hide(),n(e.activeElement).is(":hidden,[disabled]")&&this.$refs.container.trigger("focus")},hideControls:function(t){var e=["infobar","toolbar","nav"];!t&&this.current.opts.preventCaptionOverlap||e.push("caption"),this.$refs.container.removeClass(e.map(function(t){return"fancybox-show-"+t}).join(" ")),this.hasHiddenControls=!0},showControls:function(){var t=this.current?this.current.opts:this.opts,e=this.$refs.container;this.hasHiddenControls=!1,this.idleSecondsCounter=0,e.toggleClass("fancybox-show-toolbar",!(!t.toolbar||!t.buttons)).toggleClass("fancybox-show-infobar",!!(t.infobar&&this.group.length>1)).toggleClass("fancybox-show-caption",!!this.$caption).toggleClass("fancybox-show-nav",!!(t.arrows&&this.group.length>1)).toggleClass("fancybox-is-modal",!!t.modal)},toggleControls:function(){this.hasHiddenControls?this.showControls():this.hideControls()}}),n.fancybox={version:"3.5.7",defaults:a,getInstance:function(t){var e=n('.fancybox-container:not(".fancybox-is-closing"):last').data("FancyBox"),o=Array.prototype.slice.call(arguments,1);return e instanceof m&&("string"===n.type(t)?e[t].apply(e,o):"function"===n.type(t)&&t.apply(e,o),e)},open:function(t,e,n){return new m(t,e,n)},close:function(t){var e=this.getInstance();e&&(e.close(),!0===t&&this.close(t))},destroy:function(){this.close(!0),c.add("body").off("click.fb-start","**")},isMobile:/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),use3d:(i=e.createElement("div"),t.getComputedStyle&&t.getComputedStyle(i)&&t.getComputedStyle(i).getPropertyValue("transform")&&!(e.documentMode&&e.documentMode<11)),getTranslate:function(t){var e;return!(!t||!t.length)&&{top:(e=t[0].getBoundingClientRect()).top||0,left:e.left||0,width:e.width,height:e.height,opacity:parseFloat(t.css("opacity"))}},setTranslate:function(t,e){var n="",o={};if(t&&e)return void 0===e.left&&void 0===e.top||(n=(void 0===e.left?t.position().left:e.left)+"px, "+(void 0===e.top?t.position().top:e.top)+"px",n=this.use3d?"translate3d("+n+", 0px)":"translate("+n+")"),void 0!==e.scaleX&&void 0!==e.scaleY?n+=" scale("+e.scaleX+", "+e.scaleY+")":void 0!==e.scaleX&&(n+=" scaleX("+e.scaleX+")"),n.length&&(o.transform=n),void 0!==e.opacity&&(o.opacity=e.opacity),void 0!==e.width&&(o.width=e.width),void 0!==e.height&&(o.height=e.height),t.css(o)},animate:function(t,e,o,i,r){var a,s=this;n.isFunction(o)&&(i=o,o=null),s.stop(t),a=s.getTranslate(t),t.on(h,function(c){(!c||!c.originalEvent||t.is(c.originalEvent.target)&&"z-index"!=c.originalEvent.propertyName)&&(s.stop(t),n.isNumeric(o)&&t.css("transition-duration",""),n.isPlainObject(e)?void 0!==e.scaleX&&void 0!==e.scaleY&&s.setTranslate(t,{top:e.top,left:e.left,width:a.width*e.scaleX,height:a.height*e.scaleY,scaleX:1,scaleY:1}):!0!==r&&t.removeClass(e),n.isFunction(i)&&i(c))}),n.isNumeric(o)&&t.css("transition-duration",o+"ms"),n.isPlainObject(e)?(void 0!==e.scaleX&&void 0!==e.scaleY&&(delete e.width,delete e.height,t.parent().hasClass("fancybox-slide--image")&&t.parent().addClass("fancybox-is-scaling")),n.fancybox.setTranslate(t,e)):t.addClass(e),t.data("timer",setTimeout(function(){t.trigger(h)},o+33))},stop:function(t,e){t&&t.length&&(clearTimeout(t.data("timer")),e&&t.trigger(h),t.off(h).css("transition-duration",""),t.parent().removeClass("fancybox-is-scaling"))}},n.fn.fancybox=function(t){var e;return(e=(t=t||{}).selector||!1)?n("body").off("click.fb-start",e).on("click.fb-start",e,{options:t},g):this.off("click.fb-start").on("click.fb-start",{items:this,options:t},g),this},c.on("click.fb-start","[data-fancybox]",g),c.on("click.fb-start","[data-fancybox-trigger]",function(t){n('[data-fancybox="'+n(this).attr("data-fancybox-trigger")+'"]').eq(n(this).attr("data-fancybox-index")||0).trigger("click.fb-start",{$trigger:n(this)})}),r=null,c.on("mousedown mouseup focus blur",".fancybox-button",function(t){switch(t.type){case"mousedown":r=n(this);break;case"mouseup":r=null;break;case"focusin":n(".fancybox-button").removeClass("fancybox-focus"),n(this).is(r)||n(this).is("[disabled]")||n(this).addClass("fancybox-focus");break;case"focusout":n(".fancybox-button").removeClass("fancybox-focus")}})}function g(t,e){var o,i,r,a=[],s=0;t&&t.isDefaultPrevented()||(t.preventDefault(),e=e||{},t&&t.data&&(e=p(t.data.options,e)),o=e.$target||n(t.currentTarget).trigger("blur"),(r=n.fancybox.getInstance())&&r.$trigger&&r.$trigger.is(o)||(a=e.selector?n(e.selector):(i=o.attr("data-fancybox")||"")?(a=t.data?t.data.items:[]).length?a.filter('[data-fancybox="'+i+'"]'):n('[data-fancybox="'+i+'"]'):[o],(s=n(a).index(o))<0&&(s=0),(r=n.fancybox.open(a,e,s)).$trigger=o))}}(window,document,jQuery),function(t){"use strict";var e={youtube:{matcher:/(youtube\.com|youtu\.be|youtube\-nocookie\.com)\/(watch\?(.*&)?v=|v\/|u\/|embed\/?)?(videoseries\?list=(.*)|[\w-]{11}|\?listType=(.*)&list=(.*))(.*)/i,params:{autoplay:1,autohide:1,fs:1,rel:0,hd:1,wmode:"transparent",enablejsapi:1,html5:1},paramPlace:8,type:"iframe",url:"https://www.youtube-nocookie.com/embed/$4",thumb:"https://img.youtube.com/vi/$4/hqdefault.jpg"},vimeo:{matcher:/^.+vimeo.com\/(.*\/)?([\d]+)(.*)?/,params:{autoplay:1,hd:1,show_title:1,show_byline:1,show_portrait:0,fullscreen:1},paramPlace:3,type:"iframe",url:"//player.vimeo.com/video/$2"},instagram:{matcher:/(instagr\.am|instagram\.com)\/p\/([a-zA-Z0-9_\-]+)\/?/i,type:"image",url:"//$1/p/$2/media/?size=l"},gmap_place:{matcher:/(maps\.)?google\.([a-z]{2,3}(\.[a-z]{2})?)\/(((maps\/(place\/(.*)\/)?\@(.*),(\d+.?\d+?)z))|(\?ll=))(.*)?/i,type:"iframe",url:function(t){return"//maps.google."+t[2]+"/?ll="+(t[9]?t[9]+"&z="+Math.floor(t[10])+(t[12]?t[12].replace(/^\//,"&"):""):t[12]+"").replace(/\?/,"&")+"&output="+(t[12]&&t[12].indexOf("layer=c")>0?"svembed":"embed")}},gmap_search:{matcher:/(maps\.)?google\.([a-z]{2,3}(\.[a-z]{2})?)\/(maps\/search\/)(.*)/i,type:"iframe",url:function(t){return"//maps.google."+t[2]+"/maps?q="+t[5].replace("query=","q=").replace("api=1","")+"&output=embed"}}},n=function(e,n,o){if(e)return o=o||"","object"===t.type(o)&&(o=t.param(o,!0)),t.each(n,function(t,n){e=e.replace("$"+t,n||"")}),o.length&&(e+=(e.indexOf("?")>0?"&":"?")+o),e};t(document).on("objectNeedsType.fb",function(o,i,r){var a,s,c,l,d,u,h,f=r.src||"",p=!1;a=t.extend(!0,{},e,r.opts.media),t.each(a,function(e,o){if(c=f.match(o.matcher)){if(p=o.type,h=e,u={},o.paramPlace&&c[o.paramPlace]){"?"==(d=c[o.paramPlace])[0]&&(d=d.substring(1)),d=d.split("&");for(var i=0;i<d.length;++i){var a=d[i].split("=",2);2==a.length&&(u[a[0]]=decodeURIComponent(a[1].replace(/\+/g," ")))}}return l=t.extend(!0,{},o.params,r.opts[e],u),f="function"===t.type(o.url)?o.url.call(this,c,l,r):n(o.url,c,l),s="function"===t.type(o.thumb)?o.thumb.call(this,c,l,r):n(o.thumb,c),"youtube"===e?f=f.replace(/&t=((\d+)m)?(\d+)s/,function(t,e,n,o){return"&start="+((n?60*parseInt(n,10):0)+parseInt(o,10))}):"vimeo"===e&&(f=f.replace("&%23","#")),!1}}),p?(r.opts.thumb||r.opts.$thumb&&r.opts.$thumb.length||(r.opts.thumb=s),"iframe"===p&&(r.opts=t.extend(!0,r.opts,{iframe:{preload:!1,attr:{scrolling:"no"}}})),t.extend(r,{type:p,src:f,origSrc:r.src,contentSource:h,contentType:"image"===p?"image":"gmap_place"==h||"gmap_search"==h?"map":"video"})):f&&(r.type=r.opts.defaultType)});var o={youtube:{src:"https://www.youtube.com/iframe_api",class:"YT",loading:!1,loaded:!1},vimeo:{src:"https://player.vimeo.com/api/player.js",class:"Vimeo",loading:!1,loaded:!1},load:function(t){var e,n=this;this[t].loaded?setTimeout(function(){n.done(t)}):this[t].loading||(this[t].loading=!0,(e=document.createElement("script")).type="text/javascript",e.src=this[t].src,"youtube"===t?window.onYouTubeIframeAPIReady=function(){n[t].loaded=!0,n.done(t)}:e.onload=function(){n[t].loaded=!0,n.done(t)},document.body.appendChild(e))},done:function(e){var n,o;"youtube"===e&&delete window.onYouTubeIframeAPIReady,(n=t.fancybox.getInstance())&&(o=n.current.$content.find("iframe"),"youtube"===e&&void 0!==YT&&YT?new YT.Player(o.attr("id"),{events:{onStateChange:function(t){0==t.data&&n.next()}}}):"vimeo"===e&&void 0!==Vimeo&&Vimeo&&new Vimeo.Player(o).on("ended",function(){n.next()}))}};t(document).on({"afterShow.fb":function(t,e,n){e.group.length>1&&("youtube"===n.contentSource||"vimeo"===n.contentSource)&&o.load(n.contentSource)}})}(jQuery),function(t,e,n){"use strict";var o=t.requestAnimationFrame||t.webkitRequestAnimationFrame||t.mozRequestAnimationFrame||t.oRequestAnimationFrame||function(e){return t.setTimeout(e,1e3/60)},i=t.cancelAnimationFrame||t.webkitCancelAnimationFrame||t.mozCancelAnimationFrame||t.oCancelAnimationFrame||function(e){t.clearTimeout(e)},r=function(e){var n=[];for(var o in e=(e=e.originalEvent||e||t.e).touches&&e.touches.length?e.touches:e.changedTouches&&e.changedTouches.length?e.changedTouches:[e])e[o].pageX?n.push({x:e[o].pageX,y:e[o].pageY}):e[o].clientX&&n.push({x:e[o].clientX,y:e[o].clientY});return n},a=function(t,e,n){return e&&t?"x"===n?t.x-e.x:"y"===n?t.y-e.y:Math.sqrt(Math.pow(t.x-e.x,2)+Math.pow(t.y-e.y,2)):0},s=function(t){if(t.is('a,area,button,[role="button"],input,label,select,summary,textarea,video,audio,iframe')||n.isFunction(t.get(0).onclick)||t.data("selectable"))return!0;for(var e=0,o=t[0].attributes,i=o.length;e<i;e++)if("data-fancybox-"===o[e].nodeName.substr(0,14))return!0;return!1},c=function(e){for(var n,o,i,r,a,s=!1;n=e.get(0),o=void 0,i=void 0,r=void 0,a=void 0,o=t.getComputedStyle(n)["overflow-y"],i=t.getComputedStyle(n)["overflow-x"],r=("scroll"===o||"auto"===o)&&n.scrollHeight>n.clientHeight,a=("scroll"===i||"auto"===i)&&n.scrollWidth>n.clientWidth,!(s=r||a)&&(e=e.parent()).length&&!e.hasClass("fancybox-stage")&&!e.is("body"););return s},l=function(t){this.instance=t,this.$bg=t.$refs.bg,this.$stage=t.$refs.stage,this.$container=t.$refs.container,this.destroy(),this.$container.on("touchstart.fb.touch mousedown.fb.touch",n.proxy(this,"ontouchstart"))};l.prototype.destroy=function(){this.$container.off(".fb.touch"),n(e).off(".fb.touch"),this.requestId&&(i(this.requestId),this.requestId=null),this.tapped&&(clearTimeout(this.tapped),this.tapped=null)},l.prototype.ontouchstart=function(o){var i=n(o.target),l=this.instance,d=l.current,u=d.$slide,h=d.$content,f="touchstart"==o.type;if(f&&this.$container.off("mousedown.fb.touch"),(!o.originalEvent||2!=o.originalEvent.button)&&u.length&&i.length&&!s(i)&&!s(i.parent())&&(i.is("img")||!(o.originalEvent.clientX>i[0].clientWidth+i.offset().left))){if(!d||l.isAnimating||d.$slide.hasClass("fancybox-animated"))return o.stopPropagation(),void o.preventDefault();this.realPoints=this.startPoints=r(o),this.startPoints.length&&(d.touch&&o.stopPropagation(),this.startEvent=o,this.canTap=!0,this.$target=i,this.$content=h,this.opts=d.opts.touch,this.isPanning=!1,this.isSwiping=!1,this.isZooming=!1,this.isScrolling=!1,this.canPan=l.canPan(),this.startTime=(new Date).getTime(),this.distanceX=this.distanceY=this.distance=0,this.canvasWidth=Math.round(u[0].clientWidth),this.canvasHeight=Math.round(u[0].clientHeight),this.contentLastPos=null,this.contentStartPos=n.fancybox.getTranslate(this.$content)||{top:0,left:0},this.sliderStartPos=n.fancybox.getTranslate(u),this.stagePos=n.fancybox.getTranslate(l.$refs.stage),this.sliderStartPos.top-=this.stagePos.top,this.sliderStartPos.left-=this.stagePos.left,this.contentStartPos.top-=this.stagePos.top,this.contentStartPos.left-=this.stagePos.left,n(e).off(".fb.touch").on(f?"touchend.fb.touch touchcancel.fb.touch":"mouseup.fb.touch mouseleave.fb.touch",n.proxy(this,"ontouchend")).on(f?"touchmove.fb.touch":"mousemove.fb.touch",n.proxy(this,"ontouchmove")),n.fancybox.isMobile&&e.addEventListener("scroll",this.onscroll,!0),((this.opts||this.canPan)&&(i.is(this.$stage)||this.$stage.find(i).length)||(i.is(".fancybox-image")&&o.preventDefault(),n.fancybox.isMobile&&i.parents(".fancybox-caption").length))&&(this.isScrollable=c(i)||c(i.parent()),n.fancybox.isMobile&&this.isScrollable||o.preventDefault(),(1===this.startPoints.length||d.hasError)&&(this.canPan?(n.fancybox.stop(this.$content),this.isPanning=!0):this.isSwiping=!0,this.$container.addClass("fancybox-is-grabbing")),2===this.startPoints.length&&"image"===d.type&&(d.isLoaded||d.$ghost)&&(this.canTap=!1,this.isSwiping=!1,this.isPanning=!1,this.isZooming=!0,n.fancybox.stop(this.$content),this.centerPointStartX=.5*(this.startPoints[0].x+this.startPoints[1].x)-n(t).scrollLeft(),this.centerPointStartY=.5*(this.startPoints[0].y+this.startPoints[1].y)-n(t).scrollTop(),this.percentageOfImageAtPinchPointX=(this.centerPointStartX-this.contentStartPos.left)/this.contentStartPos.width,this.percentageOfImageAtPinchPointY=(this.centerPointStartY-this.contentStartPos.top)/this.contentStartPos.height,this.startDistanceBetweenFingers=a(this.startPoints[0],this.startPoints[1]))))}},l.prototype.onscroll=function(t){this.isScrolling=!0,e.removeEventListener("scroll",this.onscroll,!0)},l.prototype.ontouchmove=function(t){void 0===t.originalEvent.buttons||0!==t.originalEvent.buttons?this.isScrolling?this.canTap=!1:(this.newPoints=r(t),(this.opts||this.canPan)&&this.newPoints.length&&this.newPoints.length&&(this.isSwiping&&!0===this.isSwiping||t.preventDefault(),this.distanceX=a(this.newPoints[0],this.startPoints[0],"x"),this.distanceY=a(this.newPoints[0],this.startPoints[0],"y"),this.distance=a(this.newPoints[0],this.startPoints[0]),this.distance>0&&(this.isSwiping?this.onSwipe(t):this.isPanning?this.onPan():this.isZooming&&this.onZoom()))):this.ontouchend(t)},l.prototype.onSwipe=function(e){var r,a=this,s=a.instance,c=a.isSwiping,l=a.sliderStartPos.left||0;if(!0!==c)"x"==c&&(a.distanceX>0&&(a.instance.group.length<2||0===a.instance.current.index&&!a.instance.current.opts.loop)?l+=Math.pow(a.distanceX,.8):a.distanceX<0&&(a.instance.group.length<2||a.instance.current.index===a.instance.group.length-1&&!a.instance.current.opts.loop)?l-=Math.pow(-a.distanceX,.8):l+=a.distanceX),a.sliderLastPos={top:"x"==c?0:a.sliderStartPos.top+a.distanceY,left:l},a.requestId&&(i(a.requestId),a.requestId=null),a.requestId=o(function(){a.sliderLastPos&&(n.each(a.instance.slides,function(t,e){var o=e.pos-a.instance.currPos;n.fancybox.setTranslate(e.$slide,{top:a.sliderLastPos.top,left:a.sliderLastPos.left+o*a.canvasWidth+o*e.opts.gutter})}),a.$container.addClass("fancybox-is-sliding"))});else if(Math.abs(a.distance)>10){if(a.canTap=!1,s.group.length<2&&a.opts.vertical?a.isSwiping="y":s.isDragging||!1===a.opts.vertical||"auto"===a.opts.vertical&&n(t).width()>800?a.isSwiping="x":(r=Math.abs(180*Math.atan2(a.distanceY,a.distanceX)/Math.PI),a.isSwiping=r>45&&r<135?"y":"x"),"y"===a.isSwiping&&n.fancybox.isMobile&&a.isScrollable)return void(a.isScrolling=!0);s.isDragging=a.isSwiping,a.startPoints=a.newPoints,n.each(s.slides,function(t,e){var o,i;n.fancybox.stop(e.$slide),o=n.fancybox.getTranslate(e.$slide),i=n.fancybox.getTranslate(s.$refs.stage),e.$slide.css({transform:"",opacity:"","transition-duration":""}).removeClass("fancybox-animated").removeClass(function(t,e){return(e.match(/(^|\s)fancybox-fx-\S+/g)||[]).join(" ")}),e.pos===s.current.pos&&(a.sliderStartPos.top=o.top-i.top,a.sliderStartPos.left=o.left-i.left),n.fancybox.setTranslate(e.$slide,{top:o.top-i.top,left:o.left-i.left})}),s.SlideShow&&s.SlideShow.isActive&&s.SlideShow.stop()}},l.prototype.onPan=function(){var t=this;a(t.newPoints[0],t.realPoints[0])<(n.fancybox.isMobile?10:5)?t.startPoints=t.newPoints:(t.canTap=!1,t.contentLastPos=t.limitMovement(),t.requestId&&i(t.requestId),t.requestId=o(function(){n.fancybox.setTranslate(t.$content,t.contentLastPos)}))},l.prototype.limitMovement=function(){var t,e,n,o,i,r,a=this.canvasWidth,s=this.canvasHeight,c=this.distanceX,l=this.distanceY,d=this.contentStartPos,u=d.left,h=d.top,f=d.width,p=d.height;return i=f>a?u+c:u,r=h+l,t=Math.max(0,.5*a-.5*f),e=Math.max(0,.5*s-.5*p),n=Math.min(a-f,.5*a-.5*f),o=Math.min(s-p,.5*s-.5*p),c>0&&i>t&&(i=t-1+Math.pow(-t+u+c,.8)||0),c<0&&i<n&&(i=n+1-Math.pow(n-u-c,.8)||0),l>0&&r>e&&(r=e-1+Math.pow(-e+h+l,.8)||0),l<0&&r<o&&(r=o+1-Math.pow(o-h-l,.8)||0),{top:r,left:i}},l.prototype.limitPosition=function(t,e,n,o){var i=this.canvasWidth,r=this.canvasHeight;return t=n>i?(t=t>0?0:t)<i-n?i-n:t:Math.max(0,i/2-n/2),{top:e=o>r?(e=e>0?0:e)<r-o?r-o:e:Math.max(0,r/2-o/2),left:t}},l.prototype.onZoom=function(){var e=this,r=e.contentStartPos,s=r.width,c=r.height,l=r.left,d=r.top,u=a(e.newPoints[0],e.newPoints[1])/e.startDistanceBetweenFingers,h=Math.floor(s*u),f=Math.floor(c*u),p=(s-h)*e.percentageOfImageAtPinchPointX,m=(c-f)*e.percentageOfImageAtPinchPointY,g=(e.newPoints[0].x+e.newPoints[1].x)/2-n(t).scrollLeft(),v=(e.newPoints[0].y+e.newPoints[1].y)/2-n(t).scrollTop(),y=g-e.centerPointStartX,b={top:d+(m+(v-e.centerPointStartY)),left:l+(p+y),scaleX:u,scaleY:u};e.canTap=!1,e.newWidth=h,e.newHeight=f,e.contentLastPos=b,e.requestId&&i(e.requestId),e.requestId=o(function(){n.fancybox.setTranslate(e.$content,e.contentLastPos)})},l.prototype.ontouchend=function(t){var o=this.isSwiping,a=this.isPanning,s=this.isZooming,c=this.isScrolling;if(this.endPoints=r(t),this.dMs=Math.max((new Date).getTime()-this.startTime,1),this.$container.removeClass("fancybox-is-grabbing"),n(e).off(".fb.touch"),e.removeEventListener("scroll",this.onscroll,!0),this.requestId&&(i(this.requestId),this.requestId=null),this.isSwiping=!1,this.isPanning=!1,this.isZooming=!1,this.isScrolling=!1,this.instance.isDragging=!1,this.canTap)return this.onTap(t);this.speed=100,this.velocityX=this.distanceX/this.dMs*.5,this.velocityY=this.distanceY/this.dMs*.5,a?this.endPanning():s?this.endZooming():this.endSwiping(o,c)},l.prototype.endSwiping=function(t,e){var o=!1,i=this.instance.group.length,r=Math.abs(this.distanceX),a="x"==t&&i>1&&(this.dMs>130&&r>10||r>50);this.sliderLastPos=null,"y"==t&&!e&&Math.abs(this.distanceY)>50?(n.fancybox.animate(this.instance.current.$slide,{top:this.sliderStartPos.top+this.distanceY+150*this.velocityY,opacity:0},200),o=this.instance.close(!0,250)):a&&this.distanceX>0?o=this.instance.previous(300):a&&this.distanceX<0&&(o=this.instance.next(300)),!1!==o||"x"!=t&&"y"!=t||this.instance.centerSlide(200),this.$container.removeClass("fancybox-is-sliding")},l.prototype.endPanning=function(){var t,e,o;this.contentLastPos&&(!1===this.opts.momentum||this.dMs>350?(t=this.contentLastPos.left,e=this.contentLastPos.top):(t=this.contentLastPos.left+500*this.velocityX,e=this.contentLastPos.top+500*this.velocityY),(o=this.limitPosition(t,e,this.contentStartPos.width,this.contentStartPos.height)).width=this.contentStartPos.width,o.height=this.contentStartPos.height,n.fancybox.animate(this.$content,o,366))},l.prototype.endZooming=function(){var t,e,o,i,r=this.instance.current,a=this.newWidth,s=this.newHeight;this.contentLastPos&&(t=this.contentLastPos.left,i={top:e=this.contentLastPos.top,left:t,width:a,height:s,scaleX:1,scaleY:1},n.fancybox.setTranslate(this.$content,i),a<this.canvasWidth&&s<this.canvasHeight?this.instance.scaleToFit(150):a>r.width||s>r.height?this.instance.scaleToActual(this.centerPointStartX,this.centerPointStartY,150):(o=this.limitPosition(t,e,a,s),n.fancybox.animate(this.$content,o,150)))},l.prototype.onTap=function(e){var o,i=this,a=n(e.target),s=i.instance,c=s.current,l=e&&r(e)||i.startPoints,d=l[0]?l[0].x-n(t).scrollLeft()-i.stagePos.left:0,u=l[0]?l[0].y-n(t).scrollTop()-i.stagePos.top:0,h=function(t){var o=c.opts[t];if(n.isFunction(o)&&(o=o.apply(s,[c,e])),o)switch(o){case"close":s.close(i.startEvent);break;case"toggleControls":s.toggleControls();break;case"next":s.next();break;case"nextOrClose":s.group.length>1?s.next():s.close(i.startEvent);break;case"zoom":"image"==c.type&&(c.isLoaded||c.$ghost)&&(s.canPan()?s.scaleToFit():s.isScaledDown()?s.scaleToActual(d,u):s.group.length<2&&s.close(i.startEvent))}};if((!e.originalEvent||2!=e.originalEvent.button)&&(a.is("img")||!(d>a[0].clientWidth+a.offset().left))){if(a.is(".fancybox-bg,.fancybox-inner,.fancybox-outer,.fancybox-container"))o="Outside";else if(a.is(".fancybox-slide"))o="Slide";else{if(!s.current.$content||!s.current.$content.find(a).addBack().filter(a).length)return;o="Content"}if(i.tapped){if(clearTimeout(i.tapped),i.tapped=null,Math.abs(d-i.tapX)>50||Math.abs(u-i.tapY)>50)return this;h("dblclick"+o)}else i.tapX=d,i.tapY=u,c.opts["dblclick"+o]&&c.opts["dblclick"+o]!==c.opts["click"+o]?i.tapped=setTimeout(function(){i.tapped=null,s.isAnimating||h("click"+o)},500):h("click"+o);return this}},n(e).on("onActivate.fb",function(t,e){e&&!e.Guestures&&(e.Guestures=new l(e))}).on("beforeClose.fb",function(t,e){e&&e.Guestures&&e.Guestures.destroy()})}(window,document,jQuery),function(t,e){"use strict";e.extend(!0,e.fancybox.defaults,{btnTpl:{slideShow:'<button data-fancybox-play class="fancybox-button fancybox-button--play" title="{{PLAY_START}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 5.4v13.2l11-6.6z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.33 5.75h2.2v12.5h-2.2V5.75zm5.15 0h2.2v12.5h-2.2V5.75z"/></svg></button>'},slideShow:{autoStart:!1,speed:3e3,progress:!0}});var n=function(t){this.instance=t,this.init()};e.extend(n.prototype,{timer:null,isActive:!1,$button:null,init:function(){var t=this,n=t.instance,o=n.group[n.currIndex].opts.slideShow;t.$button=n.$refs.toolbar.find("[data-fancybox-play]").on("click",function(){t.toggle()}),n.group.length<2||!o?t.$button.hide():o.progress&&(t.$progress=e('<div class="fancybox-progress"></div>').appendTo(n.$refs.inner))},set:function(t){var n=this.instance,o=n.current;o&&(!0===t||o.opts.loop||n.currIndex<n.group.length-1)?this.isActive&&"video"!==o.contentType&&(this.$progress&&e.fancybox.animate(this.$progress.show(),{scaleX:1},o.opts.slideShow.speed),this.timer=setTimeout(function(){n.current.opts.loop||n.current.index!=n.group.length-1?n.next():n.jumpTo(0)},o.opts.slideShow.speed)):(this.stop(),n.idleSecondsCounter=0,n.showControls())},clear:function(){clearTimeout(this.timer),this.timer=null,this.$progress&&this.$progress.removeAttr("style").hide()},start:function(){var t=this.instance.current;t&&(this.$button.attr("title",(t.opts.i18n[t.opts.lang]||t.opts.i18n.en).PLAY_STOP).removeClass("fancybox-button--play").addClass("fancybox-button--pause"),this.isActive=!0,t.isComplete&&this.set(!0),this.instance.trigger("onSlideShowChange",!0))},stop:function(){var t=this.instance.current;this.clear(),this.$button.attr("title",(t.opts.i18n[t.opts.lang]||t.opts.i18n.en).PLAY_START).removeClass("fancybox-button--pause").addClass("fancybox-button--play"),this.isActive=!1,this.instance.trigger("onSlideShowChange",!1),this.$progress&&this.$progress.removeAttr("style").hide()},toggle:function(){this.isActive?this.stop():this.start()}}),e(t).on({"onInit.fb":function(t,e){e&&!e.SlideShow&&(e.SlideShow=new n(e))},"beforeShow.fb":function(t,e,n,o){var i=e&&e.SlideShow;o?i&&n.opts.slideShow.autoStart&&i.start():i&&i.isActive&&i.clear()},"afterShow.fb":function(t,e,n){var o=e&&e.SlideShow;o&&o.isActive&&o.set()},"afterKeydown.fb":function(n,o,i,r,a){var s=o&&o.SlideShow;!s||!i.opts.slideShow||80!==a&&32!==a||e(t.activeElement).is("button,a,input")||(r.preventDefault(),s.toggle())},"beforeClose.fb onDeactivate.fb":function(t,e){var n=e&&e.SlideShow;n&&n.stop()}}),e(t).on("visibilitychange",function(){var n=e.fancybox.getInstance(),o=n&&n.SlideShow;o&&o.isActive&&(t.hidden?o.clear():o.set())})}(document,jQuery),function(t,e){"use strict";var n=function(){for(var e=[["requestFullscreen","exitFullscreen","fullscreenElement","fullscreenEnabled","fullscreenchange","fullscreenerror"],["webkitRequestFullscreen","webkitExitFullscreen","webkitFullscreenElement","webkitFullscreenEnabled","webkitfullscreenchange","webkitfullscreenerror"],["webkitRequestFullScreen","webkitCancelFullScreen","webkitCurrentFullScreenElement","webkitCancelFullScreen","webkitfullscreenchange","webkitfullscreenerror"],["mozRequestFullScreen","mozCancelFullScreen","mozFullScreenElement","mozFullScreenEnabled","mozfullscreenchange","mozfullscreenerror"],["msRequestFullscreen","msExitFullscreen","msFullscreenElement","msFullscreenEnabled","MSFullscreenChange","MSFullscreenError"]],n={},o=0;o<e.length;o++){var i=e[o];if(i&&i[1]in t){for(var r=0;r<i.length;r++)n[e[0][r]]=i[r];return n}}return!1}();if(n){var o={request:function(e){(e=e||t.documentElement)[n.requestFullscreen](e.ALLOW_KEYBOARD_INPUT)},exit:function(){t[n.exitFullscreen]()},toggle:function(e){e=e||t.documentElement,this.isFullscreen()?this.exit():this.request(e)},isFullscreen:function(){return Boolean(t[n.fullscreenElement])},enabled:function(){return Boolean(t[n.fullscreenEnabled])}};e.extend(!0,e.fancybox.defaults,{btnTpl:{fullScreen:'<button data-fancybox-fullscreen class="fancybox-button fancybox-button--fsenter" title="{{FULL_SCREEN}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5zm3-8H5v2h5V5H8zm6 11h2v-3h3v-2h-5zm2-11V5h-2v5h5V8z"/></svg></button>'},fullScreen:{autoStart:!1}}),e(t).on(n.fullscreenchange,function(){var t=o.isFullscreen(),n=e.fancybox.getInstance();n&&(n.current&&"image"===n.current.type&&n.isAnimating&&(n.isAnimating=!1,n.update(!0,!0,0),n.isComplete||n.complete()),n.trigger("onFullscreenChange",t),n.$refs.container.toggleClass("fancybox-is-fullscreen",t),n.$refs.toolbar.find("[data-fancybox-fullscreen]").toggleClass("fancybox-button--fsenter",!t).toggleClass("fancybox-button--fsexit",t))})}e(t).on({"onInit.fb":function(t,e){n?e&&e.group[e.currIndex].opts.fullScreen?(e.$refs.container.on("click.fb-fullscreen","[data-fancybox-fullscreen]",function(t){t.stopPropagation(),t.preventDefault(),o.toggle()}),e.opts.fullScreen&&!0===e.opts.fullScreen.autoStart&&o.request(),e.FullScreen=o):e&&e.$refs.toolbar.find("[data-fancybox-fullscreen]").hide():e.$refs.toolbar.find("[data-fancybox-fullscreen]").remove()},"afterKeydown.fb":function(t,e,n,o,i){e&&e.FullScreen&&70===i&&(o.preventDefault(),e.FullScreen.toggle())},"beforeClose.fb":function(t,e){e&&e.FullScreen&&e.$refs.container.hasClass("fancybox-is-fullscreen")&&o.exit()}})}(document,jQuery),function(t,e){"use strict";var n="fancybox-thumbs";e.fancybox.defaults=e.extend(!0,{btnTpl:{thumbs:'<button data-fancybox-thumbs class="fancybox-button fancybox-button--thumbs" title="{{THUMBS}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.59 14.59h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76H5.65v-3.76zm8.94-4.47h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76H5.65v-3.76zm8.94-4.47h3.76v3.76h-3.76V5.65zm-4.47 0h3.76v3.76h-3.76V5.65zm-4.47 0h3.76v3.76H5.65V5.65z"/></svg></button>'},thumbs:{autoStart:!1,hideOnClose:!0,parentEl:".fancybox-container",axis:"y"}},e.fancybox.defaults);var o=function(t){this.init(t)};e.extend(o.prototype,{$button:null,$grid:null,$list:null,isVisible:!1,isActive:!1,init:function(t){var e=this,n=t.group,o=0;e.instance=t,e.opts=n[t.currIndex].opts.thumbs,t.Thumbs=e,e.$button=t.$refs.toolbar.find("[data-fancybox-thumbs]");for(var i=0,r=n.length;i<r&&(n[i].thumb&&o++,!(o>1));i++);o>1&&e.opts?(e.$button.removeAttr("style").on("click",function(){e.toggle()}),e.isActive=!0):e.$button.hide()},create:function(){var t,o=this.instance,i=this.opts.parentEl,r=[];this.$grid||(this.$grid=e('<div class="'+n+" "+n+"-"+this.opts.axis+'"></div>').appendTo(o.$refs.container.find(i).addBack().filter(i)),this.$grid.on("click","a",function(){o.jumpTo(e(this).attr("data-index"))})),this.$list||(this.$list=e('<div class="'+n+'__list">').appendTo(this.$grid)),e.each(o.group,function(e,n){(t=n.thumb)||"image"!==n.type||(t=n.src),r.push('<a href="javascript:;" tabindex="0" data-index="'+e+'"'+(t&&t.length?' style="background-image:url('+t+')"':'class="fancybox-thumbs-missing"')+"></a>")}),this.$list[0].innerHTML=r.join(""),"x"===this.opts.axis&&this.$list.width(parseInt(this.$grid.css("padding-right"),10)+o.group.length*this.$list.children().eq(0).outerWidth(!0))},focus:function(t){var e,n,o=this.$list,i=this.$grid;this.instance.current&&(n=(e=o.children().removeClass("fancybox-thumbs-active").filter('[data-index="'+this.instance.current.index+'"]').addClass("fancybox-thumbs-active")).position(),"y"===this.opts.axis&&(n.top<0||n.top>o.height()-e.outerHeight())?o.stop().animate({scrollTop:o.scrollTop()+n.top},t):"x"===this.opts.axis&&(n.left<i.scrollLeft()||n.left>i.scrollLeft()+(i.width()-e.outerWidth()))&&o.parent().stop().animate({scrollLeft:n.left},t))},update:function(){this.instance.$refs.container.toggleClass("fancybox-show-thumbs",this.isVisible),this.isVisible?(this.$grid||this.create(),this.instance.trigger("onThumbsShow"),this.focus(0)):this.$grid&&this.instance.trigger("onThumbsHide"),this.instance.update()},hide:function(){this.isVisible=!1,this.update()},show:function(){this.isVisible=!0,this.update()},toggle:function(){this.isVisible=!this.isVisible,this.update()}}),e(t).on({"onInit.fb":function(t,e){var n;e&&!e.Thumbs&&(n=new o(e)).isActive&&!0===n.opts.autoStart&&n.show()},"beforeShow.fb":function(t,e,n,o){var i=e&&e.Thumbs;i&&i.isVisible&&i.focus(o?0:250)},"afterKeydown.fb":function(t,e,n,o,i){var r=e&&e.Thumbs;r&&r.isActive&&71===i&&(o.preventDefault(),r.toggle())},"beforeClose.fb":function(t,e){var n=e&&e.Thumbs;n&&n.isVisible&&!1!==n.opts.hideOnClose&&n.$grid.hide()}})}(document,jQuery),function(t,e){"use strict";e.extend(!0,e.fancybox.defaults,{btnTpl:{share:'<button data-fancybox-share class="fancybox-button fancybox-button--share" title="{{SHARE}}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2.55 19c1.4-8.4 9.1-9.8 11.9-9.8V5l7 7-7 6.3v-3.5c-2.8 0-10.5 2.1-11.9 4.2z"/></svg></button>'},share:{url:function(t,e){return!t.currentHash&&"inline"!==e.type&&"html"!==e.type&&(e.origSrc||e.src)||window.location},tpl:'<div class="fancybox-share"><h1>{{SHARE}}</h1><p><a class="fancybox-share__button fancybox-share__button--fb" href="https://www.facebook.com/sharer/sharer.php?u={{url}}"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="m287 456v-299c0-21 6-35 35-35h38v-63c-7-1-29-3-55-3-54 0-91 33-91 94v306m143-254h-205v72h196" /></svg><span>Facebook</span></a><a class="fancybox-share__button fancybox-share__button--tw" href="https://twitter.com/intent/tweet?url={{url}}&text={{descr}}"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="m456 133c-14 7-31 11-47 13 17-10 30-27 37-46-15 10-34 16-52 20-61-62-157-7-141 75-68-3-129-35-169-85-22 37-11 86 26 109-13 0-26-4-37-9 0 39 28 72 65 80-12 3-25 4-37 2 10 33 41 57 77 57-42 30-77 38-122 34 170 111 378-32 359-208 16-11 30-25 41-42z" /></svg><span>Twitter</span></a><a class="fancybox-share__button fancybox-share__button--pt" href="https://www.pinterest.com/pin/create/button/?url={{url}}&description={{descr}}&media={{media}}"><svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="m265 56c-109 0-164 78-164 144 0 39 15 74 47 87 5 2 10 0 12-5l4-19c2-6 1-8-3-13-9-11-15-25-15-45 0-58 43-110 113-110 62 0 96 38 96 88 0 67-30 122-73 122-24 0-42-19-36-44 6-29 20-60 20-81 0-19-10-35-31-35-25 0-44 26-44 60 0 21 7 36 7 36l-30 125c-8 37-1 83 0 87 0 3 4 4 5 2 2-3 32-39 42-75l16-64c8 16 31 29 56 29 74 0 124-67 124-157 0-69-58-132-146-132z" fill="#fff"/></svg><span>Pinterest</span></a></p><p><input class="fancybox-share__input" type="text" value="{{url_raw}}" onclick="select()" /></p></div>'}}),e(t).on("click","[data-fancybox-share]",function(){var t,n,o,i,r=e.fancybox.getInstance(),a=r.current||null;a&&("function"===e.type(a.opts.share.url)&&(t=a.opts.share.url.apply(a,[r,a])),n=a.opts.share.tpl.replace(/\{\{media\}\}/g,"image"===a.type?encodeURIComponent(a.src):"").replace(/\{\{url\}\}/g,encodeURIComponent(t)).replace(/\{\{url_raw\}\}/g,(o=t,i={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;","/":"&#x2F;","`":"&#x60;","=":"&#x3D;"},String(o).replace(/[&<>"'`=\/]/g,function(t){return i[t]}))).replace(/\{\{descr\}\}/g,r.$caption?encodeURIComponent(r.$caption.text()):""),e.fancybox.open({src:r.translate(r,n),type:"html",opts:{touch:!1,animationEffect:!1,afterLoad:function(t,e){r.$refs.container.one("beforeClose.fb",function(){t.close(null,0)}),e.$content.find(".fancybox-share__button").click(function(){return window.open(this.href,"Share","width=550, height=450"),!1})},mobile:{autoFocus:!1}}}))})}(document,jQuery),function(t,e,n){"use strict";function o(){var e=t.location.hash.substr(1),n=e.split("-"),o=n.length>1&&/^\+?\d+$/.test(n[n.length-1])&&parseInt(n.pop(-1),10)||1;return{hash:e,index:o<1?1:o,gallery:n.join("-")}}function i(t){""!==t.gallery&&n("[data-fancybox='"+n.escapeSelector(t.gallery)+"']").eq(t.index-1).focus().trigger("click.fb-start")}function r(t){var e,n;return!!t&&(""!==(n=(e=t.current?t.current.opts:t.opts).hash||(e.$orig?e.$orig.data("fancybox")||e.$orig.data("fancybox-trigger"):""))&&n)}n.escapeSelector||(n.escapeSelector=function(t){return(t+"").replace(/([\0-\x1f\x7f]|^-?\d)|^-$|[^\x80-\uFFFF\w-]/g,function(t,e){return e?"\0"===t?"�":t.slice(0,-1)+"\\"+t.charCodeAt(t.length-1).toString(16)+" ":"\\"+t})}),n(function(){!1!==n.fancybox.defaults.hash&&(n(e).on({"onInit.fb":function(t,e){var n,i;!1!==e.group[e.currIndex].opts.hash&&(n=o(),(i=r(e))&&n.gallery&&i==n.gallery&&(e.currIndex=n.index-1))},"beforeShow.fb":function(n,o,i,a){var s;i&&!1!==i.opts.hash&&(s=r(o))&&(o.currentHash=s+(o.group.length>1?"-"+(i.index+1):""),t.location.hash!=="#"+o.currentHash&&(a&&!o.origHash&&(o.origHash=t.location.hash),o.hashTimer&&clearTimeout(o.hashTimer),o.hashTimer=setTimeout(function(){"replaceState"in t.history?(t.history[a?"pushState":"replaceState"]({},e.title,t.location.pathname+t.location.search+"#"+o.currentHash),a&&(o.hasCreatedHistory=!0)):t.location.hash=o.currentHash,o.hashTimer=null},300)))},"beforeClose.fb":function(n,o,i){i&&!1!==i.opts.hash&&(clearTimeout(o.hashTimer),o.currentHash&&o.hasCreatedHistory?t.history.back():o.currentHash&&("replaceState"in t.history?t.history.replaceState({},e.title,t.location.pathname+t.location.search+(o.origHash||"")):t.location.hash=o.origHash),o.currentHash=null)}}),n(t).on("hashchange.fb",function(){var t=o(),e=null;n.each(n(".fancybox-container").get().reverse(),function(t,o){var i=n(o).data("FancyBox");if(i&&i.currentHash)return e=i,!1}),e?e.currentHash===t.gallery+"-"+t.index||1===t.index&&e.currentHash==t.gallery||(e.currentHash=null,e.close()):""!==t.gallery&&i(t)}),setTimeout(function(){n.fancybox.getInstance()||i(o())},50))})}(window,document,jQuery),function(t,e){"use strict";var n=(new Date).getTime();e(t).on({"onInit.fb":function(t,e,o){e.$refs.stage.on("mousewheel DOMMouseScroll wheel MozMousePixelScroll",function(t){var o=e.current,i=(new Date).getTime();e.group.length<2||!1===o.opts.wheel||"auto"===o.opts.wheel&&"image"!==o.type||(t.preventDefault(),t.stopPropagation(),o.$slide.hasClass("fancybox-animated")||(t=t.originalEvent||t,i-n<250||(n=i,e[(-t.deltaY||-t.deltaX||t.wheelDelta||-t.detail)<0?"next":"previous"]())))})}})}(document,jQuery),$(document).ready(function(){$(".show_next").click(function(){$(this).next().toggle()}),$("#car_from_europe").is(":checked")?$(".form-group-europe").fadeIn():$(".form-group-europe").fadeOut(),$(".switch ").on("click",function(){$("#car_from_europe").is(":checked")?$(".form-group-europe").fadeIn():$(".form-group-europe").fadeOut()})}),$(".preview_img").change(function(){readURL(this)}),$(document).mouseup(function(t){var e=$("#search_result .results");e.is(t.target)||0!==e.has(t.target).length||e.hide()}),$("#search_form").submit(function(){var t=$(this).serialize();return $.ajax({url:"/admin/search",type:"POST",data:t,success:function(t){$("#search_result").html(t)}}),!1}),$("#search_form .form-control").on("input",function(){var t=$("#search_form").serialize();return $(this).val()&&$.ajax({url:"/admin/search",type:"POST",data:t,success:function(t){$("#search_result").html(t)}}),!1}),$('input[name="lot_start"]').mask("0000-00-00",{placeholder:"2000-12-30"}),$('input[name="lot_time"]').mask("0000-00-00 00:00:00",{placeholder:"2000-12-30 00:00:00"}),$(function(){$("#gallery-photo-add").on("change",function(){!function(t,e){if(t.files)for(var n=t.files.length,o=0;o<n;o++){var i=upload_image(t.files[o],"lots",!0);i&&($(".gallery.gallery__images").append('<div class="uploadedImage"><div class="img"><img src="/'+i+'"></div><input type="text" placeholder="Название (alt)" name="images[alt][]"><input type="text" placeholder="Заголовок (title)" name="images[title][]"><input type="text" placeholder="Описание (description)" name="images[descr][]"><input type="hidden" name="images[src][]" value="'+i+'"><a href="javascript:void(0);" class="btn btn-info btn-remove">Удалить</a></div>'),$(".uploadedImage a.btn-remove").on("click",function(){$(this).closest(".uploadedImage").remove()}))}}(this)}),$(".uploadedImage a.btn-remove").on("click",function(){$(this).closest(".uploadedImage").remove()})});
+/**
+* bootstrap.js v3.0.0 by @fat and @mdo
+* Copyright 2013 Twitter Inc.
+* http://www.apache.org/licenses/LICENSE-2.0
+*/
+if(!jQuery)throw new Error("Bootstrap requires jQuery");+function(a){"use strict";function b(){var a=document.createElement("bootstrap"),b={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};for(var c in b)if(void 0!==a.style[c])return{end:b[c]}}a.fn.emulateTransitionEnd=function(b){var c=!1,d=this;a(this).one(a.support.transition.end,function(){c=!0});var e=function(){c||a(d).trigger(a.support.transition.end)};return setTimeout(e,b),this},a(function(){a.support.transition=b()})}(window.jQuery),+function(a){"use strict";var b='[data-dismiss="alert"]',c=function(c){a(c).on("click",b,this.close)};c.prototype.close=function(b){function c(){f.trigger("closed.bs.alert").remove()}var d=a(this),e=d.attr("data-target");e||(e=d.attr("href"),e=e&&e.replace(/.*(?=#[^\s]*$)/,""));var f=a(e);b&&b.preventDefault(),f.length||(f=d.hasClass("alert")?d:d.parent()),f.trigger(b=a.Event("close.bs.alert")),b.isDefaultPrevented()||(f.removeClass("in"),a.support.transition&&f.hasClass("fade")?f.one(a.support.transition.end,c).emulateTransitionEnd(150):c())};var d=a.fn.alert;a.fn.alert=function(b){return this.each(function(){var d=a(this),e=d.data("bs.alert");e||d.data("bs.alert",e=new c(this)),"string"==typeof b&&e[b].call(d)})},a.fn.alert.Constructor=c,a.fn.alert.noConflict=function(){return a.fn.alert=d,this},a(document).on("click.bs.alert.data-api",b,c.prototype.close)}(window.jQuery),+function(a){"use strict";var b=function(c,d){this.$element=a(c),this.options=a.extend({},b.DEFAULTS,d)};b.DEFAULTS={loadingText:"loading..."},b.prototype.setState=function(a){var b="disabled",c=this.$element,d=c.is("input")?"val":"html",e=c.data();a+="Text",e.resetText||c.data("resetText",c[d]()),c[d](e[a]||this.options[a]),setTimeout(function(){"loadingText"==a?c.addClass(b).attr(b,b):c.removeClass(b).removeAttr(b)},0)},b.prototype.toggle=function(){var a=this.$element.closest('[data-toggle="buttons"]');if(a.length){var b=this.$element.find("input").prop("checked",!this.$element.hasClass("active")).trigger("change");"radio"===b.prop("type")&&a.find(".active").removeClass("active")}this.$element.toggleClass("active")};var c=a.fn.button;a.fn.button=function(c){return this.each(function(){var d=a(this),e=d.data("bs.button"),f="object"==typeof c&&c;e||d.data("bs.button",e=new b(this,f)),"toggle"==c?e.toggle():c&&e.setState(c)})},a.fn.button.Constructor=b,a.fn.button.noConflict=function(){return a.fn.button=c,this},a(document).on("click.bs.button.data-api","[data-toggle^=button]",function(b){var c=a(b.target);c.hasClass("btn")||(c=c.closest(".btn")),c.button("toggle"),b.preventDefault()})}(window.jQuery),+function(a){"use strict";var b=function(b,c){this.$element=a(b),this.$indicators=this.$element.find(".carousel-indicators"),this.options=c,this.paused=this.sliding=this.interval=this.$active=this.$items=null,"hover"==this.options.pause&&this.$element.on("mouseenter",a.proxy(this.pause,this)).on("mouseleave",a.proxy(this.cycle,this))};b.DEFAULTS={interval:5e3,pause:"hover",wrap:!0},b.prototype.cycle=function(b){return b||(this.paused=!1),this.interval&&clearInterval(this.interval),this.options.interval&&!this.paused&&(this.interval=setInterval(a.proxy(this.next,this),this.options.interval)),this},b.prototype.getActiveIndex=function(){return this.$active=this.$element.find(".item.active"),this.$items=this.$active.parent().children(),this.$items.index(this.$active)},b.prototype.to=function(b){var c=this,d=this.getActiveIndex();return b>this.$items.length-1||0>b?void 0:this.sliding?this.$element.one("slid",function(){c.to(b)}):d==b?this.pause().cycle():this.slide(b>d?"next":"prev",a(this.$items[b]))},b.prototype.pause=function(b){return b||(this.paused=!0),this.$element.find(".next, .prev").length&&a.support.transition.end&&(this.$element.trigger(a.support.transition.end),this.cycle(!0)),this.interval=clearInterval(this.interval),this},b.prototype.next=function(){return this.sliding?void 0:this.slide("next")},b.prototype.prev=function(){return this.sliding?void 0:this.slide("prev")},b.prototype.slide=function(b,c){var d=this.$element.find(".item.active"),e=c||d[b](),f=this.interval,g="next"==b?"left":"right",h="next"==b?"first":"last",i=this;if(!e.length){if(!this.options.wrap)return;e=this.$element.find(".item")[h]()}this.sliding=!0,f&&this.pause();var j=a.Event("slide.bs.carousel",{relatedTarget:e[0],direction:g});if(!e.hasClass("active")){if(this.$indicators.length&&(this.$indicators.find(".active").removeClass("active"),this.$element.one("slid",function(){var b=a(i.$indicators.children()[i.getActiveIndex()]);b&&b.addClass("active")})),a.support.transition&&this.$element.hasClass("slide")){if(this.$element.trigger(j),j.isDefaultPrevented())return;e.addClass(b),e[0].offsetWidth,d.addClass(g),e.addClass(g),d.one(a.support.transition.end,function(){e.removeClass([b,g].join(" ")).addClass("active"),d.removeClass(["active",g].join(" ")),i.sliding=!1,setTimeout(function(){i.$element.trigger("slid")},0)}).emulateTransitionEnd(600)}else{if(this.$element.trigger(j),j.isDefaultPrevented())return;d.removeClass("active"),e.addClass("active"),this.sliding=!1,this.$element.trigger("slid")}return f&&this.cycle(),this}};var c=a.fn.carousel;a.fn.carousel=function(c){return this.each(function(){var d=a(this),e=d.data("bs.carousel"),f=a.extend({},b.DEFAULTS,d.data(),"object"==typeof c&&c),g="string"==typeof c?c:f.slide;e||d.data("bs.carousel",e=new b(this,f)),"number"==typeof c?e.to(c):g?e[g]():f.interval&&e.pause().cycle()})},a.fn.carousel.Constructor=b,a.fn.carousel.noConflict=function(){return a.fn.carousel=c,this},a(document).on("click.bs.carousel.data-api","[data-slide], [data-slide-to]",function(b){var c,d=a(this),e=a(d.attr("data-target")||(c=d.attr("href"))&&c.replace(/.*(?=#[^\s]+$)/,"")),f=a.extend({},e.data(),d.data()),g=d.attr("data-slide-to");g&&(f.interval=!1),e.carousel(f),(g=d.attr("data-slide-to"))&&e.data("bs.carousel").to(g),b.preventDefault()}),a(window).on("load",function(){a('[data-ride="carousel"]').each(function(){var b=a(this);b.carousel(b.data())})})}(window.jQuery),+function(a){"use strict";var b=function(c,d){this.$element=a(c),this.options=a.extend({},b.DEFAULTS,d),this.transitioning=null,this.options.parent&&(this.$parent=a(this.options.parent)),this.options.toggle&&this.toggle()};b.DEFAULTS={toggle:!0},b.prototype.dimension=function(){var a=this.$element.hasClass("width");return a?"width":"height"},b.prototype.show=function(){if(!this.transitioning&&!this.$element.hasClass("in")){var b=a.Event("show.bs.collapse");if(this.$element.trigger(b),!b.isDefaultPrevented()){var c=this.$parent&&this.$parent.find("> .panel > .in");if(c&&c.length){var d=c.data("bs.collapse");if(d&&d.transitioning)return;c.collapse("hide"),d||c.data("bs.collapse",null)}var e=this.dimension();this.$element.removeClass("collapse").addClass("collapsing")[e](0),this.transitioning=1;var f=function(){this.$element.removeClass("collapsing").addClass("in")[e]("auto"),this.transitioning=0,this.$element.trigger("shown.bs.collapse")};if(!a.support.transition)return f.call(this);var g=a.camelCase(["scroll",e].join("-"));this.$element.one(a.support.transition.end,a.proxy(f,this)).emulateTransitionEnd(350)[e](this.$element[0][g])}}},b.prototype.hide=function(){if(!this.transitioning&&this.$element.hasClass("in")){var b=a.Event("hide.bs.collapse");if(this.$element.trigger(b),!b.isDefaultPrevented()){var c=this.dimension();this.$element[c](this.$element[c]())[0].offsetHeight,this.$element.addClass("collapsing").removeClass("collapse").removeClass("in"),this.transitioning=1;var d=function(){this.transitioning=0,this.$element.trigger("hidden.bs.collapse").removeClass("collapsing").addClass("collapse")};return a.support.transition?(this.$element[c](0).one(a.support.transition.end,a.proxy(d,this)).emulateTransitionEnd(350),void 0):d.call(this)}}},b.prototype.toggle=function(){this[this.$element.hasClass("in")?"hide":"show"]()};var c=a.fn.collapse;a.fn.collapse=function(c){return this.each(function(){var d=a(this),e=d.data("bs.collapse"),f=a.extend({},b.DEFAULTS,d.data(),"object"==typeof c&&c);e||d.data("bs.collapse",e=new b(this,f)),"string"==typeof c&&e[c]()})},a.fn.collapse.Constructor=b,a.fn.collapse.noConflict=function(){return a.fn.collapse=c,this},a(document).on("click.bs.collapse.data-api","[data-toggle=collapse]",function(b){var c,d=a(this),e=d.attr("data-target")||b.preventDefault()||(c=d.attr("href"))&&c.replace(/.*(?=#[^\s]+$)/,""),f=a(e),g=f.data("bs.collapse"),h=g?"toggle":d.data(),i=d.attr("data-parent"),j=i&&a(i);g&&g.transitioning||(j&&j.find('[data-toggle=collapse][data-parent="'+i+'"]').not(d).addClass("collapsed"),d[f.hasClass("in")?"addClass":"removeClass"]("collapsed")),f.collapse(h)})}(window.jQuery),+function(a){"use strict";function b(){a(d).remove(),a(e).each(function(b){var d=c(a(this));d.hasClass("open")&&(d.trigger(b=a.Event("hide.bs.dropdown")),b.isDefaultPrevented()||d.removeClass("open").trigger("hidden.bs.dropdown"))})}function c(b){var c=b.attr("data-target");c||(c=b.attr("href"),c=c&&/#/.test(c)&&c.replace(/.*(?=#[^\s]*$)/,""));var d=c&&a(c);return d&&d.length?d:b.parent()}var d=".dropdown-backdrop",e="[data-toggle=dropdown]",f=function(b){a(b).on("click.bs.dropdown",this.toggle)};f.prototype.toggle=function(d){var e=a(this);if(!e.is(".disabled, :disabled")){var f=c(e),g=f.hasClass("open");if(b(),!g){if("ontouchstart"in document.documentElement&&!f.closest(".navbar-nav").length&&a('<div class="dropdown-backdrop"/>').insertAfter(a(this)).on("click",b),f.trigger(d=a.Event("show.bs.dropdown")),d.isDefaultPrevented())return;f.toggleClass("open").trigger("shown.bs.dropdown"),e.focus()}return!1}},f.prototype.keydown=function(b){if(/(38|40|27)/.test(b.keyCode)){var d=a(this);if(b.preventDefault(),b.stopPropagation(),!d.is(".disabled, :disabled")){var f=c(d),g=f.hasClass("open");if(!g||g&&27==b.keyCode)return 27==b.which&&f.find(e).focus(),d.click();var h=a("[role=menu] li:not(.divider):visible a",f);if(h.length){var i=h.index(h.filter(":focus"));38==b.keyCode&&i>0&&i--,40==b.keyCode&&i<h.length-1&&i++,~i||(i=0),h.eq(i).focus()}}}};var g=a.fn.dropdown;a.fn.dropdown=function(b){return this.each(function(){var c=a(this),d=c.data("dropdown");d||c.data("dropdown",d=new f(this)),"string"==typeof b&&d[b].call(c)})},a.fn.dropdown.Constructor=f,a.fn.dropdown.noConflict=function(){return a.fn.dropdown=g,this},a(document).on("click.bs.dropdown.data-api",b).on("click.bs.dropdown.data-api",".dropdown form",function(a){a.stopPropagation()}).on("click.bs.dropdown.data-api",e,f.prototype.toggle).on("keydown.bs.dropdown.data-api",e+", [role=menu]",f.prototype.keydown)}(window.jQuery),+function(a){"use strict";var b=function(b,c){this.options=c,this.$element=a(b),this.$backdrop=this.isShown=null,this.options.remote&&this.$element.load(this.options.remote)};b.DEFAULTS={backdrop:!0,keyboard:!0,show:!0},b.prototype.toggle=function(a){return this[this.isShown?"hide":"show"](a)},b.prototype.show=function(b){var c=this,d=a.Event("show.bs.modal",{relatedTarget:b});this.$element.trigger(d),this.isShown||d.isDefaultPrevented()||(this.isShown=!0,this.escape(),this.$element.on("click.dismiss.modal",'[data-dismiss="modal"]',a.proxy(this.hide,this)),this.backdrop(function(){var d=a.support.transition&&c.$element.hasClass("fade");c.$element.parent().length||c.$element.appendTo(document.body),c.$element.show(),d&&c.$element[0].offsetWidth,c.$element.addClass("in").attr("aria-hidden",!1),c.enforceFocus();var e=a.Event("shown.bs.modal",{relatedTarget:b});d?c.$element.find(".modal-dialog").one(a.support.transition.end,function(){c.$element.focus().trigger(e)}).emulateTransitionEnd(300):c.$element.focus().trigger(e)}))},b.prototype.hide=function(b){b&&b.preventDefault(),b=a.Event("hide.bs.modal"),this.$element.trigger(b),this.isShown&&!b.isDefaultPrevented()&&(this.isShown=!1,this.escape(),a(document).off("focusin.bs.modal"),this.$element.removeClass("in").attr("aria-hidden",!0).off("click.dismiss.modal"),a.support.transition&&this.$element.hasClass("fade")?this.$element.one(a.support.transition.end,a.proxy(this.hideModal,this)).emulateTransitionEnd(300):this.hideModal())},b.prototype.enforceFocus=function(){a(document).off("focusin.bs.modal").on("focusin.bs.modal",a.proxy(function(a){this.$element[0]===a.target||this.$element.has(a.target).length||this.$element.focus()},this))},b.prototype.escape=function(){this.isShown&&this.options.keyboard?this.$element.on("keyup.dismiss.bs.modal",a.proxy(function(a){27==a.which&&this.hide()},this)):this.isShown||this.$element.off("keyup.dismiss.bs.modal")},b.prototype.hideModal=function(){var a=this;this.$element.hide(),this.backdrop(function(){a.removeBackdrop(),a.$element.trigger("hidden.bs.modal")})},b.prototype.removeBackdrop=function(){this.$backdrop&&this.$backdrop.remove(),this.$backdrop=null},b.prototype.backdrop=function(b){var c=this.$element.hasClass("fade")?"fade":"";if(this.isShown&&this.options.backdrop){var d=a.support.transition&&c;if(this.$backdrop=a('<div class="modal-backdrop '+c+'" />').appendTo(document.body),this.$element.on("click.dismiss.modal",a.proxy(function(a){a.target===a.currentTarget&&("static"==this.options.backdrop?this.$element[0].focus.call(this.$element[0]):this.hide.call(this))},this)),d&&this.$backdrop[0].offsetWidth,this.$backdrop.addClass("in"),!b)return;d?this.$backdrop.one(a.support.transition.end,b).emulateTransitionEnd(150):b()}else!this.isShown&&this.$backdrop?(this.$backdrop.removeClass("in"),a.support.transition&&this.$element.hasClass("fade")?this.$backdrop.one(a.support.transition.end,b).emulateTransitionEnd(150):b()):b&&b()};var c=a.fn.modal;a.fn.modal=function(c,d){return this.each(function(){var e=a(this),f=e.data("bs.modal"),g=a.extend({},b.DEFAULTS,e.data(),"object"==typeof c&&c);f||e.data("bs.modal",f=new b(this,g)),"string"==typeof c?f[c](d):g.show&&f.show(d)})},a.fn.modal.Constructor=b,a.fn.modal.noConflict=function(){return a.fn.modal=c,this},a(document).on("click.bs.modal.data-api",'[data-toggle="modal"]',function(b){var c=a(this),d=c.attr("href"),e=a(c.attr("data-target")||d&&d.replace(/.*(?=#[^\s]+$)/,"")),f=e.data("modal")?"toggle":a.extend({remote:!/#/.test(d)&&d},e.data(),c.data());b.preventDefault(),e.modal(f,this).one("hide",function(){c.is(":visible")&&c.focus()})}),a(document).on("show.bs.modal",".modal",function(){a(document.body).addClass("modal-open")}).on("hidden.bs.modal",".modal",function(){a(document.body).removeClass("modal-open")})}(window.jQuery),+function(a){"use strict";var b=function(a,b){this.type=this.options=this.enabled=this.timeout=this.hoverState=this.$element=null,this.init("tooltip",a,b)};b.DEFAULTS={animation:!0,placement:"top",selector:!1,template:'<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',trigger:"hover focus",title:"",delay:0,html:!1,container:!1},b.prototype.init=function(b,c,d){this.enabled=!0,this.type=b,this.$element=a(c),this.options=this.getOptions(d);for(var e=this.options.trigger.split(" "),f=e.length;f--;){var g=e[f];if("click"==g)this.$element.on("click."+this.type,this.options.selector,a.proxy(this.toggle,this));else if("manual"!=g){var h="hover"==g?"mouseenter":"focus",i="hover"==g?"mouseleave":"blur";this.$element.on(h+"."+this.type,this.options.selector,a.proxy(this.enter,this)),this.$element.on(i+"."+this.type,this.options.selector,a.proxy(this.leave,this))}}this.options.selector?this._options=a.extend({},this.options,{trigger:"manual",selector:""}):this.fixTitle()},b.prototype.getDefaults=function(){return b.DEFAULTS},b.prototype.getOptions=function(b){return b=a.extend({},this.getDefaults(),this.$element.data(),b),b.delay&&"number"==typeof b.delay&&(b.delay={show:b.delay,hide:b.delay}),b},b.prototype.getDelegateOptions=function(){var b={},c=this.getDefaults();return this._options&&a.each(this._options,function(a,d){c[a]!=d&&(b[a]=d)}),b},b.prototype.enter=function(b){var c=b instanceof this.constructor?b:a(b.currentTarget)[this.type](this.getDelegateOptions()).data("bs."+this.type);return clearTimeout(c.timeout),c.hoverState="in",c.options.delay&&c.options.delay.show?(c.timeout=setTimeout(function(){"in"==c.hoverState&&c.show()},c.options.delay.show),void 0):c.show()},b.prototype.leave=function(b){var c=b instanceof this.constructor?b:a(b.currentTarget)[this.type](this.getDelegateOptions()).data("bs."+this.type);return clearTimeout(c.timeout),c.hoverState="out",c.options.delay&&c.options.delay.hide?(c.timeout=setTimeout(function(){"out"==c.hoverState&&c.hide()},c.options.delay.hide),void 0):c.hide()},b.prototype.show=function(){var b=a.Event("show.bs."+this.type);if(this.hasContent()&&this.enabled){if(this.$element.trigger(b),b.isDefaultPrevented())return;var c=this.tip();this.setContent(),this.options.animation&&c.addClass("fade");var d="function"==typeof this.options.placement?this.options.placement.call(this,c[0],this.$element[0]):this.options.placement,e=/\s?auto?\s?/i,f=e.test(d);f&&(d=d.replace(e,"")||"top"),c.detach().css({top:0,left:0,display:"block"}).addClass(d),this.options.container?c.appendTo(this.options.container):c.insertAfter(this.$element);var g=this.getPosition(),h=c[0].offsetWidth,i=c[0].offsetHeight;if(f){var j=this.$element.parent(),k=d,l=document.documentElement.scrollTop||document.body.scrollTop,m="body"==this.options.container?window.innerWidth:j.outerWidth(),n="body"==this.options.container?window.innerHeight:j.outerHeight(),o="body"==this.options.container?0:j.offset().left;d="bottom"==d&&g.top+g.height+i-l>n?"top":"top"==d&&g.top-l-i<0?"bottom":"right"==d&&g.right+h>m?"left":"left"==d&&g.left-h<o?"right":d,c.removeClass(k).addClass(d)}var p=this.getCalculatedOffset(d,g,h,i);this.applyPlacement(p,d),this.$element.trigger("shown.bs."+this.type)}},b.prototype.applyPlacement=function(a,b){var c,d=this.tip(),e=d[0].offsetWidth,f=d[0].offsetHeight,g=parseInt(d.css("margin-top"),10),h=parseInt(d.css("margin-left"),10);isNaN(g)&&(g=0),isNaN(h)&&(h=0),a.top=a.top+g,a.left=a.left+h,d.offset(a).addClass("in");var i=d[0].offsetWidth,j=d[0].offsetHeight;if("top"==b&&j!=f&&(c=!0,a.top=a.top+f-j),/bottom|top/.test(b)){var k=0;a.left<0&&(k=-2*a.left,a.left=0,d.offset(a),i=d[0].offsetWidth,j=d[0].offsetHeight),this.replaceArrow(k-e+i,i,"left")}else this.replaceArrow(j-f,j,"top");c&&d.offset(a)},b.prototype.replaceArrow=function(a,b,c){this.arrow().css(c,a?50*(1-a/b)+"%":"")},b.prototype.setContent=function(){var a=this.tip(),b=this.getTitle();a.find(".tooltip-inner")[this.options.html?"html":"text"](b),a.removeClass("fade in top bottom left right")},b.prototype.hide=function(){function b(){"in"!=c.hoverState&&d.detach()}var c=this,d=this.tip(),e=a.Event("hide.bs."+this.type);return this.$element.trigger(e),e.isDefaultPrevented()?void 0:(d.removeClass("in"),a.support.transition&&this.$tip.hasClass("fade")?d.one(a.support.transition.end,b).emulateTransitionEnd(150):b(),this.$element.trigger("hidden.bs."+this.type),this)},b.prototype.fixTitle=function(){var a=this.$element;(a.attr("title")||"string"!=typeof a.attr("data-original-title"))&&a.attr("data-original-title",a.attr("title")||"").attr("title","")},b.prototype.hasContent=function(){return this.getTitle()},b.prototype.getPosition=function(){var b=this.$element[0];return a.extend({},"function"==typeof b.getBoundingClientRect?b.getBoundingClientRect():{width:b.offsetWidth,height:b.offsetHeight},this.$element.offset())},b.prototype.getCalculatedOffset=function(a,b,c,d){return"bottom"==a?{top:b.top+b.height,left:b.left+b.width/2-c/2}:"top"==a?{top:b.top-d,left:b.left+b.width/2-c/2}:"left"==a?{top:b.top+b.height/2-d/2,left:b.left-c}:{top:b.top+b.height/2-d/2,left:b.left+b.width}},b.prototype.getTitle=function(){var a,b=this.$element,c=this.options;return a=b.attr("data-original-title")||("function"==typeof c.title?c.title.call(b[0]):c.title)},b.prototype.tip=function(){return this.$tip=this.$tip||a(this.options.template)},b.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".tooltip-arrow")},b.prototype.validate=function(){this.$element[0].parentNode||(this.hide(),this.$element=null,this.options=null)},b.prototype.enable=function(){this.enabled=!0},b.prototype.disable=function(){this.enabled=!1},b.prototype.toggleEnabled=function(){this.enabled=!this.enabled},b.prototype.toggle=function(b){var c=b?a(b.currentTarget)[this.type](this.getDelegateOptions()).data("bs."+this.type):this;c.tip().hasClass("in")?c.leave(c):c.enter(c)},b.prototype.destroy=function(){this.hide().$element.off("."+this.type).removeData("bs."+this.type)};var c=a.fn.tooltip;a.fn.tooltip=function(c){return this.each(function(){var d=a(this),e=d.data("bs.tooltip"),f="object"==typeof c&&c;e||d.data("bs.tooltip",e=new b(this,f)),"string"==typeof c&&e[c]()})},a.fn.tooltip.Constructor=b,a.fn.tooltip.noConflict=function(){return a.fn.tooltip=c,this}}(window.jQuery),+function(a){"use strict";var b=function(a,b){this.init("popover",a,b)};if(!a.fn.tooltip)throw new Error("Popover requires tooltip.js");b.DEFAULTS=a.extend({},a.fn.tooltip.Constructor.DEFAULTS,{placement:"right",trigger:"click",content:"",template:'<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'}),b.prototype=a.extend({},a.fn.tooltip.Constructor.prototype),b.prototype.constructor=b,b.prototype.getDefaults=function(){return b.DEFAULTS},b.prototype.setContent=function(){var a=this.tip(),b=this.getTitle(),c=this.getContent();a.find(".popover-title")[this.options.html?"html":"text"](b),a.find(".popover-content")[this.options.html?"html":"text"](c),a.removeClass("fade top bottom left right in"),a.find(".popover-title").html()||a.find(".popover-title").hide()},b.prototype.hasContent=function(){return this.getTitle()||this.getContent()},b.prototype.getContent=function(){var a=this.$element,b=this.options;return a.attr("data-content")||("function"==typeof b.content?b.content.call(a[0]):b.content)},b.prototype.arrow=function(){return this.$arrow=this.$arrow||this.tip().find(".arrow")},b.prototype.tip=function(){return this.$tip||(this.$tip=a(this.options.template)),this.$tip};var c=a.fn.popover;a.fn.popover=function(c){return this.each(function(){var d=a(this),e=d.data("bs.popover"),f="object"==typeof c&&c;e||d.data("bs.popover",e=new b(this,f)),"string"==typeof c&&e[c]()})},a.fn.popover.Constructor=b,a.fn.popover.noConflict=function(){return a.fn.popover=c,this}}(window.jQuery),+function(a){"use strict";function b(c,d){var e,f=a.proxy(this.process,this);this.$element=a(c).is("body")?a(window):a(c),this.$body=a("body"),this.$scrollElement=this.$element.on("scroll.bs.scroll-spy.data-api",f),this.options=a.extend({},b.DEFAULTS,d),this.selector=(this.options.target||(e=a(c).attr("href"))&&e.replace(/.*(?=#[^\s]+$)/,"")||"")+" .nav li > a",this.offsets=a([]),this.targets=a([]),this.activeTarget=null,this.refresh(),this.process()}b.DEFAULTS={offset:10},b.prototype.refresh=function(){var b=this.$element[0]==window?"offset":"position";this.offsets=a([]),this.targets=a([]);var c=this;this.$body.find(this.selector).map(function(){var d=a(this),e=d.data("target")||d.attr("href"),f=/^#\w/.test(e)&&a(e);return f&&f.length&&[[f[b]().top+(!a.isWindow(c.$scrollElement.get(0))&&c.$scrollElement.scrollTop()),e]]||null}).sort(function(a,b){return a[0]-b[0]}).each(function(){c.offsets.push(this[0]),c.targets.push(this[1])})},b.prototype.process=function(){var a,b=this.$scrollElement.scrollTop()+this.options.offset,c=this.$scrollElement[0].scrollHeight||this.$body[0].scrollHeight,d=c-this.$scrollElement.height(),e=this.offsets,f=this.targets,g=this.activeTarget;if(b>=d)return g!=(a=f.last()[0])&&this.activate(a);for(a=e.length;a--;)g!=f[a]&&b>=e[a]&&(!e[a+1]||b<=e[a+1])&&this.activate(f[a])},b.prototype.activate=function(b){this.activeTarget=b,a(this.selector).parents(".active").removeClass("active");var c=this.selector+'[data-target="'+b+'"],'+this.selector+'[href="'+b+'"]',d=a(c).parents("li").addClass("active");d.parent(".dropdown-menu").length&&(d=d.closest("li.dropdown").addClass("active")),d.trigger("activate")};var c=a.fn.scrollspy;a.fn.scrollspy=function(c){return this.each(function(){var d=a(this),e=d.data("bs.scrollspy"),f="object"==typeof c&&c;e||d.data("bs.scrollspy",e=new b(this,f)),"string"==typeof c&&e[c]()})},a.fn.scrollspy.Constructor=b,a.fn.scrollspy.noConflict=function(){return a.fn.scrollspy=c,this},a(window).on("load",function(){a('[data-spy="scroll"]').each(function(){var b=a(this);b.scrollspy(b.data())})})}(window.jQuery),+function(a){"use strict";var b=function(b){this.element=a(b)};b.prototype.show=function(){var b=this.element,c=b.closest("ul:not(.dropdown-menu)"),d=b.attr("data-target");if(d||(d=b.attr("href"),d=d&&d.replace(/.*(?=#[^\s]*$)/,"")),!b.parent("li").hasClass("active")){var e=c.find(".active:last a")[0],f=a.Event("show.bs.tab",{relatedTarget:e});if(b.trigger(f),!f.isDefaultPrevented()){var g=a(d);this.activate(b.parent("li"),c),this.activate(g,g.parent(),function(){b.trigger({type:"shown.bs.tab",relatedTarget:e})})}}},b.prototype.activate=function(b,c,d){function e(){f.removeClass("active").find("> .dropdown-menu > .active").removeClass("active"),b.addClass("active"),g?(b[0].offsetWidth,b.addClass("in")):b.removeClass("fade"),b.parent(".dropdown-menu")&&b.closest("li.dropdown").addClass("active"),d&&d()}var f=c.find("> .active"),g=d&&a.support.transition&&f.hasClass("fade");g?f.one(a.support.transition.end,e).emulateTransitionEnd(150):e(),f.removeClass("in")};var c=a.fn.tab;a.fn.tab=function(c){return this.each(function(){var d=a(this),e=d.data("bs.tab");e||d.data("bs.tab",e=new b(this)),"string"==typeof c&&e[c]()})},a.fn.tab.Constructor=b,a.fn.tab.noConflict=function(){return a.fn.tab=c,this},a(document).on("click.bs.tab.data-api",'[data-toggle="tab"], [data-toggle="pill"]',function(b){b.preventDefault(),a(this).tab("show")})}(window.jQuery),+function(a){"use strict";var b=function(c,d){this.options=a.extend({},b.DEFAULTS,d),this.$window=a(window).on("scroll.bs.affix.data-api",a.proxy(this.checkPosition,this)).on("click.bs.affix.data-api",a.proxy(this.checkPositionWithEventLoop,this)),this.$element=a(c),this.affixed=this.unpin=null,this.checkPosition()};b.RESET="affix affix-top affix-bottom",b.DEFAULTS={offset:0},b.prototype.checkPositionWithEventLoop=function(){setTimeout(a.proxy(this.checkPosition,this),1)},b.prototype.checkPosition=function(){if(this.$element.is(":visible")){var c=a(document).height(),d=this.$window.scrollTop(),e=this.$element.offset(),f=this.options.offset,g=f.top,h=f.bottom;"object"!=typeof f&&(h=g=f),"function"==typeof g&&(g=f.top()),"function"==typeof h&&(h=f.bottom());var i=null!=this.unpin&&d+this.unpin<=e.top?!1:null!=h&&e.top+this.$element.height()>=c-h?"bottom":null!=g&&g>=d?"top":!1;this.affixed!==i&&(this.unpin&&this.$element.css("top",""),this.affixed=i,this.unpin="bottom"==i?e.top-d:null,this.$element.removeClass(b.RESET).addClass("affix"+(i?"-"+i:"")),"bottom"==i&&this.$element.offset({top:document.body.offsetHeight-h-this.$element.height()}))}};var c=a.fn.affix;a.fn.affix=function(c){return this.each(function(){var d=a(this),e=d.data("bs.affix"),f="object"==typeof c&&c;e||d.data("bs.affix",e=new b(this,f)),"string"==typeof c&&e[c]()})},a.fn.affix.Constructor=b,a.fn.affix.noConflict=function(){return a.fn.affix=c,this},a(window).on("load",function(){a('[data-spy="affix"]').each(function(){var b=a(this),c=b.data();c.offset=c.offset||{},c.offsetBottom&&(c.offset.bottom=c.offsetBottom),c.offsetTop&&(c.offset.top=c.offsetTop),b.affix(c)})})}(window.jQuery);
+/* jquery.nicescroll 3.5.0 InuYaksa*2013 MIT http://areaaperta.com/nicescroll */(function(e){var z=!1,E=!1,L=5E3,M=2E3,y=0,N=function(){var e=document.getElementsByTagName("script"),e=e[e.length-1].src.split("?")[0];return 0<e.split("/").length?e.split("/").slice(0,-1).join("/")+"/":""}(),H=["ms","moz","webkit","o"],v=window.requestAnimationFrame||!1,w=window.cancelAnimationFrame||!1;if(!v)for(var O in H){var F=H[O];v||(v=window[F+"RequestAnimationFrame"]);w||(w=window[F+"CancelAnimationFrame"]||window[F+"CancelRequestAnimationFrame"])}var A=window.MutationObserver||window.WebKitMutationObserver||
+    !1,I={zindex:"auto",cursoropacitymin:0,cursoropacitymax:1,cursorcolor:"#424242",cursorwidth:"5px",cursorborder:"1px solid #fff",cursorborderradius:"5px",scrollspeed:60,mousescrollstep:24,touchbehavior:!1,hwacceleration:!0,usetransition:!0,boxzoom:!1,dblclickzoom:!0,gesturezoom:!0,grabcursorenabled:!0,autohidemode:!0,background:"",iframeautoresize:!0,cursorminheight:32,preservenativescrolling:!0,railoffset:!1,bouncescroll:!0,spacebarenabled:!0,railpadding:{top:0,right:0,left:0,bottom:0},disableoutline:!0,
+    horizrailenabled:!0,railalign:"right",railvalign:"bottom",enabletranslate3d:!0,enablemousewheel:!0,enablekeyboard:!0,smoothscroll:!0,sensitiverail:!0,enablemouselockapi:!0,cursorfixedheight:!1,directionlockdeadzone:6,hidecursordelay:400,nativeparentscrolling:!0,enablescrollonselection:!0,overflowx:!0,overflowy:!0,cursordragspeed:0.3,rtlmode:!1,cursordragontouch:!1,oneaxismousemode:"auto"},G=!1,P=function(){if(G)return G;var e=document.createElement("DIV"),c={haspointerlock:"pointerLockElement"in document||
+    "mozPointerLockElement"in document||"webkitPointerLockElement"in document};c.isopera="opera"in window;c.isopera12=c.isopera&&"getUserMedia"in navigator;c.isoperamini="[object OperaMini]"===Object.prototype.toString.call(window.operamini);c.isie="all"in document&&"attachEvent"in e&&!c.isopera;c.isieold=c.isie&&!("msInterpolationMode"in e.style);c.isie7=c.isie&&!c.isieold&&(!("documentMode"in document)||7==document.documentMode);c.isie8=c.isie&&"documentMode"in document&&8==document.documentMode;c.isie9=
+    c.isie&&"performance"in window&&9<=document.documentMode;c.isie10=c.isie&&"performance"in window&&10<=document.documentMode;c.isie9mobile=/iemobile.9/i.test(navigator.userAgent);c.isie9mobile&&(c.isie9=!1);c.isie7mobile=!c.isie9mobile&&c.isie7&&/iemobile/i.test(navigator.userAgent);c.ismozilla="MozAppearance"in e.style;c.iswebkit="WebkitAppearance"in e.style;c.ischrome="chrome"in window;c.ischrome22=c.ischrome&&c.haspointerlock;c.ischrome26=c.ischrome&&"transition"in e.style;c.cantouch="ontouchstart"in
+    document.documentElement||"ontouchstart"in window;c.hasmstouch=window.navigator.msPointerEnabled||!1;c.ismac=/^mac$/i.test(navigator.platform);c.isios=c.cantouch&&/iphone|ipad|ipod/i.test(navigator.platform);c.isios4=c.isios&&!("seal"in Object);c.isandroid=/android/i.test(navigator.userAgent);c.trstyle=!1;c.hastransform=!1;c.hastranslate3d=!1;c.transitionstyle=!1;c.hastransition=!1;c.transitionend=!1;for(var k=["transform","msTransform","webkitTransform","MozTransform","OTransform"],l=0;l<k.length;l++)if("undefined"!=
+    typeof e.style[k[l]]){c.trstyle=k[l];break}c.hastransform=!1!=c.trstyle;c.hastransform&&(e.style[c.trstyle]="translate3d(1px,2px,3px)",c.hastranslate3d=/translate3d/.test(e.style[c.trstyle]));c.transitionstyle=!1;c.prefixstyle="";c.transitionend=!1;for(var k="transition webkitTransition MozTransition OTransition OTransition msTransition KhtmlTransition".split(" "),q=" -webkit- -moz- -o- -o -ms- -khtml-".split(" "),t="transitionend webkitTransitionEnd transitionend otransitionend oTransitionEnd msTransitionEnd KhtmlTransitionEnd".split(" "),
+                                                                                                                                                                                                                                                                     l=0;l<k.length;l++)if(k[l]in e.style){c.transitionstyle=k[l];c.prefixstyle=q[l];c.transitionend=t[l];break}c.ischrome26&&(c.prefixstyle=q[1]);c.hastransition=c.transitionstyle;a:{k=["-moz-grab","-webkit-grab","grab"];if(c.ischrome&&!c.ischrome22||c.isie)k=[];for(l=0;l<k.length;l++)if(q=k[l],e.style.cursor=q,e.style.cursor==q){k=q;break a}k="url(http://www.google.com/intl/en_ALL/mapfiles/openhand.cur),n-resize"}c.cursorgrabvalue=k;c.hasmousecapture="setCapture"in e;c.hasMutationObserver=!1!==A;return G=
+    c},Q=function(h,c){function k(){var d=b.win;if("zIndex"in d)return d.zIndex();for(;0<d.length&&9!=d[0].nodeType;){var c=d.css("zIndex");if(!isNaN(c)&&0!=c)return parseInt(c);d=d.parent()}return!1}function l(d,c,f){c=d.css(c);d=parseFloat(c);return isNaN(d)?(d=u[c]||0,f=3==d?f?b.win.outerHeight()-b.win.innerHeight():b.win.outerWidth()-b.win.innerWidth():1,b.isie8&&d&&(d+=1),f?d:0):d}function q(d,c,f,g){b._bind(d,c,function(b){b=b?b:window.event;var g={original:b,target:b.target||b.srcElement,type:"wheel",
+    deltaMode:"MozMousePixelScroll"==b.type?0:1,deltaX:0,deltaZ:0,preventDefault:function(){b.preventDefault?b.preventDefault():b.returnValue=!1;return!1},stopImmediatePropagation:function(){b.stopImmediatePropagation?b.stopImmediatePropagation():b.cancelBubble=!0}};"mousewheel"==c?(g.deltaY=-0.025*b.wheelDelta,b.wheelDeltaX&&(g.deltaX=-0.025*b.wheelDeltaX)):g.deltaY=b.detail;return f.call(d,g)},g)}function t(d,c,f){var g,e;0==d.deltaMode?(g=-Math.floor(d.deltaX*(b.opt.mousescrollstep/54)),e=-Math.floor(d.deltaY*
+    (b.opt.mousescrollstep/54))):1==d.deltaMode&&(g=-Math.floor(d.deltaX*b.opt.mousescrollstep),e=-Math.floor(d.deltaY*b.opt.mousescrollstep));c&&(b.opt.oneaxismousemode&&0==g&&e)&&(g=e,e=0);g&&(b.scrollmom&&b.scrollmom.stop(),b.lastdeltax+=g,b.debounced("mousewheelx",function(){var d=b.lastdeltax;b.lastdeltax=0;b.rail.drag||b.doScrollLeftBy(d)},120));if(e){if(b.opt.nativeparentscrolling&&f&&!b.ispage&&!b.zoomactive)if(0>e){if(b.getScrollTop()>=b.page.maxh)return!0}else if(0>=b.getScrollTop())return!0;
+    b.scrollmom&&b.scrollmom.stop();b.lastdeltay+=e;b.debounced("mousewheely",function(){var d=b.lastdeltay;b.lastdeltay=0;b.rail.drag||b.doScrollBy(d)},120)}d.stopImmediatePropagation();return d.preventDefault()}var b=this;this.version="3.5.0";this.name="nicescroll";this.me=c;this.opt={doc:e("body"),win:!1};e.extend(this.opt,I);this.opt.snapbackspeed=80;if(h)for(var p in b.opt)"undefined"!=typeof h[p]&&(b.opt[p]=h[p]);this.iddoc=(this.doc=b.opt.doc)&&this.doc[0]?this.doc[0].id||"":"";this.ispage=/BODY|HTML/.test(b.opt.win?
+    b.opt.win[0].nodeName:this.doc[0].nodeName);this.haswrapper=!1!==b.opt.win;this.win=b.opt.win||(this.ispage?e(window):this.doc);this.docscroll=this.ispage&&!this.haswrapper?e(window):this.win;this.body=e("body");this.iframe=this.isfixed=this.viewport=!1;this.isiframe="IFRAME"==this.doc[0].nodeName&&"IFRAME"==this.win[0].nodeName;this.istextarea="TEXTAREA"==this.win[0].nodeName;this.forcescreen=!1;this.canshowonmouseevent="scroll"!=b.opt.autohidemode;this.page=this.view=this.onzoomout=this.onzoomin=
+    this.onscrollcancel=this.onscrollend=this.onscrollstart=this.onclick=this.ongesturezoom=this.onkeypress=this.onmousewheel=this.onmousemove=this.onmouseup=this.onmousedown=!1;this.scroll={x:0,y:0};this.scrollratio={x:0,y:0};this.cursorheight=20;this.scrollvaluemax=0;this.observerremover=this.observer=this.scrollmom=this.scrollrunning=this.checkrtlmode=!1;do this.id="ascrail"+M++;while(document.getElementById(this.id));this.hasmousefocus=this.hasfocus=this.zoomactive=this.zoom=this.selectiondrag=this.cursorfreezed=
+    this.cursor=this.rail=!1;this.visibility=!0;this.hidden=this.locked=!1;this.cursoractive=!0;this.overflowx=b.opt.overflowx;this.overflowy=b.opt.overflowy;this.nativescrollingarea=!1;this.checkarea=0;this.events=[];this.saved={};this.delaylist={};this.synclist={};this.lastdeltay=this.lastdeltax=0;this.detected=P();var g=e.extend({},this.detected);this.ishwscroll=(this.canhwscroll=g.hastransform&&b.opt.hwacceleration)&&b.haswrapper;this.istouchcapable=!1;g.cantouch&&(g.ischrome&&!g.isios&&!g.isandroid)&&
+(this.istouchcapable=!0,g.cantouch=!1);g.cantouch&&(g.ismozilla&&!g.isios&&!g.isandroid)&&(this.istouchcapable=!0,g.cantouch=!1);b.opt.enablemouselockapi||(g.hasmousecapture=!1,g.haspointerlock=!1);this.delayed=function(d,c,f,g){var e=b.delaylist[d],k=(new Date).getTime();if(!g&&e&&e.tt)return!1;e&&e.tt&&clearTimeout(e.tt);if(e&&e.last+f>k&&!e.tt)b.delaylist[d]={last:k+f,tt:setTimeout(function(){b.delaylist[d].tt=0;c.call()},f)};else if(!e||!e.tt)b.delaylist[d]={last:k,tt:0},setTimeout(function(){c.call()},
+    0)};this.debounced=function(d,c,f){var g=b.delaylist[d];(new Date).getTime();b.delaylist[d]=c;g||setTimeout(function(){var c=b.delaylist[d];b.delaylist[d]=!1;c.call()},f)};this.synched=function(d,c){b.synclist[d]=c;(function(){b.onsync||(v(function(){b.onsync=!1;for(d in b.synclist){var c=b.synclist[d];c&&c.call(b);b.synclist[d]=!1}}),b.onsync=!0)})();return d};this.unsynched=function(d){b.synclist[d]&&(b.synclist[d]=!1)};this.css=function(d,c){for(var f in c)b.saved.css.push([d,f,d.css(f)]),d.css(f,
+    c[f])};this.scrollTop=function(d){return"undefined"==typeof d?b.getScrollTop():b.setScrollTop(d)};this.scrollLeft=function(d){return"undefined"==typeof d?b.getScrollLeft():b.setScrollLeft(d)};BezierClass=function(b,c,f,g,e,k,l){this.st=b;this.ed=c;this.spd=f;this.p1=g||0;this.p2=e||1;this.p3=k||0;this.p4=l||1;this.ts=(new Date).getTime();this.df=this.ed-this.st};BezierClass.prototype={B2:function(b){return 3*b*b*(1-b)},B3:function(b){return 3*b*(1-b)*(1-b)},B4:function(b){return(1-b)*(1-b)*(1-b)},
+    getNow:function(){var b=1-((new Date).getTime()-this.ts)/this.spd,c=this.B2(b)+this.B3(b)+this.B4(b);return 0>b?this.ed:this.st+Math.round(this.df*c)},update:function(b,c){this.st=this.getNow();this.ed=b;this.spd=c;this.ts=(new Date).getTime();this.df=this.ed-this.st;return this}};if(this.ishwscroll){this.doc.translate={x:0,y:0,tx:"0px",ty:"0px"};g.hastranslate3d&&g.isios&&this.doc.css("-webkit-backface-visibility","hidden");var s=function(){var d=b.doc.css(g.trstyle);return d&&"matrix"==d.substr(0,
+    6)?d.replace(/^.*\((.*)\)$/g,"$1").replace(/px/g,"").split(/, +/):!1};this.getScrollTop=function(d){if(!d){if(d=s())return 16==d.length?-d[13]:-d[5];if(b.timerscroll&&b.timerscroll.bz)return b.timerscroll.bz.getNow()}return b.doc.translate.y};this.getScrollLeft=function(d){if(!d){if(d=s())return 16==d.length?-d[12]:-d[4];if(b.timerscroll&&b.timerscroll.bh)return b.timerscroll.bh.getNow()}return b.doc.translate.x};this.notifyScrollEvent=document.createEvent?function(b){var c=document.createEvent("UIEvents");
+    c.initUIEvent("scroll",!1,!0,window,1);b.dispatchEvent(c)}:document.fireEvent?function(b){var c=document.createEventObject();b.fireEvent("onscroll");c.cancelBubble=!0}:function(b,c){};g.hastranslate3d&&b.opt.enabletranslate3d?(this.setScrollTop=function(d,c){b.doc.translate.y=d;b.doc.translate.ty=-1*d+"px";b.doc.css(g.trstyle,"translate3d("+b.doc.translate.tx+","+b.doc.translate.ty+",0px)");c||b.notifyScrollEvent(b.win[0])},this.setScrollLeft=function(d,c){b.doc.translate.x=d;b.doc.translate.tx=-1*
+    d+"px";b.doc.css(g.trstyle,"translate3d("+b.doc.translate.tx+","+b.doc.translate.ty+",0px)");c||b.notifyScrollEvent(b.win[0])}):(this.setScrollTop=function(d,c){b.doc.translate.y=d;b.doc.translate.ty=-1*d+"px";b.doc.css(g.trstyle,"translate("+b.doc.translate.tx+","+b.doc.translate.ty+")");c||b.notifyScrollEvent(b.win[0])},this.setScrollLeft=function(d,c){b.doc.translate.x=d;b.doc.translate.tx=-1*d+"px";b.doc.css(g.trstyle,"translate("+b.doc.translate.tx+","+b.doc.translate.ty+")");c||b.notifyScrollEvent(b.win[0])})}else this.getScrollTop=
+    function(){return b.docscroll.scrollTop()},this.setScrollTop=function(d){return b.docscroll.scrollTop(d)},this.getScrollLeft=function(){return b.docscroll.scrollLeft()},this.setScrollLeft=function(d){return b.docscroll.scrollLeft(d)};this.getTarget=function(b){return!b?!1:b.target?b.target:b.srcElement?b.srcElement:!1};this.hasParent=function(b,c){if(!b)return!1;for(var f=b.target||b.srcElement||b||!1;f&&f.id!=c;)f=f.parentNode||!1;return!1!==f};var u={thin:1,medium:3,thick:5};this.getOffset=function(){if(b.isfixed)return{top:parseFloat(b.win.css("top")),
+    left:parseFloat(b.win.css("left"))};if(!b.viewport)return b.win.offset();var d=b.win.offset(),c=b.viewport.offset();return{top:d.top-c.top+b.viewport.scrollTop(),left:d.left-c.left+b.viewport.scrollLeft()}};this.updateScrollBar=function(d){if(b.ishwscroll)b.rail.css({height:b.win.innerHeight()}),b.railh&&b.railh.css({width:b.win.innerWidth()});else{var c=b.getOffset(),f=c.top,g=c.left,f=f+l(b.win,"border-top-width",!0);b.win.outerWidth();b.win.innerWidth();var g=g+(b.rail.align?b.win.outerWidth()-
+    l(b.win,"border-right-width")-b.rail.width:l(b.win,"border-left-width")),e=b.opt.railoffset;e&&(e.top&&(f+=e.top),b.rail.align&&e.left&&(g+=e.left));b.locked||b.rail.css({top:f,left:g,height:d?d.h:b.win.innerHeight()});b.zoom&&b.zoom.css({top:f+1,left:1==b.rail.align?g-20:g+b.rail.width+4});b.railh&&!b.locked&&(f=c.top,g=c.left,d=b.railh.align?f+l(b.win,"border-top-width",!0)+b.win.innerHeight()-b.railh.height:f+l(b.win,"border-top-width",!0),g+=l(b.win,"border-left-width"),b.railh.css({top:d,left:g,
+    width:b.railh.width}))}};this.doRailClick=function(d,c,f){var g;b.locked||(b.cancelEvent(d),c?(c=f?b.doScrollLeft:b.doScrollTop,g=f?(d.pageX-b.railh.offset().left-b.cursorwidth/2)*b.scrollratio.x:(d.pageY-b.rail.offset().top-b.cursorheight/2)*b.scrollratio.y,c(g)):(c=f?b.doScrollLeftBy:b.doScrollBy,g=f?b.scroll.x:b.scroll.y,d=f?d.pageX-b.railh.offset().left:d.pageY-b.rail.offset().top,f=f?b.view.w:b.view.h,g>=d?c(f):c(-f)))};b.hasanimationframe=v;b.hascancelanimationframe=w;b.hasanimationframe?b.hascancelanimationframe||
+    (w=function(){b.cancelAnimationFrame=!0}):(v=function(b){return setTimeout(b,15-Math.floor(+new Date/1E3)%16)},w=clearInterval);this.init=function(){b.saved.css=[];if(g.isie7mobile||g.isoperamini)return!0;g.hasmstouch&&b.css(b.ispage?e("html"):b.win,{"-ms-touch-action":"none"});b.zindex="auto";b.zindex=!b.ispage&&"auto"==b.opt.zindex?k()||"auto":b.opt.zindex;!b.ispage&&"auto"!=b.zindex&&b.zindex>y&&(y=b.zindex);b.isie&&(0==b.zindex&&"auto"==b.opt.zindex)&&(b.zindex="auto");if(!b.ispage||!g.cantouch&&
+    !g.isieold&&!g.isie9mobile){var d=b.docscroll;b.ispage&&(d=b.haswrapper?b.win:b.doc);g.isie9mobile||b.css(d,{"overflow-y":"hidden"});b.ispage&&g.isie7&&("BODY"==b.doc[0].nodeName?b.css(e("html"),{"overflow-y":"hidden"}):"HTML"==b.doc[0].nodeName&&b.css(e("body"),{"overflow-y":"hidden"}));g.isios&&(!b.ispage&&!b.haswrapper)&&b.css(e("body"),{"-webkit-overflow-scrolling":"touch"});var c=e(document.createElement("div"));c.css({position:"relative",top:0,"float":"right",width:b.opt.cursorwidth,height:"0px",
+    "background-color":b.opt.cursorcolor,border:b.opt.cursorborder,"background-clip":"padding-box","-webkit-border-radius":b.opt.cursorborderradius,"-moz-border-radius":b.opt.cursorborderradius,"border-radius":b.opt.cursorborderradius});c.hborder=parseFloat(c.outerHeight()-c.innerHeight());b.cursor=c;var f=e(document.createElement("div"));f.attr("id",b.id);f.addClass("nicescroll-rails");var l,h,x=["left","right"],q;for(q in x)h=x[q],(l=b.opt.railpadding[h])?f.css("padding-"+h,l+"px"):b.opt.railpadding[h]=
+    0;f.append(c);f.width=Math.max(parseFloat(b.opt.cursorwidth),c.outerWidth())+b.opt.railpadding.left+b.opt.railpadding.right;f.css({width:f.width+"px",zIndex:b.zindex,background:b.opt.background,cursor:"default"});f.visibility=!0;f.scrollable=!0;f.align="left"==b.opt.railalign?0:1;b.rail=f;c=b.rail.drag=!1;b.opt.boxzoom&&(!b.ispage&&!g.isieold)&&(c=document.createElement("div"),b.bind(c,"click",b.doZoom),b.zoom=e(c),b.zoom.css({cursor:"pointer","z-index":b.zindex,backgroundImage:"url("+N+"zoomico.png)",
+    height:18,width:18,backgroundPosition:"0px 0px"}),b.opt.dblclickzoom&&b.bind(b.win,"dblclick",b.doZoom),g.cantouch&&b.opt.gesturezoom&&(b.ongesturezoom=function(d){1.5<d.scale&&b.doZoomIn(d);0.8>d.scale&&b.doZoomOut(d);return b.cancelEvent(d)},b.bind(b.win,"gestureend",b.ongesturezoom)));b.railh=!1;if(b.opt.horizrailenabled){b.css(d,{"overflow-x":"hidden"});c=e(document.createElement("div"));c.css({position:"relative",top:0,height:b.opt.cursorwidth,width:"0px","background-color":b.opt.cursorcolor,
+    border:b.opt.cursorborder,"background-clip":"padding-box","-webkit-border-radius":b.opt.cursorborderradius,"-moz-border-radius":b.opt.cursorborderradius,"border-radius":b.opt.cursorborderradius});c.wborder=parseFloat(c.outerWidth()-c.innerWidth());b.cursorh=c;var m=e(document.createElement("div"));m.attr("id",b.id+"-hr");m.addClass("nicescroll-rails");m.height=Math.max(parseFloat(b.opt.cursorwidth),c.outerHeight());m.css({height:m.height+"px",zIndex:b.zindex,background:b.opt.background});m.append(c);
+    m.visibility=!0;m.scrollable=!0;m.align="top"==b.opt.railvalign?0:1;b.railh=m;b.railh.drag=!1}b.ispage?(f.css({position:"fixed",top:"0px",height:"100%"}),f.align?f.css({right:"0px"}):f.css({left:"0px"}),b.body.append(f),b.railh&&(m.css({position:"fixed",left:"0px",width:"100%"}),m.align?m.css({bottom:"0px"}):m.css({top:"0px"}),b.body.append(m))):(b.ishwscroll?("static"==b.win.css("position")&&b.css(b.win,{position:"relative"}),d="HTML"==b.win[0].nodeName?b.body:b.win,b.zoom&&(b.zoom.css({position:"absolute",
+    top:1,right:0,"margin-right":f.width+4}),d.append(b.zoom)),f.css({position:"absolute",top:0}),f.align?f.css({right:0}):f.css({left:0}),d.append(f),m&&(m.css({position:"absolute",left:0,bottom:0}),m.align?m.css({bottom:0}):m.css({top:0}),d.append(m))):(b.isfixed="fixed"==b.win.css("position"),d=b.isfixed?"fixed":"absolute",b.isfixed||(b.viewport=b.getViewport(b.win[0])),b.viewport&&(b.body=b.viewport,!1==/fixed|relative|absolute/.test(b.viewport.css("position"))&&b.css(b.viewport,{position:"relative"})),
+    f.css({position:d}),b.zoom&&b.zoom.css({position:d}),b.updateScrollBar(),b.body.append(f),b.zoom&&b.body.append(b.zoom),b.railh&&(m.css({position:d}),b.body.append(m))),g.isios&&b.css(b.win,{"-webkit-tap-highlight-color":"rgba(0,0,0,0)","-webkit-touch-callout":"none"}),g.isie&&b.opt.disableoutline&&b.win.attr("hideFocus","true"),g.iswebkit&&b.opt.disableoutline&&b.win.css({outline:"none"}));!1===b.opt.autohidemode?(b.autohidedom=!1,b.rail.css({opacity:b.opt.cursoropacitymax}),b.railh&&b.railh.css({opacity:b.opt.cursoropacitymax})):
+    !0===b.opt.autohidemode||"leave"===b.opt.autohidemode?(b.autohidedom=e().add(b.rail),g.isie8&&(b.autohidedom=b.autohidedom.add(b.cursor)),b.railh&&(b.autohidedom=b.autohidedom.add(b.railh)),b.railh&&g.isie8&&(b.autohidedom=b.autohidedom.add(b.cursorh))):"scroll"==b.opt.autohidemode?(b.autohidedom=e().add(b.rail),b.railh&&(b.autohidedom=b.autohidedom.add(b.railh))):"cursor"==b.opt.autohidemode?(b.autohidedom=e().add(b.cursor),b.railh&&(b.autohidedom=b.autohidedom.add(b.cursorh))):"hidden"==b.opt.autohidemode&&
+        (b.autohidedom=!1,b.hide(),b.locked=!1);if(g.isie9mobile)b.scrollmom=new J(b),b.onmangotouch=function(d){d=b.getScrollTop();var c=b.getScrollLeft();if(d==b.scrollmom.lastscrolly&&c==b.scrollmom.lastscrollx)return!0;var f=d-b.mangotouch.sy,g=c-b.mangotouch.sx;if(0!=Math.round(Math.sqrt(Math.pow(g,2)+Math.pow(f,2)))){var n=0>f?-1:1,e=0>g?-1:1,k=+new Date;b.mangotouch.lazy&&clearTimeout(b.mangotouch.lazy);80<k-b.mangotouch.tm||b.mangotouch.dry!=n||b.mangotouch.drx!=e?(b.scrollmom.stop(),b.scrollmom.reset(c,
+    d),b.mangotouch.sy=d,b.mangotouch.ly=d,b.mangotouch.sx=c,b.mangotouch.lx=c,b.mangotouch.dry=n,b.mangotouch.drx=e,b.mangotouch.tm=k):(b.scrollmom.stop(),b.scrollmom.update(b.mangotouch.sx-g,b.mangotouch.sy-f),b.mangotouch.tm=k,f=Math.max(Math.abs(b.mangotouch.ly-d),Math.abs(b.mangotouch.lx-c)),b.mangotouch.ly=d,b.mangotouch.lx=c,2<f&&(b.mangotouch.lazy=setTimeout(function(){b.mangotouch.lazy=!1;b.mangotouch.dry=0;b.mangotouch.drx=0;b.mangotouch.tm=0;b.scrollmom.doMomentum(30)},100)))}},f=b.getScrollTop(),
+    m=b.getScrollLeft(),b.mangotouch={sy:f,ly:f,dry:0,sx:m,lx:m,drx:0,lazy:!1,tm:0},b.bind(b.docscroll,"scroll",b.onmangotouch);else{if(g.cantouch||b.istouchcapable||b.opt.touchbehavior||g.hasmstouch){b.scrollmom=new J(b);b.ontouchstart=function(d){if(d.pointerType&&2!=d.pointerType)return!1;if(!b.locked){if(g.hasmstouch)for(var c=d.target?d.target:!1;c;){var f=e(c).getNiceScroll();if(0<f.length&&f[0].me==b.me)break;if(0<f.length)return!1;if("DIV"==c.nodeName&&c.id==b.id)break;c=c.parentNode?c.parentNode:
+    !1}b.cancelScroll();if((c=b.getTarget(d))&&/INPUT/i.test(c.nodeName)&&/range/i.test(c.type))return b.stopPropagation(d);!("clientX"in d)&&"changedTouches"in d&&(d.clientX=d.changedTouches[0].clientX,d.clientY=d.changedTouches[0].clientY);b.forcescreen&&(f=d,d={original:d.original?d.original:d},d.clientX=f.screenX,d.clientY=f.screenY);b.rail.drag={x:d.clientX,y:d.clientY,sx:b.scroll.x,sy:b.scroll.y,st:b.getScrollTop(),sl:b.getScrollLeft(),pt:2,dl:!1};if(b.ispage||!b.opt.directionlockdeadzone)b.rail.drag.dl=
+    "f";else{var f=e(window).width(),n=e(window).height(),k=Math.max(document.body.scrollWidth,document.documentElement.scrollWidth),l=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight),n=Math.max(0,l-n),f=Math.max(0,k-f);b.rail.drag.ck=!b.rail.scrollable&&b.railh.scrollable?0<n?"v":!1:b.rail.scrollable&&!b.railh.scrollable?0<f?"h":!1:!1;b.rail.drag.ck||(b.rail.drag.dl="f")}b.opt.touchbehavior&&(b.isiframe&&g.isie)&&(f=b.win.position(),b.rail.drag.x+=f.left,b.rail.drag.y+=f.top);
+    b.hasmoving=!1;b.lastmouseup=!1;b.scrollmom.reset(d.clientX,d.clientY);if(!g.cantouch&&!this.istouchcapable&&!g.hasmstouch){if(!c||!/INPUT|SELECT|TEXTAREA/i.test(c.nodeName))return!b.ispage&&g.hasmousecapture&&c.setCapture(),b.opt.touchbehavior?b.cancelEvent(d):b.stopPropagation(d);/SUBMIT|CANCEL|BUTTON/i.test(e(c).attr("type"))&&(pc={tg:c,click:!1},b.preventclick=pc)}}};b.ontouchend=function(d){if(d.pointerType&&2!=d.pointerType)return!1;if(b.rail.drag&&2==b.rail.drag.pt&&(b.scrollmom.doMomentum(),
+    b.rail.drag=!1,b.hasmoving&&(b.hasmoving=!1,b.lastmouseup=!0,b.hideCursor(),g.hasmousecapture&&document.releaseCapture(),!g.cantouch)))return b.cancelEvent(d)};var t=b.opt.touchbehavior&&b.isiframe&&!g.hasmousecapture;b.ontouchmove=function(d,c){if(d.pointerType&&2!=d.pointerType)return!1;if(b.rail.drag&&2==b.rail.drag.pt){if(g.cantouch&&"undefined"==typeof d.original)return!0;b.hasmoving=!0;b.preventclick&&!b.preventclick.click&&(b.preventclick.click=b.preventclick.tg.onclick||!1,b.preventclick.tg.onclick=
+    b.onpreventclick);d=e.extend({original:d},d);"changedTouches"in d&&(d.clientX=d.changedTouches[0].clientX,d.clientY=d.changedTouches[0].clientY);if(b.forcescreen){var f=d;d={original:d.original?d.original:d};d.clientX=f.screenX;d.clientY=f.screenY}f=ofy=0;if(t&&!c){var n=b.win.position(),f=-n.left;ofy=-n.top}var k=d.clientY+ofy,n=k-b.rail.drag.y,l=d.clientX+f,h=l-b.rail.drag.x,r=b.rail.drag.st-n;b.ishwscroll&&b.opt.bouncescroll?0>r?r=Math.round(r/2):r>b.page.maxh&&(r=b.page.maxh+Math.round((r-b.page.maxh)/
+    2)):(0>r&&(k=r=0),r>b.page.maxh&&(r=b.page.maxh,k=0));if(b.railh&&b.railh.scrollable){var m=b.rail.drag.sl-h;b.ishwscroll&&b.opt.bouncescroll?0>m?m=Math.round(m/2):m>b.page.maxw&&(m=b.page.maxw+Math.round((m-b.page.maxw)/2)):(0>m&&(l=m=0),m>b.page.maxw&&(m=b.page.maxw,l=0))}f=!1;if(b.rail.drag.dl)f=!0,"v"==b.rail.drag.dl?m=b.rail.drag.sl:"h"==b.rail.drag.dl&&(r=b.rail.drag.st);else{var n=Math.abs(n),h=Math.abs(h),x=b.opt.directionlockdeadzone;if("v"==b.rail.drag.ck){if(n>x&&h<=0.3*n)return b.rail.drag=
+    !1,!0;h>x&&(b.rail.drag.dl="f",e("body").scrollTop(e("body").scrollTop()))}else if("h"==b.rail.drag.ck){if(h>x&&n<=0.3*h)return b.rail.drag=!1,!0;n>x&&(b.rail.drag.dl="f",e("body").scrollLeft(e("body").scrollLeft()))}}b.synched("touchmove",function(){b.rail.drag&&2==b.rail.drag.pt&&(b.prepareTransition&&b.prepareTransition(0),b.rail.scrollable&&b.setScrollTop(r),b.scrollmom.update(l,k),b.railh&&b.railh.scrollable?(b.setScrollLeft(m),b.showCursor(r,m)):b.showCursor(r),g.isie10&&document.selection.clear())});
+    g.ischrome&&b.istouchcapable&&(f=!1);if(f)return b.cancelEvent(d)}}}b.onmousedown=function(d,c){if(!(b.rail.drag&&1!=b.rail.drag.pt)){if(b.locked)return b.cancelEvent(d);b.cancelScroll();b.rail.drag={x:d.clientX,y:d.clientY,sx:b.scroll.x,sy:b.scroll.y,pt:1,hr:!!c};var f=b.getTarget(d);!b.ispage&&g.hasmousecapture&&f.setCapture();b.isiframe&&!g.hasmousecapture&&(b.saved.csspointerevents=b.doc.css("pointer-events"),b.css(b.doc,{"pointer-events":"none"}));return b.cancelEvent(d)}};b.onmouseup=function(d){if(b.rail.drag&&
+    (g.hasmousecapture&&document.releaseCapture(),b.isiframe&&!g.hasmousecapture&&b.doc.css("pointer-events",b.saved.csspointerevents),1==b.rail.drag.pt))return b.rail.drag=!1,b.cancelEvent(d)};b.onmousemove=function(d){if(b.rail.drag&&1==b.rail.drag.pt){if(g.ischrome&&0==d.which)return b.onmouseup(d);b.cursorfreezed=!0;if(b.rail.drag.hr){b.scroll.x=b.rail.drag.sx+(d.clientX-b.rail.drag.x);0>b.scroll.x&&(b.scroll.x=0);var c=b.scrollvaluemaxw;b.scroll.x>c&&(b.scroll.x=c)}else b.scroll.y=b.rail.drag.sy+
+    (d.clientY-b.rail.drag.y),0>b.scroll.y&&(b.scroll.y=0),c=b.scrollvaluemax,b.scroll.y>c&&(b.scroll.y=c);b.synched("mousemove",function(){b.rail.drag&&1==b.rail.drag.pt&&(b.showCursor(),b.rail.drag.hr?b.doScrollLeft(Math.round(b.scroll.x*b.scrollratio.x),b.opt.cursordragspeed):b.doScrollTop(Math.round(b.scroll.y*b.scrollratio.y),b.opt.cursordragspeed))});return b.cancelEvent(d)}};if(g.cantouch||b.opt.touchbehavior)b.onpreventclick=function(d){if(b.preventclick)return b.preventclick.tg.onclick=b.preventclick.click,
+    b.preventclick=!1,b.cancelEvent(d)},b.bind(b.win,"mousedown",b.ontouchstart),b.onclick=g.isios?!1:function(d){return b.lastmouseup?(b.lastmouseup=!1,b.cancelEvent(d)):!0},b.opt.grabcursorenabled&&g.cursorgrabvalue&&(b.css(b.ispage?b.doc:b.win,{cursor:g.cursorgrabvalue}),b.css(b.rail,{cursor:g.cursorgrabvalue}));else{var p=function(d){if(b.selectiondrag){if(d){var c=b.win.outerHeight();d=d.pageY-b.selectiondrag.top;0<d&&d<c&&(d=0);d>=c&&(d-=c);b.selectiondrag.df=d}0!=b.selectiondrag.df&&(b.doScrollBy(2*
+    -Math.floor(b.selectiondrag.df/6)),b.debounced("doselectionscroll",function(){p()},50))}};b.hasTextSelected="getSelection"in document?function(){return 0<document.getSelection().rangeCount}:"selection"in document?function(){return"None"!=document.selection.type}:function(){return!1};b.onselectionstart=function(d){b.ispage||(b.selectiondrag=b.win.offset())};b.onselectionend=function(d){b.selectiondrag=!1};b.onselectiondrag=function(d){b.selectiondrag&&b.hasTextSelected()&&b.debounced("selectionscroll",
+    function(){p(d)},250)}}g.hasmstouch&&(b.css(b.rail,{"-ms-touch-action":"none"}),b.css(b.cursor,{"-ms-touch-action":"none"}),b.bind(b.win,"MSPointerDown",b.ontouchstart),b.bind(document,"MSPointerUp",b.ontouchend),b.bind(document,"MSPointerMove",b.ontouchmove),b.bind(b.cursor,"MSGestureHold",function(b){b.preventDefault()}),b.bind(b.cursor,"contextmenu",function(b){b.preventDefault()}));this.istouchcapable&&(b.bind(b.win,"touchstart",b.ontouchstart),b.bind(document,"touchend",b.ontouchend),b.bind(document,
+    "touchcancel",b.ontouchend),b.bind(document,"touchmove",b.ontouchmove));b.bind(b.cursor,"mousedown",b.onmousedown);b.bind(b.cursor,"mouseup",b.onmouseup);b.railh&&(b.bind(b.cursorh,"mousedown",function(d){b.onmousedown(d,!0)}),b.bind(b.cursorh,"mouseup",function(d){if(!(b.rail.drag&&2==b.rail.drag.pt))return b.rail.drag=!1,b.hasmoving=!1,b.hideCursor(),g.hasmousecapture&&document.releaseCapture(),b.cancelEvent(d)}));if(b.opt.cursordragontouch||!g.cantouch&&!b.opt.touchbehavior)b.rail.css({cursor:"default"}),
+    b.railh&&b.railh.css({cursor:"default"}),b.jqbind(b.rail,"mouseenter",function(){b.canshowonmouseevent&&b.showCursor();b.rail.active=!0}),b.jqbind(b.rail,"mouseleave",function(){b.rail.active=!1;b.rail.drag||b.hideCursor()}),b.opt.sensitiverail&&(b.bind(b.rail,"click",function(d){b.doRailClick(d,!1,!1)}),b.bind(b.rail,"dblclick",function(d){b.doRailClick(d,!0,!1)}),b.bind(b.cursor,"click",function(d){b.cancelEvent(d)}),b.bind(b.cursor,"dblclick",function(d){b.cancelEvent(d)})),b.railh&&(b.jqbind(b.railh,
+    "mouseenter",function(){b.canshowonmouseevent&&b.showCursor();b.rail.active=!0}),b.jqbind(b.railh,"mouseleave",function(){b.rail.active=!1;b.rail.drag||b.hideCursor()}),b.opt.sensitiverail&&(b.bind(b.railh,"click",function(d){b.doRailClick(d,!1,!0)}),b.bind(b.railh,"dblclick",function(d){b.doRailClick(d,!0,!0)}),b.bind(b.cursorh,"click",function(d){b.cancelEvent(d)}),b.bind(b.cursorh,"dblclick",function(d){b.cancelEvent(d)})));!g.cantouch&&!b.opt.touchbehavior?(b.bind(g.hasmousecapture?b.win:document,
+    "mouseup",b.onmouseup),b.bind(document,"mousemove",b.onmousemove),b.onclick&&b.bind(document,"click",b.onclick),!b.ispage&&b.opt.enablescrollonselection&&(b.bind(b.win[0],"mousedown",b.onselectionstart),b.bind(document,"mouseup",b.onselectionend),b.bind(b.cursor,"mouseup",b.onselectionend),b.cursorh&&b.bind(b.cursorh,"mouseup",b.onselectionend),b.bind(document,"mousemove",b.onselectiondrag)),b.zoom&&(b.jqbind(b.zoom,"mouseenter",function(){b.canshowonmouseevent&&b.showCursor();b.rail.active=!0}),
+    b.jqbind(b.zoom,"mouseleave",function(){b.rail.active=!1;b.rail.drag||b.hideCursor()}))):(b.bind(g.hasmousecapture?b.win:document,"mouseup",b.ontouchend),b.bind(document,"mousemove",b.ontouchmove),b.onclick&&b.bind(document,"click",b.onclick),b.opt.cursordragontouch&&(b.bind(b.cursor,"mousedown",b.onmousedown),b.bind(b.cursor,"mousemove",b.onmousemove),b.cursorh&&b.bind(b.cursorh,"mousedown",function(d){b.onmousedown(d,!0)}),b.cursorh&&b.bind(b.cursorh,"mousemove",b.onmousemove)));b.opt.enablemousewheel&&
+(b.isiframe||b.bind(g.isie&&b.ispage?document:b.win,"mousewheel",b.onmousewheel),b.bind(b.rail,"mousewheel",b.onmousewheel),b.railh&&b.bind(b.railh,"mousewheel",b.onmousewheelhr));!b.ispage&&(!g.cantouch&&!/HTML|BODY/.test(b.win[0].nodeName))&&(b.win.attr("tabindex")||b.win.attr({tabindex:L++}),b.jqbind(b.win,"focus",function(d){z=b.getTarget(d).id||!0;b.hasfocus=!0;b.canshowonmouseevent&&b.noticeCursor()}),b.jqbind(b.win,"blur",function(d){z=!1;b.hasfocus=!1}),b.jqbind(b.win,"mouseenter",function(d){E=
+    b.getTarget(d).id||!0;b.hasmousefocus=!0;b.canshowonmouseevent&&b.noticeCursor()}),b.jqbind(b.win,"mouseleave",function(){E=!1;b.hasmousefocus=!1;b.rail.drag||b.hideCursor()}))}b.onkeypress=function(d){if(b.locked&&0==b.page.maxh)return!0;d=d?d:window.e;var c=b.getTarget(d);if(c&&/INPUT|TEXTAREA|SELECT|OPTION/.test(c.nodeName)&&(!c.getAttribute("type")&&!c.type||!/submit|button|cancel/i.tp))return!0;if(b.hasfocus||b.hasmousefocus&&!z||b.ispage&&!z&&!E){c=d.keyCode;if(b.locked&&27!=c)return b.cancelEvent(d);
+    var f=d.ctrlKey||!1,n=d.shiftKey||!1,g=!1;switch(c){case 38:case 63233:b.doScrollBy(72);g=!0;break;case 40:case 63235:b.doScrollBy(-72);g=!0;break;case 37:case 63232:b.railh&&(f?b.doScrollLeft(0):b.doScrollLeftBy(72),g=!0);break;case 39:case 63234:b.railh&&(f?b.doScrollLeft(b.page.maxw):b.doScrollLeftBy(-72),g=!0);break;case 33:case 63276:b.doScrollBy(b.view.h);g=!0;break;case 34:case 63277:b.doScrollBy(-b.view.h);g=!0;break;case 36:case 63273:b.railh&&f?b.doScrollPos(0,0):b.doScrollTo(0);g=!0;break;
+        case 35:case 63275:b.railh&&f?b.doScrollPos(b.page.maxw,b.page.maxh):b.doScrollTo(b.page.maxh);g=!0;break;case 32:b.opt.spacebarenabled&&(n?b.doScrollBy(b.view.h):b.doScrollBy(-b.view.h),g=!0);break;case 27:b.zoomactive&&(b.doZoom(),g=!0)}if(g)return b.cancelEvent(d)}};b.opt.enablekeyboard&&b.bind(document,g.isopera&&!g.isopera12?"keypress":"keydown",b.onkeypress);b.bind(window,"resize",b.lazyResize);b.bind(window,"orientationchange",b.lazyResize);b.bind(window,"load",b.lazyResize);if(g.ischrome&&
+    !b.ispage&&!b.haswrapper){var s=b.win.attr("style"),f=parseFloat(b.win.css("width"))+1;b.win.css("width",f);b.synched("chromefix",function(){b.win.attr("style",s)})}b.onAttributeChange=function(d){b.lazyResize(250)};!b.ispage&&!b.haswrapper&&(!1!==A?(b.observer=new A(function(d){d.forEach(b.onAttributeChange)}),b.observer.observe(b.win[0],{childList:!0,characterData:!1,attributes:!0,subtree:!1}),b.observerremover=new A(function(d){d.forEach(function(d){if(0<d.removedNodes.length)for(var c in d.removedNodes)if(d.removedNodes[c]==
+    b.win[0])return b.remove()})}),b.observerremover.observe(b.win[0].parentNode,{childList:!0,characterData:!1,attributes:!1,subtree:!1})):(b.bind(b.win,g.isie&&!g.isie9?"propertychange":"DOMAttrModified",b.onAttributeChange),g.isie9&&b.win[0].attachEvent("onpropertychange",b.onAttributeChange),b.bind(b.win,"DOMNodeRemoved",function(d){d.target==b.win[0]&&b.remove()})));!b.ispage&&b.opt.boxzoom&&b.bind(window,"resize",b.resizeZoom);b.istextarea&&b.bind(b.win,"mouseup",b.lazyResize);b.checkrtlmode=!0;
+    b.lazyResize(30)}if("IFRAME"==this.doc[0].nodeName){var K=function(d){b.iframexd=!1;try{var c="contentDocument"in this?this.contentDocument:this.contentWindow.document}catch(f){b.iframexd=!0,c=!1}if(b.iframexd)return"console"in window&&console.log("NiceScroll error: policy restriced iframe"),!0;b.forcescreen=!0;b.isiframe&&(b.iframe={doc:e(c),html:b.doc.contents().find("html")[0],body:b.doc.contents().find("body")[0]},b.getContentSize=function(){return{w:Math.max(b.iframe.html.scrollWidth,b.iframe.body.scrollWidth),
+    h:Math.max(b.iframe.html.scrollHeight,b.iframe.body.scrollHeight)}},b.docscroll=e(b.iframe.body));!g.isios&&(b.opt.iframeautoresize&&!b.isiframe)&&(b.win.scrollTop(0),b.doc.height(""),d=Math.max(c.getElementsByTagName("html")[0].scrollHeight,c.body.scrollHeight),b.doc.height(d));b.lazyResize(30);g.isie7&&b.css(e(b.iframe.html),{"overflow-y":"hidden"});b.css(e(b.iframe.body),{"overflow-y":"hidden"});g.isios&&b.haswrapper&&b.css(e(c.body),{"-webkit-transform":"translate3d(0,0,0)"});"contentWindow"in
+    this?b.bind(this.contentWindow,"scroll",b.onscroll):b.bind(c,"scroll",b.onscroll);b.opt.enablemousewheel&&b.bind(c,"mousewheel",b.onmousewheel);b.opt.enablekeyboard&&b.bind(c,g.isopera?"keypress":"keydown",b.onkeypress);if(g.cantouch||b.opt.touchbehavior)b.bind(c,"mousedown",b.ontouchstart),b.bind(c,"mousemove",function(d){b.ontouchmove(d,!0)}),b.opt.grabcursorenabled&&g.cursorgrabvalue&&b.css(e(c.body),{cursor:g.cursorgrabvalue});b.bind(c,"mouseup",b.ontouchend);b.zoom&&(b.opt.dblclickzoom&&b.bind(c,
+    "dblclick",b.doZoom),b.ongesturezoom&&b.bind(c,"gestureend",b.ongesturezoom))};this.doc[0].readyState&&"complete"==this.doc[0].readyState&&setTimeout(function(){K.call(b.doc[0],!1)},500);b.bind(this.doc,"load",K)}};this.showCursor=function(d,c){b.cursortimeout&&(clearTimeout(b.cursortimeout),b.cursortimeout=0);if(b.rail){b.autohidedom&&(b.autohidedom.stop().css({opacity:b.opt.cursoropacitymax}),b.cursoractive=!0);if(!b.rail.drag||1!=b.rail.drag.pt)"undefined"!=typeof d&&!1!==d&&(b.scroll.y=Math.round(1*
+    d/b.scrollratio.y)),"undefined"!=typeof c&&(b.scroll.x=Math.round(1*c/b.scrollratio.x));b.cursor.css({height:b.cursorheight,top:b.scroll.y});b.cursorh&&(!b.rail.align&&b.rail.visibility?b.cursorh.css({width:b.cursorwidth,left:b.scroll.x+b.rail.width}):b.cursorh.css({width:b.cursorwidth,left:b.scroll.x}),b.cursoractive=!0);b.zoom&&b.zoom.stop().css({opacity:b.opt.cursoropacitymax})}};this.hideCursor=function(d){!b.cursortimeout&&(b.rail&&b.autohidedom&&!(b.hasmousefocus&&"leave"==b.opt.autohidemode))&&
+(b.cursortimeout=setTimeout(function(){if(!b.rail.active||!b.showonmouseevent)b.autohidedom.stop().animate({opacity:b.opt.cursoropacitymin}),b.zoom&&b.zoom.stop().animate({opacity:b.opt.cursoropacitymin}),b.cursoractive=!1;b.cursortimeout=0},d||b.opt.hidecursordelay))};this.noticeCursor=function(d,c,f){b.showCursor(c,f);b.rail.active||b.hideCursor(d)};this.getContentSize=b.ispage?function(){return{w:Math.max(document.body.scrollWidth,document.documentElement.scrollWidth),h:Math.max(document.body.scrollHeight,
+    document.documentElement.scrollHeight)}}:b.haswrapper?function(){return{w:b.doc.outerWidth()+parseInt(b.win.css("paddingLeft"))+parseInt(b.win.css("paddingRight")),h:b.doc.outerHeight()+parseInt(b.win.css("paddingTop"))+parseInt(b.win.css("paddingBottom"))}}:function(){return{w:b.docscroll[0].scrollWidth,h:b.docscroll[0].scrollHeight}};this.onResize=function(d,c){if(!b.win)return!1;if(!b.haswrapper&&!b.ispage){if("none"==b.win.css("display"))return b.visibility&&b.hideRail().hideRailHr(),!1;!b.hidden&&
+    !b.visibility&&b.showRail().showRailHr()}var f=b.page.maxh,g=b.page.maxw,e=b.view.w;b.view={w:b.ispage?b.win.width():parseInt(b.win[0].clientWidth),h:b.ispage?b.win.height():parseInt(b.win[0].clientHeight)};b.page=c?c:b.getContentSize();b.page.maxh=Math.max(0,b.page.h-b.view.h);b.page.maxw=Math.max(0,b.page.w-b.view.w);if(b.page.maxh==f&&b.page.maxw==g&&b.view.w==e){if(b.ispage)return b;f=b.win.offset();if(b.lastposition&&(g=b.lastposition,g.top==f.top&&g.left==f.left))return b;b.lastposition=f}0==
+    b.page.maxh?(b.hideRail(),b.scrollvaluemax=0,b.scroll.y=0,b.scrollratio.y=0,b.cursorheight=0,b.setScrollTop(0),b.rail.scrollable=!1):b.rail.scrollable=!0;0==b.page.maxw?(b.hideRailHr(),b.scrollvaluemaxw=0,b.scroll.x=0,b.scrollratio.x=0,b.cursorwidth=0,b.setScrollLeft(0),b.railh.scrollable=!1):b.railh.scrollable=!0;b.locked=0==b.page.maxh&&0==b.page.maxw;if(b.locked)return b.ispage||b.updateScrollBar(b.view),!1;!b.hidden&&!b.visibility?b.showRail().showRailHr():!b.hidden&&!b.railh.visibility&&b.showRailHr();
+    b.istextarea&&(b.win.css("resize")&&"none"!=b.win.css("resize"))&&(b.view.h-=20);b.cursorheight=Math.min(b.view.h,Math.round(b.view.h*(b.view.h/b.page.h)));b.cursorheight=b.opt.cursorfixedheight?b.opt.cursorfixedheight:Math.max(b.opt.cursorminheight,b.cursorheight);b.cursorwidth=Math.min(b.view.w,Math.round(b.view.w*(b.view.w/b.page.w)));b.cursorwidth=b.opt.cursorfixedheight?b.opt.cursorfixedheight:Math.max(b.opt.cursorminheight,b.cursorwidth);b.scrollvaluemax=b.view.h-b.cursorheight-b.cursor.hborder;
+    b.railh&&(b.railh.width=0<b.page.maxh?b.view.w-b.rail.width:b.view.w,b.scrollvaluemaxw=b.railh.width-b.cursorwidth-b.cursorh.wborder);b.checkrtlmode&&b.railh&&(b.checkrtlmode=!1,b.opt.rtlmode&&0==b.scroll.x&&b.setScrollLeft(b.page.maxw));b.ispage||b.updateScrollBar(b.view);b.scrollratio={x:b.page.maxw/b.scrollvaluemaxw,y:b.page.maxh/b.scrollvaluemax};b.getScrollTop()>b.page.maxh?b.doScrollTop(b.page.maxh):(b.scroll.y=Math.round(b.getScrollTop()*(1/b.scrollratio.y)),b.scroll.x=Math.round(b.getScrollLeft()*
+        (1/b.scrollratio.x)),b.cursoractive&&b.noticeCursor());b.scroll.y&&0==b.getScrollTop()&&b.doScrollTo(Math.floor(b.scroll.y*b.scrollratio.y));return b};this.resize=b.onResize;this.lazyResize=function(d){d=isNaN(d)?30:d;b.delayed("resize",b.resize,d);return b};this._bind=function(d,c,f,g){b.events.push({e:d,n:c,f:f,b:g,q:!1});d.addEventListener?d.addEventListener(c,f,g||!1):d.attachEvent?d.attachEvent("on"+c,f):d["on"+c]=f};this.jqbind=function(d,c,f){b.events.push({e:d,n:c,f:f,q:!0});e(d).bind(c,f)};
+    this.bind=function(d,c,f,e){var k="jquery"in d?d[0]:d;"mousewheel"==c?"onwheel"in b.win?b._bind(k,"wheel",f,e||!1):(d="undefined"!=typeof document.onmousewheel?"mousewheel":"DOMMouseScroll",q(k,d,f,e||!1),"DOMMouseScroll"==d&&q(k,"MozMousePixelScroll",f,e||!1)):k.addEventListener?(g.cantouch&&/mouseup|mousedown|mousemove/.test(c)&&b._bind(k,"mousedown"==c?"touchstart":"mouseup"==c?"touchend":"touchmove",function(b){if(b.touches){if(2>b.touches.length){var d=b.touches.length?b.touches[0]:b;d.original=
+        b;f.call(this,d)}}else b.changedTouches&&(d=b.changedTouches[0],d.original=b,f.call(this,d))},e||!1),b._bind(k,c,f,e||!1),g.cantouch&&"mouseup"==c&&b._bind(k,"touchcancel",f,e||!1)):b._bind(k,c,function(d){if((d=d||window.event||!1)&&d.srcElement)d.target=d.srcElement;"pageY"in d||(d.pageX=d.clientX+document.documentElement.scrollLeft,d.pageY=d.clientY+document.documentElement.scrollTop);return!1===f.call(k,d)||!1===e?b.cancelEvent(d):!0})};this._unbind=function(b,c,f,g){b.removeEventListener?b.removeEventListener(c,
+        f,g):b.detachEvent?b.detachEvent("on"+c,f):b["on"+c]=!1};this.unbindAll=function(){for(var d=0;d<b.events.length;d++){var c=b.events[d];c.q?c.e.unbind(c.n,c.f):b._unbind(c.e,c.n,c.f,c.b)}};this.cancelEvent=function(b){b=b.original?b.original:b?b:window.event||!1;if(!b)return!1;b.preventDefault&&b.preventDefault();b.stopPropagation&&b.stopPropagation();b.preventManipulation&&b.preventManipulation();b.cancelBubble=!0;b.cancel=!0;return b.returnValue=!1};this.stopPropagation=function(b){b=b.original?
+        b.original:b?b:window.event||!1;if(!b)return!1;if(b.stopPropagation)return b.stopPropagation();b.cancelBubble&&(b.cancelBubble=!0);return!1};this.showRail=function(){if(0!=b.page.maxh&&(b.ispage||"none"!=b.win.css("display")))b.visibility=!0,b.rail.visibility=!0,b.rail.css("display","block");return b};this.showRailHr=function(){if(!b.railh)return b;if(0!=b.page.maxw&&(b.ispage||"none"!=b.win.css("display")))b.railh.visibility=!0,b.railh.css("display","block");return b};this.hideRail=function(){b.visibility=
+        !1;b.rail.visibility=!1;b.rail.css("display","none");return b};this.hideRailHr=function(){if(!b.railh)return b;b.railh.visibility=!1;b.railh.css("display","none");return b};this.show=function(){b.hidden=!1;b.locked=!1;return b.showRail().showRailHr()};this.hide=function(){b.hidden=!0;b.locked=!0;return b.hideRail().hideRailHr()};this.toggle=function(){return b.hidden?b.show():b.hide()};this.remove=function(){b.stop();b.cursortimeout&&clearTimeout(b.cursortimeout);b.doZoomOut();b.unbindAll();g.isie9&&
+    b.win[0].detachEvent("onpropertychange",b.onAttributeChange);!1!==b.observer&&b.observer.disconnect();!1!==b.observerremover&&b.observerremover.disconnect();b.events=null;b.cursor&&b.cursor.remove();b.cursorh&&b.cursorh.remove();b.rail&&b.rail.remove();b.railh&&b.railh.remove();b.zoom&&b.zoom.remove();for(var d=0;d<b.saved.css.length;d++){var c=b.saved.css[d];c[0].css(c[1],"undefined"==typeof c[2]?"":c[2])}b.saved=!1;b.me.data("__nicescroll","");var f=e.nicescroll;f.each(function(d){if(this&&this.id===
+        b.id){delete f[d];for(var c=++d;c<f.length;c++,d++)f[d]=f[c];f.length--;f.length&&delete f[f.length]}});for(var k in b)b[k]=null,delete b[k];b=null};this.scrollstart=function(d){this.onscrollstart=d;return b};this.scrollend=function(d){this.onscrollend=d;return b};this.scrollcancel=function(d){this.onscrollcancel=d;return b};this.zoomin=function(d){this.onzoomin=d;return b};this.zoomout=function(d){this.onzoomout=d;return b};this.isScrollable=function(b){b=b.target?b.target:b;if("OPTION"==b.nodeName)return!0;
+        for(;b&&1==b.nodeType&&!/BODY|HTML/.test(b.nodeName);){var c=e(b),c=c.css("overflowY")||c.css("overflowX")||c.css("overflow")||"";if(/scroll|auto/.test(c))return b.clientHeight!=b.scrollHeight;b=b.parentNode?b.parentNode:!1}return!1};this.getViewport=function(b){for(b=b&&b.parentNode?b.parentNode:!1;b&&1==b.nodeType&&!/BODY|HTML/.test(b.nodeName);){var c=e(b);if(/fixed|absolute/.test(c.css("position")))return c;var f=c.css("overflowY")||c.css("overflowX")||c.css("overflow")||"";if(/scroll|auto/.test(f)&&
+        b.clientHeight!=b.scrollHeight||0<c.getNiceScroll().length)return c;b=b.parentNode?b.parentNode:!1}return!1};this.onmousewheel=function(d){if(b.locked)return b.debounced("checkunlock",b.resize,250),!0;if(b.rail.drag)return b.cancelEvent(d);"auto"==b.opt.oneaxismousemode&&0!=d.deltaX&&(b.opt.oneaxismousemode=!1);if(b.opt.oneaxismousemode&&0==d.deltaX&&!b.rail.scrollable)return b.railh&&b.railh.scrollable?b.onmousewheelhr(d):!0;var c=+new Date,f=!1;b.opt.preservenativescrolling&&b.checkarea+600<c&&
+    (b.nativescrollingarea=b.isScrollable(d),f=!0);b.checkarea=c;if(b.nativescrollingarea)return!0;if(d=t(d,!1,f))b.checkarea=0;return d};this.onmousewheelhr=function(d){if(b.locked||!b.railh.scrollable)return!0;if(b.rail.drag)return b.cancelEvent(d);var c=+new Date,f=!1;b.opt.preservenativescrolling&&b.checkarea+600<c&&(b.nativescrollingarea=b.isScrollable(d),f=!0);b.checkarea=c;return b.nativescrollingarea?!0:b.locked?b.cancelEvent(d):t(d,!0,f)};this.stop=function(){b.cancelScroll();b.scrollmon&&b.scrollmon.stop();
+        b.cursorfreezed=!1;b.scroll.y=Math.round(b.getScrollTop()*(1/b.scrollratio.y));b.noticeCursor();return b};this.getTransitionSpeed=function(d){var c=Math.round(10*b.opt.scrollspeed);d=Math.min(c,Math.round(d/20*b.opt.scrollspeed));return 20<d?d:0};b.opt.smoothscroll?b.ishwscroll&&g.hastransition&&b.opt.usetransition?(this.prepareTransition=function(d,c){var f=c?20<d?d:0:b.getTransitionSpeed(d),e=f?g.prefixstyle+"transform "+f+"ms ease-out":"";if(!b.lasttransitionstyle||b.lasttransitionstyle!=e)b.lasttransitionstyle=
+        e,b.doc.css(g.transitionstyle,e);return f},this.doScrollLeft=function(c,g){var f=b.scrollrunning?b.newscrolly:b.getScrollTop();b.doScrollPos(c,f,g)},this.doScrollTop=function(c,g){var f=b.scrollrunning?b.newscrollx:b.getScrollLeft();b.doScrollPos(f,c,g)},this.doScrollPos=function(c,e,f){var k=b.getScrollTop(),l=b.getScrollLeft();(0>(b.newscrolly-k)*(e-k)||0>(b.newscrollx-l)*(c-l))&&b.cancelScroll();!1==b.opt.bouncescroll&&(0>e?e=0:e>b.page.maxh&&(e=b.page.maxh),0>c?c=0:c>b.page.maxw&&(c=b.page.maxw));
+        if(b.scrollrunning&&c==b.newscrollx&&e==b.newscrolly)return!1;b.newscrolly=e;b.newscrollx=c;b.newscrollspeed=f||!1;if(b.timer)return!1;b.timer=setTimeout(function(){var f=b.getScrollTop(),k=b.getScrollLeft(),l,h;l=c-k;h=e-f;l=Math.round(Math.sqrt(Math.pow(l,2)+Math.pow(h,2)));l=b.newscrollspeed&&1<b.newscrollspeed?b.newscrollspeed:b.getTransitionSpeed(l);b.newscrollspeed&&1>=b.newscrollspeed&&(l*=b.newscrollspeed);b.prepareTransition(l,!0);b.timerscroll&&b.timerscroll.tm&&clearInterval(b.timerscroll.tm);
+            0<l&&(!b.scrollrunning&&b.onscrollstart&&b.onscrollstart.call(b,{type:"scrollstart",current:{x:k,y:f},request:{x:c,y:e},end:{x:b.newscrollx,y:b.newscrolly},speed:l}),g.transitionend?b.scrollendtrapped||(b.scrollendtrapped=!0,b.bind(b.doc,g.transitionend,b.onScrollEnd,!1)):(b.scrollendtrapped&&clearTimeout(b.scrollendtrapped),b.scrollendtrapped=setTimeout(b.onScrollEnd,l)),b.timerscroll={bz:new BezierClass(f,b.newscrolly,l,0,0,0.58,1),bh:new BezierClass(k,b.newscrollx,l,0,0,0.58,1)},b.cursorfreezed||
+                (b.timerscroll.tm=setInterval(function(){b.showCursor(b.getScrollTop(),b.getScrollLeft())},60)));b.synched("doScroll-set",function(){b.timer=0;b.scrollendtrapped&&(b.scrollrunning=!0);b.setScrollTop(b.newscrolly);b.setScrollLeft(b.newscrollx);if(!b.scrollendtrapped)b.onScrollEnd()})},50)},this.cancelScroll=function(){if(!b.scrollendtrapped)return!0;var c=b.getScrollTop(),e=b.getScrollLeft();b.scrollrunning=!1;g.transitionend||clearTimeout(g.transitionend);b.scrollendtrapped=!1;b._unbind(b.doc,g.transitionend,
+        b.onScrollEnd);b.prepareTransition(0);b.setScrollTop(c);b.railh&&b.setScrollLeft(e);b.timerscroll&&b.timerscroll.tm&&clearInterval(b.timerscroll.tm);b.timerscroll=!1;b.cursorfreezed=!1;b.showCursor(c,e);return b},this.onScrollEnd=function(){b.scrollendtrapped&&b._unbind(b.doc,g.transitionend,b.onScrollEnd);b.scrollendtrapped=!1;b.prepareTransition(0);b.timerscroll&&b.timerscroll.tm&&clearInterval(b.timerscroll.tm);b.timerscroll=!1;var c=b.getScrollTop(),e=b.getScrollLeft();b.setScrollTop(c);b.railh&&
+    b.setScrollLeft(e);b.noticeCursor(!1,c,e);b.cursorfreezed=!1;0>c?c=0:c>b.page.maxh&&(c=b.page.maxh);0>e?e=0:e>b.page.maxw&&(e=b.page.maxw);if(c!=b.newscrolly||e!=b.newscrollx)return b.doScrollPos(e,c,b.opt.snapbackspeed);b.onscrollend&&b.scrollrunning&&b.onscrollend.call(b,{type:"scrollend",current:{x:e,y:c},end:{x:b.newscrollx,y:b.newscrolly}});b.scrollrunning=!1}):(this.doScrollLeft=function(c,g){var f=b.scrollrunning?b.newscrolly:b.getScrollTop();b.doScrollPos(c,f,g)},this.doScrollTop=function(c,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          g){var f=b.scrollrunning?b.newscrollx:b.getScrollLeft();b.doScrollPos(f,c,g)},this.doScrollPos=function(c,g,f){function e(){if(b.cancelAnimationFrame)return!0;b.scrollrunning=!0;if(p=1-p)return b.timer=v(e)||1;var c=0,d=sy=b.getScrollTop();if(b.dst.ay){var d=b.bzscroll?b.dst.py+b.bzscroll.getNow()*b.dst.ay:b.newscrolly,f=d-sy;if(0>f&&d<b.newscrolly||0<f&&d>b.newscrolly)d=b.newscrolly;b.setScrollTop(d);d==b.newscrolly&&(c=1)}else c=1;var g=sx=b.getScrollLeft();if(b.dst.ax){g=b.bzscroll?b.dst.px+b.bzscroll.getNow()*
+        b.dst.ax:b.newscrollx;f=g-sx;if(0>f&&g<b.newscrollx||0<f&&g>b.newscrollx)g=b.newscrollx;b.setScrollLeft(g);g==b.newscrollx&&(c+=1)}else c+=1;2==c?(b.timer=0,b.cursorfreezed=!1,b.bzscroll=!1,b.scrollrunning=!1,0>d?d=0:d>b.page.maxh&&(d=b.page.maxh),0>g?g=0:g>b.page.maxw&&(g=b.page.maxw),g!=b.newscrollx||d!=b.newscrolly?b.doScrollPos(g,d):b.onscrollend&&b.onscrollend.call(b,{type:"scrollend",current:{x:sx,y:sy},end:{x:b.newscrollx,y:b.newscrolly}})):b.timer=v(e)||1}g="undefined"==typeof g||!1===g?b.getScrollTop(!0):
+        g;if(b.timer&&b.newscrolly==g&&b.newscrollx==c)return!0;b.timer&&w(b.timer);b.timer=0;var k=b.getScrollTop(),l=b.getScrollLeft();(0>(b.newscrolly-k)*(g-k)||0>(b.newscrollx-l)*(c-l))&&b.cancelScroll();b.newscrolly=g;b.newscrollx=c;if(!b.bouncescroll||!b.rail.visibility)0>b.newscrolly?b.newscrolly=0:b.newscrolly>b.page.maxh&&(b.newscrolly=b.page.maxh);if(!b.bouncescroll||!b.railh.visibility)0>b.newscrollx?b.newscrollx=0:b.newscrollx>b.page.maxw&&(b.newscrollx=b.page.maxw);b.dst={};b.dst.x=c-l;b.dst.y=
+        g-k;b.dst.px=l;b.dst.py=k;var h=Math.round(Math.sqrt(Math.pow(b.dst.x,2)+Math.pow(b.dst.y,2)));b.dst.ax=b.dst.x/h;b.dst.ay=b.dst.y/h;var m=0,q=h;0==b.dst.x?(m=k,q=g,b.dst.ay=1,b.dst.py=0):0==b.dst.y&&(m=l,q=c,b.dst.ax=1,b.dst.px=0);h=b.getTransitionSpeed(h);f&&1>=f&&(h*=f);b.bzscroll=0<h?b.bzscroll?b.bzscroll.update(q,h):new BezierClass(m,q,h,0,1,0,1):!1;if(!b.timer){(k==b.page.maxh&&g>=b.page.maxh||l==b.page.maxw&&c>=b.page.maxw)&&b.checkContentSize();var p=1;b.cancelAnimationFrame=!1;b.timer=1;
+        b.onscrollstart&&!b.scrollrunning&&b.onscrollstart.call(b,{type:"scrollstart",current:{x:l,y:k},request:{x:c,y:g},end:{x:b.newscrollx,y:b.newscrolly},speed:h});e();(k==b.page.maxh&&g>=k||l==b.page.maxw&&c>=l)&&b.checkContentSize();b.noticeCursor()}},this.cancelScroll=function(){b.timer&&w(b.timer);b.timer=0;b.bzscroll=!1;b.scrollrunning=!1;return b}):(this.doScrollLeft=function(c,g){var f=b.getScrollTop();b.doScrollPos(c,f,g)},this.doScrollTop=function(c,g){var f=b.getScrollLeft();b.doScrollPos(f,
+        c,g)},this.doScrollPos=function(c,g,f){var e=c>b.page.maxw?b.page.maxw:c;0>e&&(e=0);var k=g>b.page.maxh?b.page.maxh:g;0>k&&(k=0);b.synched("scroll",function(){b.setScrollTop(k);b.setScrollLeft(e)})},this.cancelScroll=function(){});this.doScrollBy=function(c,g){var f=0,f=g?Math.floor((b.scroll.y-c)*b.scrollratio.y):(b.timer?b.newscrolly:b.getScrollTop(!0))-c;if(b.bouncescroll){var e=Math.round(b.view.h/2);f<-e?f=-e:f>b.page.maxh+e&&(f=b.page.maxh+e)}b.cursorfreezed=!1;py=b.getScrollTop(!0);if(0>f&&
+        0>=py)return b.noticeCursor();if(f>b.page.maxh&&py>=b.page.maxh)return b.checkContentSize(),b.noticeCursor();b.doScrollTop(f)};this.doScrollLeftBy=function(c,g){var f=0,f=g?Math.floor((b.scroll.x-c)*b.scrollratio.x):(b.timer?b.newscrollx:b.getScrollLeft(!0))-c;if(b.bouncescroll){var e=Math.round(b.view.w/2);f<-e?f=-e:f>b.page.maxw+e&&(f=b.page.maxw+e)}b.cursorfreezed=!1;px=b.getScrollLeft(!0);if(0>f&&0>=px||f>b.page.maxw&&px>=b.page.maxw)return b.noticeCursor();b.doScrollLeft(f)};this.doScrollTo=
+        function(c,g){g&&Math.round(c*b.scrollratio.y);b.cursorfreezed=!1;b.doScrollTop(c)};this.checkContentSize=function(){var c=b.getContentSize();(c.h!=b.page.h||c.w!=b.page.w)&&b.resize(!1,c)};b.onscroll=function(c){b.rail.drag||b.cursorfreezed||b.synched("scroll",function(){b.scroll.y=Math.round(b.getScrollTop()*(1/b.scrollratio.y));b.railh&&(b.scroll.x=Math.round(b.getScrollLeft()*(1/b.scrollratio.x)));b.noticeCursor()})};b.bind(b.docscroll,"scroll",b.onscroll);this.doZoomIn=function(c){if(!b.zoomactive){b.zoomactive=
+        !0;b.zoomrestore={style:{}};var k="position top left zIndex backgroundColor marginTop marginBottom marginLeft marginRight".split(" "),f=b.win[0].style,l;for(l in k){var h=k[l];b.zoomrestore.style[h]="undefined"!=typeof f[h]?f[h]:""}b.zoomrestore.style.width=b.win.css("width");b.zoomrestore.style.height=b.win.css("height");b.zoomrestore.padding={w:b.win.outerWidth()-b.win.width(),h:b.win.outerHeight()-b.win.height()};g.isios4&&(b.zoomrestore.scrollTop=e(window).scrollTop(),e(window).scrollTop(0));
+        b.win.css({position:g.isios4?"absolute":"fixed",top:0,left:0,"z-index":y+100,margin:"0px"});k=b.win.css("backgroundColor");(""==k||/transparent|rgba\(0, 0, 0, 0\)|rgba\(0,0,0,0\)/.test(k))&&b.win.css("backgroundColor","#fff");b.rail.css({"z-index":y+101});b.zoom.css({"z-index":y+102});b.zoom.css("backgroundPosition","0px -18px");b.resizeZoom();b.onzoomin&&b.onzoomin.call(b);return b.cancelEvent(c)}};this.doZoomOut=function(c){if(b.zoomactive)return b.zoomactive=!1,b.win.css("margin",""),b.win.css(b.zoomrestore.style),
+        g.isios4&&e(window).scrollTop(b.zoomrestore.scrollTop),b.rail.css({"z-index":b.zindex}),b.zoom.css({"z-index":b.zindex}),b.zoomrestore=!1,b.zoom.css("backgroundPosition","0px 0px"),b.onResize(),b.onzoomout&&b.onzoomout.call(b),b.cancelEvent(c)};this.doZoom=function(c){return b.zoomactive?b.doZoomOut(c):b.doZoomIn(c)};this.resizeZoom=function(){if(b.zoomactive){var c=b.getScrollTop();b.win.css({width:e(window).width()-b.zoomrestore.padding.w+"px",height:e(window).height()-b.zoomrestore.padding.h+"px"});
+        b.onResize();b.setScrollTop(Math.min(b.page.maxh,c))}};this.init();e.nicescroll.push(this)},J=function(e){var c=this;this.nc=e;this.steptime=this.lasttime=this.speedy=this.speedx=this.lasty=this.lastx=0;this.snapy=this.snapx=!1;this.demuly=this.demulx=0;this.lastscrolly=this.lastscrollx=-1;this.timer=this.chky=this.chkx=0;this.time=function(){return+new Date};this.reset=function(e,l){c.stop();var h=c.time();c.steptime=0;c.lasttime=h;c.speedx=0;c.speedy=0;c.lastx=e;c.lasty=l;c.lastscrollx=-1;c.lastscrolly=
+    -1};this.update=function(e,l){var h=c.time();c.steptime=h-c.lasttime;c.lasttime=h;var h=l-c.lasty,t=e-c.lastx,b=c.nc.getScrollTop(),p=c.nc.getScrollLeft(),b=b+h,p=p+t;c.snapx=0>p||p>c.nc.page.maxw;c.snapy=0>b||b>c.nc.page.maxh;c.speedx=t;c.speedy=h;c.lastx=e;c.lasty=l};this.stop=function(){c.nc.unsynched("domomentum2d");c.timer&&clearTimeout(c.timer);c.timer=0;c.lastscrollx=-1;c.lastscrolly=-1};this.doSnapy=function(e,l){var h=!1;0>l?(l=0,h=!0):l>c.nc.page.maxh&&(l=c.nc.page.maxh,h=!0);0>e?(e=0,h=
+    !0):e>c.nc.page.maxw&&(e=c.nc.page.maxw,h=!0);h&&c.nc.doScrollPos(e,l,c.nc.opt.snapbackspeed)};this.doMomentum=function(e){var l=c.time(),h=e?l+e:c.lasttime;e=c.nc.getScrollLeft();var t=c.nc.getScrollTop(),b=c.nc.page.maxh,p=c.nc.page.maxw;c.speedx=0<p?Math.min(60,c.speedx):0;c.speedy=0<b?Math.min(60,c.speedy):0;h=h&&60>=l-h;if(0>t||t>b||0>e||e>p)h=!1;e=c.speedx&&h?c.speedx:!1;if(c.speedy&&h&&c.speedy||e){var g=Math.max(16,c.steptime);50<g&&(e=g/50,c.speedx*=e,c.speedy*=e,g=50);c.demulxy=0;c.lastscrollx=
+    c.nc.getScrollLeft();c.chkx=c.lastscrollx;c.lastscrolly=c.nc.getScrollTop();c.chky=c.lastscrolly;var s=c.lastscrollx,u=c.lastscrolly,d=function(){var e=600<c.time()-l?0.04:0.02;if(c.speedx&&(s=Math.floor(c.lastscrollx-c.speedx*(1-c.demulxy)),c.lastscrollx=s,0>s||s>p))e=0.1;if(c.speedy&&(u=Math.floor(c.lastscrolly-c.speedy*(1-c.demulxy)),c.lastscrolly=u,0>u||u>b))e=0.1;c.demulxy=Math.min(1,c.demulxy+e);c.nc.synched("domomentum2d",function(){c.speedx&&(c.nc.getScrollLeft()!=c.chkx&&c.stop(),c.chkx=
+    s,c.nc.setScrollLeft(s));c.speedy&&(c.nc.getScrollTop()!=c.chky&&c.stop(),c.chky=u,c.nc.setScrollTop(u));c.timer||(c.nc.hideCursor(),c.doSnapy(s,u))});1>c.demulxy?c.timer=setTimeout(d,g):(c.stop(),c.nc.hideCursor(),c.doSnapy(s,u))};d()}else c.doSnapy(c.nc.getScrollLeft(),c.nc.getScrollTop())}},B=e.fn.scrollTop;e.cssHooks.pageYOffset={get:function(h,c,k){return(c=e.data(h,"__nicescroll")||!1)&&c.ishwscroll?c.getScrollTop():B.call(h)},set:function(h,c){var k=e.data(h,"__nicescroll")||!1;k&&k.ishwscroll?
+    k.setScrollTop(parseInt(c)):B.call(h,c);return this}};e.fn.scrollTop=function(h){if("undefined"==typeof h){var c=this[0]?e.data(this[0],"__nicescroll")||!1:!1;return c&&c.ishwscroll?c.getScrollTop():B.call(this)}return this.each(function(){var c=e.data(this,"__nicescroll")||!1;c&&c.ishwscroll?c.setScrollTop(parseInt(h)):B.call(e(this),h)})};var C=e.fn.scrollLeft;e.cssHooks.pageXOffset={get:function(h,c,k){return(c=e.data(h,"__nicescroll")||!1)&&c.ishwscroll?c.getScrollLeft():C.call(h)},set:function(h,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            c){var k=e.data(h,"__nicescroll")||!1;k&&k.ishwscroll?k.setScrollLeft(parseInt(c)):C.call(h,c);return this}};e.fn.scrollLeft=function(h){if("undefined"==typeof h){var c=this[0]?e.data(this[0],"__nicescroll")||!1:!1;return c&&c.ishwscroll?c.getScrollLeft():C.call(this)}return this.each(function(){var c=e.data(this,"__nicescroll")||!1;c&&c.ishwscroll?c.setScrollLeft(parseInt(h)):C.call(e(this),h)})};var D=function(h){var c=this;this.length=0;this.name="nicescrollarray";this.each=function(e){for(var h=
+    0,k=0;h<c.length;h++)e.call(c[h],k++);return c};this.push=function(e){c[c.length]=e;c.length++};this.eq=function(e){return c[e]};if(h)for(a=0;a<h.length;a++){var k=e.data(h[a],"__nicescroll")||!1;k&&(this[this.length]=k,this.length++)}return this};(function(e,c,k){for(var l=0;l<c.length;l++)k(e,c[l])})(D.prototype,"show hide toggle onResize resize remove stop doScrollPos".split(" "),function(e,c){e[c]=function(){var e=arguments;return this.each(function(){this[c].apply(this,e)})}});e.fn.getNiceScroll=
+    function(h){return"undefined"==typeof h?new D(this):this[h]&&e.data(this[h],"__nicescroll")||!1};e.extend(e.expr[":"],{nicescroll:function(h){return e.data(h,"__nicescroll")?!0:!1}});e.fn.niceScroll=function(h,c){"undefined"==typeof c&&("object"==typeof h&&!("jquery"in h))&&(c=h,h=!1);var k=new D;"undefined"==typeof c&&(c={});h&&(c.doc=e(h),c.win=e(this));var l=!("doc"in c);!l&&!("win"in c)&&(c.win=e(this));this.each(function(){var h=e(this).data("__nicescroll")||!1;h||(c.doc=l?e(this):c.doc,h=new Q(c,
+    e(this)),e(this).data("__nicescroll",h));k.push(h)});return 1==k.length?k[0]:k};window.NiceScroll={getjQuery:function(){return e}};e.nicescroll||(e.nicescroll=new D,e.nicescroll.options=I)})(jQuery);
+
+/*! jQuery UI - v1.12.1 - 2019-08-01
+* http://jqueryui.com
+* Includes: data.js, keycode.js, widgets/datepicker.js, effect.js, effects/effect-blind.js, effects/effect-bounce.js, effects/effect-clip.js, effects/effect-drop.js, effects/effect-explode.js, effects/effect-fade.js, effects/effect-fold.js, effects/effect-highlight.js, effects/effect-puff.js, effects/effect-pulsate.js, effects/effect-scale.js, effects/effect-shake.js, effects/effect-size.js, effects/effect-slide.js, effects/effect-transfer.js
+* Copyright jQuery Foundation and other contributors; Licensed MIT */
+
+(function(t){"function"==typeof define&&define.amd?define(["jquery"],t):t(jQuery)})(function(t){function e(t){for(var e,i;t.length&&t[0]!==document;){if(e=t.css("position"),("absolute"===e||"relative"===e||"fixed"===e)&&(i=parseInt(t.css("zIndex"),10),!isNaN(i)&&0!==i))return i;t=t.parent()}return 0}function i(){this._curInst=null,this._keyEvent=!1,this._disabledInputs=[],this._datepickerShowing=!1,this._inDialog=!1,this._mainDivId="ui-datepicker-div",this._inlineClass="ui-datepicker-inline",this._appendClass="ui-datepicker-append",this._triggerClass="ui-datepicker-trigger",this._dialogClass="ui-datepicker-dialog",this._disableClass="ui-datepicker-disabled",this._unselectableClass="ui-datepicker-unselectable",this._currentClass="ui-datepicker-current-day",this._dayOverClass="ui-datepicker-days-cell-over",this.regional=[],this.regional[""]={closeText:"Done",prevText:"Prev",nextText:"Next",currentText:"Today",monthNames:["January","February","March","April","May","June","July","August","September","October","November","December"],monthNamesShort:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],dayNames:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],dayNamesShort:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],dayNamesMin:["Su","Mo","Tu","We","Th","Fr","Sa"],weekHeader:"Wk",dateFormat:"mm/dd/yy",firstDay:0,isRTL:!1,showMonthAfterYear:!1,yearSuffix:""},this._defaults={showOn:"focus",showAnim:"fadeIn",showOptions:{},defaultDate:null,appendText:"",buttonText:"...",buttonImage:"",buttonImageOnly:!1,hideIfNoPrevNext:!1,navigationAsDateFormat:!1,gotoCurrent:!1,changeMonth:!1,changeYear:!1,yearRange:"c-10:c+10",showOtherMonths:!1,selectOtherMonths:!1,showWeek:!1,calculateWeek:this.iso8601Week,shortYearCutoff:"+10",minDate:null,maxDate:null,duration:"fast",beforeShowDay:null,beforeShow:null,onSelect:null,onChangeMonthYear:null,onClose:null,numberOfMonths:1,showCurrentAtPos:0,stepMonths:1,stepBigMonths:12,altField:"",altFormat:"",constrainInput:!0,showButtonPanel:!1,autoSize:!1,disabled:!1},t.extend(this._defaults,this.regional[""]),this.regional.en=t.extend(!0,{},this.regional[""]),this.regional["en-US"]=t.extend(!0,{},this.regional.en),this.dpDiv=s(t("<div id='"+this._mainDivId+"' class='ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'></div>"))}function s(e){var i="button, .ui-datepicker-prev, .ui-datepicker-next, .ui-datepicker-calendar td a";return e.on("mouseout",i,function(){t(this).removeClass("ui-state-hover"),-1!==this.className.indexOf("ui-datepicker-prev")&&t(this).removeClass("ui-datepicker-prev-hover"),-1!==this.className.indexOf("ui-datepicker-next")&&t(this).removeClass("ui-datepicker-next-hover")}).on("mouseover",i,n)}function n(){t.datepicker._isDisabledDatepicker(a.inline?a.dpDiv.parent()[0]:a.input[0])||(t(this).parents(".ui-datepicker-calendar").find("a").removeClass("ui-state-hover"),t(this).addClass("ui-state-hover"),-1!==this.className.indexOf("ui-datepicker-prev")&&t(this).addClass("ui-datepicker-prev-hover"),-1!==this.className.indexOf("ui-datepicker-next")&&t(this).addClass("ui-datepicker-next-hover"))}function o(e,i){t.extend(e,i);for(var s in i)null==i[s]&&(e[s]=i[s]);return e}t.ui=t.ui||{},t.ui.version="1.12.1",t.extend(t.expr[":"],{data:t.expr.createPseudo?t.expr.createPseudo(function(e){return function(i){return!!t.data(i,e)}}):function(e,i,s){return!!t.data(e,s[3])}}),t.ui.keyCode={BACKSPACE:8,COMMA:188,DELETE:46,DOWN:40,END:35,ENTER:13,ESCAPE:27,HOME:36,LEFT:37,PAGE_DOWN:34,PAGE_UP:33,PERIOD:190,RIGHT:39,SPACE:32,TAB:9,UP:38},t.extend(t.ui,{datepicker:{version:"1.12.1"}});var a;t.extend(i.prototype,{markerClassName:"hasDatepicker",maxRows:4,_widgetDatepicker:function(){return this.dpDiv},setDefaults:function(t){return o(this._defaults,t||{}),this},_attachDatepicker:function(e,i){var s,n,o;s=e.nodeName.toLowerCase(),n="div"===s||"span"===s,e.id||(this.uuid+=1,e.id="dp"+this.uuid),o=this._newInst(t(e),n),o.settings=t.extend({},i||{}),"input"===s?this._connectDatepicker(e,o):n&&this._inlineDatepicker(e,o)},_newInst:function(e,i){var n=e[0].id.replace(/([^A-Za-z0-9_\-])/g,"\\\\$1");return{id:n,input:e,selectedDay:0,selectedMonth:0,selectedYear:0,drawMonth:0,drawYear:0,inline:i,dpDiv:i?s(t("<div class='"+this._inlineClass+" ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'></div>")):this.dpDiv}},_connectDatepicker:function(e,i){var s=t(e);i.append=t([]),i.trigger=t([]),s.hasClass(this.markerClassName)||(this._attachments(s,i),s.addClass(this.markerClassName).on("keydown",this._doKeyDown).on("keypress",this._doKeyPress).on("keyup",this._doKeyUp),this._autoSize(i),t.data(e,"datepicker",i),i.settings.disabled&&this._disableDatepicker(e))},_attachments:function(e,i){var s,n,o,a=this._get(i,"appendText"),r=this._get(i,"isRTL");i.append&&i.append.remove(),a&&(i.append=t("<span class='"+this._appendClass+"'>"+a+"</span>"),e[r?"before":"after"](i.append)),e.off("focus",this._showDatepicker),i.trigger&&i.trigger.remove(),s=this._get(i,"showOn"),("focus"===s||"both"===s)&&e.on("focus",this._showDatepicker),("button"===s||"both"===s)&&(n=this._get(i,"buttonText"),o=this._get(i,"buttonImage"),i.trigger=t(this._get(i,"buttonImageOnly")?t("<img/>").addClass(this._triggerClass).attr({src:o,alt:n,title:n}):t("<button type='button'></button>").addClass(this._triggerClass).html(o?t("<img/>").attr({src:o,alt:n,title:n}):n)),e[r?"before":"after"](i.trigger),i.trigger.on("click",function(){return t.datepicker._datepickerShowing&&t.datepicker._lastInput===e[0]?t.datepicker._hideDatepicker():t.datepicker._datepickerShowing&&t.datepicker._lastInput!==e[0]?(t.datepicker._hideDatepicker(),t.datepicker._showDatepicker(e[0])):t.datepicker._showDatepicker(e[0]),!1}))},_autoSize:function(t){if(this._get(t,"autoSize")&&!t.inline){var e,i,s,n,o=new Date(2009,11,20),a=this._get(t,"dateFormat");a.match(/[DM]/)&&(e=function(t){for(i=0,s=0,n=0;t.length>n;n++)t[n].length>i&&(i=t[n].length,s=n);return s},o.setMonth(e(this._get(t,a.match(/MM/)?"monthNames":"monthNamesShort"))),o.setDate(e(this._get(t,a.match(/DD/)?"dayNames":"dayNamesShort"))+20-o.getDay())),t.input.attr("size",this._formatDate(t,o).length)}},_inlineDatepicker:function(e,i){var s=t(e);s.hasClass(this.markerClassName)||(s.addClass(this.markerClassName).append(i.dpDiv),t.data(e,"datepicker",i),this._setDate(i,this._getDefaultDate(i),!0),this._updateDatepicker(i),this._updateAlternate(i),i.settings.disabled&&this._disableDatepicker(e),i.dpDiv.css("display","block"))},_dialogDatepicker:function(e,i,s,n,a){var r,l,h,c,u,d=this._dialogInst;return d||(this.uuid+=1,r="dp"+this.uuid,this._dialogInput=t("<input type='text' id='"+r+"' style='position: absolute; top: -100px; width: 0px;'/>"),this._dialogInput.on("keydown",this._doKeyDown),t("body").append(this._dialogInput),d=this._dialogInst=this._newInst(this._dialogInput,!1),d.settings={},t.data(this._dialogInput[0],"datepicker",d)),o(d.settings,n||{}),i=i&&i.constructor===Date?this._formatDate(d,i):i,this._dialogInput.val(i),this._pos=a?a.length?a:[a.pageX,a.pageY]:null,this._pos||(l=document.documentElement.clientWidth,h=document.documentElement.clientHeight,c=document.documentElement.scrollLeft||document.body.scrollLeft,u=document.documentElement.scrollTop||document.body.scrollTop,this._pos=[l/2-100+c,h/2-150+u]),this._dialogInput.css("left",this._pos[0]+20+"px").css("top",this._pos[1]+"px"),d.settings.onSelect=s,this._inDialog=!0,this.dpDiv.addClass(this._dialogClass),this._showDatepicker(this._dialogInput[0]),t.blockUI&&t.blockUI(this.dpDiv),t.data(this._dialogInput[0],"datepicker",d),this},_destroyDatepicker:function(e){var i,s=t(e),n=t.data(e,"datepicker");s.hasClass(this.markerClassName)&&(i=e.nodeName.toLowerCase(),t.removeData(e,"datepicker"),"input"===i?(n.append.remove(),n.trigger.remove(),s.removeClass(this.markerClassName).off("focus",this._showDatepicker).off("keydown",this._doKeyDown).off("keypress",this._doKeyPress).off("keyup",this._doKeyUp)):("div"===i||"span"===i)&&s.removeClass(this.markerClassName).empty(),a===n&&(a=null))},_enableDatepicker:function(e){var i,s,n=t(e),o=t.data(e,"datepicker");n.hasClass(this.markerClassName)&&(i=e.nodeName.toLowerCase(),"input"===i?(e.disabled=!1,o.trigger.filter("button").each(function(){this.disabled=!1}).end().filter("img").css({opacity:"1.0",cursor:""})):("div"===i||"span"===i)&&(s=n.children("."+this._inlineClass),s.children().removeClass("ui-state-disabled"),s.find("select.ui-datepicker-month, select.ui-datepicker-year").prop("disabled",!1)),this._disabledInputs=t.map(this._disabledInputs,function(t){return t===e?null:t}))},_disableDatepicker:function(e){var i,s,n=t(e),o=t.data(e,"datepicker");n.hasClass(this.markerClassName)&&(i=e.nodeName.toLowerCase(),"input"===i?(e.disabled=!0,o.trigger.filter("button").each(function(){this.disabled=!0}).end().filter("img").css({opacity:"0.5",cursor:"default"})):("div"===i||"span"===i)&&(s=n.children("."+this._inlineClass),s.children().addClass("ui-state-disabled"),s.find("select.ui-datepicker-month, select.ui-datepicker-year").prop("disabled",!0)),this._disabledInputs=t.map(this._disabledInputs,function(t){return t===e?null:t}),this._disabledInputs[this._disabledInputs.length]=e)},_isDisabledDatepicker:function(t){if(!t)return!1;for(var e=0;this._disabledInputs.length>e;e++)if(this._disabledInputs[e]===t)return!0;return!1},_getInst:function(e){try{return t.data(e,"datepicker")}catch(i){throw"Missing instance data for this datepicker"}},_optionDatepicker:function(e,i,s){var n,a,r,l,h=this._getInst(e);return 2===arguments.length&&"string"==typeof i?"defaults"===i?t.extend({},t.datepicker._defaults):h?"all"===i?t.extend({},h.settings):this._get(h,i):null:(n=i||{},"string"==typeof i&&(n={},n[i]=s),h&&(this._curInst===h&&this._hideDatepicker(),a=this._getDateDatepicker(e,!0),r=this._getMinMaxDate(h,"min"),l=this._getMinMaxDate(h,"max"),o(h.settings,n),null!==r&&void 0!==n.dateFormat&&void 0===n.minDate&&(h.settings.minDate=this._formatDate(h,r)),null!==l&&void 0!==n.dateFormat&&void 0===n.maxDate&&(h.settings.maxDate=this._formatDate(h,l)),"disabled"in n&&(n.disabled?this._disableDatepicker(e):this._enableDatepicker(e)),this._attachments(t(e),h),this._autoSize(h),this._setDate(h,a),this._updateAlternate(h),this._updateDatepicker(h)),void 0)},_changeDatepicker:function(t,e,i){this._optionDatepicker(t,e,i)},_refreshDatepicker:function(t){var e=this._getInst(t);e&&this._updateDatepicker(e)},_setDateDatepicker:function(t,e){var i=this._getInst(t);i&&(this._setDate(i,e),this._updateDatepicker(i),this._updateAlternate(i))},_getDateDatepicker:function(t,e){var i=this._getInst(t);return i&&!i.inline&&this._setDateFromField(i,e),i?this._getDate(i):null},_doKeyDown:function(e){var i,s,n,o=t.datepicker._getInst(e.target),a=!0,r=o.dpDiv.is(".ui-datepicker-rtl");if(o._keyEvent=!0,t.datepicker._datepickerShowing)switch(e.keyCode){case 9:t.datepicker._hideDatepicker(),a=!1;break;case 13:return n=t("td."+t.datepicker._dayOverClass+":not(."+t.datepicker._currentClass+")",o.dpDiv),n[0]&&t.datepicker._selectDay(e.target,o.selectedMonth,o.selectedYear,n[0]),i=t.datepicker._get(o,"onSelect"),i?(s=t.datepicker._formatDate(o),i.apply(o.input?o.input[0]:null,[s,o])):t.datepicker._hideDatepicker(),!1;case 27:t.datepicker._hideDatepicker();break;case 33:t.datepicker._adjustDate(e.target,e.ctrlKey?-t.datepicker._get(o,"stepBigMonths"):-t.datepicker._get(o,"stepMonths"),"M");break;case 34:t.datepicker._adjustDate(e.target,e.ctrlKey?+t.datepicker._get(o,"stepBigMonths"):+t.datepicker._get(o,"stepMonths"),"M");break;case 35:(e.ctrlKey||e.metaKey)&&t.datepicker._clearDate(e.target),a=e.ctrlKey||e.metaKey;break;case 36:(e.ctrlKey||e.metaKey)&&t.datepicker._gotoToday(e.target),a=e.ctrlKey||e.metaKey;break;case 37:(e.ctrlKey||e.metaKey)&&t.datepicker._adjustDate(e.target,r?1:-1,"D"),a=e.ctrlKey||e.metaKey,e.originalEvent.altKey&&t.datepicker._adjustDate(e.target,e.ctrlKey?-t.datepicker._get(o,"stepBigMonths"):-t.datepicker._get(o,"stepMonths"),"M");break;case 38:(e.ctrlKey||e.metaKey)&&t.datepicker._adjustDate(e.target,-7,"D"),a=e.ctrlKey||e.metaKey;break;case 39:(e.ctrlKey||e.metaKey)&&t.datepicker._adjustDate(e.target,r?-1:1,"D"),a=e.ctrlKey||e.metaKey,e.originalEvent.altKey&&t.datepicker._adjustDate(e.target,e.ctrlKey?+t.datepicker._get(o,"stepBigMonths"):+t.datepicker._get(o,"stepMonths"),"M");break;case 40:(e.ctrlKey||e.metaKey)&&t.datepicker._adjustDate(e.target,7,"D"),a=e.ctrlKey||e.metaKey;break;default:a=!1}else 36===e.keyCode&&e.ctrlKey?t.datepicker._showDatepicker(this):a=!1;a&&(e.preventDefault(),e.stopPropagation())},_doKeyPress:function(e){var i,s,n=t.datepicker._getInst(e.target);return t.datepicker._get(n,"constrainInput")?(i=t.datepicker._possibleChars(t.datepicker._get(n,"dateFormat")),s=String.fromCharCode(null==e.charCode?e.keyCode:e.charCode),e.ctrlKey||e.metaKey||" ">s||!i||i.indexOf(s)>-1):void 0},_doKeyUp:function(e){var i,s=t.datepicker._getInst(e.target);if(s.input.val()!==s.lastVal)try{i=t.datepicker.parseDate(t.datepicker._get(s,"dateFormat"),s.input?s.input.val():null,t.datepicker._getFormatConfig(s)),i&&(t.datepicker._setDateFromField(s),t.datepicker._updateAlternate(s),t.datepicker._updateDatepicker(s))}catch(n){}return!0},_showDatepicker:function(i){if(i=i.target||i,"input"!==i.nodeName.toLowerCase()&&(i=t("input",i.parentNode)[0]),!t.datepicker._isDisabledDatepicker(i)&&t.datepicker._lastInput!==i){var s,n,a,r,l,h,c;s=t.datepicker._getInst(i),t.datepicker._curInst&&t.datepicker._curInst!==s&&(t.datepicker._curInst.dpDiv.stop(!0,!0),s&&t.datepicker._datepickerShowing&&t.datepicker._hideDatepicker(t.datepicker._curInst.input[0])),n=t.datepicker._get(s,"beforeShow"),a=n?n.apply(i,[i,s]):{},a!==!1&&(o(s.settings,a),s.lastVal=null,t.datepicker._lastInput=i,t.datepicker._setDateFromField(s),t.datepicker._inDialog&&(i.value=""),t.datepicker._pos||(t.datepicker._pos=t.datepicker._findPos(i),t.datepicker._pos[1]+=i.offsetHeight),r=!1,t(i).parents().each(function(){return r|="fixed"===t(this).css("position"),!r}),l={left:t.datepicker._pos[0],top:t.datepicker._pos[1]},t.datepicker._pos=null,s.dpDiv.empty(),s.dpDiv.css({position:"absolute",display:"block",top:"-1000px"}),t.datepicker._updateDatepicker(s),l=t.datepicker._checkOffset(s,l,r),s.dpDiv.css({position:t.datepicker._inDialog&&t.blockUI?"static":r?"fixed":"absolute",display:"none",left:l.left+"px",top:l.top+"px"}),s.inline||(h=t.datepicker._get(s,"showAnim"),c=t.datepicker._get(s,"duration"),s.dpDiv.css("z-index",e(t(i))+1),t.datepicker._datepickerShowing=!0,t.effects&&t.effects.effect[h]?s.dpDiv.show(h,t.datepicker._get(s,"showOptions"),c):s.dpDiv[h||"show"](h?c:null),t.datepicker._shouldFocusInput(s)&&s.input.trigger("focus"),t.datepicker._curInst=s))}},_updateDatepicker:function(e){this.maxRows=4,a=e,e.dpDiv.empty().append(this._generateHTML(e)),this._attachHandlers(e);var i,s=this._getNumberOfMonths(e),o=s[1],r=17,l=e.dpDiv.find("."+this._dayOverClass+" a");l.length>0&&n.apply(l.get(0)),e.dpDiv.removeClass("ui-datepicker-multi-2 ui-datepicker-multi-3 ui-datepicker-multi-4").width(""),o>1&&e.dpDiv.addClass("ui-datepicker-multi-"+o).css("width",r*o+"em"),e.dpDiv[(1!==s[0]||1!==s[1]?"add":"remove")+"Class"]("ui-datepicker-multi"),e.dpDiv[(this._get(e,"isRTL")?"add":"remove")+"Class"]("ui-datepicker-rtl"),e===t.datepicker._curInst&&t.datepicker._datepickerShowing&&t.datepicker._shouldFocusInput(e)&&e.input.trigger("focus"),e.yearshtml&&(i=e.yearshtml,setTimeout(function(){i===e.yearshtml&&e.yearshtml&&e.dpDiv.find("select.ui-datepicker-year:first").replaceWith(e.yearshtml),i=e.yearshtml=null},0))},_shouldFocusInput:function(t){return t.input&&t.input.is(":visible")&&!t.input.is(":disabled")&&!t.input.is(":focus")},_checkOffset:function(e,i,s){var n=e.dpDiv.outerWidth(),o=e.dpDiv.outerHeight(),a=e.input?e.input.outerWidth():0,r=e.input?e.input.outerHeight():0,l=document.documentElement.clientWidth+(s?0:t(document).scrollLeft()),h=document.documentElement.clientHeight+(s?0:t(document).scrollTop());return i.left-=this._get(e,"isRTL")?n-a:0,i.left-=s&&i.left===e.input.offset().left?t(document).scrollLeft():0,i.top-=s&&i.top===e.input.offset().top+r?t(document).scrollTop():0,i.left-=Math.min(i.left,i.left+n>l&&l>n?Math.abs(i.left+n-l):0),i.top-=Math.min(i.top,i.top+o>h&&h>o?Math.abs(o+r):0),i},_findPos:function(e){for(var i,s=this._getInst(e),n=this._get(s,"isRTL");e&&("hidden"===e.type||1!==e.nodeType||t.expr.filters.hidden(e));)e=e[n?"previousSibling":"nextSibling"];return i=t(e).offset(),[i.left,i.top]},_hideDatepicker:function(e){var i,s,n,o,a=this._curInst;!a||e&&a!==t.data(e,"datepicker")||this._datepickerShowing&&(i=this._get(a,"showAnim"),s=this._get(a,"duration"),n=function(){t.datepicker._tidyDialog(a)},t.effects&&(t.effects.effect[i]||t.effects[i])?a.dpDiv.hide(i,t.datepicker._get(a,"showOptions"),s,n):a.dpDiv["slideDown"===i?"slideUp":"fadeIn"===i?"fadeOut":"hide"](i?s:null,n),i||n(),this._datepickerShowing=!1,o=this._get(a,"onClose"),o&&o.apply(a.input?a.input[0]:null,[a.input?a.input.val():"",a]),this._lastInput=null,this._inDialog&&(this._dialogInput.css({position:"absolute",left:"0",top:"-100px"}),t.blockUI&&(t.unblockUI(),t("body").append(this.dpDiv))),this._inDialog=!1)},_tidyDialog:function(t){t.dpDiv.removeClass(this._dialogClass).off(".ui-datepicker-calendar")},_checkExternalClick:function(e){if(t.datepicker._curInst){var i=t(e.target),s=t.datepicker._getInst(i[0]);(i[0].id!==t.datepicker._mainDivId&&0===i.parents("#"+t.datepicker._mainDivId).length&&!i.hasClass(t.datepicker.markerClassName)&&!i.closest("."+t.datepicker._triggerClass).length&&t.datepicker._datepickerShowing&&(!t.datepicker._inDialog||!t.blockUI)||i.hasClass(t.datepicker.markerClassName)&&t.datepicker._curInst!==s)&&t.datepicker._hideDatepicker()}},_adjustDate:function(e,i,s){var n=t(e),o=this._getInst(n[0]);this._isDisabledDatepicker(n[0])||(this._adjustInstDate(o,i+("M"===s?this._get(o,"showCurrentAtPos"):0),s),this._updateDatepicker(o))},_gotoToday:function(e){var i,s=t(e),n=this._getInst(s[0]);this._get(n,"gotoCurrent")&&n.currentDay?(n.selectedDay=n.currentDay,n.drawMonth=n.selectedMonth=n.currentMonth,n.drawYear=n.selectedYear=n.currentYear):(i=new Date,n.selectedDay=i.getDate(),n.drawMonth=n.selectedMonth=i.getMonth(),n.drawYear=n.selectedYear=i.getFullYear()),this._notifyChange(n),this._adjustDate(s)},_selectMonthYear:function(e,i,s){var n=t(e),o=this._getInst(n[0]);o["selected"+("M"===s?"Month":"Year")]=o["draw"+("M"===s?"Month":"Year")]=parseInt(i.options[i.selectedIndex].value,10),this._notifyChange(o),this._adjustDate(n)},_selectDay:function(e,i,s,n){var o,a=t(e);t(n).hasClass(this._unselectableClass)||this._isDisabledDatepicker(a[0])||(o=this._getInst(a[0]),o.selectedDay=o.currentDay=t("a",n).html(),o.selectedMonth=o.currentMonth=i,o.selectedYear=o.currentYear=s,this._selectDate(e,this._formatDate(o,o.currentDay,o.currentMonth,o.currentYear)))},_clearDate:function(e){var i=t(e);this._selectDate(i,"")},_selectDate:function(e,i){var s,n=t(e),o=this._getInst(n[0]);i=null!=i?i:this._formatDate(o),o.input&&o.input.val(i),this._updateAlternate(o),s=this._get(o,"onSelect"),s?s.apply(o.input?o.input[0]:null,[i,o]):o.input&&o.input.trigger("change"),o.inline?this._updateDatepicker(o):(this._hideDatepicker(),this._lastInput=o.input[0],"object"!=typeof o.input[0]&&o.input.trigger("focus"),this._lastInput=null)},_updateAlternate:function(e){var i,s,n,o=this._get(e,"altField");o&&(i=this._get(e,"altFormat")||this._get(e,"dateFormat"),s=this._getDate(e),n=this.formatDate(i,s,this._getFormatConfig(e)),t(o).val(n))},noWeekends:function(t){var e=t.getDay();return[e>0&&6>e,""]},iso8601Week:function(t){var e,i=new Date(t.getTime());return i.setDate(i.getDate()+4-(i.getDay()||7)),e=i.getTime(),i.setMonth(0),i.setDate(1),Math.floor(Math.round((e-i)/864e5)/7)+1},parseDate:function(e,i,s){if(null==e||null==i)throw"Invalid arguments";if(i="object"==typeof i?""+i:i+"",""===i)return null;var n,o,a,r,l=0,h=(s?s.shortYearCutoff:null)||this._defaults.shortYearCutoff,c="string"!=typeof h?h:(new Date).getFullYear()%100+parseInt(h,10),u=(s?s.dayNamesShort:null)||this._defaults.dayNamesShort,d=(s?s.dayNames:null)||this._defaults.dayNames,p=(s?s.monthNamesShort:null)||this._defaults.monthNamesShort,f=(s?s.monthNames:null)||this._defaults.monthNames,g=-1,m=-1,_=-1,v=-1,b=!1,y=function(t){var i=e.length>n+1&&e.charAt(n+1)===t;return i&&n++,i},w=function(t){var e=y(t),s="@"===t?14:"!"===t?20:"y"===t&&e?4:"o"===t?3:2,n="y"===t?s:1,o=RegExp("^\\d{"+n+","+s+"}"),a=i.substring(l).match(o);if(!a)throw"Missing number at position "+l;return l+=a[0].length,parseInt(a[0],10)},k=function(e,s,n){var o=-1,a=t.map(y(e)?n:s,function(t,e){return[[e,t]]}).sort(function(t,e){return-(t[1].length-e[1].length)});if(t.each(a,function(t,e){var s=e[1];return i.substr(l,s.length).toLowerCase()===s.toLowerCase()?(o=e[0],l+=s.length,!1):void 0}),-1!==o)return o+1;throw"Unknown name at position "+l},x=function(){if(i.charAt(l)!==e.charAt(n))throw"Unexpected literal at position "+l;l++};for(n=0;e.length>n;n++)if(b)"'"!==e.charAt(n)||y("'")?x():b=!1;else switch(e.charAt(n)){case"d":_=w("d");break;case"D":k("D",u,d);break;case"o":v=w("o");break;case"m":m=w("m");break;case"M":m=k("M",p,f);break;case"y":g=w("y");break;case"@":r=new Date(w("@")),g=r.getFullYear(),m=r.getMonth()+1,_=r.getDate();break;case"!":r=new Date((w("!")-this._ticksTo1970)/1e4),g=r.getFullYear(),m=r.getMonth()+1,_=r.getDate();break;case"'":y("'")?x():b=!0;break;default:x()}if(i.length>l&&(a=i.substr(l),!/^\s+/.test(a)))throw"Extra/unparsed characters found in date: "+a;if(-1===g?g=(new Date).getFullYear():100>g&&(g+=(new Date).getFullYear()-(new Date).getFullYear()%100+(c>=g?0:-100)),v>-1)for(m=1,_=v;;){if(o=this._getDaysInMonth(g,m-1),o>=_)break;m++,_-=o}if(r=this._daylightSavingAdjust(new Date(g,m-1,_)),r.getFullYear()!==g||r.getMonth()+1!==m||r.getDate()!==_)throw"Invalid date";return r},ATOM:"yy-mm-dd",COOKIE:"D, dd M yy",ISO_8601:"yy-mm-dd",RFC_822:"D, d M y",RFC_850:"DD, dd-M-y",RFC_1036:"D, d M y",RFC_1123:"D, d M yy",RFC_2822:"D, d M yy",RSS:"D, d M y",TICKS:"!",TIMESTAMP:"@",W3C:"yy-mm-dd",_ticksTo1970:1e7*60*60*24*(718685+Math.floor(492.5)-Math.floor(19.7)+Math.floor(4.925)),formatDate:function(t,e,i){if(!e)return"";var s,n=(i?i.dayNamesShort:null)||this._defaults.dayNamesShort,o=(i?i.dayNames:null)||this._defaults.dayNames,a=(i?i.monthNamesShort:null)||this._defaults.monthNamesShort,r=(i?i.monthNames:null)||this._defaults.monthNames,l=function(e){var i=t.length>s+1&&t.charAt(s+1)===e;return i&&s++,i},h=function(t,e,i){var s=""+e;if(l(t))for(;i>s.length;)s="0"+s;return s},c=function(t,e,i,s){return l(t)?s[e]:i[e]},u="",d=!1;if(e)for(s=0;t.length>s;s++)if(d)"'"!==t.charAt(s)||l("'")?u+=t.charAt(s):d=!1;else switch(t.charAt(s)){case"d":u+=h("d",e.getDate(),2);break;case"D":u+=c("D",e.getDay(),n,o);break;case"o":u+=h("o",Math.round((new Date(e.getFullYear(),e.getMonth(),e.getDate()).getTime()-new Date(e.getFullYear(),0,0).getTime())/864e5),3);break;case"m":u+=h("m",e.getMonth()+1,2);break;case"M":u+=c("M",e.getMonth(),a,r);break;case"y":u+=l("y")?e.getFullYear():(10>e.getFullYear()%100?"0":"")+e.getFullYear()%100;break;case"@":u+=e.getTime();break;case"!":u+=1e4*e.getTime()+this._ticksTo1970;break;case"'":l("'")?u+="'":d=!0;break;default:u+=t.charAt(s)}return u},_possibleChars:function(t){var e,i="",s=!1,n=function(i){var s=t.length>e+1&&t.charAt(e+1)===i;return s&&e++,s};for(e=0;t.length>e;e++)if(s)"'"!==t.charAt(e)||n("'")?i+=t.charAt(e):s=!1;else switch(t.charAt(e)){case"d":case"m":case"y":case"@":i+="0123456789";break;case"D":case"M":return null;case"'":n("'")?i+="'":s=!0;break;default:i+=t.charAt(e)}return i},_get:function(t,e){return void 0!==t.settings[e]?t.settings[e]:this._defaults[e]},_setDateFromField:function(t,e){if(t.input.val()!==t.lastVal){var i=this._get(t,"dateFormat"),s=t.lastVal=t.input?t.input.val():null,n=this._getDefaultDate(t),o=n,a=this._getFormatConfig(t);try{o=this.parseDate(i,s,a)||n}catch(r){s=e?"":s}t.selectedDay=o.getDate(),t.drawMonth=t.selectedMonth=o.getMonth(),t.drawYear=t.selectedYear=o.getFullYear(),t.currentDay=s?o.getDate():0,t.currentMonth=s?o.getMonth():0,t.currentYear=s?o.getFullYear():0,this._adjustInstDate(t)}},_getDefaultDate:function(t){return this._restrictMinMax(t,this._determineDate(t,this._get(t,"defaultDate"),new Date))},_determineDate:function(e,i,s){var n=function(t){var e=new Date;return e.setDate(e.getDate()+t),e},o=function(i){try{return t.datepicker.parseDate(t.datepicker._get(e,"dateFormat"),i,t.datepicker._getFormatConfig(e))}catch(s){}for(var n=(i.toLowerCase().match(/^c/)?t.datepicker._getDate(e):null)||new Date,o=n.getFullYear(),a=n.getMonth(),r=n.getDate(),l=/([+\-]?[0-9]+)\s*(d|D|w|W|m|M|y|Y)?/g,h=l.exec(i);h;){switch(h[2]||"d"){case"d":case"D":r+=parseInt(h[1],10);break;case"w":case"W":r+=7*parseInt(h[1],10);break;case"m":case"M":a+=parseInt(h[1],10),r=Math.min(r,t.datepicker._getDaysInMonth(o,a));break;case"y":case"Y":o+=parseInt(h[1],10),r=Math.min(r,t.datepicker._getDaysInMonth(o,a))}h=l.exec(i)}return new Date(o,a,r)},a=null==i||""===i?s:"string"==typeof i?o(i):"number"==typeof i?isNaN(i)?s:n(i):new Date(i.getTime());return a=a&&"Invalid Date"==""+a?s:a,a&&(a.setHours(0),a.setMinutes(0),a.setSeconds(0),a.setMilliseconds(0)),this._daylightSavingAdjust(a)},_daylightSavingAdjust:function(t){return t?(t.setHours(t.getHours()>12?t.getHours()+2:0),t):null},_setDate:function(t,e,i){var s=!e,n=t.selectedMonth,o=t.selectedYear,a=this._restrictMinMax(t,this._determineDate(t,e,new Date));t.selectedDay=t.currentDay=a.getDate(),t.drawMonth=t.selectedMonth=t.currentMonth=a.getMonth(),t.drawYear=t.selectedYear=t.currentYear=a.getFullYear(),n===t.selectedMonth&&o===t.selectedYear||i||this._notifyChange(t),this._adjustInstDate(t),t.input&&t.input.val(s?"":this._formatDate(t))},_getDate:function(t){var e=!t.currentYear||t.input&&""===t.input.val()?null:this._daylightSavingAdjust(new Date(t.currentYear,t.currentMonth,t.currentDay));return e},_attachHandlers:function(e){var i=this._get(e,"stepMonths"),s="#"+e.id.replace(/\\\\/g,"\\");e.dpDiv.find("[data-handler]").map(function(){var e={prev:function(){t.datepicker._adjustDate(s,-i,"M")},next:function(){t.datepicker._adjustDate(s,+i,"M")},hide:function(){t.datepicker._hideDatepicker()},today:function(){t.datepicker._gotoToday(s)},selectDay:function(){return t.datepicker._selectDay(s,+this.getAttribute("data-month"),+this.getAttribute("data-year"),this),!1},selectMonth:function(){return t.datepicker._selectMonthYear(s,this,"M"),!1},selectYear:function(){return t.datepicker._selectMonthYear(s,this,"Y"),!1}};t(this).on(this.getAttribute("data-event"),e[this.getAttribute("data-handler")])})},_generateHTML:function(t){var e,i,s,n,o,a,r,l,h,c,u,d,p,f,g,m,_,v,b,y,w,k,x,C,D,T,I,M,P,S,N,H,A,z,O,E,W,F,L,R=new Date,Y=this._daylightSavingAdjust(new Date(R.getFullYear(),R.getMonth(),R.getDate())),B=this._get(t,"isRTL"),j=this._get(t,"showButtonPanel"),q=this._get(t,"hideIfNoPrevNext"),K=this._get(t,"navigationAsDateFormat"),U=this._getNumberOfMonths(t),V=this._get(t,"showCurrentAtPos"),X=this._get(t,"stepMonths"),$=1!==U[0]||1!==U[1],G=this._daylightSavingAdjust(t.currentDay?new Date(t.currentYear,t.currentMonth,t.currentDay):new Date(9999,9,9)),J=this._getMinMaxDate(t,"min"),Q=this._getMinMaxDate(t,"max"),Z=t.drawMonth-V,te=t.drawYear;if(0>Z&&(Z+=12,te--),Q)for(e=this._daylightSavingAdjust(new Date(Q.getFullYear(),Q.getMonth()-U[0]*U[1]+1,Q.getDate())),e=J&&J>e?J:e;this._daylightSavingAdjust(new Date(te,Z,1))>e;)Z--,0>Z&&(Z=11,te--);for(t.drawMonth=Z,t.drawYear=te,i=this._get(t,"prevText"),i=K?this.formatDate(i,this._daylightSavingAdjust(new Date(te,Z-X,1)),this._getFormatConfig(t)):i,s=this._canAdjustMonth(t,-1,te,Z)?"<a class='ui-datepicker-prev ui-corner-all' data-handler='prev' data-event='click' title='"+i+"'><span class='ui-icon ui-icon-circle-triangle-"+(B?"e":"w")+"'>"+i+"</span></a>":q?"":"<a class='ui-datepicker-prev ui-corner-all ui-state-disabled' title='"+i+"'><span class='ui-icon ui-icon-circle-triangle-"+(B?"e":"w")+"'>"+i+"</span></a>",n=this._get(t,"nextText"),n=K?this.formatDate(n,this._daylightSavingAdjust(new Date(te,Z+X,1)),this._getFormatConfig(t)):n,o=this._canAdjustMonth(t,1,te,Z)?"<a class='ui-datepicker-next ui-corner-all' data-handler='next' data-event='click' title='"+n+"'><span class='ui-icon ui-icon-circle-triangle-"+(B?"w":"e")+"'>"+n+"</span></a>":q?"":"<a class='ui-datepicker-next ui-corner-all ui-state-disabled' title='"+n+"'><span class='ui-icon ui-icon-circle-triangle-"+(B?"w":"e")+"'>"+n+"</span></a>",a=this._get(t,"currentText"),r=this._get(t,"gotoCurrent")&&t.currentDay?G:Y,a=K?this.formatDate(a,r,this._getFormatConfig(t)):a,l=t.inline?"":"<button type='button' class='ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all' data-handler='hide' data-event='click'>"+this._get(t,"closeText")+"</button>",h=j?"<div class='ui-datepicker-buttonpane ui-widget-content'>"+(B?l:"")+(this._isInRange(t,r)?"<button type='button' class='ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all' data-handler='today' data-event='click'>"+a+"</button>":"")+(B?"":l)+"</div>":"",c=parseInt(this._get(t,"firstDay"),10),c=isNaN(c)?0:c,u=this._get(t,"showWeek"),d=this._get(t,"dayNames"),p=this._get(t,"dayNamesMin"),f=this._get(t,"monthNames"),g=this._get(t,"monthNamesShort"),m=this._get(t,"beforeShowDay"),_=this._get(t,"showOtherMonths"),v=this._get(t,"selectOtherMonths"),b=this._getDefaultDate(t),y="",k=0;U[0]>k;k++){for(x="",this.maxRows=4,C=0;U[1]>C;C++){if(D=this._daylightSavingAdjust(new Date(te,Z,t.selectedDay)),T=" ui-corner-all",I="",$){if(I+="<div class='ui-datepicker-group",U[1]>1)switch(C){case 0:I+=" ui-datepicker-group-first",T=" ui-corner-"+(B?"right":"left");break;case U[1]-1:I+=" ui-datepicker-group-last",T=" ui-corner-"+(B?"left":"right");break;default:I+=" ui-datepicker-group-middle",T=""}I+="'>"}for(I+="<div class='ui-datepicker-header ui-widget-header ui-helper-clearfix"+T+"'>"+(/all|left/.test(T)&&0===k?B?o:s:"")+(/all|right/.test(T)&&0===k?B?s:o:"")+this._generateMonthYearHeader(t,Z,te,J,Q,k>0||C>0,f,g)+"</div><table class='ui-datepicker-calendar'><thead>"+"<tr>",M=u?"<th class='ui-datepicker-week-col'>"+this._get(t,"weekHeader")+"</th>":"",w=0;7>w;w++)P=(w+c)%7,M+="<th scope='col'"+((w+c+6)%7>=5?" class='ui-datepicker-week-end'":"")+">"+"<span title='"+d[P]+"'>"+p[P]+"</span></th>";for(I+=M+"</tr></thead><tbody>",S=this._getDaysInMonth(te,Z),te===t.selectedYear&&Z===t.selectedMonth&&(t.selectedDay=Math.min(t.selectedDay,S)),N=(this._getFirstDayOfMonth(te,Z)-c+7)%7,H=Math.ceil((N+S)/7),A=$?this.maxRows>H?this.maxRows:H:H,this.maxRows=A,z=this._daylightSavingAdjust(new Date(te,Z,1-N)),O=0;A>O;O++){for(I+="<tr>",E=u?"<td class='ui-datepicker-week-col'>"+this._get(t,"calculateWeek")(z)+"</td>":"",w=0;7>w;w++)W=m?m.apply(t.input?t.input[0]:null,[z]):[!0,""],F=z.getMonth()!==Z,L=F&&!v||!W[0]||J&&J>z||Q&&z>Q,E+="<td class='"+((w+c+6)%7>=5?" ui-datepicker-week-end":"")+(F?" ui-datepicker-other-month":"")+(z.getTime()===D.getTime()&&Z===t.selectedMonth&&t._keyEvent||b.getTime()===z.getTime()&&b.getTime()===D.getTime()?" "+this._dayOverClass:"")+(L?" "+this._unselectableClass+" ui-state-disabled":"")+(F&&!_?"":" "+W[1]+(z.getTime()===G.getTime()?" "+this._currentClass:"")+(z.getTime()===Y.getTime()?" ui-datepicker-today":""))+"'"+(F&&!_||!W[2]?"":" title='"+W[2].replace(/'/g,"&#39;")+"'")+(L?"":" data-handler='selectDay' data-event='click' data-month='"+z.getMonth()+"' data-year='"+z.getFullYear()+"'")+">"+(F&&!_?"&#xa0;":L?"<span class='ui-state-default'>"+z.getDate()+"</span>":"<a class='ui-state-default"+(z.getTime()===Y.getTime()?" ui-state-highlight":"")+(z.getTime()===G.getTime()?" ui-state-active":"")+(F?" ui-priority-secondary":"")+"' href='#'>"+z.getDate()+"</a>")+"</td>",z.setDate(z.getDate()+1),z=this._daylightSavingAdjust(z);I+=E+"</tr>"}Z++,Z>11&&(Z=0,te++),I+="</tbody></table>"+($?"</div>"+(U[0]>0&&C===U[1]-1?"<div class='ui-datepicker-row-break'></div>":""):""),x+=I
+}y+=x}return y+=h,t._keyEvent=!1,y},_generateMonthYearHeader:function(t,e,i,s,n,o,a,r){var l,h,c,u,d,p,f,g,m=this._get(t,"changeMonth"),_=this._get(t,"changeYear"),v=this._get(t,"showMonthAfterYear"),b="<div class='ui-datepicker-title'>",y="";if(o||!m)y+="<span class='ui-datepicker-month'>"+a[e]+"</span>";else{for(l=s&&s.getFullYear()===i,h=n&&n.getFullYear()===i,y+="<select class='ui-datepicker-month' data-handler='selectMonth' data-event='change'>",c=0;12>c;c++)(!l||c>=s.getMonth())&&(!h||n.getMonth()>=c)&&(y+="<option value='"+c+"'"+(c===e?" selected='selected'":"")+">"+r[c]+"</option>");y+="</select>"}if(v||(b+=y+(!o&&m&&_?"":"&#xa0;")),!t.yearshtml)if(t.yearshtml="",o||!_)b+="<span class='ui-datepicker-year'>"+i+"</span>";else{for(u=this._get(t,"yearRange").split(":"),d=(new Date).getFullYear(),p=function(t){var e=t.match(/c[+\-].*/)?i+parseInt(t.substring(1),10):t.match(/[+\-].*/)?d+parseInt(t,10):parseInt(t,10);return isNaN(e)?d:e},f=p(u[0]),g=Math.max(f,p(u[1]||"")),f=s?Math.max(f,s.getFullYear()):f,g=n?Math.min(g,n.getFullYear()):g,t.yearshtml+="<select class='ui-datepicker-year' data-handler='selectYear' data-event='change'>";g>=f;f++)t.yearshtml+="<option value='"+f+"'"+(f===i?" selected='selected'":"")+">"+f+"</option>";t.yearshtml+="</select>",b+=t.yearshtml,t.yearshtml=null}return b+=this._get(t,"yearSuffix"),v&&(b+=(!o&&m&&_?"":"&#xa0;")+y),b+="</div>"},_adjustInstDate:function(t,e,i){var s=t.selectedYear+("Y"===i?e:0),n=t.selectedMonth+("M"===i?e:0),o=Math.min(t.selectedDay,this._getDaysInMonth(s,n))+("D"===i?e:0),a=this._restrictMinMax(t,this._daylightSavingAdjust(new Date(s,n,o)));t.selectedDay=a.getDate(),t.drawMonth=t.selectedMonth=a.getMonth(),t.drawYear=t.selectedYear=a.getFullYear(),("M"===i||"Y"===i)&&this._notifyChange(t)},_restrictMinMax:function(t,e){var i=this._getMinMaxDate(t,"min"),s=this._getMinMaxDate(t,"max"),n=i&&i>e?i:e;return s&&n>s?s:n},_notifyChange:function(t){var e=this._get(t,"onChangeMonthYear");e&&e.apply(t.input?t.input[0]:null,[t.selectedYear,t.selectedMonth+1,t])},_getNumberOfMonths:function(t){var e=this._get(t,"numberOfMonths");return null==e?[1,1]:"number"==typeof e?[1,e]:e},_getMinMaxDate:function(t,e){return this._determineDate(t,this._get(t,e+"Date"),null)},_getDaysInMonth:function(t,e){return 32-this._daylightSavingAdjust(new Date(t,e,32)).getDate()},_getFirstDayOfMonth:function(t,e){return new Date(t,e,1).getDay()},_canAdjustMonth:function(t,e,i,s){var n=this._getNumberOfMonths(t),o=this._daylightSavingAdjust(new Date(i,s+(0>e?e:n[0]*n[1]),1));return 0>e&&o.setDate(this._getDaysInMonth(o.getFullYear(),o.getMonth())),this._isInRange(t,o)},_isInRange:function(t,e){var i,s,n=this._getMinMaxDate(t,"min"),o=this._getMinMaxDate(t,"max"),a=null,r=null,l=this._get(t,"yearRange");return l&&(i=l.split(":"),s=(new Date).getFullYear(),a=parseInt(i[0],10),r=parseInt(i[1],10),i[0].match(/[+\-].*/)&&(a+=s),i[1].match(/[+\-].*/)&&(r+=s)),(!n||e.getTime()>=n.getTime())&&(!o||e.getTime()<=o.getTime())&&(!a||e.getFullYear()>=a)&&(!r||r>=e.getFullYear())},_getFormatConfig:function(t){var e=this._get(t,"shortYearCutoff");return e="string"!=typeof e?e:(new Date).getFullYear()%100+parseInt(e,10),{shortYearCutoff:e,dayNamesShort:this._get(t,"dayNamesShort"),dayNames:this._get(t,"dayNames"),monthNamesShort:this._get(t,"monthNamesShort"),monthNames:this._get(t,"monthNames")}},_formatDate:function(t,e,i,s){e||(t.currentDay=t.selectedDay,t.currentMonth=t.selectedMonth,t.currentYear=t.selectedYear);var n=e?"object"==typeof e?e:this._daylightSavingAdjust(new Date(s,i,e)):this._daylightSavingAdjust(new Date(t.currentYear,t.currentMonth,t.currentDay));return this.formatDate(this._get(t,"dateFormat"),n,this._getFormatConfig(t))}}),t.fn.datepicker=function(e){if(!this.length)return this;t.datepicker.initialized||(t(document).on("mousedown",t.datepicker._checkExternalClick),t.datepicker.initialized=!0),0===t("#"+t.datepicker._mainDivId).length&&t("body").append(t.datepicker.dpDiv);var i=Array.prototype.slice.call(arguments,1);return"string"!=typeof e||"isDisabled"!==e&&"getDate"!==e&&"widget"!==e?"option"===e&&2===arguments.length&&"string"==typeof arguments[1]?t.datepicker["_"+e+"Datepicker"].apply(t.datepicker,[this[0]].concat(i)):this.each(function(){"string"==typeof e?t.datepicker["_"+e+"Datepicker"].apply(t.datepicker,[this].concat(i)):t.datepicker._attachDatepicker(this,e)}):t.datepicker["_"+e+"Datepicker"].apply(t.datepicker,[this[0]].concat(i))},t.datepicker=new i,t.datepicker.initialized=!1,t.datepicker.uuid=(new Date).getTime(),t.datepicker.version="1.12.1",t.datepicker;var r="ui-effects-",l="ui-effects-style",h="ui-effects-animated",c=t;t.effects={effect:{}},function(t,e){function i(t,e,i){var s=u[e.type]||{};return null==t?i||!e.def?null:e.def:(t=s.floor?~~t:parseFloat(t),isNaN(t)?e.def:s.mod?(t+s.mod)%s.mod:0>t?0:t>s.max?s.max:t)}function s(i){var s=h(),n=s._rgba=[];return i=i.toLowerCase(),f(l,function(t,o){var a,r=o.re.exec(i),l=r&&o.parse(r),h=o.space||"rgba";return l?(a=s[h](l),s[c[h].cache]=a[c[h].cache],n=s._rgba=a._rgba,!1):e}),n.length?("0,0,0,0"===n.join()&&t.extend(n,o.transparent),s):o[i]}function n(t,e,i){return i=(i+1)%1,1>6*i?t+6*(e-t)*i:1>2*i?e:2>3*i?t+6*(e-t)*(2/3-i):t}var o,a="backgroundColor borderBottomColor borderLeftColor borderRightColor borderTopColor color columnRuleColor outlineColor textDecorationColor textEmphasisColor",r=/^([\-+])=\s*(\d+\.?\d*)/,l=[{re:/rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d?(?:\.\d+)?)\s*)?\)/,parse:function(t){return[t[1],t[2],t[3],t[4]]}},{re:/rgba?\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d?(?:\.\d+)?)\s*)?\)/,parse:function(t){return[2.55*t[1],2.55*t[2],2.55*t[3],t[4]]}},{re:/#([a-f0-9]{2})([a-f0-9]{2})([a-f0-9]{2})/,parse:function(t){return[parseInt(t[1],16),parseInt(t[2],16),parseInt(t[3],16)]}},{re:/#([a-f0-9])([a-f0-9])([a-f0-9])/,parse:function(t){return[parseInt(t[1]+t[1],16),parseInt(t[2]+t[2],16),parseInt(t[3]+t[3],16)]}},{re:/hsla?\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d?(?:\.\d+)?)\s*)?\)/,space:"hsla",parse:function(t){return[t[1],t[2]/100,t[3]/100,t[4]]}}],h=t.Color=function(e,i,s,n){return new t.Color.fn.parse(e,i,s,n)},c={rgba:{props:{red:{idx:0,type:"byte"},green:{idx:1,type:"byte"},blue:{idx:2,type:"byte"}}},hsla:{props:{hue:{idx:0,type:"degrees"},saturation:{idx:1,type:"percent"},lightness:{idx:2,type:"percent"}}}},u={"byte":{floor:!0,max:255},percent:{max:1},degrees:{mod:360,floor:!0}},d=h.support={},p=t("<p>")[0],f=t.each;p.style.cssText="background-color:rgba(1,1,1,.5)",d.rgba=p.style.backgroundColor.indexOf("rgba")>-1,f(c,function(t,e){e.cache="_"+t,e.props.alpha={idx:3,type:"percent",def:1}}),h.fn=t.extend(h.prototype,{parse:function(n,a,r,l){if(n===e)return this._rgba=[null,null,null,null],this;(n.jquery||n.nodeType)&&(n=t(n).css(a),a=e);var u=this,d=t.type(n),p=this._rgba=[];return a!==e&&(n=[n,a,r,l],d="array"),"string"===d?this.parse(s(n)||o._default):"array"===d?(f(c.rgba.props,function(t,e){p[e.idx]=i(n[e.idx],e)}),this):"object"===d?(n instanceof h?f(c,function(t,e){n[e.cache]&&(u[e.cache]=n[e.cache].slice())}):f(c,function(e,s){var o=s.cache;f(s.props,function(t,e){if(!u[o]&&s.to){if("alpha"===t||null==n[t])return;u[o]=s.to(u._rgba)}u[o][e.idx]=i(n[t],e,!0)}),u[o]&&0>t.inArray(null,u[o].slice(0,3))&&(u[o][3]=1,s.from&&(u._rgba=s.from(u[o])))}),this):e},is:function(t){var i=h(t),s=!0,n=this;return f(c,function(t,o){var a,r=i[o.cache];return r&&(a=n[o.cache]||o.to&&o.to(n._rgba)||[],f(o.props,function(t,i){return null!=r[i.idx]?s=r[i.idx]===a[i.idx]:e})),s}),s},_space:function(){var t=[],e=this;return f(c,function(i,s){e[s.cache]&&t.push(i)}),t.pop()},transition:function(t,e){var s=h(t),n=s._space(),o=c[n],a=0===this.alpha()?h("transparent"):this,r=a[o.cache]||o.to(a._rgba),l=r.slice();return s=s[o.cache],f(o.props,function(t,n){var o=n.idx,a=r[o],h=s[o],c=u[n.type]||{};null!==h&&(null===a?l[o]=h:(c.mod&&(h-a>c.mod/2?a+=c.mod:a-h>c.mod/2&&(a-=c.mod)),l[o]=i((h-a)*e+a,n)))}),this[n](l)},blend:function(e){if(1===this._rgba[3])return this;var i=this._rgba.slice(),s=i.pop(),n=h(e)._rgba;return h(t.map(i,function(t,e){return(1-s)*n[e]+s*t}))},toRgbaString:function(){var e="rgba(",i=t.map(this._rgba,function(t,e){return null==t?e>2?1:0:t});return 1===i[3]&&(i.pop(),e="rgb("),e+i.join()+")"},toHslaString:function(){var e="hsla(",i=t.map(this.hsla(),function(t,e){return null==t&&(t=e>2?1:0),e&&3>e&&(t=Math.round(100*t)+"%"),t});return 1===i[3]&&(i.pop(),e="hsl("),e+i.join()+")"},toHexString:function(e){var i=this._rgba.slice(),s=i.pop();return e&&i.push(~~(255*s)),"#"+t.map(i,function(t){return t=(t||0).toString(16),1===t.length?"0"+t:t}).join("")},toString:function(){return 0===this._rgba[3]?"transparent":this.toRgbaString()}}),h.fn.parse.prototype=h.fn,c.hsla.to=function(t){if(null==t[0]||null==t[1]||null==t[2])return[null,null,null,t[3]];var e,i,s=t[0]/255,n=t[1]/255,o=t[2]/255,a=t[3],r=Math.max(s,n,o),l=Math.min(s,n,o),h=r-l,c=r+l,u=.5*c;return e=l===r?0:s===r?60*(n-o)/h+360:n===r?60*(o-s)/h+120:60*(s-n)/h+240,i=0===h?0:.5>=u?h/c:h/(2-c),[Math.round(e)%360,i,u,null==a?1:a]},c.hsla.from=function(t){if(null==t[0]||null==t[1]||null==t[2])return[null,null,null,t[3]];var e=t[0]/360,i=t[1],s=t[2],o=t[3],a=.5>=s?s*(1+i):s+i-s*i,r=2*s-a;return[Math.round(255*n(r,a,e+1/3)),Math.round(255*n(r,a,e)),Math.round(255*n(r,a,e-1/3)),o]},f(c,function(s,n){var o=n.props,a=n.cache,l=n.to,c=n.from;h.fn[s]=function(s){if(l&&!this[a]&&(this[a]=l(this._rgba)),s===e)return this[a].slice();var n,r=t.type(s),u="array"===r||"object"===r?s:arguments,d=this[a].slice();return f(o,function(t,e){var s=u["object"===r?t:e.idx];null==s&&(s=d[e.idx]),d[e.idx]=i(s,e)}),c?(n=h(c(d)),n[a]=d,n):h(d)},f(o,function(e,i){h.fn[e]||(h.fn[e]=function(n){var o,a=t.type(n),l="alpha"===e?this._hsla?"hsla":"rgba":s,h=this[l](),c=h[i.idx];return"undefined"===a?c:("function"===a&&(n=n.call(this,c),a=t.type(n)),null==n&&i.empty?this:("string"===a&&(o=r.exec(n),o&&(n=c+parseFloat(o[2])*("+"===o[1]?1:-1))),h[i.idx]=n,this[l](h)))})})}),h.hook=function(e){var i=e.split(" ");f(i,function(e,i){t.cssHooks[i]={set:function(e,n){var o,a,r="";if("transparent"!==n&&("string"!==t.type(n)||(o=s(n)))){if(n=h(o||n),!d.rgba&&1!==n._rgba[3]){for(a="backgroundColor"===i?e.parentNode:e;(""===r||"transparent"===r)&&a&&a.style;)try{r=t.css(a,"backgroundColor"),a=a.parentNode}catch(l){}n=n.blend(r&&"transparent"!==r?r:"_default")}n=n.toRgbaString()}try{e.style[i]=n}catch(l){}}},t.fx.step[i]=function(e){e.colorInit||(e.start=h(e.elem,i),e.end=h(e.end),e.colorInit=!0),t.cssHooks[i].set(e.elem,e.start.transition(e.end,e.pos))}})},h.hook(a),t.cssHooks.borderColor={expand:function(t){var e={};return f(["Top","Right","Bottom","Left"],function(i,s){e["border"+s+"Color"]=t}),e}},o=t.Color.names={aqua:"#00ffff",black:"#000000",blue:"#0000ff",fuchsia:"#ff00ff",gray:"#808080",green:"#008000",lime:"#00ff00",maroon:"#800000",navy:"#000080",olive:"#808000",purple:"#800080",red:"#ff0000",silver:"#c0c0c0",teal:"#008080",white:"#ffffff",yellow:"#ffff00",transparent:[null,null,null,0],_default:"#ffffff"}}(c),function(){function e(e){var i,s,n=e.ownerDocument.defaultView?e.ownerDocument.defaultView.getComputedStyle(e,null):e.currentStyle,o={};if(n&&n.length&&n[0]&&n[n[0]])for(s=n.length;s--;)i=n[s],"string"==typeof n[i]&&(o[t.camelCase(i)]=n[i]);else for(i in n)"string"==typeof n[i]&&(o[i]=n[i]);return o}function i(e,i){var s,o,a={};for(s in i)o=i[s],e[s]!==o&&(n[s]||(t.fx.step[s]||!isNaN(parseFloat(o)))&&(a[s]=o));return a}var s=["add","remove","toggle"],n={border:1,borderBottom:1,borderColor:1,borderLeft:1,borderRight:1,borderTop:1,borderWidth:1,margin:1,padding:1};t.each(["borderLeftStyle","borderRightStyle","borderBottomStyle","borderTopStyle"],function(e,i){t.fx.step[i]=function(t){("none"!==t.end&&!t.setAttr||1===t.pos&&!t.setAttr)&&(c.style(t.elem,i,t.end),t.setAttr=!0)}}),t.fn.addBack||(t.fn.addBack=function(t){return this.add(null==t?this.prevObject:this.prevObject.filter(t))}),t.effects.animateClass=function(n,o,a,r){var l=t.speed(o,a,r);return this.queue(function(){var o,a=t(this),r=a.attr("class")||"",h=l.children?a.find("*").addBack():a;h=h.map(function(){var i=t(this);return{el:i,start:e(this)}}),o=function(){t.each(s,function(t,e){n[e]&&a[e+"Class"](n[e])})},o(),h=h.map(function(){return this.end=e(this.el[0]),this.diff=i(this.start,this.end),this}),a.attr("class",r),h=h.map(function(){var e=this,i=t.Deferred(),s=t.extend({},l,{queue:!1,complete:function(){i.resolve(e)}});return this.el.animate(this.diff,s),i.promise()}),t.when.apply(t,h.get()).done(function(){o(),t.each(arguments,function(){var e=this.el;t.each(this.diff,function(t){e.css(t,"")})}),l.complete.call(a[0])})})},t.fn.extend({addClass:function(e){return function(i,s,n,o){return s?t.effects.animateClass.call(this,{add:i},s,n,o):e.apply(this,arguments)}}(t.fn.addClass),removeClass:function(e){return function(i,s,n,o){return arguments.length>1?t.effects.animateClass.call(this,{remove:i},s,n,o):e.apply(this,arguments)}}(t.fn.removeClass),toggleClass:function(e){return function(i,s,n,o,a){return"boolean"==typeof s||void 0===s?n?t.effects.animateClass.call(this,s?{add:i}:{remove:i},n,o,a):e.apply(this,arguments):t.effects.animateClass.call(this,{toggle:i},s,n,o)}}(t.fn.toggleClass),switchClass:function(e,i,s,n,o){return t.effects.animateClass.call(this,{add:i,remove:e},s,n,o)}})}(),function(){function e(e,i,s,n){return t.isPlainObject(e)&&(i=e,e=e.effect),e={effect:e},null==i&&(i={}),t.isFunction(i)&&(n=i,s=null,i={}),("number"==typeof i||t.fx.speeds[i])&&(n=s,s=i,i={}),t.isFunction(s)&&(n=s,s=null),i&&t.extend(e,i),s=s||i.duration,e.duration=t.fx.off?0:"number"==typeof s?s:s in t.fx.speeds?t.fx.speeds[s]:t.fx.speeds._default,e.complete=n||i.complete,e}function i(e){return!e||"number"==typeof e||t.fx.speeds[e]?!0:"string"!=typeof e||t.effects.effect[e]?t.isFunction(e)?!0:"object"!=typeof e||e.effect?!1:!0:!0}function s(t,e){var i=e.outerWidth(),s=e.outerHeight(),n=/^rect\((-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto),?\s*(-?\d*\.?\d*px|-?\d+%|auto)\)$/,o=n.exec(t)||["",0,i,s,0];return{top:parseFloat(o[1])||0,right:"auto"===o[2]?i:parseFloat(o[2]),bottom:"auto"===o[3]?s:parseFloat(o[3]),left:parseFloat(o[4])||0}}t.expr&&t.expr.filters&&t.expr.filters.animated&&(t.expr.filters.animated=function(e){return function(i){return!!t(i).data(h)||e(i)}}(t.expr.filters.animated)),t.uiBackCompat!==!1&&t.extend(t.effects,{save:function(t,e){for(var i=0,s=e.length;s>i;i++)null!==e[i]&&t.data(r+e[i],t[0].style[e[i]])},restore:function(t,e){for(var i,s=0,n=e.length;n>s;s++)null!==e[s]&&(i=t.data(r+e[s]),t.css(e[s],i))},setMode:function(t,e){return"toggle"===e&&(e=t.is(":hidden")?"show":"hide"),e},createWrapper:function(e){if(e.parent().is(".ui-effects-wrapper"))return e.parent();var i={width:e.outerWidth(!0),height:e.outerHeight(!0),"float":e.css("float")},s=t("<div></div>").addClass("ui-effects-wrapper").css({fontSize:"100%",background:"transparent",border:"none",margin:0,padding:0}),n={width:e.width(),height:e.height()},o=document.activeElement;try{o.id}catch(a){o=document.body}return e.wrap(s),(e[0]===o||t.contains(e[0],o))&&t(o).trigger("focus"),s=e.parent(),"static"===e.css("position")?(s.css({position:"relative"}),e.css({position:"relative"})):(t.extend(i,{position:e.css("position"),zIndex:e.css("z-index")}),t.each(["top","left","bottom","right"],function(t,s){i[s]=e.css(s),isNaN(parseInt(i[s],10))&&(i[s]="auto")}),e.css({position:"relative",top:0,left:0,right:"auto",bottom:"auto"})),e.css(n),s.css(i).show()},removeWrapper:function(e){var i=document.activeElement;return e.parent().is(".ui-effects-wrapper")&&(e.parent().replaceWith(e),(e[0]===i||t.contains(e[0],i))&&t(i).trigger("focus")),e}}),t.extend(t.effects,{version:"1.12.1",define:function(e,i,s){return s||(s=i,i="effect"),t.effects.effect[e]=s,t.effects.effect[e].mode=i,s},scaledDimensions:function(t,e,i){if(0===e)return{height:0,width:0,outerHeight:0,outerWidth:0};var s="horizontal"!==i?(e||100)/100:1,n="vertical"!==i?(e||100)/100:1;return{height:t.height()*n,width:t.width()*s,outerHeight:t.outerHeight()*n,outerWidth:t.outerWidth()*s}},clipToBox:function(t){return{width:t.clip.right-t.clip.left,height:t.clip.bottom-t.clip.top,left:t.clip.left,top:t.clip.top}},unshift:function(t,e,i){var s=t.queue();e>1&&s.splice.apply(s,[1,0].concat(s.splice(e,i))),t.dequeue()},saveStyle:function(t){t.data(l,t[0].style.cssText)},restoreStyle:function(t){t[0].style.cssText=t.data(l)||"",t.removeData(l)},mode:function(t,e){var i=t.is(":hidden");return"toggle"===e&&(e=i?"show":"hide"),(i?"hide"===e:"show"===e)&&(e="none"),e},getBaseline:function(t,e){var i,s;switch(t[0]){case"top":i=0;break;case"middle":i=.5;break;case"bottom":i=1;break;default:i=t[0]/e.height}switch(t[1]){case"left":s=0;break;case"center":s=.5;break;case"right":s=1;break;default:s=t[1]/e.width}return{x:s,y:i}},createPlaceholder:function(e){var i,s=e.css("position"),n=e.position();return e.css({marginTop:e.css("marginTop"),marginBottom:e.css("marginBottom"),marginLeft:e.css("marginLeft"),marginRight:e.css("marginRight")}).outerWidth(e.outerWidth()).outerHeight(e.outerHeight()),/^(static|relative)/.test(s)&&(s="absolute",i=t("<"+e[0].nodeName+">").insertAfter(e).css({display:/^(inline|ruby)/.test(e.css("display"))?"inline-block":"block",visibility:"hidden",marginTop:e.css("marginTop"),marginBottom:e.css("marginBottom"),marginLeft:e.css("marginLeft"),marginRight:e.css("marginRight"),"float":e.css("float")}).outerWidth(e.outerWidth()).outerHeight(e.outerHeight()).addClass("ui-effects-placeholder"),e.data(r+"placeholder",i)),e.css({position:s,left:n.left,top:n.top}),i},removePlaceholder:function(t){var e=r+"placeholder",i=t.data(e);i&&(i.remove(),t.removeData(e))},cleanUp:function(e){t.effects.restoreStyle(e),t.effects.removePlaceholder(e)},setTransition:function(e,i,s,n){return n=n||{},t.each(i,function(t,i){var o=e.cssUnit(i);o[0]>0&&(n[i]=o[0]*s+o[1])}),n}}),t.fn.extend({effect:function(){function i(e){function i(){r.removeData(h),t.effects.cleanUp(r),"hide"===s.mode&&r.hide(),a()}function a(){t.isFunction(l)&&l.call(r[0]),t.isFunction(e)&&e()}var r=t(this);s.mode=u.shift(),t.uiBackCompat===!1||o?"none"===s.mode?(r[c](),a()):n.call(r[0],s,i):(r.is(":hidden")?"hide"===c:"show"===c)?(r[c](),a()):n.call(r[0],s,a)}var s=e.apply(this,arguments),n=t.effects.effect[s.effect],o=n.mode,a=s.queue,r=a||"fx",l=s.complete,c=s.mode,u=[],d=function(e){var i=t(this),s=t.effects.mode(i,c)||o;i.data(h,!0),u.push(s),o&&("show"===s||s===o&&"hide"===s)&&i.show(),o&&"none"===s||t.effects.saveStyle(i),t.isFunction(e)&&e()};return t.fx.off||!n?c?this[c](s.duration,l):this.each(function(){l&&l.call(this)}):a===!1?this.each(d).each(i):this.queue(r,d).queue(r,i)},show:function(t){return function(s){if(i(s))return t.apply(this,arguments);var n=e.apply(this,arguments);return n.mode="show",this.effect.call(this,n)}}(t.fn.show),hide:function(t){return function(s){if(i(s))return t.apply(this,arguments);var n=e.apply(this,arguments);return n.mode="hide",this.effect.call(this,n)}}(t.fn.hide),toggle:function(t){return function(s){if(i(s)||"boolean"==typeof s)return t.apply(this,arguments);var n=e.apply(this,arguments);return n.mode="toggle",this.effect.call(this,n)}}(t.fn.toggle),cssUnit:function(e){var i=this.css(e),s=[];return t.each(["em","px","%","pt"],function(t,e){i.indexOf(e)>0&&(s=[parseFloat(i),e])}),s},cssClip:function(t){return t?this.css("clip","rect("+t.top+"px "+t.right+"px "+t.bottom+"px "+t.left+"px)"):s(this.css("clip"),this)},transfer:function(e,i){var s=t(this),n=t(e.to),o="fixed"===n.css("position"),a=t("body"),r=o?a.scrollTop():0,l=o?a.scrollLeft():0,h=n.offset(),c={top:h.top-r,left:h.left-l,height:n.innerHeight(),width:n.innerWidth()},u=s.offset(),d=t("<div class='ui-effects-transfer'></div>").appendTo("body").addClass(e.className).css({top:u.top-r,left:u.left-l,height:s.innerHeight(),width:s.innerWidth(),position:o?"fixed":"absolute"}).animate(c,e.duration,e.easing,function(){d.remove(),t.isFunction(i)&&i()})}}),t.fx.step.clip=function(e){e.clipInit||(e.start=t(e.elem).cssClip(),"string"==typeof e.end&&(e.end=s(e.end,e.elem)),e.clipInit=!0),t(e.elem).cssClip({top:e.pos*(e.end.top-e.start.top)+e.start.top,right:e.pos*(e.end.right-e.start.right)+e.start.right,bottom:e.pos*(e.end.bottom-e.start.bottom)+e.start.bottom,left:e.pos*(e.end.left-e.start.left)+e.start.left})}}(),function(){var e={};t.each(["Quad","Cubic","Quart","Quint","Expo"],function(t,i){e[i]=function(e){return Math.pow(e,t+2)}}),t.extend(e,{Sine:function(t){return 1-Math.cos(t*Math.PI/2)},Circ:function(t){return 1-Math.sqrt(1-t*t)},Elastic:function(t){return 0===t||1===t?t:-Math.pow(2,8*(t-1))*Math.sin((80*(t-1)-7.5)*Math.PI/15)},Back:function(t){return t*t*(3*t-2)},Bounce:function(t){for(var e,i=4;((e=Math.pow(2,--i))-1)/11>t;);return 1/Math.pow(4,3-i)-7.5625*Math.pow((3*e-2)/22-t,2)}}),t.each(e,function(e,i){t.easing["easeIn"+e]=i,t.easing["easeOut"+e]=function(t){return 1-i(1-t)},t.easing["easeInOut"+e]=function(t){return.5>t?i(2*t)/2:1-i(-2*t+2)/2}})}();var u=t.effects;t.effects.define("blind","hide",function(e,i){var s={up:["bottom","top"],vertical:["bottom","top"],down:["top","bottom"],left:["right","left"],horizontal:["right","left"],right:["left","right"]},n=t(this),o=e.direction||"up",a=n.cssClip(),r={clip:t.extend({},a)},l=t.effects.createPlaceholder(n);r.clip[s[o][0]]=r.clip[s[o][1]],"show"===e.mode&&(n.cssClip(r.clip),l&&l.css(t.effects.clipToBox(r)),r.clip=a),l&&l.animate(t.effects.clipToBox(r),e.duration,e.easing),n.animate(r,{queue:!1,duration:e.duration,easing:e.easing,complete:i})}),t.effects.define("bounce",function(e,i){var s,n,o,a=t(this),r=e.mode,l="hide"===r,h="show"===r,c=e.direction||"up",u=e.distance,d=e.times||5,p=2*d+(h||l?1:0),f=e.duration/p,g=e.easing,m="up"===c||"down"===c?"top":"left",_="up"===c||"left"===c,v=0,b=a.queue().length;for(t.effects.createPlaceholder(a),o=a.css(m),u||(u=a["top"===m?"outerHeight":"outerWidth"]()/3),h&&(n={opacity:1},n[m]=o,a.css("opacity",0).css(m,_?2*-u:2*u).animate(n,f,g)),l&&(u/=Math.pow(2,d-1)),n={},n[m]=o;d>v;v++)s={},s[m]=(_?"-=":"+=")+u,a.animate(s,f,g).animate(n,f,g),u=l?2*u:u/2;l&&(s={opacity:0},s[m]=(_?"-=":"+=")+u,a.animate(s,f,g)),a.queue(i),t.effects.unshift(a,b,p+1)}),t.effects.define("clip","hide",function(e,i){var s,n={},o=t(this),a=e.direction||"vertical",r="both"===a,l=r||"horizontal"===a,h=r||"vertical"===a;s=o.cssClip(),n.clip={top:h?(s.bottom-s.top)/2:s.top,right:l?(s.right-s.left)/2:s.right,bottom:h?(s.bottom-s.top)/2:s.bottom,left:l?(s.right-s.left)/2:s.left},t.effects.createPlaceholder(o),"show"===e.mode&&(o.cssClip(n.clip),n.clip=s),o.animate(n,{queue:!1,duration:e.duration,easing:e.easing,complete:i})}),t.effects.define("drop","hide",function(e,i){var s,n=t(this),o=e.mode,a="show"===o,r=e.direction||"left",l="up"===r||"down"===r?"top":"left",h="up"===r||"left"===r?"-=":"+=",c="+="===h?"-=":"+=",u={opacity:0};t.effects.createPlaceholder(n),s=e.distance||n["top"===l?"outerHeight":"outerWidth"](!0)/2,u[l]=h+s,a&&(n.css(u),u[l]=c+s,u.opacity=1),n.animate(u,{queue:!1,duration:e.duration,easing:e.easing,complete:i})}),t.effects.define("explode","hide",function(e,i){function s(){b.push(this),b.length===u*d&&n()}function n(){p.css({visibility:"visible"}),t(b).remove(),i()}var o,a,r,l,h,c,u=e.pieces?Math.round(Math.sqrt(e.pieces)):3,d=u,p=t(this),f=e.mode,g="show"===f,m=p.show().css("visibility","hidden").offset(),_=Math.ceil(p.outerWidth()/d),v=Math.ceil(p.outerHeight()/u),b=[];for(o=0;u>o;o++)for(l=m.top+o*v,c=o-(u-1)/2,a=0;d>a;a++)r=m.left+a*_,h=a-(d-1)/2,p.clone().appendTo("body").wrap("<div></div>").css({position:"absolute",visibility:"visible",left:-a*_,top:-o*v}).parent().addClass("ui-effects-explode").css({position:"absolute",overflow:"hidden",width:_,height:v,left:r+(g?h*_:0),top:l+(g?c*v:0),opacity:g?0:1}).animate({left:r+(g?0:h*_),top:l+(g?0:c*v),opacity:g?1:0},e.duration||500,e.easing,s)}),t.effects.define("fade","toggle",function(e,i){var s="show"===e.mode;t(this).css("opacity",s?0:1).animate({opacity:s?1:0},{queue:!1,duration:e.duration,easing:e.easing,complete:i})}),t.effects.define("fold","hide",function(e,i){var s=t(this),n=e.mode,o="show"===n,a="hide"===n,r=e.size||15,l=/([0-9]+)%/.exec(r),h=!!e.horizFirst,c=h?["right","bottom"]:["bottom","right"],u=e.duration/2,d=t.effects.createPlaceholder(s),p=s.cssClip(),f={clip:t.extend({},p)},g={clip:t.extend({},p)},m=[p[c[0]],p[c[1]]],_=s.queue().length;l&&(r=parseInt(l[1],10)/100*m[a?0:1]),f.clip[c[0]]=r,g.clip[c[0]]=r,g.clip[c[1]]=0,o&&(s.cssClip(g.clip),d&&d.css(t.effects.clipToBox(g)),g.clip=p),s.queue(function(i){d&&d.animate(t.effects.clipToBox(f),u,e.easing).animate(t.effects.clipToBox(g),u,e.easing),i()}).animate(f,u,e.easing).animate(g,u,e.easing).queue(i),t.effects.unshift(s,_,4)}),t.effects.define("highlight","show",function(e,i){var s=t(this),n={backgroundColor:s.css("backgroundColor")};"hide"===e.mode&&(n.opacity=0),t.effects.saveStyle(s),s.css({backgroundImage:"none",backgroundColor:e.color||"#ffff99"}).animate(n,{queue:!1,duration:e.duration,easing:e.easing,complete:i})}),t.effects.define("size",function(e,i){var s,n,o,a=t(this),r=["fontSize"],l=["borderTopWidth","borderBottomWidth","paddingTop","paddingBottom"],h=["borderLeftWidth","borderRightWidth","paddingLeft","paddingRight"],c=e.mode,u="effect"!==c,d=e.scale||"both",p=e.origin||["middle","center"],f=a.css("position"),g=a.position(),m=t.effects.scaledDimensions(a),_=e.from||m,v=e.to||t.effects.scaledDimensions(a,0);t.effects.createPlaceholder(a),"show"===c&&(o=_,_=v,v=o),n={from:{y:_.height/m.height,x:_.width/m.width},to:{y:v.height/m.height,x:v.width/m.width}},("box"===d||"both"===d)&&(n.from.y!==n.to.y&&(_=t.effects.setTransition(a,l,n.from.y,_),v=t.effects.setTransition(a,l,n.to.y,v)),n.from.x!==n.to.x&&(_=t.effects.setTransition(a,h,n.from.x,_),v=t.effects.setTransition(a,h,n.to.x,v))),("content"===d||"both"===d)&&n.from.y!==n.to.y&&(_=t.effects.setTransition(a,r,n.from.y,_),v=t.effects.setTransition(a,r,n.to.y,v)),p&&(s=t.effects.getBaseline(p,m),_.top=(m.outerHeight-_.outerHeight)*s.y+g.top,_.left=(m.outerWidth-_.outerWidth)*s.x+g.left,v.top=(m.outerHeight-v.outerHeight)*s.y+g.top,v.left=(m.outerWidth-v.outerWidth)*s.x+g.left),a.css(_),("content"===d||"both"===d)&&(l=l.concat(["marginTop","marginBottom"]).concat(r),h=h.concat(["marginLeft","marginRight"]),a.find("*[width]").each(function(){var i=t(this),s=t.effects.scaledDimensions(i),o={height:s.height*n.from.y,width:s.width*n.from.x,outerHeight:s.outerHeight*n.from.y,outerWidth:s.outerWidth*n.from.x},a={height:s.height*n.to.y,width:s.width*n.to.x,outerHeight:s.height*n.to.y,outerWidth:s.width*n.to.x};n.from.y!==n.to.y&&(o=t.effects.setTransition(i,l,n.from.y,o),a=t.effects.setTransition(i,l,n.to.y,a)),n.from.x!==n.to.x&&(o=t.effects.setTransition(i,h,n.from.x,o),a=t.effects.setTransition(i,h,n.to.x,a)),u&&t.effects.saveStyle(i),i.css(o),i.animate(a,e.duration,e.easing,function(){u&&t.effects.restoreStyle(i)})})),a.animate(v,{queue:!1,duration:e.duration,easing:e.easing,complete:function(){var e=a.offset();0===v.opacity&&a.css("opacity",_.opacity),u||(a.css("position","static"===f?"relative":f).offset(e),t.effects.saveStyle(a)),i()}})}),t.effects.define("scale",function(e,i){var s=t(this),n=e.mode,o=parseInt(e.percent,10)||(0===parseInt(e.percent,10)?0:"effect"!==n?0:100),a=t.extend(!0,{from:t.effects.scaledDimensions(s),to:t.effects.scaledDimensions(s,o,e.direction||"both"),origin:e.origin||["middle","center"]},e);e.fade&&(a.from.opacity=1,a.to.opacity=0),t.effects.effect.size.call(this,a,i)}),t.effects.define("puff","hide",function(e,i){var s=t.extend(!0,{},e,{fade:!0,percent:parseInt(e.percent,10)||150});t.effects.effect.scale.call(this,s,i)}),t.effects.define("pulsate","show",function(e,i){var s=t(this),n=e.mode,o="show"===n,a="hide"===n,r=o||a,l=2*(e.times||5)+(r?1:0),h=e.duration/l,c=0,u=1,d=s.queue().length;for((o||!s.is(":visible"))&&(s.css("opacity",0).show(),c=1);l>u;u++)s.animate({opacity:c},h,e.easing),c=1-c;s.animate({opacity:c},h,e.easing),s.queue(i),t.effects.unshift(s,d,l+1)}),t.effects.define("shake",function(e,i){var s=1,n=t(this),o=e.direction||"left",a=e.distance||20,r=e.times||3,l=2*r+1,h=Math.round(e.duration/l),c="up"===o||"down"===o?"top":"left",u="up"===o||"left"===o,d={},p={},f={},g=n.queue().length;for(t.effects.createPlaceholder(n),d[c]=(u?"-=":"+=")+a,p[c]=(u?"+=":"-=")+2*a,f[c]=(u?"-=":"+=")+2*a,n.animate(d,h,e.easing);r>s;s++)n.animate(p,h,e.easing).animate(f,h,e.easing);n.animate(p,h,e.easing).animate(d,h/2,e.easing).queue(i),t.effects.unshift(n,g,l+1)}),t.effects.define("slide","show",function(e,i){var s,n,o=t(this),a={up:["bottom","top"],down:["top","bottom"],left:["right","left"],right:["left","right"]},r=e.mode,l=e.direction||"left",h="up"===l||"down"===l?"top":"left",c="up"===l||"left"===l,u=e.distance||o["top"===h?"outerHeight":"outerWidth"](!0),d={};t.effects.createPlaceholder(o),s=o.cssClip(),n=o.position()[h],d[h]=(c?-1:1)*u+n,d.clip=o.cssClip(),d.clip[a[l][1]]=d.clip[a[l][0]],"show"===r&&(o.cssClip(d.clip),o.css(h,d[h]),d.clip=s,d[h]=n),o.animate(d,{queue:!1,duration:e.duration,easing:e.easing,complete:i})});var u;t.uiBackCompat!==!1&&(u=t.effects.define("transfer",function(e,i){t(this).transfer(e,i)}))});
+/* Russian (UTF-8) initialisation for the jQuery UI date picker plugin. */
+/* Written by Andrew Stromnov (stromnov@gmail.com). */
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( [ "../widgets/datepicker" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery.datepicker );
+	}
+}( function( datepicker ) {
+
+datepicker.regional.ru = {
+	closeText: "Закрыть",
+	prevText: "&#x3C;Пред",
+	nextText: "След&#x3E;",
+	currentText: "Сегодня",
+	monthNames: [ "Январь","Февраль","Март","Апрель","Май","Июнь",
+	"Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь" ],
+	monthNamesShort: [ "Янв","Фев","Мар","Апр","Май","Июн",
+	"Июл","Авг","Сен","Окт","Ноя","Дек" ],
+	dayNames: [ "воскресенье","понедельник","вторник","среда","четверг","пятница","суббота" ],
+	dayNamesShort: [ "вск","пнд","втр","срд","чтв","птн","сбт" ],
+	dayNamesMin: [ "Вс","Пн","Вт","Ср","Чт","Пт","Сб" ],
+	weekHeader: "Нед",
+	dateFormat: "dd.mm.yy",
+	firstDay: 1,
+	isRTL: false,
+	showMonthAfterYear: false,
+	yearSuffix: "" };
+datepicker.setDefaults( datepicker.regional.ru );
+
+return datepicker.regional.ru;
+
+} ) );
+/*!
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
+ * @version 1.3.4
+ *
+ * Date formatter utility library that allows formatting date/time variables or Date objects using PHP DateTime format.
+ * @see http://php.net/manual/en/function.date.php
+ *
+ * For more JQuery plugins visit http://plugins.krajee.com
+ * For more Yii related demos visit http://demos.krajee.com
+ */var DateFormatter;!function(){"use strict";var t,e,r,n,a,u,i;u=864e5,i=3600,t=function(t,e){return"string"==typeof t&&"string"==typeof e&&t.toLowerCase()===e.toLowerCase()},e=function(t,r,n){var a=n||"0",u=t.toString();return u.length<r?e(a+u,r):u},r=function(t){var e,n;for(t=t||{},e=1;e<arguments.length;e++)if(n=arguments[e])for(var a in n)n.hasOwnProperty(a)&&("object"==typeof n[a]?r(t[a],n[a]):t[a]=n[a]);return t},n=function(t,e){for(var r=0;r<e.length;r++)if(e[r].toLowerCase()===t.toLowerCase())return r;return-1},a={dateSettings:{days:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],daysShort:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],months:["January","February","March","April","May","June","July","August","September","October","November","December"],monthsShort:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],meridiem:["AM","PM"],ordinal:function(t){var e=t%10,r={1:"st",2:"nd",3:"rd"};return 1!==Math.floor(t%100/10)&&r[e]?r[e]:"th"}},separators:/[ \-+\/\.T:@]/g,validParts:/[dDjlNSwzWFmMntLoYyaABgGhHisueTIOPZcrU]/g,intParts:/[djwNzmnyYhHgGis]/g,tzParts:/\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,tzClip:/[^-+\dA-Z]/g},DateFormatter=function(t){var e=this,n=r(a,t);e.dateSettings=n.dateSettings,e.separators=n.separators,e.validParts=n.validParts,e.intParts=n.intParts,e.tzParts=n.tzParts,e.tzClip=n.tzClip},DateFormatter.prototype={constructor:DateFormatter,getMonth:function(t){var e,r=this;return e=n(t,r.dateSettings.monthsShort)+1,0===e&&(e=n(t,r.dateSettings.months)+1),e},parseDate:function(e,r){var n,a,u,i,s,o,c,f,l,h,d=this,g=!1,m=!1,p=d.dateSettings,y={date:null,year:null,month:null,day:null,hour:0,min:0,sec:0};if(!e)return null;if(e instanceof Date)return e;if("U"===r)return u=parseInt(e),u?new Date(1e3*u):e;switch(typeof e){case"number":return new Date(e);case"string":break;default:return null}if(n=r.match(d.validParts),!n||0===n.length)throw new Error("Invalid date format definition.");for(a=e.replace(d.separators,"\x00").split("\x00"),u=0;u<a.length;u++)switch(i=a[u],s=parseInt(i),n[u]){case"y":case"Y":if(!s)return null;l=i.length,y.year=2===l?parseInt((70>s?"20":"19")+i):s,g=!0;break;case"m":case"n":case"M":case"F":if(isNaN(s)){if(o=d.getMonth(i),!(o>0))return null;y.month=o}else{if(!(s>=1&&12>=s))return null;y.month=s}g=!0;break;case"d":case"j":if(!(s>=1&&31>=s))return null;y.day=s,g=!0;break;case"g":case"h":if(c=n.indexOf("a")>-1?n.indexOf("a"):n.indexOf("A")>-1?n.indexOf("A"):-1,h=a[c],c>-1)f=t(h,p.meridiem[0])?0:t(h,p.meridiem[1])?12:-1,s>=1&&12>=s&&f>-1?y.hour=s+f-1:s>=0&&23>=s&&(y.hour=s);else{if(!(s>=0&&23>=s))return null;y.hour=s}m=!0;break;case"G":case"H":if(!(s>=0&&23>=s))return null;y.hour=s,m=!0;break;case"i":if(!(s>=0&&59>=s))return null;y.min=s,m=!0;break;case"s":if(!(s>=0&&59>=s))return null;y.sec=s,m=!0}if(g===!0&&y.year&&y.month&&y.day)y.date=new Date(y.year,y.month-1,y.day,y.hour,y.min,y.sec,0);else{if(m!==!0)return null;y.date=new Date(0,0,0,y.hour,y.min,y.sec,0)}return y.date},guessDate:function(t,e){if("string"!=typeof t)return t;var r,n,a,u,i,s,o=this,c=t.replace(o.separators,"\x00").split("\x00"),f=/^[djmn]/g,l=e.match(o.validParts),h=new Date,d=0;if(!f.test(l[0]))return t;for(a=0;a<c.length;a++){if(d=2,i=c[a],s=parseInt(i.substr(0,2)),isNaN(s))return null;switch(a){case 0:"m"===l[0]||"n"===l[0]?h.setMonth(s-1):h.setDate(s);break;case 1:"m"===l[0]||"n"===l[0]?h.setDate(s):h.setMonth(s-1);break;case 2:if(n=h.getFullYear(),r=i.length,d=4>r?r:4,n=parseInt(4>r?n.toString().substr(0,4-r)+i:i.substr(0,4)),!n)return null;h.setFullYear(n);break;case 3:h.setHours(s);break;case 4:h.setMinutes(s);break;case 5:h.setSeconds(s)}u=i.substr(d),u.length>0&&c.splice(a+1,0,u)}return h},parseFormat:function(t,r){var n,a=this,s=a.dateSettings,o=/\\?(.?)/gi,c=function(t,e){return n[t]?n[t]():e};return n={d:function(){return e(n.j(),2)},D:function(){return s.daysShort[n.w()]},j:function(){return r.getDate()},l:function(){return s.days[n.w()]},N:function(){return n.w()||7},w:function(){return r.getDay()},z:function(){var t=new Date(n.Y(),n.n()-1,n.j()),e=new Date(n.Y(),0,1);return Math.round((t-e)/u)},W:function(){var t=new Date(n.Y(),n.n()-1,n.j()-n.N()+3),r=new Date(t.getFullYear(),0,4);return e(1+Math.round((t-r)/u/7),2)},F:function(){return s.months[r.getMonth()]},m:function(){return e(n.n(),2)},M:function(){return s.monthsShort[r.getMonth()]},n:function(){return r.getMonth()+1},t:function(){return new Date(n.Y(),n.n(),0).getDate()},L:function(){var t=n.Y();return t%4===0&&t%100!==0||t%400===0?1:0},o:function(){var t=n.n(),e=n.W(),r=n.Y();return r+(12===t&&9>e?1:1===t&&e>9?-1:0)},Y:function(){return r.getFullYear()},y:function(){return n.Y().toString().slice(-2)},a:function(){return n.A().toLowerCase()},A:function(){var t=n.G()<12?0:1;return s.meridiem[t]},B:function(){var t=r.getUTCHours()*i,n=60*r.getUTCMinutes(),a=r.getUTCSeconds();return e(Math.floor((t+n+a+i)/86.4)%1e3,3)},g:function(){return n.G()%12||12},G:function(){return r.getHours()},h:function(){return e(n.g(),2)},H:function(){return e(n.G(),2)},i:function(){return e(r.getMinutes(),2)},s:function(){return e(r.getSeconds(),2)},u:function(){return e(1e3*r.getMilliseconds(),6)},e:function(){var t=/\((.*)\)/.exec(String(r))[1];return t||"Coordinated Universal Time"},I:function(){var t=new Date(n.Y(),0),e=Date.UTC(n.Y(),0),r=new Date(n.Y(),6),a=Date.UTC(n.Y(),6);return t-e!==r-a?1:0},O:function(){var t=r.getTimezoneOffset(),n=Math.abs(t);return(t>0?"-":"+")+e(100*Math.floor(n/60)+n%60,4)},P:function(){var t=n.O();return t.substr(0,3)+":"+t.substr(3,2)},T:function(){var t=(String(r).match(a.tzParts)||[""]).pop().replace(a.tzClip,"");return t||"UTC"},Z:function(){return 60*-r.getTimezoneOffset()},c:function(){return"Y-m-d\\TH:i:sP".replace(o,c)},r:function(){return"D, d M Y H:i:s O".replace(o,c)},U:function(){return r.getTime()/1e3||0}},c(t,t)},formatDate:function(t,e){var r,n,a,u,i,s=this,o="",c="\\";if("string"==typeof t&&(t=s.parseDate(t,e),!t))return null;if(t instanceof Date){for(a=e.length,r=0;a>r;r++)i=e.charAt(r),"S"!==i&&i!==c&&(r>0&&e.charAt(r-1)===c?o+=i:(u=s.parseFormat(i,t),r!==a-1&&s.intParts.test(i)&&"S"===e.charAt(r+1)&&(n=parseInt(u)||0,u+=s.dateSettings.ordinal(n)),o+=u));return o}return""}}}();/**
+ * @preserve jQuery DateTimePicker
+ * @homepage http://xdsoft.net/jqplugins/datetimepicker/
+ * @author Chupurnov Valeriy (<chupurnov@gmail.com>)
+ */
+
+/**
+ * @param {jQuery} $
+ */
+var datetimepickerFactory = function ($) {
+	'use strict';
+
+	var default_options  = {
+		i18n: {
+			ar: { // Arabic
+				months: [
+					"كانون الثاني", "شباط", "آذار", "نيسان", "مايو", "حزيران", "تموز", "آب", "أيلول", "تشرين الأول", "تشرين الثاني", "كانون الأول"
+				],
+				dayOfWeekShort: [
+					"ن", "ث", "ع", "خ", "ج", "س", "ح"
+				],
+				dayOfWeek: ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت", "الأحد"]
+			},
+			ro: { // Romanian
+				months: [
+					"Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"
+				],
+				dayOfWeekShort: [
+					"Du", "Lu", "Ma", "Mi", "Jo", "Vi", "Sâ"
+				],
+				dayOfWeek: ["Duminică", "Luni", "Marţi", "Miercuri", "Joi", "Vineri", "Sâmbătă"]
+			},
+			id: { // Indonesian
+				months: [
+					"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+				],
+				dayOfWeekShort: [
+					"Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"
+				],
+				dayOfWeek: ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"]
+			},
+			is: { // Icelandic
+				months: [
+					"Janúar", "Febrúar", "Mars", "Apríl", "Maí", "Júní", "Júlí", "Ágúst", "September", "Október", "Nóvember", "Desember"
+				],
+				dayOfWeekShort: [
+					"Sun", "Mán", "Þrið", "Mið", "Fim", "Fös", "Lau"
+				],
+				dayOfWeek: ["Sunnudagur", "Mánudagur", "Þriðjudagur", "Miðvikudagur", "Fimmtudagur", "Föstudagur", "Laugardagur"]
+			},
+			bg: { // Bulgarian
+				months: [
+					"Януари", "Февруари", "Март", "Април", "Май", "Юни", "Юли", "Август", "Септември", "Октомври", "Ноември", "Декември"
+				],
+				dayOfWeekShort: [
+					"Нд", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"
+				],
+				dayOfWeek: ["Неделя", "Понеделник", "Вторник", "Сряда", "Четвъртък", "Петък", "Събота"]
+			},
+			fa: { // Persian/Farsi
+				months: [
+					'فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'
+				],
+				dayOfWeekShort: [
+					'یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه', 'شنبه'
+				],
+				dayOfWeek: ["یک‌شنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه", "شنبه", "یک‌شنبه"]
+			},
+			ru: { // Russian
+				months: [
+					'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+				],
+				dayOfWeekShort: [
+					"Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"
+				],
+				dayOfWeek: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
+			},
+			uk: { // Ukrainian
+				months: [
+					'Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень', 'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'
+				],
+				dayOfWeekShort: [
+					"Ндл", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт"
+				],
+				dayOfWeek: ["Неділя", "Понеділок", "Вівторок", "Середа", "Четвер", "П'ятниця", "Субота"]
+			},
+			en: { // English
+				months: [
+					"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+				],
+				dayOfWeekShort: [
+					"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+				],
+				dayOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+			},
+			el: { // Ελληνικά
+				months: [
+					"Ιανουάριος", "Φεβρουάριος", "Μάρτιος", "Απρίλιος", "Μάιος", "Ιούνιος", "Ιούλιος", "Αύγουστος", "Σεπτέμβριος", "Οκτώβριος", "Νοέμβριος", "Δεκέμβριος"
+				],
+				dayOfWeekShort: [
+					"Κυρ", "Δευ", "Τρι", "Τετ", "Πεμ", "Παρ", "Σαβ"
+				],
+				dayOfWeek: ["Κυριακή", "Δευτέρα", "Τρίτη", "Τετάρτη", "Πέμπτη", "Παρασκευή", "Σάββατο"]
+			},
+			de: { // German
+				months: [
+					'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+				],
+				dayOfWeekShort: [
+					"So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"
+				],
+				dayOfWeek: ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"]
+			},
+			nl: { // Dutch
+				months: [
+					"januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"
+				],
+				dayOfWeekShort: [
+					"zo", "ma", "di", "wo", "do", "vr", "za"
+				],
+				dayOfWeek: ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"]
+			},
+			tr: { // Turkish
+				months: [
+					"Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+				],
+				dayOfWeekShort: [
+					"Paz", "Pts", "Sal", "Çar", "Per", "Cum", "Cts"
+				],
+				dayOfWeek: ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"]
+			},
+			fr: { //French
+				months: [
+					"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+				],
+				dayOfWeekShort: [
+					"Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"
+				],
+				dayOfWeek: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"]
+			},
+			es: { // Spanish
+				months: [
+					"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+				],
+				dayOfWeekShort: [
+					"Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"
+				],
+				dayOfWeek: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+			},
+			th: { // Thai
+				months: [
+					'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+				],
+				dayOfWeekShort: [
+					'อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'
+				],
+				dayOfWeek: ["อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัส", "ศุกร์", "เสาร์", "อาทิตย์"]
+			},
+			pl: { // Polish
+				months: [
+					"styczeń", "luty", "marzec", "kwiecień", "maj", "czerwiec", "lipiec", "sierpień", "wrzesień", "październik", "listopad", "grudzień"
+				],
+				dayOfWeekShort: [
+					"nd", "pn", "wt", "śr", "cz", "pt", "sb"
+				],
+				dayOfWeek: ["niedziela", "poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota"]
+			},
+			pt: { // Portuguese
+				months: [
+					"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+				],
+				dayOfWeekShort: [
+					"Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"
+				],
+				dayOfWeek: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
+			},
+			ch: { // Simplified Chinese
+				months: [
+					"一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"
+				],
+				dayOfWeekShort: [
+					"日", "一", "二", "三", "四", "五", "六"
+				]
+			},
+			se: { // Swedish
+				months: [
+					"Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September",  "Oktober", "November", "December"
+				],
+				dayOfWeekShort: [
+					"Sön", "Mån", "Tis", "Ons", "Tor", "Fre", "Lör"
+				]
+			},
+			km: { // Khmer (ភាសាខ្មែរ)
+				months: [
+					"មករា​", "កុម្ភៈ", "មិនា​", "មេសា​", "ឧសភា​", "មិថុនា​", "កក្កដា​", "សីហា​", "កញ្ញា​", "តុលា​", "វិច្ឆិកា", "ធ្នូ​"
+				],
+				dayOfWeekShort: ["អាទិ​", "ច័ន្ទ​", "អង្គារ​", "ពុធ​", "ព្រហ​​", "សុក្រ​", "សៅរ៍"],
+				dayOfWeek: ["អាទិត្យ​", "ច័ន្ទ​", "អង្គារ​", "ពុធ​", "ព្រហស្បតិ៍​", "សុក្រ​", "សៅរ៍"]
+			},
+			kr: { // Korean
+				months: [
+					"1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"
+				],
+				dayOfWeekShort: [
+					"일", "월", "화", "수", "목", "금", "토"
+				],
+				dayOfWeek: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"]
+			},
+			it: { // Italian
+				months: [
+					"Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"
+				],
+				dayOfWeekShort: [
+					"Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"
+				],
+				dayOfWeek: ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"]
+			},
+			da: { // Dansk
+				months: [
+					"Januar", "Februar", "Marts", "April", "Maj", "Juni", "Juli", "August", "September", "Oktober", "November", "December"
+				],
+				dayOfWeekShort: [
+					"Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"
+				],
+				dayOfWeek: ["søndag", "mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"]
+			},
+			no: { // Norwegian
+				months: [
+					"Januar", "Februar", "Mars", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Desember"
+				],
+				dayOfWeekShort: [
+					"Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"
+				],
+				dayOfWeek: ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag']
+			},
+			ja: { // Japanese
+				months: [
+					"1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"
+				],
+				dayOfWeekShort: [
+					"日", "月", "火", "水", "木", "金", "土"
+				],
+				dayOfWeek: ["日曜", "月曜", "火曜", "水曜", "木曜", "金曜", "土曜"]
+			},
+			vi: { // Vietnamese
+				months: [
+					"Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
+				],
+				dayOfWeekShort: [
+					"CN", "T2", "T3", "T4", "T5", "T6", "T7"
+				],
+				dayOfWeek: ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"]
+			},
+			sl: { // Slovenščina
+				months: [
+					"Januar", "Februar", "Marec", "April", "Maj", "Junij", "Julij", "Avgust", "September", "Oktober", "November", "December"
+				],
+				dayOfWeekShort: [
+					"Ned", "Pon", "Tor", "Sre", "Čet", "Pet", "Sob"
+				],
+				dayOfWeek: ["Nedelja", "Ponedeljek", "Torek", "Sreda", "Četrtek", "Petek", "Sobota"]
+			},
+			cs: { // Čeština
+				months: [
+					"Leden", "Únor", "Březen", "Duben", "Květen", "Červen", "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"
+				],
+				dayOfWeekShort: [
+					"Ne", "Po", "Út", "St", "Čt", "Pá", "So"
+				]
+			},
+			hu: { // Hungarian
+				months: [
+					"Január", "Február", "Március", "Április", "Május", "Június", "Július", "Augusztus", "Szeptember", "Október", "November", "December"
+				],
+				dayOfWeekShort: [
+					"Va", "Hé", "Ke", "Sze", "Cs", "Pé", "Szo"
+				],
+				dayOfWeek: ["vasárnap", "hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat"]
+			},
+			az: { //Azerbaijanian (Azeri)
+				months: [
+					"Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"
+				],
+				dayOfWeekShort: [
+					"B", "Be", "Ça", "Ç", "Ca", "C", "Ş"
+				],
+				dayOfWeek: ["Bazar", "Bazar ertəsi", "Çərşənbə axşamı", "Çərşənbə", "Cümə axşamı", "Cümə", "Şənbə"]
+			},
+			bs: { //Bosanski
+				months: [
+					"Januar", "Februar", "Mart", "April", "Maj", "Jun", "Jul", "Avgust", "Septembar", "Oktobar", "Novembar", "Decembar"
+				],
+				dayOfWeekShort: [
+					"Ned", "Pon", "Uto", "Sri", "Čet", "Pet", "Sub"
+				],
+				dayOfWeek: ["Nedjelja","Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak", "Subota"]
+			},
+			ca: { //Català
+				months: [
+					"Gener", "Febrer", "Març", "Abril", "Maig", "Juny", "Juliol", "Agost", "Setembre", "Octubre", "Novembre", "Desembre"
+				],
+				dayOfWeekShort: [
+					"Dg", "Dl", "Dt", "Dc", "Dj", "Dv", "Ds"
+				],
+				dayOfWeek: ["Diumenge", "Dilluns", "Dimarts", "Dimecres", "Dijous", "Divendres", "Dissabte"]
+			},
+			'en-GB': { //English (British)
+				months: [
+					"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+				],
+				dayOfWeekShort: [
+					"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+				],
+				dayOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+			},
+			et: { //"Eesti"
+				months: [
+					"Jaanuar", "Veebruar", "Märts", "Aprill", "Mai", "Juuni", "Juuli", "August", "September", "Oktoober", "November", "Detsember"
+				],
+				dayOfWeekShort: [
+					"P", "E", "T", "K", "N", "R", "L"
+				],
+				dayOfWeek: ["Pühapäev", "Esmaspäev", "Teisipäev", "Kolmapäev", "Neljapäev", "Reede", "Laupäev"]
+			},
+			eu: { //Euskara
+				months: [
+					"Urtarrila", "Otsaila", "Martxoa", "Apirila", "Maiatza", "Ekaina", "Uztaila", "Abuztua", "Iraila", "Urria", "Azaroa", "Abendua"
+				],
+				dayOfWeekShort: [
+					"Ig.", "Al.", "Ar.", "Az.", "Og.", "Or.", "La."
+				],
+				dayOfWeek: ['Igandea', 'Astelehena', 'Asteartea', 'Asteazkena', 'Osteguna', 'Ostirala', 'Larunbata']
+			},
+			fi: { //Finnish (Suomi)
+				months: [
+					"Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu", "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"
+				],
+				dayOfWeekShort: [
+					"Su", "Ma", "Ti", "Ke", "To", "Pe", "La"
+				],
+				dayOfWeek: ["sunnuntai", "maanantai", "tiistai", "keskiviikko", "torstai", "perjantai", "lauantai"]
+			},
+			gl: { //Galego
+				months: [
+					"Xan", "Feb", "Maz", "Abr", "Mai", "Xun", "Xul", "Ago", "Set", "Out", "Nov", "Dec"
+				],
+				dayOfWeekShort: [
+					"Dom", "Lun", "Mar", "Mer", "Xov", "Ven", "Sab"
+				],
+				dayOfWeek: ["Domingo", "Luns", "Martes", "Mércores", "Xoves", "Venres", "Sábado"]
+			},
+			hr: { //Hrvatski
+				months: [
+					"Siječanj", "Veljača", "Ožujak", "Travanj", "Svibanj", "Lipanj", "Srpanj", "Kolovoz", "Rujan", "Listopad", "Studeni", "Prosinac"
+				],
+				dayOfWeekShort: [
+					"Ned", "Pon", "Uto", "Sri", "Čet", "Pet", "Sub"
+				],
+				dayOfWeek: ["Nedjelja", "Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak", "Subota"]
+			},
+			ko: { //Korean (한국어)
+				months: [
+					"1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"
+				],
+				dayOfWeekShort: [
+					"일", "월", "화", "수", "목", "금", "토"
+				],
+				dayOfWeek: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"]
+			},
+			lt: { //Lithuanian (lietuvių)
+				months: [
+					"Sausio", "Vasario", "Kovo", "Balandžio", "Gegužės", "Birželio", "Liepos", "Rugpjūčio", "Rugsėjo", "Spalio", "Lapkričio", "Gruodžio"
+				],
+				dayOfWeekShort: [
+					"Sek", "Pir", "Ant", "Tre", "Ket", "Pen", "Šeš"
+				],
+				dayOfWeek: ["Sekmadienis", "Pirmadienis", "Antradienis", "Trečiadienis", "Ketvirtadienis", "Penktadienis", "Šeštadienis"]
+			},
+			lv: { //Latvian (Latviešu)
+				months: [
+					"Janvāris", "Februāris", "Marts", "Aprīlis ", "Maijs", "Jūnijs", "Jūlijs", "Augusts", "Septembris", "Oktobris", "Novembris", "Decembris"
+				],
+				dayOfWeekShort: [
+					"Sv", "Pr", "Ot", "Tr", "Ct", "Pk", "St"
+				],
+				dayOfWeek: ["Svētdiena", "Pirmdiena", "Otrdiena", "Trešdiena", "Ceturtdiena", "Piektdiena", "Sestdiena"]
+			},
+			mk: { //Macedonian (Македонски)
+				months: [
+					"јануари", "февруари", "март", "април", "мај", "јуни", "јули", "август", "септември", "октомври", "ноември", "декември"
+				],
+				dayOfWeekShort: [
+					"нед", "пон", "вто", "сре", "чет", "пет", "саб"
+				],
+				dayOfWeek: ["Недела", "Понеделник", "Вторник", "Среда", "Четврток", "Петок", "Сабота"]
+			},
+			mn: { //Mongolian (Монгол)
+				months: [
+					"1-р сар", "2-р сар", "3-р сар", "4-р сар", "5-р сар", "6-р сар", "7-р сар", "8-р сар", "9-р сар", "10-р сар", "11-р сар", "12-р сар"
+				],
+				dayOfWeekShort: [
+					"Дав", "Мяг", "Лха", "Пүр", "Бсн", "Бям", "Ням"
+				],
+				dayOfWeek: ["Даваа", "Мягмар", "Лхагва", "Пүрэв", "Баасан", "Бямба", "Ням"]
+			},
+			'pt-BR': { //Português(Brasil)
+				months: [
+					"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+				],
+				dayOfWeekShort: [
+					"Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"
+				],
+				dayOfWeek: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
+			},
+			sk: { //Slovenčina
+				months: [
+					"Január", "Február", "Marec", "Apríl", "Máj", "Jún", "Júl", "August", "September", "Október", "November", "December"
+				],
+				dayOfWeekShort: [
+					"Ne", "Po", "Ut", "St", "Št", "Pi", "So"
+				],
+				dayOfWeek: ["Nedeľa", "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota"]
+			},
+			sq: { //Albanian (Shqip)
+				months: [
+					"Janar", "Shkurt", "Mars", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtator", "Tetor", "Nëntor", "Dhjetor"
+				],
+				dayOfWeekShort: [
+					"Die", "Hën", "Mar", "Mër", "Enj", "Pre", "Shtu"
+				],
+				dayOfWeek: ["E Diel", "E Hënë", "E Martē", "E Mërkurë", "E Enjte", "E Premte", "E Shtunë"]
+			},
+			'sr-YU': { //Serbian (Srpski)
+				months: [
+					"Januar", "Februar", "Mart", "April", "Maj", "Jun", "Jul", "Avgust", "Septembar", "Oktobar", "Novembar", "Decembar"
+				],
+				dayOfWeekShort: [
+					"Ned", "Pon", "Uto", "Sre", "čet", "Pet", "Sub"
+				],
+				dayOfWeek: ["Nedelja","Ponedeljak", "Utorak", "Sreda", "Četvrtak", "Petak", "Subota"]
+			},
+			sr: { //Serbian Cyrillic (Српски)
+				months: [
+					"јануар", "фебруар", "март", "април", "мај", "јун", "јул", "август", "септембар", "октобар", "новембар", "децембар"
+				],
+				dayOfWeekShort: [
+					"нед", "пон", "уто", "сре", "чет", "пет", "суб"
+				],
+				dayOfWeek: ["Недеља","Понедељак", "Уторак", "Среда", "Четвртак", "Петак", "Субота"]
+			},
+			sv: { //Svenska
+				months: [
+					"Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"
+				],
+				dayOfWeekShort: [
+					"Sön", "Mån", "Tis", "Ons", "Tor", "Fre", "Lör"
+				],
+				dayOfWeek: ["Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"]
+			},
+			'zh-TW': { //Traditional Chinese (繁體中文)
+				months: [
+					"一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"
+				],
+				dayOfWeekShort: [
+					"日", "一", "二", "三", "四", "五", "六"
+				],
+				dayOfWeek: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
+			},
+			zh: { //Simplified Chinese (简体中文)
+				months: [
+					"一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"
+				],
+				dayOfWeekShort: [
+					"日", "一", "二", "三", "四", "五", "六"
+				],
+				dayOfWeek: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
+			},
+			ug:{ // Uyghur(ئۇيغۇرچە)
+				months: [
+					"1-ئاي","2-ئاي","3-ئاي","4-ئاي","5-ئاي","6-ئاي","7-ئاي","8-ئاي","9-ئاي","10-ئاي","11-ئاي","12-ئاي"
+				],
+				dayOfWeek: [
+					"يەكشەنبە", "دۈشەنبە","سەيشەنبە","چارشەنبە","پەيشەنبە","جۈمە","شەنبە"
+				]
+			},
+			he: { //Hebrew (עברית)
+				months: [
+					'ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'
+				],
+				dayOfWeekShort: [
+					'א\'', 'ב\'', 'ג\'', 'ד\'', 'ה\'', 'ו\'', 'שבת'
+				],
+				dayOfWeek: ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת", "ראשון"]
+			},
+			hy: { // Armenian
+				months: [
+					"Հունվար", "Փետրվար", "Մարտ", "Ապրիլ", "Մայիս", "Հունիս", "Հուլիս", "Օգոստոս", "Սեպտեմբեր", "Հոկտեմբեր", "Նոյեմբեր", "Դեկտեմբեր"
+				],
+				dayOfWeekShort: [
+					"Կի", "Երկ", "Երք", "Չոր", "Հնգ", "Ուրբ", "Շբթ"
+				],
+				dayOfWeek: ["Կիրակի", "Երկուշաբթի", "Երեքշաբթի", "Չորեքշաբթի", "Հինգշաբթի", "Ուրբաթ", "Շաբաթ"]
+			},
+			kg: { // Kyrgyz
+				months: [
+					'Үчтүн айы', 'Бирдин айы', 'Жалган Куран', 'Чын Куран', 'Бугу', 'Кулжа', 'Теке', 'Баш Оона', 'Аяк Оона', 'Тогуздун айы', 'Жетинин айы', 'Бештин айы'
+				],
+				dayOfWeekShort: [
+					"Жек", "Дүй", "Шей", "Шар", "Бей", "Жум", "Ише"
+				],
+				dayOfWeek: [
+					"Жекшемб", "Дүйшөмб", "Шейшемб", "Шаршемб", "Бейшемби", "Жума", "Ишенб"
+				]
+			},
+			rm: { // Romansh
+				months: [
+					"Schaner", "Favrer", "Mars", "Avrigl", "Matg", "Zercladur", "Fanadur", "Avust", "Settember", "October", "November", "December"
+				],
+				dayOfWeekShort: [
+					"Du", "Gli", "Ma", "Me", "Gie", "Ve", "So"
+				],
+				dayOfWeek: [
+					"Dumengia", "Glindesdi", "Mardi", "Mesemna", "Gievgia", "Venderdi", "Sonda"
+				]
+			},
+			ka: { // Georgian
+				months: [
+					'იანვარი', 'თებერვალი', 'მარტი', 'აპრილი', 'მაისი', 'ივნისი', 'ივლისი', 'აგვისტო', 'სექტემბერი', 'ოქტომბერი', 'ნოემბერი', 'დეკემბერი'
+				],
+				dayOfWeekShort: [
+					"კვ", "ორშ", "სამშ", "ოთხ", "ხუთ", "პარ", "შაბ"
+				],
+				dayOfWeek: ["კვირა", "ორშაბათი", "სამშაბათი", "ოთხშაბათი", "ხუთშაბათი", "პარასკევი", "შაბათი"]
+			}
+		},
+
+		ownerDocument: document,
+		contentWindow: window,
+
+		value: '',
+		rtl: false,
+
+		format:	'Y/m/d H:i',
+		formatTime:	'H:i',
+		formatDate:	'Y/m/d',
+
+		startDate:	false, // new Date(), '1986/12/08', '-1970/01/05','-1970/01/05',
+		step: 60,
+		monthChangeSpinner: true,
+
+		closeOnDateSelect: false,
+		closeOnTimeSelect: true,
+		closeOnWithoutClick: true,
+		closeOnInputClick: true,
+		openOnFocus: true,
+
+		timepicker: true,
+		datepicker: true,
+		weeks: false,
+
+		defaultTime: false,	// use formatTime format (ex. '10:00' for formatTime:	'H:i')
+		defaultDate: false,	// use formatDate format (ex new Date() or '1986/12/08' or '-1970/01/05' or '-1970/01/05')
+
+		minDate: false,
+		maxDate: false,
+		minTime: false,
+		maxTime: false,
+		minDateTime: false,
+		maxDateTime: false,
+
+		allowTimes: [],
+		opened: false,
+		initTime: true,
+		inline: false,
+		theme: '',
+		touchMovedThreshold: 5,
+
+		onSelectDate: function () {},
+		onSelectTime: function () {},
+		onChangeMonth: function () {},
+		onGetWeekOfYear: function () {},
+		onChangeYear: function () {},
+		onChangeDateTime: function () {},
+		onShow: function () {},
+		onClose: function () {},
+		onGenerate: function () {},
+
+		withoutCopyright: true,
+		inverseButton: false,
+		hours12: false,
+		next: 'xdsoft_next',
+		prev : 'xdsoft_prev',
+		dayOfWeekStart: 0,
+		parentID: 'body',
+		timeHeightInTimePicker: 25,
+		timepickerScrollbar: true,
+		todayButton: true,
+		prevButton: true,
+		nextButton: true,
+		defaultSelect: true,
+
+		scrollMonth: true,
+		scrollTime: true,
+		scrollInput: true,
+
+		lazyInit: false,
+		mask: false,
+		validateOnBlur: true,
+		allowBlank: true,
+		yearStart: 1950,
+		yearEnd: 2050,
+		monthStart: 0,
+		monthEnd: 11,
+		style: '',
+		id: '',
+		fixed: false,
+		roundTime: 'round', // ceil, floor
+		className: '',
+		weekends: [],
+		highlightedDates: [],
+		highlightedPeriods: [],
+		allowDates : [],
+		allowDateRe : null,
+		disabledDates : [],
+		disabledWeekDays: [],
+		yearOffset: 0,
+		beforeShowDay: null,
+
+		enterLikeTab: true,
+        showApplyButton: false,
+        insideParent: false,
+	};
+
+	var dateHelper = null,
+		defaultDateHelper = null,
+		globalLocaleDefault = 'en',
+		globalLocale = 'en';
+
+	var dateFormatterOptionsDefault = {
+		meridiem: ['AM', 'PM']
+	};
+
+	var initDateFormatter = function(){
+		var locale = default_options.i18n[globalLocale],
+			opts = {
+				days: locale.dayOfWeek,
+				daysShort: locale.dayOfWeekShort,
+				months: locale.months,
+				monthsShort: $.map(locale.months, function(n){ return n.substring(0, 3) })
+			};
+
+		if (typeof DateFormatter === 'function') {
+			dateHelper = defaultDateHelper = new DateFormatter({
+				dateSettings: $.extend({}, dateFormatterOptionsDefault, opts)
+			});
+		}
+	};
+
+	var dateFormatters = {
+		moment: {
+			default_options:{
+				format: 'YYYY/MM/DD HH:mm',
+				formatDate: 'YYYY/MM/DD',
+				formatTime: 'HH:mm',
+			},
+			formatter: {
+				parseDate: function (date, format) {
+					if(isFormatStandard(format)){
+						return defaultDateHelper.parseDate(date, format);
+					} 
+					var d = moment(date, format);
+					return d.isValid() ? d.toDate() : false;
+				},
+
+				formatDate: function (date, format) {
+					if(isFormatStandard(format)){
+						return defaultDateHelper.formatDate(date, format);
+					} 
+					return moment(date).format(format);
+				},
+
+				formatMask: function(format){
+					return format
+						.replace(/Y{4}/g, '9999')
+						.replace(/Y{2}/g, '99')
+						.replace(/M{2}/g, '19')
+						.replace(/D{2}/g, '39')
+						.replace(/H{2}/g, '29')
+						.replace(/m{2}/g, '59')
+						.replace(/s{2}/g, '59');
+				},
+			}
+		}
+	}
+
+	// for locale settings
+	$.datetimepicker = {
+		setLocale: function(locale){
+			var newLocale = default_options.i18n[locale] ? locale : globalLocaleDefault;
+			if (globalLocale !== newLocale) {
+				globalLocale = newLocale;
+				// reinit date formatter
+				initDateFormatter();
+			}
+		},
+
+		setDateFormatter: function(dateFormatter) {
+			if(typeof dateFormatter === 'string' && dateFormatters.hasOwnProperty(dateFormatter)){
+				var df = dateFormatters[dateFormatter];
+				$.extend(default_options, df.default_options);
+				dateHelper = df.formatter; 
+			}
+			else {
+				dateHelper = dateFormatter;
+			}
+		},
+	};
+
+	var standardFormats = {
+		RFC_2822: 'D, d M Y H:i:s O',
+		ATOM: 'Y-m-d\TH:i:sP',
+		ISO_8601: 'Y-m-d\TH:i:sO',
+		RFC_822: 'D, d M y H:i:s O',
+		RFC_850: 'l, d-M-y H:i:s T',
+		RFC_1036: 'D, d M y H:i:s O',
+		RFC_1123: 'D, d M Y H:i:s O',
+		RSS: 'D, d M Y H:i:s O',
+		W3C: 'Y-m-d\TH:i:sP'
+	}
+
+	var isFormatStandard = function(format){
+		return Object.values(standardFormats).indexOf(format) === -1 ? false : true;
+	}
+
+	$.extend($.datetimepicker, standardFormats);
+
+	// first init date formatter
+	initDateFormatter();
+
+	// fix for ie8
+	if (!window.getComputedStyle) {
+		window.getComputedStyle = function (el) {
+			this.el = el;
+			this.getPropertyValue = function (prop) {
+				var re = /(-([a-z]))/g;
+				if (prop === 'float') {
+					prop = 'styleFloat';
+				}
+				if (re.test(prop)) {
+					prop = prop.replace(re, function (a, b, c) {
+						return c.toUpperCase();
+					});
+				}
+				return el.currentStyle[prop] || null;
+			};
+			return this;
+		};
+	}
+	if (!Array.prototype.indexOf) {
+		Array.prototype.indexOf = function (obj, start) {
+			var i, j;
+			for (i = (start || 0), j = this.length; i < j; i += 1) {
+				if (this[i] === obj) { return i; }
+			}
+			return -1;
+		};
+	}
+
+	Date.prototype.countDaysInMonth = function () {
+		return new Date(this.getFullYear(), this.getMonth() + 1, 0).getDate();
+	};
+
+	$.fn.xdsoftScroller = function (options, percent) {
+		return this.each(function () {
+			var timeboxparent = $(this),
+				pointerEventToXY = function (e) {
+					var out = {x: 0, y: 0},
+						touch;
+					if (e.type === 'touchstart' || e.type === 'touchmove' || e.type === 'touchend' || e.type === 'touchcancel') {
+						touch  = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+						out.x = touch.clientX;
+						out.y = touch.clientY;
+					} else if (e.type === 'mousedown' || e.type === 'mouseup' || e.type === 'mousemove' || e.type === 'mouseover' || e.type === 'mouseout' || e.type === 'mouseenter' || e.type === 'mouseleave') {
+						out.x = e.clientX;
+						out.y = e.clientY;
+					}
+					return out;
+				},
+				timebox,
+				parentHeight,
+				height,
+				scrollbar,
+				scroller,
+				maximumOffset = 100,
+				start = false,
+				startY = 0,
+				startTop = 0,
+				h1 = 0,
+				touchStart = false,
+				startTopScroll = 0,
+				calcOffset = function () {};
+
+			if (percent === 'hide') {
+				timeboxparent.find('.xdsoft_scrollbar').hide();
+				return;
+			}
+
+			if (!$(this).hasClass('xdsoft_scroller_box')) {
+				timebox = timeboxparent.children().eq(0);
+				parentHeight = timeboxparent[0].clientHeight;
+				height = timebox[0].offsetHeight;
+				scrollbar = $('<div class="xdsoft_scrollbar"></div>');
+				scroller = $('<div class="xdsoft_scroller"></div>');
+				scrollbar.append(scroller);
+
+				timeboxparent.addClass('xdsoft_scroller_box').append(scrollbar);
+				calcOffset = function calcOffset(event) {
+					var offset = pointerEventToXY(event).y - startY + startTopScroll;
+					if (offset < 0) {
+						offset = 0;
+					}
+					if (offset + scroller[0].offsetHeight > h1) {
+						offset = h1 - scroller[0].offsetHeight;
+					}
+					timeboxparent.trigger('scroll_element.xdsoft_scroller', [maximumOffset ? offset / maximumOffset : 0]);
+				};
+
+				scroller
+					.on('touchstart.xdsoft_scroller mousedown.xdsoft_scroller', function (event) {
+						if (!parentHeight) {
+							timeboxparent.trigger('resize_scroll.xdsoft_scroller', [percent]);
+						}
+
+						startY = pointerEventToXY(event).y;
+						startTopScroll = parseInt(scroller.css('margin-top'), 10);
+						h1 = scrollbar[0].offsetHeight;
+
+						if (event.type === 'mousedown' || event.type === 'touchstart') {
+							if (options.ownerDocument) {
+								$(options.ownerDocument.body).addClass('xdsoft_noselect');
+							}
+							$([options.ownerDocument.body, options.contentWindow]).on('touchend mouseup.xdsoft_scroller', function arguments_callee() {
+								$([options.ownerDocument.body, options.contentWindow]).off('touchend mouseup.xdsoft_scroller', arguments_callee)
+									.off('mousemove.xdsoft_scroller', calcOffset)
+									.removeClass('xdsoft_noselect');
+							});
+							$(options.ownerDocument.body).on('mousemove.xdsoft_scroller', calcOffset);
+						} else {
+							touchStart = true;
+							event.stopPropagation();
+							event.preventDefault();
+						}
+					})
+					.on('touchmove', function (event) {
+						if (touchStart) {
+							event.preventDefault();
+							calcOffset(event);
+						}
+					})
+					.on('touchend touchcancel', function () {
+						touchStart =  false;
+						startTopScroll = 0;
+					});
+
+				timeboxparent
+					.on('scroll_element.xdsoft_scroller', function (event, percentage) {
+						if (!parentHeight) {
+							timeboxparent.trigger('resize_scroll.xdsoft_scroller', [percentage, true]);
+						}
+						percentage = percentage > 1 ? 1 : (percentage < 0 || isNaN(percentage)) ? 0 : percentage;
+
+						scroller.css('margin-top', maximumOffset * percentage);
+
+						setTimeout(function () {
+							timebox.css('marginTop', -parseInt((timebox[0].offsetHeight - parentHeight) * percentage, 10));
+						}, 10);
+					})
+					.on('resize_scroll.xdsoft_scroller', function (event, percentage, noTriggerScroll) {
+						var percent, sh;
+						parentHeight = timeboxparent[0].clientHeight;
+						height = timebox[0].offsetHeight;
+						percent = parentHeight / height;
+						sh = percent * scrollbar[0].offsetHeight;
+						if (percent > 1) {
+							scroller.hide();
+						} else {
+							scroller.show();
+							scroller.css('height', parseInt(sh > 10 ? sh : 10, 10));
+							maximumOffset = scrollbar[0].offsetHeight - scroller[0].offsetHeight;
+							if (noTriggerScroll !== true) {
+								timeboxparent.trigger('scroll_element.xdsoft_scroller', [percentage || Math.abs(parseInt(timebox.css('marginTop'), 10)) / (height - parentHeight)]);
+							}
+						}
+					});
+
+				timeboxparent.on('mousewheel', function (event) {
+					var top = Math.abs(parseInt(timebox.css('marginTop'), 10));
+
+					top = top - (event.deltaY * 20);
+					if (top < 0) {
+						top = 0;
+					}
+
+					timeboxparent.trigger('scroll_element.xdsoft_scroller', [top / (height - parentHeight)]);
+					event.stopPropagation();
+					return false;
+				});
+
+				timeboxparent.on('touchstart', function (event) {
+					start = pointerEventToXY(event);
+					startTop = Math.abs(parseInt(timebox.css('marginTop'), 10));
+				});
+
+				timeboxparent.on('touchmove', function (event) {
+					if (start) {
+						event.preventDefault();
+						var coord = pointerEventToXY(event);
+						timeboxparent.trigger('scroll_element.xdsoft_scroller', [(startTop - (coord.y - start.y)) / (height - parentHeight)]);
+					}
+				});
+
+				timeboxparent.on('touchend touchcancel', function () {
+					start = false;
+					startTop = 0;
+				});
+			}
+			timeboxparent.trigger('resize_scroll.xdsoft_scroller', [percent]);
+		});
+	};
+
+	$.fn.datetimepicker = function (opt, opt2) {
+		var result = this,
+			KEY0 = 48,
+			KEY9 = 57,
+			_KEY0 = 96,
+			_KEY9 = 105,
+            CTRLKEY = 17,
+            CMDKEY = 91,
+			DEL = 46,
+			ENTER = 13,
+			ESC = 27,
+			BACKSPACE = 8,
+			ARROWLEFT = 37,
+			ARROWUP = 38,
+			ARROWRIGHT = 39,
+			ARROWDOWN = 40,
+			TAB = 9,
+			F5 = 116,
+			AKEY = 65,
+			CKEY = 67,
+			VKEY = 86,
+			ZKEY = 90,
+			YKEY = 89,
+            ctrlDown	=	false,
+            cmdDown = false,
+			options = ($.isPlainObject(opt) || !opt) ? $.extend(true, {}, default_options, opt) : $.extend(true, {}, default_options),
+
+			lazyInitTimer = 0,
+			createDateTimePicker,
+			destroyDateTimePicker,
+
+			lazyInit = function (input) {
+				input
+					.on('open.xdsoft focusin.xdsoft mousedown.xdsoft touchstart', function initOnActionCallback() {
+						if (input.is(':disabled') || input.data('xdsoft_datetimepicker')) {
+							return;
+						}
+						clearTimeout(lazyInitTimer);
+						lazyInitTimer = setTimeout(function () {
+
+							if (!input.data('xdsoft_datetimepicker')) {
+								createDateTimePicker(input);
+							}
+							input
+								.off('open.xdsoft focusin.xdsoft mousedown.xdsoft touchstart', initOnActionCallback)
+								.trigger('open.xdsoft');
+						}, 100);
+					});
+			};
+
+		createDateTimePicker = function (input) {
+			var datetimepicker = $('<div class="xdsoft_datetimepicker xdsoft_noselect"></div>'),
+				xdsoft_copyright = $('<div class="xdsoft_copyright"><a target="_blank" href="http://xdsoft.net/jqplugins/datetimepicker/">xdsoft.net</a></div>'),
+				datepicker = $('<div class="xdsoft_datepicker active"></div>'),
+				month_picker = $('<div class="xdsoft_monthpicker"><button type="button" class="xdsoft_prev"></button><button type="button" class="xdsoft_today_button"></button>' +
+					'<div class="xdsoft_label xdsoft_month"><span></span><i></i></div>' +
+					'<div class="xdsoft_label xdsoft_year"><span></span><i></i></div>' +
+					'<button type="button" class="xdsoft_next"></button></div>'),
+				calendar = $('<div class="xdsoft_calendar"></div>'),
+				timepicker = $('<div class="xdsoft_timepicker active"><button type="button" class="xdsoft_prev"></button><div class="xdsoft_time_box"></div><button type="button" class="xdsoft_next"></button></div>'),
+				timeboxparent = timepicker.find('.xdsoft_time_box').eq(0),
+				timebox = $('<div class="xdsoft_time_variant"></div>'),
+				applyButton = $('<button type="button" class="xdsoft_save_selected blue-gradient-button">Save Selected</button>'),
+
+				monthselect = $('<div class="xdsoft_select xdsoft_monthselect"><div></div></div>'),
+				yearselect = $('<div class="xdsoft_select xdsoft_yearselect"><div></div></div>'),
+				triggerAfterOpen = false,
+				XDSoft_datetime,
+
+				xchangeTimer,
+				timerclick,
+				current_time_index,
+				setPos,
+				timer = 0,
+				_xdsoft_datetime,
+				forEachAncestorOf;
+
+			if (options.id) {
+				datetimepicker.attr('id', options.id);
+			}
+			if (options.style) {
+				datetimepicker.attr('style', options.style);
+			}
+			if (options.weeks) {
+				datetimepicker.addClass('xdsoft_showweeks');
+			}
+			if (options.rtl) {
+				datetimepicker.addClass('xdsoft_rtl');
+			}
+
+			datetimepicker.addClass('xdsoft_' + options.theme);
+			datetimepicker.addClass(options.className);
+
+			month_picker
+				.find('.xdsoft_month span')
+				.after(monthselect);
+			month_picker
+				.find('.xdsoft_year span')
+				.after(yearselect);
+
+			month_picker
+				.find('.xdsoft_month,.xdsoft_year')
+				.on('touchstart mousedown.xdsoft', function (event) {
+					var select = $(this).find('.xdsoft_select').eq(0),
+						val = 0,
+						top = 0,
+						visible = select.is(':visible'),
+						items,
+						i;
+
+					month_picker
+						.find('.xdsoft_select')
+						.hide();
+					if (_xdsoft_datetime.currentTime) {
+						val = _xdsoft_datetime.currentTime[$(this).hasClass('xdsoft_month') ? 'getMonth' : 'getFullYear']();
+					}
+
+					select[visible ? 'hide' : 'show']();
+					for (items = select.find('div.xdsoft_option'), i = 0; i < items.length; i += 1) {
+						if (items.eq(i).data('value') === val) {
+							break;
+						} else {
+							top += items[0].offsetHeight;
+						}
+					}
+
+					select.xdsoftScroller(options, top / (select.children()[0].offsetHeight - (select[0].clientHeight)));
+					event.stopPropagation();
+					return false;
+				});
+
+			var handleTouchMoved = function (event) {
+				var evt = event.originalEvent;
+				var touchPosition = evt.touches ? evt.touches[0] : evt;
+				this.touchStartPosition = this.touchStartPosition || touchPosition;
+				var xMovement = Math.abs(this.touchStartPosition.clientX - touchPosition.clientX);
+				var yMovement = Math.abs(this.touchStartPosition.clientY - touchPosition.clientY);
+				var distance = Math.sqrt(xMovement * xMovement + yMovement * yMovement);
+				if(distance > options.touchMovedThreshold) {
+					this.touchMoved = true;
+				}
+			}
+
+			month_picker
+				.find('.xdsoft_select')
+				.xdsoftScroller(options)
+				.on('touchstart mousedown.xdsoft', function (event) {
+					var evt = event.originalEvent;
+					this.touchMoved = false;
+					this.touchStartPosition = evt.touches ? evt.touches[0] : evt;
+					event.stopPropagation();
+					event.preventDefault();
+				})
+				.on('touchmove', '.xdsoft_option', handleTouchMoved)
+				.on('touchend mousedown.xdsoft', '.xdsoft_option', function () {
+					if (!this.touchMoved) {
+						if (_xdsoft_datetime.currentTime === undefined || _xdsoft_datetime.currentTime === null) {
+							_xdsoft_datetime.currentTime = _xdsoft_datetime.now();
+						}
+
+						var year = _xdsoft_datetime.currentTime.getFullYear();
+						if (_xdsoft_datetime && _xdsoft_datetime.currentTime) {
+							_xdsoft_datetime.currentTime[$(this).parent().parent().hasClass('xdsoft_monthselect') ? 'setMonth' : 'setFullYear']($(this).data('value'));
+						}
+
+						$(this).parent().parent().hide();
+
+						datetimepicker.trigger('xchange.xdsoft');
+						if (options.onChangeMonth && $.isFunction(options.onChangeMonth)) {
+							options.onChangeMonth.call(datetimepicker, _xdsoft_datetime.currentTime, datetimepicker.data('input'));
+						}
+
+						if (year !== _xdsoft_datetime.currentTime.getFullYear() && $.isFunction(options.onChangeYear)) {
+							options.onChangeYear.call(datetimepicker, _xdsoft_datetime.currentTime, datetimepicker.data('input'));
+						}
+					}
+				});
+
+			datetimepicker.getValue = function () {
+				return _xdsoft_datetime.getCurrentTime();
+			};
+
+			datetimepicker.setOptions = function (_options) {
+				var highlightedDates = {};
+
+				options = $.extend(true, {}, options, _options);
+
+				if (_options.allowTimes && $.isArray(_options.allowTimes) && _options.allowTimes.length) {
+					options.allowTimes = $.extend(true, [], _options.allowTimes);
+				}
+
+				if (_options.weekends && $.isArray(_options.weekends) && _options.weekends.length) {
+					options.weekends = $.extend(true, [], _options.weekends);
+				}
+
+				if (_options.allowDates && $.isArray(_options.allowDates) && _options.allowDates.length) {
+					options.allowDates = $.extend(true, [], _options.allowDates);
+				}
+
+				if (_options.allowDateRe && Object.prototype.toString.call(_options.allowDateRe)==="[object String]") {
+					options.allowDateRe = new RegExp(_options.allowDateRe);
+				}
+
+				if (_options.highlightedDates && $.isArray(_options.highlightedDates) && _options.highlightedDates.length) {
+					$.each(_options.highlightedDates, function (index, value) {
+						var splitData = $.map(value.split(','), $.trim),
+							exDesc,
+							hDate = new HighlightedDate(dateHelper.parseDate(splitData[0], options.formatDate), splitData[1], splitData[2]), // date, desc, style
+							keyDate = dateHelper.formatDate(hDate.date, options.formatDate);
+						if (highlightedDates[keyDate] !== undefined) {
+							exDesc = highlightedDates[keyDate].desc;
+							if (exDesc && exDesc.length && hDate.desc && hDate.desc.length) {
+								highlightedDates[keyDate].desc = exDesc + "\n" + hDate.desc;
+							}
+						} else {
+							highlightedDates[keyDate] = hDate;
+						}
+					});
+
+					options.highlightedDates = $.extend(true, [], highlightedDates);
+				}
+
+				if (_options.highlightedPeriods && $.isArray(_options.highlightedPeriods) && _options.highlightedPeriods.length) {
+					highlightedDates = $.extend(true, [], options.highlightedDates);
+					$.each(_options.highlightedPeriods, function (index, value) {
+						var dateTest, // start date
+							dateEnd,
+							desc,
+							hDate,
+							keyDate,
+							exDesc,
+							style;
+						if ($.isArray(value)) {
+							dateTest = value[0];
+							dateEnd = value[1];
+							desc = value[2];
+							style = value[3];
+						}
+						else {
+							var splitData = $.map(value.split(','), $.trim);
+							dateTest = dateHelper.parseDate(splitData[0], options.formatDate);
+							dateEnd = dateHelper.parseDate(splitData[1], options.formatDate);
+							desc = splitData[2];
+							style = splitData[3];
+						}
+
+						while (dateTest <= dateEnd) {
+							hDate = new HighlightedDate(dateTest, desc, style);
+							keyDate = dateHelper.formatDate(dateTest, options.formatDate);
+							dateTest.setDate(dateTest.getDate() + 1);
+							if (highlightedDates[keyDate] !== undefined) {
+								exDesc = highlightedDates[keyDate].desc;
+								if (exDesc && exDesc.length && hDate.desc && hDate.desc.length) {
+									highlightedDates[keyDate].desc = exDesc + "\n" + hDate.desc;
+								}
+							} else {
+								highlightedDates[keyDate] = hDate;
+							}
+						}
+					});
+
+					options.highlightedDates = $.extend(true, [], highlightedDates);
+				}
+
+				if (_options.disabledDates && $.isArray(_options.disabledDates) && _options.disabledDates.length) {
+					options.disabledDates = $.extend(true, [], _options.disabledDates);
+				}
+
+				if (_options.disabledWeekDays && $.isArray(_options.disabledWeekDays) && _options.disabledWeekDays.length) {
+					options.disabledWeekDays = $.extend(true, [], _options.disabledWeekDays);
+				}
+
+				if ((options.open || options.opened) && (!options.inline)) {
+					input.trigger('open.xdsoft');
+				}
+
+				if (options.inline) {
+					triggerAfterOpen = true;
+					datetimepicker.addClass('xdsoft_inline');
+					input.after(datetimepicker).hide();
+				}
+
+				if (options.inverseButton) {
+					options.next = 'xdsoft_prev';
+					options.prev = 'xdsoft_next';
+				}
+
+				if (options.datepicker) {
+					datepicker.addClass('active');
+				} else {
+					datepicker.removeClass('active');
+				}
+
+				if (options.timepicker) {
+					timepicker.addClass('active');
+				} else {
+					timepicker.removeClass('active');
+				}
+
+				if (options.value) {
+					_xdsoft_datetime.setCurrentTime(options.value);
+					if (input && input.val) {
+						input.val(_xdsoft_datetime.str);
+					}
+				}
+
+				if (isNaN(options.dayOfWeekStart)) {
+					options.dayOfWeekStart = 0;
+				} else {
+					options.dayOfWeekStart = parseInt(options.dayOfWeekStart, 10) % 7;
+				}
+
+				if (!options.timepickerScrollbar) {
+					timeboxparent.xdsoftScroller(options, 'hide');
+				}
+
+				if (options.minDate && /^[\+\-](.*)$/.test(options.minDate)) {
+					options.minDate = dateHelper.formatDate(_xdsoft_datetime.strToDateTime(options.minDate), options.formatDate);
+				}
+
+				if (options.maxDate &&  /^[\+\-](.*)$/.test(options.maxDate)) {
+					options.maxDate = dateHelper.formatDate(_xdsoft_datetime.strToDateTime(options.maxDate), options.formatDate);
+				}
+
+                if (options.minDateTime &&  /^\+(.*)$/.test(options.minDateTime)) {
+                	options.minDateTime = _xdsoft_datetime.strToDateTime(options.minDateTime).dateFormat(options.formatDate);
+                }
+
+                if (options.maxDateTime &&  /^\+(.*)$/.test(options.maxDateTime)) {
+                	options.maxDateTime = _xdsoft_datetime.strToDateTime(options.maxDateTime).dateFormat(options.formatDate);
+                }
+
+				applyButton.toggle(options.showApplyButton);
+
+				month_picker
+					.find('.xdsoft_today_button')
+					.css('visibility', !options.todayButton ? 'hidden' : 'visible');
+
+				month_picker
+					.find('.' + options.prev)
+					.css('visibility', !options.prevButton ? 'hidden' : 'visible');
+
+				month_picker
+					.find('.' + options.next)
+					.css('visibility', !options.nextButton ? 'hidden' : 'visible');
+
+				setMask(options);
+
+				if (options.validateOnBlur) {
+					input
+						.off('blur.xdsoft')
+						.on('blur.xdsoft', function () {
+							if (options.allowBlank && (!$.trim($(this).val()).length ||
+									(typeof options.mask === "string" && $.trim($(this).val()) === options.mask.replace(/[0-9]/g, '_')))) {
+								$(this).val(null);
+								datetimepicker.data('xdsoft_datetime').empty();
+							} else {
+								var d = dateHelper.parseDate($(this).val(), options.format);
+								if (d) { // parseDate() may skip some invalid parts like date or time, so make it clear for user: show parsed date/time
+									$(this).val(dateHelper.formatDate(d, options.format));
+								} else {
+									var splittedHours   = +([$(this).val()[0], $(this).val()[1]].join('')),
+										splittedMinutes = +([$(this).val()[2], $(this).val()[3]].join(''));
+
+									// parse the numbers as 0312 => 03:12
+									if (!options.datepicker && options.timepicker && splittedHours >= 0 && splittedHours < 24 && splittedMinutes >= 0 && splittedMinutes < 60) {
+										$(this).val([splittedHours, splittedMinutes].map(function (item) {
+											return item > 9 ? item : '0' + item;
+										}).join(':'));
+									} else {
+										$(this).val(dateHelper.formatDate(_xdsoft_datetime.now(), options.format));
+									}
+								}
+								datetimepicker.data('xdsoft_datetime').setCurrentTime($(this).val());
+							}
+
+							datetimepicker.trigger('changedatetime.xdsoft');
+							datetimepicker.trigger('close.xdsoft');
+						});
+				}
+				options.dayOfWeekStartPrev = (options.dayOfWeekStart === 0) ? 6 : options.dayOfWeekStart - 1;
+
+				datetimepicker
+					.trigger('xchange.xdsoft')
+					.trigger('afterOpen.xdsoft');
+			};
+
+			datetimepicker
+				.data('options', options)
+				.on('touchstart mousedown.xdsoft', function (event) {
+					event.stopPropagation();
+					event.preventDefault();
+					yearselect.hide();
+					monthselect.hide();
+					return false;
+				});
+
+			//scroll_element = timepicker.find('.xdsoft_time_box');
+			timeboxparent.append(timebox);
+			timeboxparent.xdsoftScroller(options);
+
+			datetimepicker.on('afterOpen.xdsoft', function () {
+				timeboxparent.xdsoftScroller(options);
+			});
+
+			datetimepicker
+				.append(datepicker)
+				.append(timepicker);
+
+			if (options.withoutCopyright !== true) {
+				datetimepicker
+					.append(xdsoft_copyright);
+			}
+
+			datepicker
+				.append(month_picker)
+				.append(calendar)
+				.append(applyButton);
+
+            if (options.insideParent) {
+                $(input).parent().append(datetimepicker);
+            } else {
+                $(options.parentID).append(datetimepicker);
+            }
+
+			XDSoft_datetime = function () {
+				var _this = this;
+				_this.now = function (norecursion) {
+					var d = new Date(),
+						date,
+						time;
+
+					if (!norecursion && options.defaultDate) {
+						date = _this.strToDateTime(options.defaultDate);
+						d.setFullYear(date.getFullYear());
+						d.setMonth(date.getMonth());
+						d.setDate(date.getDate());
+					}
+
+					d.setFullYear(d.getFullYear());
+
+					if (!norecursion && options.defaultTime) {
+						time = _this.strtotime(options.defaultTime);
+						d.setHours(time.getHours());
+						d.setMinutes(time.getMinutes());
+						d.setSeconds(time.getSeconds());
+						d.setMilliseconds(time.getMilliseconds());
+					}
+					return d;
+				};
+
+				_this.isValidDate = function (d) {
+					if (Object.prototype.toString.call(d) !== "[object Date]") {
+						return false;
+					}
+					return !isNaN(d.getTime());
+				};
+
+				_this.setCurrentTime = function (dTime, requireValidDate) {
+					if (typeof dTime === 'string') {
+						_this.currentTime = _this.strToDateTime(dTime);
+					}
+					else if (_this.isValidDate(dTime)) {
+						_this.currentTime = dTime;
+					}
+					else if (!dTime && !requireValidDate && options.allowBlank && !options.inline) {
+						_this.currentTime = null;
+					}
+					else {
+						_this.currentTime = _this.now();
+					}
+
+					datetimepicker.trigger('xchange.xdsoft');
+				};
+
+				_this.empty = function () {
+					_this.currentTime = null;
+				};
+
+				_this.getCurrentTime = function () {
+					return _this.currentTime;
+				};
+
+				_this.nextMonth = function () {
+
+					if (_this.currentTime === undefined || _this.currentTime === null) {
+						_this.currentTime = _this.now();
+					}
+
+					var month = _this.currentTime.getMonth() + 1,
+						year;
+					if (month === 12) {
+						_this.currentTime.setFullYear(_this.currentTime.getFullYear() + 1);
+						month = 0;
+					}
+
+					year = _this.currentTime.getFullYear();
+
+					_this.currentTime.setDate(
+						Math.min(
+							new Date(_this.currentTime.getFullYear(), month + 1, 0).getDate(),
+							_this.currentTime.getDate()
+						)
+					);
+					_this.currentTime.setMonth(month);
+
+					if (options.onChangeMonth && $.isFunction(options.onChangeMonth)) {
+						options.onChangeMonth.call(datetimepicker, _xdsoft_datetime.currentTime, datetimepicker.data('input'));
+					}
+
+					if (year !== _this.currentTime.getFullYear() && $.isFunction(options.onChangeYear)) {
+						options.onChangeYear.call(datetimepicker, _xdsoft_datetime.currentTime, datetimepicker.data('input'));
+					}
+
+					datetimepicker.trigger('xchange.xdsoft');
+					return month;
+				};
+
+				_this.prevMonth = function () {
+
+					if (_this.currentTime === undefined || _this.currentTime === null) {
+						_this.currentTime = _this.now();
+					}
+
+					var month = _this.currentTime.getMonth() - 1;
+					if (month === -1) {
+						_this.currentTime.setFullYear(_this.currentTime.getFullYear() - 1);
+						month = 11;
+					}
+					_this.currentTime.setDate(
+						Math.min(
+							new Date(_this.currentTime.getFullYear(), month + 1, 0).getDate(),
+							_this.currentTime.getDate()
+						)
+					);
+					_this.currentTime.setMonth(month);
+					if (options.onChangeMonth && $.isFunction(options.onChangeMonth)) {
+						options.onChangeMonth.call(datetimepicker, _xdsoft_datetime.currentTime, datetimepicker.data('input'));
+					}
+					datetimepicker.trigger('xchange.xdsoft');
+					return month;
+				};
+
+				_this.getWeekOfYear = function (datetime) {
+					if (options.onGetWeekOfYear && $.isFunction(options.onGetWeekOfYear)) {
+						var week = options.onGetWeekOfYear.call(datetimepicker, datetime);
+						if (typeof week !== 'undefined') {
+							return week;
+						}
+					}
+					var onejan = new Date(datetime.getFullYear(), 0, 1);
+
+					//First week of the year is th one with the first Thursday according to ISO8601
+					if (onejan.getDay() !== 4) {
+						onejan.setMonth(0, 1 + ((4 - onejan.getDay()+ 7) % 7));
+					}
+
+					return Math.ceil((((datetime - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+				};
+
+				_this.strToDateTime = function (sDateTime) {
+					var tmpDate = [], timeOffset, currentTime;
+
+					if (sDateTime && sDateTime instanceof Date && _this.isValidDate(sDateTime)) {
+						return sDateTime;
+					}
+
+					tmpDate = /^([+-]{1})(.*)$/.exec(sDateTime);
+
+					if (tmpDate) {
+						tmpDate[2] = dateHelper.parseDate(tmpDate[2], options.formatDate);
+					}
+
+					if (tmpDate  && tmpDate[2]) {
+						timeOffset = tmpDate[2].getTime() - (tmpDate[2].getTimezoneOffset()) * 60000;
+						currentTime = new Date((_this.now(true)).getTime() + parseInt(tmpDate[1] + '1', 10) * timeOffset);
+					} else {
+						currentTime = sDateTime ? dateHelper.parseDate(sDateTime, options.format) : _this.now();
+					}
+
+					if (!_this.isValidDate(currentTime)) {
+						currentTime = _this.now();
+					}
+
+					return currentTime;
+				};
+
+				_this.strToDate = function (sDate) {
+					if (sDate && sDate instanceof Date && _this.isValidDate(sDate)) {
+						return sDate;
+					}
+
+					var currentTime = sDate ? dateHelper.parseDate(sDate, options.formatDate) : _this.now(true);
+					if (!_this.isValidDate(currentTime)) {
+						currentTime = _this.now(true);
+					}
+					return currentTime;
+				};
+
+				_this.strtotime = function (sTime) {
+					if (sTime && sTime instanceof Date && _this.isValidDate(sTime)) {
+						return sTime;
+					}
+					var currentTime = sTime ? dateHelper.parseDate(sTime, options.formatTime) : _this.now(true);
+					if (!_this.isValidDate(currentTime)) {
+						currentTime = _this.now(true);
+					}
+					return currentTime;
+				};
+
+				_this.str = function () {
+					var format = options.format;
+					if (options.yearOffset) {
+						format = format.replace('Y', _this.currentTime.getFullYear() + options.yearOffset);
+						format = format.replace('y', String(_this.currentTime.getFullYear() + options.yearOffset).substring(2, 4));
+					}
+					return dateHelper.formatDate(_this.currentTime, format);
+				};
+				_this.currentTime = this.now();
+			};
+
+			_xdsoft_datetime = new XDSoft_datetime();
+
+			applyButton.on('touchend click', function (e) {//pathbrite
+				e.preventDefault();
+				datetimepicker.data('changed', true);
+				_xdsoft_datetime.setCurrentTime(getCurrentValue());
+				input.val(_xdsoft_datetime.str());
+				datetimepicker.trigger('close.xdsoft');
+			});
+			month_picker
+				.find('.xdsoft_today_button')
+				.on('touchend mousedown.xdsoft', function () {
+					datetimepicker.data('changed', true);
+					_xdsoft_datetime.setCurrentTime(0, true);
+					datetimepicker.trigger('afterOpen.xdsoft');
+				}).on('dblclick.xdsoft', function () {
+				var currentDate = _xdsoft_datetime.getCurrentTime(), minDate, maxDate;
+				currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+				minDate = _xdsoft_datetime.strToDate(options.minDate);
+				minDate = new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate());
+				if (currentDate < minDate) {
+					return;
+				}
+				maxDate = _xdsoft_datetime.strToDate(options.maxDate);
+				maxDate = new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate());
+				if (currentDate > maxDate) {
+					return;
+				}
+				input.val(_xdsoft_datetime.str());
+				input.trigger('change');
+				datetimepicker.trigger('close.xdsoft');
+			});
+			month_picker
+				.find('.xdsoft_prev,.xdsoft_next')
+				.on('touchend mousedown.xdsoft', function () {
+					var $this = $(this),
+						timer = 0,
+						stop = false;
+
+					(function arguments_callee1(v) {
+						if ($this.hasClass(options.next)) {
+							_xdsoft_datetime.nextMonth();
+						} else if ($this.hasClass(options.prev)) {
+							_xdsoft_datetime.prevMonth();
+						}
+						if (options.monthChangeSpinner) {
+							if (!stop) {
+								timer = setTimeout(arguments_callee1, v || 100);
+							}
+						}
+					}(500));
+
+					$([options.ownerDocument.body, options.contentWindow]).on('touchend mouseup.xdsoft', function arguments_callee2() {
+						clearTimeout(timer);
+						stop = true;
+						$([options.ownerDocument.body, options.contentWindow]).off('touchend mouseup.xdsoft', arguments_callee2);
+					});
+				});
+
+			timepicker
+				.find('.xdsoft_prev,.xdsoft_next')
+				.on('touchend mousedown.xdsoft', function () {
+					var $this = $(this),
+						timer = 0,
+						stop = false,
+						period = 110;
+					(function arguments_callee4(v) {
+						var pheight = timeboxparent[0].clientHeight,
+							height = timebox[0].offsetHeight,
+							top = Math.abs(parseInt(timebox.css('marginTop'), 10));
+						if ($this.hasClass(options.next) && (height - pheight) - options.timeHeightInTimePicker >= top) {
+							timebox.css('marginTop', '-' + (top + options.timeHeightInTimePicker) + 'px');
+						} else if ($this.hasClass(options.prev) && top - options.timeHeightInTimePicker >= 0) {
+							timebox.css('marginTop', '-' + (top - options.timeHeightInTimePicker) + 'px');
+						}
+						/**
+						 * Fixed bug:
+						 * When using css3 transition, it will cause a bug that you cannot scroll the timepicker list.
+						 * The reason is that the transition-duration time, if you set it to 0, all things fine, otherwise, this
+						 * would cause a bug when you use jquery.css method.
+						 * Let's say: * { transition: all .5s ease; }
+						 * jquery timebox.css('marginTop') will return the original value which is before you clicking the next/prev button,
+						 * meanwhile the timebox[0].style.marginTop will return the right value which is after you clicking the
+						 * next/prev button.
+						 *
+						 * What we should do:
+						 * Replace timebox.css('marginTop') with timebox[0].style.marginTop.
+						 */
+						timeboxparent.trigger('scroll_element.xdsoft_scroller', [Math.abs(parseInt(timebox[0].style.marginTop, 10) / (height - pheight))]);
+						period = (period > 10) ? 10 : period - 10;
+						if (!stop) {
+							timer = setTimeout(arguments_callee4, v || period);
+						}
+					}(500));
+					$([options.ownerDocument.body, options.contentWindow]).on('touchend mouseup.xdsoft', function arguments_callee5() {
+						clearTimeout(timer);
+						stop = true;
+						$([options.ownerDocument.body, options.contentWindow])
+							.off('touchend mouseup.xdsoft', arguments_callee5);
+					});
+				});
+
+			xchangeTimer = 0;
+			// base handler - generating a calendar and timepicker
+			datetimepicker
+				.on('xchange.xdsoft', function (event) {
+					clearTimeout(xchangeTimer);
+					xchangeTimer = setTimeout(function () {
+
+						if (_xdsoft_datetime.currentTime === undefined || _xdsoft_datetime.currentTime === null) {
+							_xdsoft_datetime.currentTime = _xdsoft_datetime.now();
+						}
+
+						var table =	'',
+							start = new Date(_xdsoft_datetime.currentTime.getFullYear(), _xdsoft_datetime.currentTime.getMonth(), 1, 12, 0, 0),
+							i = 0,
+							j,
+							today = _xdsoft_datetime.now(),
+							maxDate = false,
+							minDate = false,
+							minDateTime = false,
+							maxDateTime = false,
+							hDate,
+							day,
+							d,
+							y,
+							m,
+							w,
+							classes = [],
+							customDateSettings,
+							newRow = true,
+							time = '',
+							h,
+							line_time,
+							description;
+
+						while (start.getDay() !== options.dayOfWeekStart) {
+							start.setDate(start.getDate() - 1);
+						}
+
+						table += '<table><thead><tr>';
+
+						if (options.weeks) {
+							table += '<th></th>';
+						}
+
+						for (j = 0; j < 7; j += 1) {
+							table += '<th>' + options.i18n[globalLocale].dayOfWeekShort[(j + options.dayOfWeekStart) % 7] + '</th>';
+						}
+
+						table += '</tr></thead>';
+						table += '<tbody>';
+
+						if (options.maxDate !== false) {
+							maxDate = _xdsoft_datetime.strToDate(options.maxDate);
+							maxDate = new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate(), 23, 59, 59, 999);
+						}
+
+						if (options.minDate !== false) {
+							minDate = _xdsoft_datetime.strToDate(options.minDate);
+							minDate = new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate());
+						}
+
+                        if (options.minDateTime !== false) {
+							minDateTime = _xdsoft_datetime.strToDate(options.minDateTime);
+							minDateTime = new Date(minDateTime.getFullYear(), minDateTime.getMonth(), minDateTime.getDate(), minDateTime.getHours(), minDateTime.getMinutes(), minDateTime.getSeconds());
+						}
+
+                        if (options.maxDateTime !== false) {
+							maxDateTime = _xdsoft_datetime.strToDate(options.maxDateTime);
+							maxDateTime = new Date(maxDateTime.getFullYear(), maxDateTime.getMonth(), maxDateTime.getDate(), maxDateTime.getHours(), maxDateTime.getMinutes(), maxDateTime.getSeconds());
+						}
+
+						var maxDateTimeDay;
+						if (maxDateTime !== false) {
+							maxDateTimeDay = ((maxDateTime.getFullYear() * 12) + maxDateTime.getMonth()) * 31 + maxDateTime.getDate();
+						}
+
+						while (i < _xdsoft_datetime.currentTime.countDaysInMonth() || start.getDay() !== options.dayOfWeekStart || _xdsoft_datetime.currentTime.getMonth() === start.getMonth()) {
+							classes = [];
+							i += 1;
+
+							day = start.getDay();
+							d = start.getDate();
+							y = start.getFullYear();
+							m = start.getMonth();
+							w = _xdsoft_datetime.getWeekOfYear(start);
+							description = '';
+
+							classes.push('xdsoft_date');
+
+							if (options.beforeShowDay && $.isFunction(options.beforeShowDay.call)) {
+								customDateSettings = options.beforeShowDay.call(datetimepicker, start);
+							} else {
+								customDateSettings = null;
+							}
+
+							if(options.allowDateRe && Object.prototype.toString.call(options.allowDateRe) === "[object RegExp]"){
+								if(!options.allowDateRe.test(dateHelper.formatDate(start, options.formatDate))){
+									classes.push('xdsoft_disabled');
+								}
+							}
+							
+							if(options.allowDates && options.allowDates.length>0){
+								if(options.allowDates.indexOf(dateHelper.formatDate(start, options.formatDate)) === -1){
+									classes.push('xdsoft_disabled');
+								}
+							}
+							
+							var currentDay = ((start.getFullYear() * 12) + start.getMonth()) * 31 + start.getDate();
+							if ((maxDate !== false && start > maxDate) || (minDateTime !== false && start < minDateTime)  || (minDate !== false && start < minDate) || (maxDateTime !== false && currentDay > maxDateTimeDay) || (customDateSettings && customDateSettings[0] === false)) {
+								classes.push('xdsoft_disabled');
+							}
+							
+							if (options.disabledDates.indexOf(dateHelper.formatDate(start, options.formatDate)) !== -1) {
+								classes.push('xdsoft_disabled');
+							}
+							
+							if (options.disabledWeekDays.indexOf(day) !== -1) {
+								classes.push('xdsoft_disabled');
+							}
+							
+							if (input.is('[disabled]')) {
+								classes.push('xdsoft_disabled');
+							}
+
+							if (customDateSettings && customDateSettings[1] !== "") {
+								classes.push(customDateSettings[1]);
+							}
+
+							if (_xdsoft_datetime.currentTime.getMonth() !== m) {
+								classes.push('xdsoft_other_month');
+							}
+
+							if ((options.defaultSelect || datetimepicker.data('changed')) && dateHelper.formatDate(_xdsoft_datetime.currentTime, options.formatDate) === dateHelper.formatDate(start, options.formatDate)) {
+								classes.push('xdsoft_current');
+							}
+
+							if (dateHelper.formatDate(today, options.formatDate) === dateHelper.formatDate(start, options.formatDate)) {
+								classes.push('xdsoft_today');
+							}
+
+							if (start.getDay() === 0 || start.getDay() === 6 || options.weekends.indexOf(dateHelper.formatDate(start, options.formatDate)) !== -1) {
+								classes.push('xdsoft_weekend');
+							}
+
+							if (options.highlightedDates[dateHelper.formatDate(start, options.formatDate)] !== undefined) {
+								hDate = options.highlightedDates[dateHelper.formatDate(start, options.formatDate)];
+								classes.push(hDate.style === undefined ? 'xdsoft_highlighted_default' : hDate.style);
+								description = hDate.desc === undefined ? '' : hDate.desc;
+							}
+
+							if (options.beforeShowDay && $.isFunction(options.beforeShowDay)) {
+								classes.push(options.beforeShowDay(start));
+							}
+
+							if (newRow) {
+								table += '<tr>';
+								newRow = false;
+								if (options.weeks) {
+									table += '<th>' + w + '</th>';
+								}
+							}
+
+							table += '<td data-date="' + d + '" data-month="' + m + '" data-year="' + y + '"' + ' class="xdsoft_date xdsoft_day_of_week' + start.getDay() + ' ' + classes.join(' ') + '" title="' + description + '">' +
+								'<div>' + d + '</div>' +
+								'</td>';
+
+							if (start.getDay() === options.dayOfWeekStartPrev) {
+								table += '</tr>';
+								newRow = true;
+							}
+
+							start.setDate(d + 1);
+						}
+						table += '</tbody></table>';
+
+						calendar.html(table);
+
+						month_picker.find('.xdsoft_label span').eq(0).text(options.i18n[globalLocale].months[_xdsoft_datetime.currentTime.getMonth()]);
+						month_picker.find('.xdsoft_label span').eq(1).text(_xdsoft_datetime.currentTime.getFullYear() + options.yearOffset);
+
+						// generate timebox
+						time = '';
+						h = '';
+						m = '';
+
+						var minTimeMinutesOfDay = 0;
+						if (options.minTime !== false) {
+						    var t = _xdsoft_datetime.strtotime(options.minTime);
+						    minTimeMinutesOfDay = 60 * t.getHours() + t.getMinutes();
+						}
+						var maxTimeMinutesOfDay = 24 * 60;
+						if (options.maxTime !== false) {
+						    var t = _xdsoft_datetime.strtotime(options.maxTime);
+						    maxTimeMinutesOfDay = 60 * t.getHours() + t.getMinutes();
+						}
+
+						if (options.minDateTime !== false) {
+							var t = _xdsoft_datetime.strToDateTime(options.minDateTime);
+						        var currentDayIsMinDateTimeDay = dateHelper.formatDate(_xdsoft_datetime.currentTime, options.formatDate) === dateHelper.formatDate(t, options.formatDate);
+							if (currentDayIsMinDateTimeDay) {
+								var m = 60 * t.getHours() + t.getMinutes();
+								if (m > minTimeMinutesOfDay) minTimeMinutesOfDay = m;
+							}
+						}
+
+						if (options.maxDateTime !== false) {
+							var t = _xdsoft_datetime.strToDateTime(options.maxDateTime);
+						        var currentDayIsMaxDateTimeDay = dateHelper.formatDate(_xdsoft_datetime.currentTime, options.formatDate) === dateHelper.formatDate(t, options.formatDate);
+							if (currentDayIsMaxDateTimeDay) {
+								var m = 60 * t.getHours() + t.getMinutes();
+								if (m < maxTimeMinutesOfDay) maxTimeMinutesOfDay = m;
+							}
+						}
+
+						line_time = function line_time(h, m) {
+							var now = _xdsoft_datetime.now(), current_time,
+								isALlowTimesInit = options.allowTimes && $.isArray(options.allowTimes) && options.allowTimes.length;
+							now.setHours(h);
+							h = parseInt(now.getHours(), 10);
+							now.setMinutes(m);
+							m = parseInt(now.getMinutes(), 10);
+							classes = [];
+							var currentMinutesOfDay = 60 * h + m;
+							if (input.is('[disabled]') || (currentMinutesOfDay >= maxTimeMinutesOfDay) || (currentMinutesOfDay < minTimeMinutesOfDay)) {
+								classes.push('xdsoft_disabled');
+							}
+
+							current_time = new Date(_xdsoft_datetime.currentTime);
+							current_time.setHours(parseInt(_xdsoft_datetime.currentTime.getHours(), 10));
+
+							if (!isALlowTimesInit) {
+								current_time.setMinutes(Math[options.roundTime](_xdsoft_datetime.currentTime.getMinutes() / options.step) * options.step);
+							}
+
+							if ((options.initTime || options.defaultSelect || datetimepicker.data('changed')) && current_time.getHours() === parseInt(h, 10) && ((!isALlowTimesInit && options.step > 59) || current_time.getMinutes() === parseInt(m, 10))) {
+								if (options.defaultSelect || datetimepicker.data('changed')) {
+									classes.push('xdsoft_current');
+								} else if (options.initTime) {
+									classes.push('xdsoft_init_time');
+								}
+							}
+							if (parseInt(today.getHours(), 10) === parseInt(h, 10) && parseInt(today.getMinutes(), 10) === parseInt(m, 10)) {
+								classes.push('xdsoft_today');
+							}
+							time += '<div class="xdsoft_time ' + classes.join(' ') + '" data-hour="' + h + '" data-minute="' + m + '">' + dateHelper.formatDate(now, options.formatTime) + '</div>';
+						};
+
+						if (!options.allowTimes || !$.isArray(options.allowTimes) || !options.allowTimes.length) {
+							for (i = 0, j = 0; i < (options.hours12 ? 12 : 24); i += 1) {
+								for (j = 0; j < 60; j += options.step) {
+								        var currentMinutesOfDay = i * 60 + j;
+								        if (currentMinutesOfDay < minTimeMinutesOfDay) continue;
+								        if (currentMinutesOfDay >= maxTimeMinutesOfDay) continue;
+									h = (i < 10 ? '0' : '') + i;
+									m = (j < 10 ? '0' : '') + j;
+									line_time(h, m);
+								}
+							}
+						} else {
+							for (i = 0; i < options.allowTimes.length; i += 1) {
+								h = _xdsoft_datetime.strtotime(options.allowTimes[i]).getHours();
+								m = _xdsoft_datetime.strtotime(options.allowTimes[i]).getMinutes();
+								line_time(h, m);
+							}
+						}
+
+						timebox.html(time);
+
+						opt = '';
+
+						for (i = parseInt(options.yearStart, 10); i <= parseInt(options.yearEnd, 10); i += 1) {
+							opt += '<div class="xdsoft_option ' + (_xdsoft_datetime.currentTime.getFullYear() === i ? 'xdsoft_current' : '') + '" data-value="' + i + '">' + (i + options.yearOffset) + '</div>';
+						}
+						yearselect.children().eq(0)
+							.html(opt);
+
+						for (i = parseInt(options.monthStart, 10), opt = ''; i <= parseInt(options.monthEnd, 10); i += 1) {
+							opt += '<div class="xdsoft_option ' + (_xdsoft_datetime.currentTime.getMonth() === i ? 'xdsoft_current' : '') + '" data-value="' + i + '">' + options.i18n[globalLocale].months[i] + '</div>';
+						}
+						monthselect.children().eq(0).html(opt);
+						$(datetimepicker)
+							.trigger('generate.xdsoft');
+					}, 10);
+					event.stopPropagation();
+				})
+				.on('afterOpen.xdsoft', function () {
+					if (options.timepicker) {
+						var classType, pheight, height, top;
+						if (timebox.find('.xdsoft_current').length) {
+							classType = '.xdsoft_current';
+						} else if (timebox.find('.xdsoft_init_time').length) {
+							classType = '.xdsoft_init_time';
+						}
+						if (classType) {
+							pheight = timeboxparent[0].clientHeight;
+							height = timebox[0].offsetHeight;
+							top = timebox.find(classType).index() * options.timeHeightInTimePicker + 1;
+							if ((height - pheight) < top) {
+								top = height - pheight;
+							}
+							timeboxparent.trigger('scroll_element.xdsoft_scroller', [parseInt(top, 10) / (height - pheight)]);
+						} else {
+							timeboxparent.trigger('scroll_element.xdsoft_scroller', [0]);
+						}
+					}
+				});
+
+			timerclick = 0;
+			calendar
+				.on('touchend click.xdsoft', 'td', function (xdevent) {
+					xdevent.stopPropagation();  // Prevents closing of Pop-ups, Modals and Flyouts in Bootstrap
+					timerclick += 1;
+					var $this = $(this),
+						currentTime = _xdsoft_datetime.currentTime;
+
+					if (currentTime === undefined || currentTime === null) {
+						_xdsoft_datetime.currentTime = _xdsoft_datetime.now();
+						currentTime = _xdsoft_datetime.currentTime;
+					}
+
+					if ($this.hasClass('xdsoft_disabled')) {
+						return false;
+					}
+
+					currentTime.setDate(1);
+					currentTime.setFullYear($this.data('year'));
+					currentTime.setMonth($this.data('month'));
+					currentTime.setDate($this.data('date'));
+
+					datetimepicker.trigger('select.xdsoft', [currentTime]);
+
+					input.val(_xdsoft_datetime.str());
+
+					if (options.onSelectDate &&	$.isFunction(options.onSelectDate)) {
+						options.onSelectDate.call(datetimepicker, _xdsoft_datetime.currentTime, datetimepicker.data('input'), xdevent);
+					}
+
+					datetimepicker.data('changed', true);
+					datetimepicker.trigger('xchange.xdsoft');
+					datetimepicker.trigger('changedatetime.xdsoft');
+					if ((timerclick > 1 || (options.closeOnDateSelect === true || (options.closeOnDateSelect === false && !options.timepicker))) && !options.inline) {
+						datetimepicker.trigger('close.xdsoft');
+					}
+					setTimeout(function () {
+						timerclick = 0;
+					}, 200);
+				});
+
+			timebox
+				.on('touchstart', 'div', function (xdevent) {
+					this.touchMoved = false;
+				})
+				.on('touchmove', 'div', handleTouchMoved)
+				.on('touchend click.xdsoft', 'div', function (xdevent) {
+					if (!this.touchMoved) {
+						xdevent.stopPropagation();
+						var $this = $(this),
+							currentTime = _xdsoft_datetime.currentTime;
+
+						if (currentTime === undefined || currentTime === null) {
+							_xdsoft_datetime.currentTime = _xdsoft_datetime.now();
+							currentTime = _xdsoft_datetime.currentTime;
+						}
+
+						if ($this.hasClass('xdsoft_disabled')) {
+							return false;
+						}
+						currentTime.setHours($this.data('hour'));
+						currentTime.setMinutes($this.data('minute'));
+						datetimepicker.trigger('select.xdsoft', [currentTime]);
+
+						datetimepicker.data('input').val(_xdsoft_datetime.str());
+
+						if (options.onSelectTime && $.isFunction(options.onSelectTime)) {
+							options.onSelectTime.call(datetimepicker, _xdsoft_datetime.currentTime, datetimepicker.data('input'), xdevent);
+						}
+						datetimepicker.data('changed', true);
+						datetimepicker.trigger('xchange.xdsoft');
+						datetimepicker.trigger('changedatetime.xdsoft');
+						if (options.inline !== true && options.closeOnTimeSelect === true) {
+							datetimepicker.trigger('close.xdsoft');
+						}
+					}
+				});
+
+			datepicker
+				.on('mousewheel.xdsoft', function (event) {
+					if (!options.scrollMonth) {
+						return true;
+					}
+					if (event.deltaY < 0) {
+						_xdsoft_datetime.nextMonth();
+					} else {
+						_xdsoft_datetime.prevMonth();
+					}
+					return false;
+				});
+
+			input
+				.on('mousewheel.xdsoft', function (event) {
+					if (!options.scrollInput) {
+						return true;
+					}
+					if (!options.datepicker && options.timepicker) {
+						current_time_index = timebox.find('.xdsoft_current').length ? timebox.find('.xdsoft_current').eq(0).index() : 0;
+						if (current_time_index + event.deltaY >= 0 && current_time_index + event.deltaY < timebox.children().length) {
+							current_time_index += event.deltaY;
+						}
+						if (timebox.children().eq(current_time_index).length) {
+							timebox.children().eq(current_time_index).trigger('mousedown');
+						}
+						return false;
+					}
+					if (options.datepicker && !options.timepicker) {
+						datepicker.trigger(event, [event.deltaY, event.deltaX, event.deltaY]);
+						if (input.val) {
+							input.val(_xdsoft_datetime.str());
+						}
+						datetimepicker.trigger('changedatetime.xdsoft');
+						return false;
+					}
+				});
+
+			datetimepicker
+				.on('changedatetime.xdsoft', function (event) {
+					if (options.onChangeDateTime && $.isFunction(options.onChangeDateTime)) {
+						var $input = datetimepicker.data('input');
+						options.onChangeDateTime.call(datetimepicker, _xdsoft_datetime.currentTime, $input, event);
+						delete options.value;
+						$input.trigger('change');
+					}
+				})
+				.on('generate.xdsoft', function () {
+					if (options.onGenerate && $.isFunction(options.onGenerate)) {
+						options.onGenerate.call(datetimepicker, _xdsoft_datetime.currentTime, datetimepicker.data('input'));
+					}
+					if (triggerAfterOpen) {
+						datetimepicker.trigger('afterOpen.xdsoft');
+						triggerAfterOpen = false;
+					}
+				})
+				.on('click.xdsoft', function (xdevent) {
+					xdevent.stopPropagation();
+				});
+
+			current_time_index = 0;
+
+			/**
+			 * Runs the callback for each of the specified node's ancestors.
+			 *
+			 * Return FALSE from the callback to stop ascending.
+			 *
+			 * @param {DOMNode} node
+			 * @param {Function} callback
+			 * @returns {undefined}
+			 */
+			forEachAncestorOf = function (node, callback) {
+				do {
+					node = node.parentNode;
+
+					if (!node || callback(node) === false) {
+						break;
+					}
+				} while (node.nodeName !== 'HTML');
+			};
+
+			/**
+			 * Sets the position of the picker.
+			 *
+			 * @returns {undefined}
+			 */
+			setPos = function () {
+				var dateInputOffset,
+					dateInputElem,
+					verticalPosition,
+					left,
+					position,
+					datetimepickerElem,
+					dateInputHasFixedAncestor,
+					$dateInput,
+					windowWidth,
+					verticalAnchorEdge,
+					datetimepickerCss,
+					windowHeight,
+					windowScrollTop;
+
+				$dateInput = datetimepicker.data('input');
+				dateInputOffset = $dateInput.offset();
+				dateInputElem = $dateInput[0];
+
+				verticalAnchorEdge = 'top';
+				verticalPosition = (dateInputOffset.top + dateInputElem.offsetHeight) - 1;
+				left = dateInputOffset.left;
+				position = "absolute";
+
+				windowWidth = $(options.contentWindow).width();
+				windowHeight = $(options.contentWindow).height();
+				windowScrollTop = $(options.contentWindow).scrollTop();
+
+				if ((options.ownerDocument.documentElement.clientWidth - dateInputOffset.left) < datepicker.parent().outerWidth(true)) {
+					var diff = datepicker.parent().outerWidth(true) - dateInputElem.offsetWidth;
+					left = left - diff;
+				}
+
+				if ($dateInput.parent().css('direction') === 'rtl') {
+					left -= (datetimepicker.outerWidth() - $dateInput.outerWidth());
+				}
+
+				if (options.fixed) {
+					verticalPosition -= windowScrollTop;
+					left -= $(options.contentWindow).scrollLeft();
+					position = "fixed";
+				} else {
+					dateInputHasFixedAncestor = false;
+
+					forEachAncestorOf(dateInputElem, function (ancestorNode) {
+						if (ancestorNode === null) {
+							return false;
+						}
+
+						if (options.contentWindow.getComputedStyle(ancestorNode).getPropertyValue('position') === 'fixed') {
+							dateInputHasFixedAncestor = true;
+							return false;
+						}
+					});
+
+					if (dateInputHasFixedAncestor && !options.insideParent) {
+						position = 'fixed';
+
+						//If the picker won't fit entirely within the viewport then display it above the date input.
+						if (verticalPosition + datetimepicker.outerHeight() > windowHeight + windowScrollTop) {
+							verticalAnchorEdge = 'bottom';
+							verticalPosition = (windowHeight + windowScrollTop) - dateInputOffset.top;
+						} else {
+							verticalPosition -= windowScrollTop;
+						}
+					} else {
+						if (verticalPosition + datetimepicker[0].offsetHeight > windowHeight + windowScrollTop) {
+							verticalPosition = dateInputOffset.top - datetimepicker[0].offsetHeight + 1;
+						}
+					}
+
+					if (verticalPosition < 0) {
+						verticalPosition = 0;
+					}
+
+					if (left + dateInputElem.offsetWidth > windowWidth) {
+						left = windowWidth - dateInputElem.offsetWidth;
+					}
+				}
+
+				datetimepickerElem = datetimepicker[0];
+
+				forEachAncestorOf(datetimepickerElem, function (ancestorNode) {
+					var ancestorNodePosition;
+
+					ancestorNodePosition = options.contentWindow.getComputedStyle(ancestorNode).getPropertyValue('position');
+
+					if (ancestorNodePosition === 'relative' && windowWidth >= ancestorNode.offsetWidth) {
+						left = left - ((windowWidth - ancestorNode.offsetWidth) / 2);
+						return false;
+					}
+				});
+
+				datetimepickerCss = {
+					position: position,
+					left: options.insideParent ? dateInputElem.offsetLeft : left,
+					top: '',  //Initialize to prevent previous values interfering with new ones.
+					bottom: ''  //Initialize to prevent previous values interfering with new ones.
+				};
+
+				if (options.insideParent) {
+                    datetimepickerCss[verticalAnchorEdge] = dateInputElem.offsetTop + dateInputElem.offsetHeight;
+                } else {
+                    datetimepickerCss[verticalAnchorEdge] = verticalPosition;
+                }
+
+				datetimepicker.css(datetimepickerCss);
+			};
+
+			datetimepicker
+				.on('open.xdsoft', function (event) {
+					var onShow = true;
+					if (options.onShow && $.isFunction(options.onShow)) {
+						onShow = options.onShow.call(datetimepicker, _xdsoft_datetime.currentTime, datetimepicker.data('input'), event);
+					}
+					if (onShow !== false) {
+						datetimepicker.show();
+						setPos();
+						$(options.contentWindow)
+							.off('resize.xdsoft', setPos)
+							.on('resize.xdsoft', setPos);
+
+						if (options.closeOnWithoutClick) {
+							$([options.ownerDocument.body, options.contentWindow]).on('touchstart mousedown.xdsoft', function arguments_callee6() {
+								datetimepicker.trigger('close.xdsoft');
+								$([options.ownerDocument.body, options.contentWindow]).off('touchstart mousedown.xdsoft', arguments_callee6);
+							});
+						}
+					}
+				})
+				.on('close.xdsoft', function (event) {
+					var onClose = true;
+					month_picker
+						.find('.xdsoft_month,.xdsoft_year')
+						.find('.xdsoft_select')
+						.hide();
+					if (options.onClose && $.isFunction(options.onClose)) {
+						onClose = options.onClose.call(datetimepicker, _xdsoft_datetime.currentTime, datetimepicker.data('input'), event);
+					}
+					if (onClose !== false && !options.opened && !options.inline) {
+						datetimepicker.hide();
+					}
+					event.stopPropagation();
+				})
+				.on('toggle.xdsoft', function () {
+					if (datetimepicker.is(':visible')) {
+						datetimepicker.trigger('close.xdsoft');
+					} else {
+						datetimepicker.trigger('open.xdsoft');
+					}
+				})
+				.data('input', input);
+
+			timer = 0;
+
+			datetimepicker.data('xdsoft_datetime', _xdsoft_datetime);
+			datetimepicker.setOptions(options);
+
+			function getCurrentValue() {
+				var ct = false, time;
+
+				if (options.startDate) {
+					ct = _xdsoft_datetime.strToDate(options.startDate);
+				} else {
+					ct = options.value || ((input && input.val && input.val()) ? input.val() : '');
+					if (ct) {
+						ct = _xdsoft_datetime.strToDateTime(ct);
+						if (options.yearOffset) {
+							ct = new Date(ct.getFullYear() - options.yearOffset, ct.getMonth(), ct.getDate(), ct.getHours(), ct.getMinutes(), ct.getSeconds(), ct.getMilliseconds());
+						}
+					} else if (options.defaultDate) {
+						ct = _xdsoft_datetime.strToDateTime(options.defaultDate);
+						if (options.defaultTime) {
+							time = _xdsoft_datetime.strtotime(options.defaultTime);
+							ct.setHours(time.getHours());
+							ct.setMinutes(time.getMinutes());
+						}
+					}
+				}
+
+				if (ct && _xdsoft_datetime.isValidDate(ct)) {
+					datetimepicker.data('changed', true);
+				} else {
+					ct = '';
+				}
+
+				return ct || 0;
+			}
+
+			function setMask(options) {
+
+				var isValidValue = function (mask, value) {
+						var reg = mask
+							.replace(/([\[\]\/\{\}\(\)\-\.\+]{1})/g, '\\$1')
+							.replace(/_/g, '{digit+}')
+							.replace(/([0-9]{1})/g, '{digit$1}')
+							.replace(/\{digit([0-9]{1})\}/g, '[0-$1_]{1}')
+							.replace(/\{digit[\+]\}/g, '[0-9_]{1}');
+						return (new RegExp(reg)).test(value);
+					},
+					getCaretPos = function (input) {
+						try {
+							if (options.ownerDocument.selection && options.ownerDocument.selection.createRange) {
+								var range = options.ownerDocument.selection.createRange();
+								return range.getBookmark().charCodeAt(2) - 2;
+							}
+							if (input.setSelectionRange) {
+								return input.selectionStart;
+							}
+						} catch (e) {
+							return 0;
+						}
+					},
+					setCaretPos = function (node, pos) {
+						node = (typeof node === "string" || node instanceof String) ? options.ownerDocument.getElementById(node) : node;
+						if (!node) {
+							return false;
+						}
+						if (node.createTextRange) {
+							var textRange = node.createTextRange();
+							textRange.collapse(true);
+							textRange.moveEnd('character', pos);
+							textRange.moveStart('character', pos);
+							textRange.select();
+							return true;
+						}
+						if (node.setSelectionRange) {
+							node.setSelectionRange(pos, pos);
+							return true;
+						}
+						return false;
+					};
+
+				if(options.mask) {
+					input.off('keydown.xdsoft');
+				}
+
+				if (options.mask === true) {
+					if (dateHelper.formatMask) {
+						options.mask = dateHelper.formatMask(options.format)
+					} else {
+						options.mask = options.format
+							.replace(/Y/g, '9999')
+							.replace(/F/g, '9999')
+							.replace(/m/g, '19')
+							.replace(/d/g, '39')
+							.replace(/H/g, '29')
+							.replace(/i/g, '59')
+							.replace(/s/g, '59');
+					}
+				}
+
+				if ($.type(options.mask) === 'string') {
+					if (!isValidValue(options.mask, input.val())) {
+						input.val(options.mask.replace(/[0-9]/g, '_'));
+						setCaretPos(input[0], 0);
+					}
+
+					input.on('paste.xdsoft', function (event) {
+					    // couple options here
+					    // 1. return false - tell them they can't paste
+					    // 2. insert over current characters - minimal validation
+					    // 3. full fledged parsing and validation
+					    // let's go option 2 for now
+
+					    // fires multiple times for some reason
+
+					    // https://stackoverflow.com/a/30496488/1366033
+					    var clipboardData = event.clipboardData || event.originalEvent.clipboardData || window.clipboardData,
+						pastedData = clipboardData.getData('text'),
+						val = this.value,
+						pos = this.selectionStart
+
+					    var valueBeforeCursor = val.substr(0, pos);
+					    var valueAfterPaste = val.substr(pos + pastedData.length);
+
+					    val = valueBeforeCursor + pastedData + valueAfterPaste;           
+					    pos += pastedData.length;
+
+					    if (isValidValue(options.mask, val)) {
+						this.value = val;
+						setCaretPos(this, pos);
+					    } else if ($.trim(val) === '') {
+						this.value = options.mask.replace(/[0-9]/g, '_');
+					    } else {
+						input.trigger('error_input.xdsoft');
+					    }
+
+					    event.preventDefault();
+					    return false;
+					  });
+
+					  input.on('keydown.xdsoft', function (event) {
+					    var val = this.value,
+						key = event.which,
+						pos = this.selectionStart,
+						selEnd = this.selectionEnd,
+						hasSel = pos !== selEnd,
+						digit;
+
+					    // only alow these characters
+					    if (((key >=  KEY0 && key <=  KEY9)  ||
+						 (key >= _KEY0 && key <= _KEY9)) || 
+						 (key === BACKSPACE || key === DEL)) {
+
+					      // get char to insert which is new character or placeholder ('_')
+					      digit = (key === BACKSPACE || key === DEL) ? '_' :
+							  String.fromCharCode((_KEY0 <= key && key <= _KEY9) ? key - KEY0 : key);
+
+						// we're deleting something, we're not at the start, and have normal cursor, move back one
+						// if we have a selection length, cursor actually sits behind deletable char, not in front
+						if (key === BACKSPACE && pos && !hasSel) {
+						    pos -= 1;
+						}
+
+						// don't stop on a separator, continue whatever direction you were going
+						//   value char - keep incrementing position while on separator char and we still have room
+						//   del char   - keep decrementing position while on separator char and we still have room
+						while (true) {
+						  var maskValueAtCurPos = options.mask.substr(pos, 1);
+						  var posShorterThanMaskLength = pos < options.mask.length;
+						  var posGreaterThanZero = pos > 0;
+						  var notNumberOrPlaceholder = /[^0-9_]/;
+						  var curPosOnSep = notNumberOrPlaceholder.test(maskValueAtCurPos);
+						  var continueMovingPosition = curPosOnSep && posShorterThanMaskLength && posGreaterThanZero
+
+						  // if we hit a real char, stay where we are
+						  if (!continueMovingPosition) break;
+
+						  // hitting backspace in a selection, you can possibly go back any further - go forward
+						  pos += (key === BACKSPACE && !hasSel) ? -1 : 1;
+
+                        }
+                        
+                        if (event.metaKey) {    // cmd has been pressed
+                            pos = 0;
+                            hasSel = true;
+                        }
+
+						if (hasSel) {
+						  // pos might have moved so re-calc length
+						  var selLength = selEnd - pos
+
+						  // if we have a selection length we will wipe out entire selection and replace with default template for that range
+						  var defaultBlank = options.mask.replace(/[0-9]/g, '_');
+						  var defaultBlankSelectionReplacement = defaultBlank.substr(pos, selLength); 
+						  var selReplacementRemainder = defaultBlankSelectionReplacement.substr(1) // might be empty
+
+						  var valueBeforeSel = val.substr(0, pos);
+						  var insertChars = digit + selReplacementRemainder;
+						  var charsAfterSelection = val.substr(pos + selLength);
+
+						  val = valueBeforeSel + insertChars + charsAfterSelection
+
+						} else {
+						  var valueBeforeCursor = val.substr(0, pos);
+						  var insertChar = digit;
+						  var valueAfterNextChar = val.substr(pos + 1);
+
+						  val = valueBeforeCursor + insertChar + valueAfterNextChar
+						}
+
+						if ($.trim(val) === '') {
+						  // if empty, set to default
+						    val = defaultBlank
+						} else {
+						  // if at the last character don't need to do anything
+						    if (pos === options.mask.length) {
+							event.preventDefault();
+							return false;
+						    }
+						}
+
+						// resume cursor location
+						pos += (key === BACKSPACE) ? 0 : 1;
+						// don't stop on a separator, continue whatever direction you were going
+						while (/[^0-9_]/.test(options.mask.substr(pos, 1)) && pos < options.mask.length && pos > 0) {
+						    pos += (key === BACKSPACE) ? 0 : 1;
+						}
+
+						if (isValidValue(options.mask, val)) {
+						    this.value = val;
+						    setCaretPos(this, pos);
+						} else if ($.trim(val) === '') {
+						    this.value = options.mask.replace(/[0-9]/g, '_');
+						} else {
+						    input.trigger('error_input.xdsoft');
+						}
+					    } else {
+						if (([AKEY, CKEY, VKEY, ZKEY, YKEY].indexOf(key) !== -1 && ctrlDown) || [ESC, ARROWUP, ARROWDOWN, ARROWLEFT, ARROWRIGHT, F5, CTRLKEY, TAB, ENTER].indexOf(key) !== -1) {
+						    return true;
+						}
+					    }
+
+					    event.preventDefault();
+					    return false;
+					  });
+				}
+			}
+
+			_xdsoft_datetime.setCurrentTime(getCurrentValue());
+
+			input
+				.data('xdsoft_datetimepicker', datetimepicker)
+				.on('open.xdsoft focusin.xdsoft mousedown.xdsoft touchstart', function () {
+					if (input.is(':disabled') || (input.data('xdsoft_datetimepicker').is(':visible') && options.closeOnInputClick)) {
+						return;
+					}
+					if (!options.openOnFocus) {
+						return;
+					}
+					clearTimeout(timer);
+					timer = setTimeout(function () {
+						if (input.is(':disabled')) {
+							return;
+						}
+
+						triggerAfterOpen = true;
+						_xdsoft_datetime.setCurrentTime(getCurrentValue(), true);
+						if(options.mask) {
+							setMask(options);
+						}
+						datetimepicker.trigger('open.xdsoft');
+					}, 100);
+				})
+				.on('keydown.xdsoft', function (event) {
+					var elementSelector,
+						key = event.which;
+					if ([ENTER].indexOf(key) !== -1 && options.enterLikeTab) {
+						elementSelector = $("input:visible,textarea:visible,button:visible,a:visible");
+						datetimepicker.trigger('close.xdsoft');
+						elementSelector.eq(elementSelector.index(this) + 1).focus();
+						return false;
+					}
+					if ([TAB].indexOf(key) !== -1) {
+						datetimepicker.trigger('close.xdsoft');
+						return true;
+					}
+				})
+				.on('blur.xdsoft', function () {
+					datetimepicker.trigger('close.xdsoft');
+				});
+		};
+		destroyDateTimePicker = function (input) {
+			var datetimepicker = input.data('xdsoft_datetimepicker');
+			if (datetimepicker) {
+				datetimepicker.data('xdsoft_datetime', null);
+				datetimepicker.remove();
+				input
+					.data('xdsoft_datetimepicker', null)
+					.off('.xdsoft');
+				$(options.contentWindow).off('resize.xdsoft');
+				$([options.contentWindow, options.ownerDocument.body]).off('mousedown.xdsoft touchstart');
+				if (input.unmousewheel) {
+					input.unmousewheel();
+				}
+			}
+		};
+		$(options.ownerDocument)
+            .off('keydown.xdsoftctrl keyup.xdsoftctrl')
+            .off('keydown.xdsoftcmd keyup.xdsoftcmd')
+			.on('keydown.xdsoftctrl', function (e) {
+				if (e.keyCode === CTRLKEY) {
+					ctrlDown = true;
+                }
+			})
+			.on('keyup.xdsoftctrl', function (e) {
+				if (e.keyCode === CTRLKEY) {
+					ctrlDown = false;
+                }
+            })
+            .on('keydown.xdsoftcmd', function (e) {
+                if (e.keyCode === CMDKEY) {
+                    cmdDown = true;
+                }
+			})
+			.on('keyup.xdsoftcmd', function (e) {
+                if (e.keyCode === CMDKEY) {
+                    cmdDown = false;
+                }
+			});
+
+		this.each(function () {
+			var datetimepicker = $(this).data('xdsoft_datetimepicker'), $input;
+			if (datetimepicker) {
+				if ($.type(opt) === 'string') {
+					switch (opt) {
+						case 'show':
+							$(this).select().focus();
+							datetimepicker.trigger('open.xdsoft');
+							break;
+						case 'hide':
+							datetimepicker.trigger('close.xdsoft');
+							break;
+						case 'toggle':
+							datetimepicker.trigger('toggle.xdsoft');
+							break;
+						case 'destroy':
+							destroyDateTimePicker($(this));
+							break;
+						case 'reset':
+							this.value = this.defaultValue;
+							if (!this.value || !datetimepicker.data('xdsoft_datetime').isValidDate(dateHelper.parseDate(this.value, options.format))) {
+								datetimepicker.data('changed', false);
+							}
+							datetimepicker.data('xdsoft_datetime').setCurrentTime(this.value);
+							break;
+						case 'validate':
+							$input = datetimepicker.data('input');
+							$input.trigger('blur.xdsoft');
+							break;
+						default:
+							if (datetimepicker[opt] && $.isFunction(datetimepicker[opt])) {
+								result = datetimepicker[opt](opt2);
+							}
+					}
+				} else {
+					datetimepicker
+						.setOptions(opt);
+				}
+				return 0;
+			}
+			if ($.type(opt) !== 'string') {
+				if (!options.lazyInit || options.open || options.inline) {
+					createDateTimePicker($(this));
+				} else {
+					lazyInit($(this));
+				}
+			}
+		});
+
+		return result;
+	};
+
+	$.fn.datetimepicker.defaults = default_options;
+
+	function HighlightedDate(date, desc, style) {
+		"use strict";
+		this.date = date;
+		this.desc = desc;
+		this.style = style;
+	}
+};
+;(function (factory) {
+	if ( typeof define === 'function' && define.amd ) {
+		// AMD. Register as an anonymous module.
+		define(['jquery', 'jquery-mousewheel'], factory);
+	} else if (typeof exports === 'object') {
+		// Node/CommonJS style for Browserify
+		module.exports = factory(require('jquery'));;
+	} else {
+		// Browser globals
+		factory(jQuery);
+	}
+}(datetimepickerFactory));
+
+
+/*!
+ * jQuery Mousewheel 3.1.13
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license
+ * http://jquery.org/license
+ */
+
+(function (factory) {
+    if ( typeof define === 'function' && define.amd ) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } else if (typeof exports === 'object') {
+        // Node/CommonJS style for Browserify
+        module.exports = factory;
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function ($) {
+
+    var toFix  = ['wheel', 'mousewheel', 'DOMMouseScroll', 'MozMousePixelScroll'],
+        toBind = ( 'onwheel' in document || document.documentMode >= 9 ) ?
+                    ['wheel'] : ['mousewheel', 'DomMouseScroll', 'MozMousePixelScroll'],
+        slice  = Array.prototype.slice,
+        nullLowestDeltaTimeout, lowestDelta;
+
+    if ( $.event.fixHooks ) {
+        for ( var i = toFix.length; i; ) {
+            $.event.fixHooks[ toFix[--i] ] = $.event.mouseHooks;
+        }
+    }
+
+    var special = $.event.special.mousewheel = {
+        version: '3.1.12',
+
+        setup: function() {
+            if ( this.addEventListener ) {
+                for ( var i = toBind.length; i; ) {
+                    this.addEventListener( toBind[--i], handler, false );
+                }
+            } else {
+                this.onmousewheel = handler;
+            }
+            // Store the line height and page height for this particular element
+            $.data(this, 'mousewheel-line-height', special.getLineHeight(this));
+            $.data(this, 'mousewheel-page-height', special.getPageHeight(this));
+        },
+
+        teardown: function() {
+            if ( this.removeEventListener ) {
+                for ( var i = toBind.length; i; ) {
+                    this.removeEventListener( toBind[--i], handler, false );
+                }
+            } else {
+                this.onmousewheel = null;
+            }
+            // Clean up the data we added to the element
+            $.removeData(this, 'mousewheel-line-height');
+            $.removeData(this, 'mousewheel-page-height');
+        },
+
+        getLineHeight: function(elem) {
+            var $elem = $(elem),
+                $parent = $elem['offsetParent' in $.fn ? 'offsetParent' : 'parent']();
+            if (!$parent.length) {
+                $parent = $('body');
+            }
+            return parseInt($parent.css('fontSize'), 10) || parseInt($elem.css('fontSize'), 10) || 16;
+        },
+
+        getPageHeight: function(elem) {
+            return $(elem).height();
+        },
+
+        settings: {
+            adjustOldDeltas: true, // see shouldAdjustOldDeltas() below
+            normalizeOffset: true  // calls getBoundingClientRect for each event
+        }
+    };
+
+    $.fn.extend({
+        mousewheel: function(fn) {
+            return fn ? this.bind('mousewheel', fn) : this.trigger('mousewheel');
+        },
+
+        unmousewheel: function(fn) {
+            return this.unbind('mousewheel', fn);
+        }
+    });
+
+
+    function handler(event) {
+        var orgEvent   = event || window.event,
+            args       = slice.call(arguments, 1),
+            delta      = 0,
+            deltaX     = 0,
+            deltaY     = 0,
+            absDelta   = 0,
+            offsetX    = 0,
+            offsetY    = 0;
+        event = $.event.fix(orgEvent);
+        event.type = 'mousewheel';
+
+        // Old school scrollwheel delta
+        if ( 'detail'      in orgEvent ) { deltaY = orgEvent.detail * -1;      }
+        if ( 'wheelDelta'  in orgEvent ) { deltaY = orgEvent.wheelDelta;       }
+        if ( 'wheelDeltaY' in orgEvent ) { deltaY = orgEvent.wheelDeltaY;      }
+        if ( 'wheelDeltaX' in orgEvent ) { deltaX = orgEvent.wheelDeltaX * -1; }
+
+        // Firefox < 17 horizontal scrolling related to DOMMouseScroll event
+        if ( 'axis' in orgEvent && orgEvent.axis === orgEvent.HORIZONTAL_AXIS ) {
+            deltaX = deltaY * -1;
+            deltaY = 0;
+        }
+
+        // Set delta to be deltaY or deltaX if deltaY is 0 for backwards compatabilitiy
+        delta = deltaY === 0 ? deltaX : deltaY;
+
+        // New school wheel delta (wheel event)
+        if ( 'deltaY' in orgEvent ) {
+            deltaY = orgEvent.deltaY * -1;
+            delta  = deltaY;
+        }
+        if ( 'deltaX' in orgEvent ) {
+            deltaX = orgEvent.deltaX;
+            if ( deltaY === 0 ) { delta  = deltaX * -1; }
+        }
+
+        // No change actually happened, no reason to go any further
+        if ( deltaY === 0 && deltaX === 0 ) { return; }
+
+        // Need to convert lines and pages to pixels if we aren't already in pixels
+        // There are three delta modes:
+        //   * deltaMode 0 is by pixels, nothing to do
+        //   * deltaMode 1 is by lines
+        //   * deltaMode 2 is by pages
+        if ( orgEvent.deltaMode === 1 ) {
+            var lineHeight = $.data(this, 'mousewheel-line-height');
+            delta  *= lineHeight;
+            deltaY *= lineHeight;
+            deltaX *= lineHeight;
+        } else if ( orgEvent.deltaMode === 2 ) {
+            var pageHeight = $.data(this, 'mousewheel-page-height');
+            delta  *= pageHeight;
+            deltaY *= pageHeight;
+            deltaX *= pageHeight;
+        }
+
+        // Store lowest absolute delta to normalize the delta values
+        absDelta = Math.max( Math.abs(deltaY), Math.abs(deltaX) );
+
+        if ( !lowestDelta || absDelta < lowestDelta ) {
+            lowestDelta = absDelta;
+
+            // Adjust older deltas if necessary
+            if ( shouldAdjustOldDeltas(orgEvent, absDelta) ) {
+                lowestDelta /= 40;
+            }
+        }
+
+        // Adjust older deltas if necessary
+        if ( shouldAdjustOldDeltas(orgEvent, absDelta) ) {
+            // Divide all the things by 40!
+            delta  /= 40;
+            deltaX /= 40;
+            deltaY /= 40;
+        }
+
+        // Get a whole, normalized value for the deltas
+        delta  = Math[ delta  >= 1 ? 'floor' : 'ceil' ](delta  / lowestDelta);
+        deltaX = Math[ deltaX >= 1 ? 'floor' : 'ceil' ](deltaX / lowestDelta);
+        deltaY = Math[ deltaY >= 1 ? 'floor' : 'ceil' ](deltaY / lowestDelta);
+
+        // Normalise offsetX and offsetY properties
+        if ( special.settings.normalizeOffset && this.getBoundingClientRect ) {
+            var boundingRect = this.getBoundingClientRect();
+            offsetX = event.clientX - boundingRect.left;
+            offsetY = event.clientY - boundingRect.top;
+        }
+
+        // Add information to the event object
+        event.deltaX = deltaX;
+        event.deltaY = deltaY;
+        event.deltaFactor = lowestDelta;
+        event.offsetX = offsetX;
+        event.offsetY = offsetY;
+        // Go ahead and set deltaMode to 0 since we converted to pixels
+        // Although this is a little odd since we overwrite the deltaX/Y
+        // properties with normalized deltas.
+        event.deltaMode = 0;
+
+        // Add event and delta to the front of the arguments
+        args.unshift(event, delta, deltaX, deltaY);
+
+        // Clearout lowestDelta after sometime to better
+        // handle multiple device types that give different
+        // a different lowestDelta
+        // Ex: trackpad = 3 and mouse wheel = 120
+        if (nullLowestDeltaTimeout) { clearTimeout(nullLowestDeltaTimeout); }
+        nullLowestDeltaTimeout = setTimeout(nullLowestDelta, 200);
+
+        return ($.event.dispatch || $.event.handle).apply(this, args);
+    }
+
+    function nullLowestDelta() {
+        lowestDelta = null;
+    }
+
+    function shouldAdjustOldDeltas(orgEvent, absDelta) {
+        // If this is an older event and the delta is divisable by 120,
+        // then we are assuming that the browser is treating this as an
+        // older mouse wheel event and that we should divide the deltas
+        // by 40 to try and get a more usable deltaFactor.
+        // Side note, this actually impacts the reported scroll distance
+        // in older browsers and can cause scrolling to be slower than native.
+        // Turn this off by setting $.event.special.mousewheel.settings.adjustOldDeltas to false.
+        return special.settings.adjustOldDeltas && orgEvent.type === 'mousewheel' && absDelta % 120 === 0;
+    }
+
+}));
+
+!function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.Switch=e():t.Switch=e()}(this,function(){return function(t){function e(o){if(n[o])return n[o].exports;var r=n[o]={exports:{},id:o,loaded:!1};return t[o].call(r.exports,r,r.exports,e),r.loaded=!0,r.exports}var n={};return e.m=t,e.c=n,e.p="",e(0)}([function(t,e,n){"use strict";function o(t){return t&&t.__esModule?t:{default:t}}Object.defineProperty(e,"__esModule",{value:!0});var r=n(1),i=o(r);e.default=i.default,t.exports=e.default},function(t,e,n){"use strict";function o(t){return t&&t.__esModule?t:{default:t}}function r(t,e){this._init(t,e)}function i(){}function c(t,e,n){S(t).add("switch","switch-"+(C.includes(e.size)?e.size:"default"),e.checked?j:M),h.call(n),a.call(n),l.call(n),f.call(n,n._options.disabled)}function s(t,e){t.setAttribute("tabindex",0),t.setAttribute("role","checkbox"),t.setAttribute("aria-checked",e.checked),t.setAttribute("aria-disabled",e.disabled)}function u(t,e){e.parentNode.insertBefore(t,e.nextSibling)}function a(){this._el.checked?(this._switch.style.boxShadow="inset 0 0 0 "+this._switch.clientHeight/1.8+"px "+this._options.onSwitchColor,this._switch.style.border="1px solid "+this._options.onSwitchColor,this._switch.style.transition="border 0.4s, box-shadow 0.4s, background-color 1.4s",this._switch.style.backgroundColor=this._options.onSwitchColor,this._jack.style.backgroundColor=this._options.onJackColor):(this._switch.style.boxShadow="inset 0 0 0 0  "+this._options.offSwitchColor,this._switch.style.border="1px solid "+O,this._switch.style.transition="border 0.4s, box-shadow 0.4s",this._switch.style.backgroundColor=this._options.offSwitchColor,this._jack.style.backgroundColor=this._options.offJackColor)}function f(t){this._el.disabled=t,S(this._switch)[t?"add":"remove"]("switch-disabled"),this._switch.setAttribute("aria-disabled",t)}function l(){var t=this._switch.clientWidth-this._jack.clientWidth;this._jack.style.left=this._el.checked?t+"px":0}function h(){this._options.showText&&(this._jack.innerHTML=this._el.checked?this._options.onText:this._options.offText)}function p(t,e){return e?((0,k.default)(e).forEach(function(n){t[n]=e[n]}),t):t}function d(t,e){var n=!0,o=!1,r=void 0;try{for(var i,c=function(){var t=(0,g.default)(i.value,2),e=t[0],n=t[1];e=e.split(" "),function(t,e){n.addEventListener(t,T[e])}(e[0],e[1])},s=(0,m.default)(t);!(n=(i=s.next()).done);n=!0)c()}catch(t){o=!0,r=t}finally{try{!n&&s.return&&s.return()}finally{if(o)throw r}}}function v(t,e){var n=!0,o=!1,r=void 0;try{for(var i,c=function(){var t=(0,g.default)(i.value,2),e=t[0],n=t[1];e=e.split(" "),function(t,e){console.log(),n.removeEventListener(t,T[e])}(e[0],e[1])},s=(0,m.default)(t);!(n=(i=s.next()).done);n=!0)c()}catch(t){o=!0,r=t}finally{try{!n&&s.return&&s.return()}finally{if(o)throw r}}}Object.defineProperty(e,"__esModule",{value:!0});var y=n(2),g=o(y),_=n(55),m=o(_),w=n(59),k=o(w),x=n(63),b=o(x);n(83);var E=n(87),S=n(88),C=["default","large","small"],T={changeSwitchStateFromCheckbox:function(){this._switch._toggle(this.checked)},changeSwitchStateFromSwitch:function(){this._instance._options.disabled||this._instance._toggle()},changeSwitchStateFromKeyboard:function(t){var e=t.which||t.keyCode||0;this._instance._options.disabled||13===e&&this._instance._toggle()}},O="#dfdfdf",j="switch-on",M="switch-off";r.prototype._init=function(t,e){var n={size:"default",checked:void 0,onText:"Y",offText:"N",onSwitchColor:"#64BD63",offSwitchColor:"#fff",onJackColor:"#fff",offJackColor:"#fff",showText:!1,disabled:!1,onInit:i,beforeChange:i,onChange:i,beforeRemove:i,onRemove:i,beforeDestroy:i,onDestroy:i};if(t&&1===t.nodeType&&"checkbox"===t.type){if(t._switch)return t._switch;if(!this instanceof r)return new r(t,e);this._el=t,this._el._switch=this,this._options=p(n,e),this._initElement(),this._initEvents(),this._options.onInit.call(this)}},r.prototype._initElement=function(){this._el.style.display="none",void 0!==this._options.checked?this._el.checked=Boolean(this._options.checked):this._options.checked=this._el.checked;var t=this._createSwitch();s(t,this._options),u(t,this._el),c(t,this._options,this),E.attach(t)},r.prototype._createSwitch=function(){return this._switch=document.createElement("span"),this._jack=document.createElement("small"),this._switch.appendChild(this._jack),this._switch._instance=this,this._switch},r.prototype._initEvents=function(){this._events=new b.default([["change changeSwitchStateFromCheckbox",this._el],["click changeSwitchStateFromSwitch",this._switch],["keypress changeSwitchStateFromKeyboard",this._switch]]),d(this._events,this)},r.prototype._toggle=function(t){this._options.beforeChange.call(this,this._el.checked),this._el.checked=void 0===t?!this._el.checked:t,this._options.onChange.call(this,this._el.checked);var e=this._el.checked?j:M,n=this._el.checked?M:j;this._switch.setAttribute("aria-checked",this._el.checked),S(this._switch).add(e).remove(n),l.call(this),h.call(this),a.call(this)},r.prototype.getChecked=function(){return this._el.checked},r.prototype.on=function(){this._toggle(!0)},r.prototype.off=function(){this._toggle(!1)},r.prototype.toggle=function(){this._toggle()},r.prototype.disable=function(){f.call(this,this._options.disabled=!0)},r.prototype.enable=function(){f.call(this,this._options.disabled=!1)},r.prototype.destroy=function(){this._options.beforeDestroy.call(this,this._el.checked),v(this._events,this),this._options.onDestroy.call(this)},r.prototype.remove=function(){this._options.beforeRemove.call(this,this._el.checked);try{this._el.setAttribute("style",this._el.getAttribute("style").replace(/\s*display:\s*none;/g,""))}catch(t){}this._switch.parentNode&&(this._switch.parentNode.removeChild(this._switch),this._options.onRemove.call(this))},e.default=r,t.exports=e.default},function(t,e,n){"use strict";function o(t){return t&&t.__esModule?t:{default:t}}e.__esModule=!0;var r=n(3),i=o(r),c=n(55),s=o(c);e.default=function(){function t(t,e){var n=[],o=!0,r=!1,i=void 0;try{for(var c,u=(0,s.default)(t);!(o=(c=u.next()).done)&&(n.push(c.value),!e||n.length!==e);o=!0);}catch(t){r=!0,i=t}finally{try{!o&&u.return&&u.return()}finally{if(r)throw i}}return n}return function(e,n){if(Array.isArray(e))return e;if((0,i.default)(Object(e)))return t(e,n);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}()},function(t,e,n){t.exports={default:n(4),__esModule:!0}},function(t,e,n){n(5),n(51),t.exports=n(53)},function(t,e,n){n(6);for(var o=n(17),r=n(21),i=n(9),c=n(48)("toStringTag"),s=["NodeList","DOMTokenList","MediaList","StyleSheetList","CSSRuleList"],u=0;u<5;u++){var a=s[u],f=o[a],l=f&&f.prototype;l&&!l[c]&&r(l,c,a),i[a]=i.Array}},function(t,e,n){"use strict";var o=n(7),r=n(8),i=n(9),c=n(10);t.exports=n(14)(Array,"Array",function(t,e){this._t=c(t),this._i=0,this._k=e},function(){var t=this._t,e=this._k,n=this._i++;return!t||n>=t.length?(this._t=void 0,r(1)):"keys"==e?r(0,n):"values"==e?r(0,t[n]):r(0,[n,t[n]])},"values"),i.Arguments=i.Array,o("keys"),o("values"),o("entries")},function(t,e){t.exports=function(){}},function(t,e){t.exports=function(t,e){return{value:e,done:!!t}}},function(t,e){t.exports={}},function(t,e,n){var o=n(11),r=n(13);t.exports=function(t){return o(r(t))}},function(t,e,n){var o=n(12);t.exports=Object("z").propertyIsEnumerable(0)?Object:function(t){return"String"==o(t)?t.split(""):Object(t)}},function(t,e){var n={}.toString;t.exports=function(t){return n.call(t).slice(8,-1)}},function(t,e){t.exports=function(t){if(void 0==t)throw TypeError("Can't call method on  "+t);return t}},function(t,e,n){"use strict";var o=n(15),r=n(16),i=n(31),c=n(21),s=n(32),u=n(9),a=n(33),f=n(47),l=n(49),h=n(48)("iterator"),p=!([].keys&&"next"in[].keys()),d="@@iterator",v="keys",y="values",g=function(){return this};t.exports=function(t,e,n,_,m,w,k){a(n,e,_);var x,b,E,S=function(t){if(!p&&t in j)return j[t];switch(t){case v:return function(){return new n(this,t)};case y:return function(){return new n(this,t)}}return function(){return new n(this,t)}},C=e+" Iterator",T=m==y,O=!1,j=t.prototype,M=j[h]||j[d]||m&&j[m],A=M||S(m),L=m?T?S("entries"):A:void 0,N="Array"==e?j.entries||M:M;if(N&&(E=l(N.call(new t)),E!==Object.prototype&&(f(E,C,!0),o||s(E,h)||c(E,h,g))),T&&M&&M.name!==y&&(O=!0,A=function(){return M.call(this)}),o&&!k||!p&&!O&&j[h]||c(j,h,A),u[e]=A,u[C]=g,m)if(x={values:T?A:S(y),keys:w?A:S(v),entries:L},k)for(b in x)b in j||i(j,b,x[b]);else r(r.P+r.F*(p||O),e,x);return x}},function(t,e){t.exports=!0},function(t,e,n){var o=n(17),r=n(18),i=n(19),c=n(21),s="prototype",u=function(t,e,n){var a,f,l,h=t&u.F,p=t&u.G,d=t&u.S,v=t&u.P,y=t&u.B,g=t&u.W,_=p?r:r[e]||(r[e]={}),m=_[s],w=p?o:d?o[e]:(o[e]||{})[s];p&&(n=e);for(a in n)f=!h&&w&&void 0!==w[a],f&&a in _||(l=f?w[a]:n[a],_[a]=p&&"function"!=typeof w[a]?n[a]:y&&f?i(l,o):g&&w[a]==l?function(t){var e=function(e,n,o){if(this instanceof t){switch(arguments.length){case 0:return new t;case 1:return new t(e);case 2:return new t(e,n)}return new t(e,n,o)}return t.apply(this,arguments)};return e[s]=t[s],e}(l):v&&"function"==typeof l?i(Function.call,l):l,v&&((_.virtual||(_.virtual={}))[a]=l,t&u.R&&m&&!m[a]&&c(m,a,l)))};u.F=1,u.G=2,u.S=4,u.P=8,u.B=16,u.W=32,u.U=64,u.R=128,t.exports=u},function(t,e){var n=t.exports="undefined"!=typeof window&&window.Math==Math?window:"undefined"!=typeof self&&self.Math==Math?self:Function("return this")();"number"==typeof __g&&(__g=n)},function(t,e){var n=t.exports={version:"2.4.0"};"number"==typeof __e&&(__e=n)},function(t,e,n){var o=n(20);t.exports=function(t,e,n){if(o(t),void 0===e)return t;switch(n){case 1:return function(n){return t.call(e,n)};case 2:return function(n,o){return t.call(e,n,o)};case 3:return function(n,o,r){return t.call(e,n,o,r)}}return function(){return t.apply(e,arguments)}}},function(t,e){t.exports=function(t){if("function"!=typeof t)throw TypeError(t+" is not a function!");return t}},function(t,e,n){var o=n(22),r=n(30);t.exports=n(26)?function(t,e,n){return o.f(t,e,r(1,n))}:function(t,e,n){return t[e]=n,t}},function(t,e,n){var o=n(23),r=n(25),i=n(29),c=Object.defineProperty;e.f=n(26)?Object.defineProperty:function(t,e,n){if(o(t),e=i(e,!0),o(n),r)try{return c(t,e,n)}catch(t){}if("get"in n||"set"in n)throw TypeError("Accessors not supported!");return"value"in n&&(t[e]=n.value),t}},function(t,e,n){var o=n(24);t.exports=function(t){if(!o(t))throw TypeError(t+" is not an object!");return t}},function(t,e){t.exports=function(t){return"object"==typeof t?null!==t:"function"==typeof t}},function(t,e,n){t.exports=!n(26)&&!n(27)(function(){return 7!=Object.defineProperty(n(28)("div"),"a",{get:function(){return 7}}).a})},function(t,e,n){t.exports=!n(27)(function(){return 7!=Object.defineProperty({},"a",{get:function(){return 7}}).a})},function(t,e){t.exports=function(t){try{return!!t()}catch(t){return!0}}},function(t,e,n){var o=n(24),r=n(17).document,i=o(r)&&o(r.createElement);t.exports=function(t){return i?r.createElement(t):{}}},function(t,e,n){var o=n(24);t.exports=function(t,e){if(!o(t))return t;var n,r;if(e&&"function"==typeof(n=t.toString)&&!o(r=n.call(t)))return r;if("function"==typeof(n=t.valueOf)&&!o(r=n.call(t)))return r;if(!e&&"function"==typeof(n=t.toString)&&!o(r=n.call(t)))return r;throw TypeError("Can't convert object to primitive value")}},function(t,e){t.exports=function(t,e){return{enumerable:!(1&t),configurable:!(2&t),writable:!(4&t),value:e}}},function(t,e,n){t.exports=n(21)},function(t,e){var n={}.hasOwnProperty;t.exports=function(t,e){return n.call(t,e)}},function(t,e,n){"use strict";var o=n(34),r=n(30),i=n(47),c={};n(21)(c,n(48)("iterator"),function(){return this}),t.exports=function(t,e,n){t.prototype=o(c,{next:r(1,n)}),i(t,e+" Iterator")}},function(t,e,n){var o=n(23),r=n(35),i=n(45),c=n(42)("IE_PROTO"),s=function(){},u="prototype",a=function(){var t,e=n(28)("iframe"),o=i.length,r="<",c=">";for(e.style.display="none",n(46).appendChild(e),e.src="javascript:",t=e.contentWindow.document,t.open(),t.write(r+"script"+c+"document.F=Object"+r+"/script"+c),t.close(),a=t.F;o--;)delete a[u][i[o]];return a()};t.exports=Object.create||function(t,e){var n;return null!==t?(s[u]=o(t),n=new s,s[u]=null,n[c]=t):n=a(),void 0===e?n:r(n,e)}},function(t,e,n){var o=n(22),r=n(23),i=n(36);t.exports=n(26)?Object.defineProperties:function(t,e){r(t);for(var n,c=i(e),s=c.length,u=0;s>u;)o.f(t,n=c[u++],e[n]);return t}},function(t,e,n){var o=n(37),r=n(45);t.exports=Object.keys||function(t){return o(t,r)}},function(t,e,n){var o=n(32),r=n(10),i=n(38)(!1),c=n(42)("IE_PROTO");t.exports=function(t,e){var n,s=r(t),u=0,a=[];for(n in s)n!=c&&o(s,n)&&a.push(n);for(;e.length>u;)o(s,n=e[u++])&&(~i(a,n)||a.push(n));return a}},function(t,e,n){var o=n(10),r=n(39),i=n(41);t.exports=function(t){return function(e,n,c){var s,u=o(e),a=r(u.length),f=i(c,a);if(t&&n!=n){for(;a>f;)if(s=u[f++],s!=s)return!0}else for(;a>f;f++)if((t||f in u)&&u[f]===n)return t||f||0;return!t&&-1}}},function(t,e,n){var o=n(40),r=Math.min;t.exports=function(t){return t>0?r(o(t),9007199254740991):0}},function(t,e){var n=Math.ceil,o=Math.floor;t.exports=function(t){return isNaN(t=+t)?0:(t>0?o:n)(t)}},function(t,e,n){var o=n(40),r=Math.max,i=Math.min;t.exports=function(t,e){return t=o(t),t<0?r(t+e,0):i(t,e)}},function(t,e,n){var o=n(43)("keys"),r=n(44);t.exports=function(t){return o[t]||(o[t]=r(t))}},function(t,e,n){var o=n(17),r="__core-js_shared__",i=o[r]||(o[r]={});t.exports=function(t){return i[t]||(i[t]={})}},function(t,e){var n=0,o=Math.random();t.exports=function(t){return"Symbol(".concat(void 0===t?"":t,")_",(++n+o).toString(36))}},function(t,e){t.exports="constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",")},function(t,e,n){t.exports=n(17).document&&document.documentElement},function(t,e,n){var o=n(22).f,r=n(32),i=n(48)("toStringTag");t.exports=function(t,e,n){t&&!r(t=n?t:t.prototype,i)&&o(t,i,{configurable:!0,value:e})}},function(t,e,n){var o=n(43)("wks"),r=n(44),i=n(17).Symbol,c="function"==typeof i,s=t.exports=function(t){return o[t]||(o[t]=c&&i[t]||(c?i:r)("Symbol."+t))};s.store=o},function(t,e,n){var o=n(32),r=n(50),i=n(42)("IE_PROTO"),c=Object.prototype;t.exports=Object.getPrototypeOf||function(t){return t=r(t),o(t,i)?t[i]:"function"==typeof t.constructor&&t instanceof t.constructor?t.constructor.prototype:t instanceof Object?c:null}},function(t,e,n){var o=n(13);t.exports=function(t){return Object(o(t))}},function(t,e,n){"use strict";var o=n(52)(!0);n(14)(String,"String",function(t){this._t=String(t),this._i=0},function(){var t,e=this._t,n=this._i;return n>=e.length?{value:void 0,done:!0}:(t=o(e,n),this._i+=t.length,{value:t,done:!1})})},function(t,e,n){var o=n(40),r=n(13);t.exports=function(t){return function(e,n){var i,c,s=String(r(e)),u=o(n),a=s.length;return u<0||u>=a?t?"":void 0:(i=s.charCodeAt(u),i<55296||i>56319||u+1===a||(c=s.charCodeAt(u+1))<56320||c>57343?t?s.charAt(u):i:t?s.slice(u,u+2):(i-55296<<10)+(c-56320)+65536)}}},function(t,e,n){var o=n(54),r=n(48)("iterator"),i=n(9);t.exports=n(18).isIterable=function(t){var e=Object(t);return void 0!==e[r]||"@@iterator"in e||i.hasOwnProperty(o(e))}},function(t,e,n){var o=n(12),r=n(48)("toStringTag"),i="Arguments"==o(function(){return arguments}()),c=function(t,e){try{return t[e]}catch(t){}};t.exports=function(t){var e,n,s;return void 0===t?"Undefined":null===t?"Null":"string"==typeof(n=c(e=Object(t),r))?n:i?o(e):"Object"==(s=o(e))&&"function"==typeof e.callee?"Arguments":s}},function(t,e,n){t.exports={default:n(56),__esModule:!0}},function(t,e,n){n(5),n(51),t.exports=n(57)},function(t,e,n){var o=n(23),r=n(58);t.exports=n(18).getIterator=function(t){var e=r(t);if("function"!=typeof e)throw TypeError(t+" is not iterable!");return o(e.call(t))}},function(t,e,n){var o=n(54),r=n(48)("iterator"),i=n(9);t.exports=n(18).getIteratorMethod=function(t){if(void 0!=t)return t[r]||t["@@iterator"]||i[o(t)]}},function(t,e,n){t.exports={default:n(60),__esModule:!0}},function(t,e,n){n(61),t.exports=n(18).Object.keys},function(t,e,n){var o=n(50),r=n(36);n(62)("keys",function(){return function(t){return r(o(t))}})},function(t,e,n){var o=n(16),r=n(18),i=n(27);t.exports=function(t,e){var n=(r.Object||{})[t]||Object[t],c={};c[t]=e(n),o(o.S+o.F*i(function(){n(1)}),"Object",c)}},function(t,e,n){t.exports={default:n(64),__esModule:!0}},function(t,e,n){n(65),n(51),n(5),n(66),n(80),t.exports=n(18).Map},function(t,e){},function(t,e,n){"use strict";var o=n(67);t.exports=n(75)("Map",function(t){return function(){return t(this,arguments.length>0?arguments[0]:void 0)}},{get:function(t){var e=o.getEntry(this,t);return e&&e.v},set:function(t,e){return o.def(this,0===t?0:t,e)}},o,!0)},function(t,e,n){"use strict";var o=n(22).f,r=n(34),i=n(68),c=n(19),s=n(69),u=n(13),a=n(70),f=n(14),l=n(8),h=n(73),p=n(26),d=n(74).fastKey,v=p?"_s":"size",y=function(t,e){var n,o=d(e);if("F"!==o)return t._i[o];for(n=t._f;n;n=n.n)if(n.k==e)return n};t.exports={getConstructor:function(t,e,n,f){var l=t(function(t,o){s(t,l,e,"_i"),t._i=r(null),t._f=void 0,t._l=void 0,t[v]=0,void 0!=o&&a(o,n,t[f],t)});return i(l.prototype,{clear:function(){for(var t=this,e=t._i,n=t._f;n;n=n.n)n.r=!0,n.p&&(n.p=n.p.n=void 0),delete e[n.i];t._f=t._l=void 0,t[v]=0},delete:function(t){var e=this,n=y(e,t);if(n){var o=n.n,r=n.p;delete e._i[n.i],n.r=!0,r&&(r.n=o),o&&(o.p=r),e._f==n&&(e._f=o),e._l==n&&(e._l=r),e[v]--}return!!n},forEach:function(t){s(this,l,"forEach");for(var e,n=c(t,arguments.length>1?arguments[1]:void 0,3);e=e?e.n:this._f;)for(n(e.v,e.k,this);e&&e.r;)e=e.p},has:function(t){return!!y(this,t)}}),p&&o(l.prototype,"size",{get:function(){return u(this[v])}}),l},def:function(t,e,n){var o,r,i=y(t,e);return i?i.v=n:(t._l=i={i:r=d(e,!0),k:e,v:n,p:o=t._l,n:void 0,r:!1},t._f||(t._f=i),o&&(o.n=i),t[v]++,"F"!==r&&(t._i[r]=i)),t},getEntry:y,setStrong:function(t,e,n){f(t,e,function(t,e){this._t=t,this._k=e,this._l=void 0},function(){for(var t=this,e=t._k,n=t._l;n&&n.r;)n=n.p;return t._t&&(t._l=n=n?n.n:t._t._f)?"keys"==e?l(0,n.k):"values"==e?l(0,n.v):l(0,[n.k,n.v]):(t._t=void 0,l(1))},n?"entries":"values",!n,!0),h(e)}}},function(t,e,n){var o=n(21);t.exports=function(t,e,n){for(var r in e)n&&t[r]?t[r]=e[r]:o(t,r,e[r]);return t}},function(t,e){t.exports=function(t,e,n,o){if(!(t instanceof e)||void 0!==o&&o in t)throw TypeError(n+": incorrect invocation!");return t}},function(t,e,n){var o=n(19),r=n(71),i=n(72),c=n(23),s=n(39),u=n(58),a={},f={},e=t.exports=function(t,e,n,l,h){var p,d,v,y,g=h?function(){return t}:u(t),_=o(n,l,e?2:1),m=0;if("function"!=typeof g)throw TypeError(t+" is not iterable!");if(i(g)){for(p=s(t.length);p>m;m++)if(y=e?_(c(d=t[m])[0],d[1]):_(t[m]),y===a||y===f)return y}else for(v=g.call(t);!(d=v.next()).done;)if(y=r(v,_,d.value,e),y===a||y===f)return y};e.BREAK=a,e.RETURN=f},function(t,e,n){var o=n(23);t.exports=function(t,e,n,r){try{return r?e(o(n)[0],n[1]):e(n)}catch(e){var i=t.return;throw void 0!==i&&o(i.call(t)),e}}},function(t,e,n){var o=n(9),r=n(48)("iterator"),i=Array.prototype;t.exports=function(t){return void 0!==t&&(o.Array===t||i[r]===t)}},function(t,e,n){"use strict";var o=n(17),r=n(18),i=n(22),c=n(26),s=n(48)("species");t.exports=function(t){var e="function"==typeof r[t]?r[t]:o[t];c&&e&&!e[s]&&i.f(e,s,{configurable:!0,get:function(){return this}})}},function(t,e,n){var o=n(44)("meta"),r=n(24),i=n(32),c=n(22).f,s=0,u=Object.isExtensible||function(){return!0},a=!n(27)(function(){return u(Object.preventExtensions({}))}),f=function(t){c(t,o,{value:{i:"O"+ ++s,w:{}}})},l=function(t,e){if(!r(t))return"symbol"==typeof t?t:("string"==typeof t?"S":"P")+t;if(!i(t,o)){if(!u(t))return"F";if(!e)return"E";f(t)}return t[o].i},h=function(t,e){if(!i(t,o)){if(!u(t))return!0;if(!e)return!1;f(t)}return t[o].w},p=function(t){return a&&d.NEED&&u(t)&&!i(t,o)&&f(t),t},d=t.exports={KEY:o,NEED:!1,fastKey:l,getWeak:h,onFreeze:p}},function(t,e,n){"use strict";var o=n(17),r=n(16),i=n(74),c=n(27),s=n(21),u=n(68),a=n(70),f=n(69),l=n(24),h=n(47),p=n(22).f,d=n(76)(0),v=n(26);t.exports=function(t,e,n,y,g,_){var m=o[t],w=m,k=g?"set":"add",x=w&&w.prototype,b={};return v&&"function"==typeof w&&(_||x.forEach&&!c(function(){(new w).entries().next()}))?(w=e(function(e,n){f(e,w,t,"_c"),e._c=new m,void 0!=n&&a(n,g,e[k],e)}),d("add,clear,delete,forEach,get,has,set,keys,values,entries,toJSON".split(","),function(t){var e="add"==t||"set"==t;t in x&&(!_||"clear"!=t)&&s(w.prototype,t,function(n,o){if(f(this,w,t),!e&&_&&!l(n))return"get"==t&&void 0;var r=this._c[t](0===n?0:n,o);return e?this:r})}),"size"in x&&p(w.prototype,"size",{get:function(){return this._c.size}})):(w=y.getConstructor(e,t,g,k),u(w.prototype,n),i.NEED=!0),h(w,t),b[t]=w,r(r.G+r.W+r.F,b),_||y.setStrong(w,t,g),w}},function(t,e,n){var o=n(19),r=n(11),i=n(50),c=n(39),s=n(77);t.exports=function(t,e){var n=1==t,u=2==t,a=3==t,f=4==t,l=6==t,h=5==t||l,p=e||s;return function(e,s,d){for(var v,y,g=i(e),_=r(g),m=o(s,d,3),w=c(_.length),k=0,x=n?p(e,w):u?p(e,0):void 0;w>k;k++)if((h||k in _)&&(v=_[k],y=m(v,k,g),t))if(n)x[k]=y;else if(y)switch(t){case 3:return!0;case 5:return v;case 6:return k;case 2:x.push(v)}else if(f)return!1;return l?-1:a||f?f:x}}},function(t,e,n){var o=n(78);t.exports=function(t,e){return new(o(t))(e)}},function(t,e,n){var o=n(24),r=n(79),i=n(48)("species");t.exports=function(t){var e;return r(t)&&(e=t.constructor,"function"!=typeof e||e!==Array&&!r(e.prototype)||(e=void 0),o(e)&&(e=e[i],null===e&&(e=void 0))),void 0===e?Array:e}},function(t,e,n){var o=n(12);t.exports=Array.isArray||function(t){return"Array"==o(t)}},function(t,e,n){var o=n(16);o(o.P+o.R,"Map",{toJSON:n(81)("Map")})},function(t,e,n){var o=n(54),r=n(82);t.exports=function(t){return function(){if(o(this)!=t)throw TypeError(t+"#toJSON isn't generic");return r(this)}}},function(t,e,n){var o=n(70);t.exports=function(t,e){var n=[];return o(t,!1,n.push,n,e),n}},function(t,e){},,,,function(t,e,n){var o;!function(){"use strict";/**
+		 * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
+		 *
+		 * @codingstandard ftlabs-jsv2
+		 * @copyright The Financial Times Limited [All Rights Reserved]
+		 * @license MIT License (see LICENSE.txt)
+		 */
+function r(t,e){function n(t,e){return function(){return t.apply(e,arguments)}}var o;if(e=e||{},this.trackingClick=!1,this.trackingClickStart=0,this.targetElement=null,this.touchStartX=0,this.touchStartY=0,this.lastTouchIdentifier=0,this.touchBoundary=e.touchBoundary||10,this.layer=t,this.tapDelay=e.tapDelay||200,this.tapTimeout=e.tapTimeout||700,!r.notNeeded(t)){for(var i=["onMouse","onClick","onTouchStart","onTouchMove","onTouchEnd","onTouchCancel"],s=this,u=0,a=i.length;u<a;u++)s[i[u]]=n(s[i[u]],s);c&&(t.addEventListener("mouseover",this.onMouse,!0),t.addEventListener("mousedown",this.onMouse,!0),t.addEventListener("mouseup",this.onMouse,!0)),t.addEventListener("click",this.onClick,!0),t.addEventListener("touchstart",this.onTouchStart,!1),t.addEventListener("touchmove",this.onTouchMove,!1),t.addEventListener("touchend",this.onTouchEnd,!1),t.addEventListener("touchcancel",this.onTouchCancel,!1),Event.prototype.stopImmediatePropagation||(t.removeEventListener=function(e,n,o){var r=Node.prototype.removeEventListener;"click"===e?r.call(t,e,n.hijacked||n,o):r.call(t,e,n,o)},t.addEventListener=function(e,n,o){var r=Node.prototype.addEventListener;"click"===e?r.call(t,e,n.hijacked||(n.hijacked=function(t){t.propagationStopped||n(t)}),o):r.call(t,e,n,o)}),"function"==typeof t.onclick&&(o=t.onclick,t.addEventListener("click",function(t){o(t)},!1),t.onclick=null)}}var i=navigator.userAgent.indexOf("Windows Phone")>=0,c=navigator.userAgent.indexOf("Android")>0&&!i,s=/iP(ad|hone|od)/.test(navigator.userAgent)&&!i,u=s&&/OS 4_\d(_\d)?/.test(navigator.userAgent),a=s&&/OS [6-7]_\d/.test(navigator.userAgent),f=navigator.userAgent.indexOf("BB10")>0;r.prototype.needsClick=function(t){switch(t.nodeName.toLowerCase()){case"button":case"select":case"textarea":if(t.disabled)return!0;break;case"input":if(s&&"file"===t.type||t.disabled)return!0;break;case"label":case"iframe":case"video":return!0}return/\bneedsclick\b/.test(t.className)},r.prototype.needsFocus=function(t){switch(t.nodeName.toLowerCase()){case"textarea":return!0;case"select":return!c;case"input":switch(t.type){case"button":case"checkbox":case"file":case"image":case"radio":case"submit":return!1}return!t.disabled&&!t.readOnly;default:return/\bneedsfocus\b/.test(t.className)}},r.prototype.sendClick=function(t,e){var n,o;document.activeElement&&document.activeElement!==t&&document.activeElement.blur(),o=e.changedTouches[0],n=document.createEvent("MouseEvents"),n.initMouseEvent(this.determineEventType(t),!0,!0,window,1,o.screenX,o.screenY,o.clientX,o.clientY,!1,!1,!1,!1,0,null),n.forwardedTouchEvent=!0,t.dispatchEvent(n)},r.prototype.determineEventType=function(t){return c&&"select"===t.tagName.toLowerCase()?"mousedown":"click"},r.prototype.focus=function(t){var e;s&&t.setSelectionRange&&0!==t.type.indexOf("date")&&"time"!==t.type&&"month"!==t.type?(e=t.value.length,t.setSelectionRange(e,e)):t.focus()},r.prototype.updateScrollParent=function(t){var e,n;if(e=t.fastClickScrollParent,!e||!e.contains(t)){n=t;do{if(n.scrollHeight>n.offsetHeight){e=n,t.fastClickScrollParent=n;break}n=n.parentElement}while(n)}e&&(e.fastClickLastScrollTop=e.scrollTop)},r.prototype.getTargetElementFromEventTarget=function(t){return t.nodeType===Node.TEXT_NODE?t.parentNode:t},r.prototype.onTouchStart=function(t){var e,n,o;if(t.targetTouches.length>1)return!0;if(e=this.getTargetElementFromEventTarget(t.target),n=t.targetTouches[0],s){if(o=window.getSelection(),o.rangeCount&&!o.isCollapsed)return!0;if(!u){if(n.identifier&&n.identifier===this.lastTouchIdentifier)return t.preventDefault(),!1;this.lastTouchIdentifier=n.identifier,this.updateScrollParent(e)}}return this.trackingClick=!0,this.trackingClickStart=t.timeStamp,this.targetElement=e,this.touchStartX=n.pageX,this.touchStartY=n.pageY,t.timeStamp-this.lastClickTime<this.tapDelay&&t.preventDefault(),!0},r.prototype.touchHasMoved=function(t){var e=t.changedTouches[0],n=this.touchBoundary;return Math.abs(e.pageX-this.touchStartX)>n||Math.abs(e.pageY-this.touchStartY)>n},r.prototype.onTouchMove=function(t){return!this.trackingClick||((this.targetElement!==this.getTargetElementFromEventTarget(t.target)||this.touchHasMoved(t))&&(this.trackingClick=!1,this.targetElement=null),!0)},r.prototype.findControl=function(t){return void 0!==t.control?t.control:t.htmlFor?document.getElementById(t.htmlFor):t.querySelector("button, input:not([type=hidden]), keygen, meter, output, progress, select, textarea")},r.prototype.onTouchEnd=function(t){var e,n,o,r,i,f=this.targetElement;if(!this.trackingClick)return!0;if(t.timeStamp-this.lastClickTime<this.tapDelay)return this.cancelNextClick=!0,!0;if(t.timeStamp-this.trackingClickStart>this.tapTimeout)return!0;if(this.cancelNextClick=!1,this.lastClickTime=t.timeStamp,n=this.trackingClickStart,this.trackingClick=!1,this.trackingClickStart=0,a&&(i=t.changedTouches[0],f=document.elementFromPoint(i.pageX-window.pageXOffset,i.pageY-window.pageYOffset)||f,f.fastClickScrollParent=this.targetElement.fastClickScrollParent),o=f.tagName.toLowerCase(),"label"===o){if(e=this.findControl(f)){if(this.focus(f),c)return!1;f=e}}else if(this.needsFocus(f))return t.timeStamp-n>100||s&&window.top!==window&&"input"===o?(this.targetElement=null,!1):(this.focus(f),this.sendClick(f,t),s&&"select"===o||(this.targetElement=null,t.preventDefault()),!1);return!(!s||u||(r=f.fastClickScrollParent,!r||r.fastClickLastScrollTop===r.scrollTop))||(this.needsClick(f)||(t.preventDefault(),this.sendClick(f,t)),!1)},r.prototype.onTouchCancel=function(){this.trackingClick=!1,this.targetElement=null},r.prototype.onMouse=function(t){return!this.targetElement||(!!t.forwardedTouchEvent||(!t.cancelable||(!(!this.needsClick(this.targetElement)||this.cancelNextClick)||(t.stopImmediatePropagation?t.stopImmediatePropagation():t.propagationStopped=!0,t.stopPropagation(),t.preventDefault(),!1))))},r.prototype.onClick=function(t){var e;return this.trackingClick?(this.targetElement=null,this.trackingClick=!1,!0):"submit"===t.target.type&&0===t.detail||(e=this.onMouse(t),e||(this.targetElement=null),e)},r.prototype.destroy=function(){var t=this.layer;c&&(t.removeEventListener("mouseover",this.onMouse,!0),t.removeEventListener("mousedown",this.onMouse,!0),t.removeEventListener("mouseup",this.onMouse,!0)),t.removeEventListener("click",this.onClick,!0),t.removeEventListener("touchstart",this.onTouchStart,!1),t.removeEventListener("touchmove",this.onTouchMove,!1),t.removeEventListener("touchend",this.onTouchEnd,!1),t.removeEventListener("touchcancel",this.onTouchCancel,!1)},r.notNeeded=function(t){var e,n,o,r;if("undefined"==typeof window.ontouchstart)return!0;if(n=+(/Chrome\/([0-9]+)/.exec(navigator.userAgent)||[,0])[1]){if(!c)return!0;if(e=document.querySelector("meta[name=viewport]")){if(e.content.indexOf("user-scalable=no")!==-1)return!0;if(n>31&&document.documentElement.scrollWidth<=window.outerWidth)return!0}}if(f&&(o=navigator.userAgent.match(/Version\/([0-9]*)\.([0-9]*)/),o[1]>=10&&o[2]>=3&&(e=document.querySelector("meta[name=viewport]")))){if(e.content.indexOf("user-scalable=no")!==-1)return!0;if(document.documentElement.scrollWidth<=window.outerWidth)return!0}return"none"===t.style.msTouchAction||"manipulation"===t.style.touchAction||(r=+(/Firefox\/([0-9]+)/.exec(navigator.userAgent)||[,0])[1],!!(r>=27&&(e=document.querySelector("meta[name=viewport]"),e&&(e.content.indexOf("user-scalable=no")!==-1||document.documentElement.scrollWidth<=window.outerWidth)))||("none"===t.style.touchAction||"manipulation"===t.style.touchAction))},r.attach=function(t,e){return new r(t,e)},o=function(){return r}.call(e,n,e,t),!(void 0!==o&&(t.exports=o))}()},function(t,e,n){"use strict";function o(t){if(!(this instanceof o))return new o(t);var e,n=i(t.className).split(/\s+/);for(this._elem=t,this.length=0,e=0;e<n.length;e+=1)n[e]&&c.push.call(this,n[e])}t.exports=o;var r=n(89),i=n(90),c=Array.prototype;o.prototype.add=function(){var t,e;for(e=0;e<arguments.length;e+=1)t=""+arguments[e],r(this,t)>=0||c.push.call(this,t);return this._elem.className=this.toString(),this},o.prototype.remove=function(){var t,e,n;for(n=0;n<arguments.length;n+=1)e=""+arguments[n],t=r(this,e),t<0||c.splice.call(this,t,1);return this._elem.className=this.toString(),this},o.prototype.contains=function(t){return t+="",r(this,t)>=0},o.prototype.toggle=function(t,e){return t+="",e===!0?this.add(t):e===!1?this.remove(t):this[this.contains(t)?"remove":"add"](t)},o.prototype.toString=function(){return c.join.call(this," ")}},function(t,e){t.exports=function(t,e){if(t.indexOf)return t.indexOf(e);for(var n=0;n<t.length;++n)if(t[n]===e)return n;return-1}},function(t,e){function n(t){return t.replace(/^\s*|\s*$/g,"")}e=t.exports=n,e.left=function(t){return t.replace(/^\s*/,"")},e.right=function(t){return t.replace(/\s*$/,"")}}])});
+/* For creating entity */
+var switchElement = document.querySelector('.checkbox-switch-tax');
+var switchElement2 = document.querySelector('.checkbox-switch-click');
+var switchElement3 = document.querySelector('.checkbox-switch-vip');
+var switchElement4 = document.querySelector('.checkbox-switch-europe');
+var switchElement5 = document.querySelector('.checkbox-attr-categories');
+var switchElement6 = document.querySelector('.checkbox-public');
+
+var options = {
+	checked: false,
+	size: 'small',
+	onSwitchColor : '#394a59'
+}
+var switcher = new Switch(switchElement, options);
+var switcher2 = new Switch(switchElement2, options);
+var switcher3 = new Switch(switchElement3, options);
+var switcher4 = new Switch(switchElement4, options);
+var switcher5 = new Switch(switchElement5, options);
+var switcher6 = new Switch(switchElement6, options);
+
+/* For editing entity */
+var switchElementEditing = document.querySelector('.checkbox-vip');
+var switchElementEditing2 = document.querySelector('.checkbox-europe');
+var switchElementEditing3 = document.querySelector('.checkbox-tax');
+var switchElementEditing4 = document.querySelector('.checkbox-one-click');
+var switchElementEditing5 = document.querySelector('.checkbox-attr-cats-edit');
+var switchElementEditing6 = document.querySelector('.checkbox-published');
+
+var optionsEditing = {
+	size: 'small',
+	onSwitchColor : '#394a59',
+}
+
+var switcher = new Switch(switchElementEditing, optionsEditing);
+var switcher2 = new Switch(switchElementEditing2, optionsEditing);
+var switcher3 = new Switch(switchElementEditing3, optionsEditing);
+var switcher4 = new Switch(switchElementEditing4, optionsEditing);
+var switcher5 = new Switch(switchElementEditing5, optionsEditing);
+var switcher6 = new Switch(switchElementEditing6, optionsEditing);
+function initializeJS() {
+
+    //tool tips
+    jQuery('.tooltips').tooltip();
+
+    //popovers
+    jQuery('.popovers').popover();
+
+    //custom scrollbar
+        //for html
+    jQuery("html").niceScroll({styler:"fb",cursorcolor:"#007AFF", cursorwidth: '6', cursorborderradius: '10px', background: '#F7F7F7', cursorborder: '', zindex: '1000'});
+        //for sidebar
+    jQuery("#sidebar").niceScroll({styler:"fb",cursorcolor:"#007AFF", cursorwidth: '3', cursorborderradius: '10px', background: '#F7F7F7', cursorborder: ''});
+        // for scroll panel
+    jQuery(".scroll-panel").niceScroll({styler:"fb",cursorcolor:"#007AFF", cursorwidth: '3', cursorborderradius: '10px', background: '#F7F7F7', cursorborder: ''});
+    
+    //sidebar dropdown menu
+    jQuery('#sidebar .sub-menu > a').click(function () {
+        var last = jQuery('.sub-menu.open', jQuery('#sidebar'));        
+        jQuery('.menu-arrow').removeClass('arrow_carrot-right');
+        jQuery('.sub', last).slideUp(200);
+        var sub = jQuery(this).next();
+        if (sub.is(":visible")) {
+            jQuery('.menu-arrow').addClass('arrow_carrot-right');            
+            sub.slideUp(200);
+        } else {
+            jQuery('.menu-arrow').addClass('arrow_carrot-down');            
+            sub.slideDown(200);
+        }
+        var o = (jQuery(this).offset());
+        diff = 200 - o.top;
+        if(diff>0)
+            jQuery("#sidebar").scrollTo("-="+Math.abs(diff),500);
+        else
+            jQuery("#sidebar").scrollTo("+="+Math.abs(diff),500);
+    });
+
+    // sidebar menu toggle
+    jQuery(function() {
+        function responsiveView() {
+            var wSize = jQuery(window).width();
+            if (wSize <= 768) {
+                jQuery('#container').addClass('sidebar-close');
+                jQuery('#sidebar > ul').hide();
+            }
+
+            if (wSize > 768) {
+                jQuery('#container').removeClass('sidebar-close');
+                jQuery('#sidebar > ul').show();
+            }
+        }
+        jQuery(window).on('load', responsiveView);
+        jQuery(window).on('resize', responsiveView);
+    });
+
+    jQuery('.toggle-nav').click(function () {
+        if (jQuery('#sidebar > ul').is(":visible") === true) {
+            jQuery('#main-content').css({
+                'margin-left': '0px'
+            });
+            jQuery('#sidebar').css({
+                'margin-left': '-200px'
+            });
+            jQuery('#sidebar > ul').hide();
+            jQuery("#container").addClass("sidebar-closed");
+        } else {
+            jQuery('#main-content').css({
+                'margin-left': '180px'
+            });
+            jQuery('#sidebar > ul').show();
+            jQuery('#sidebar').css({
+                'margin-left': '0'
+            });
+            jQuery("#container").removeClass("sidebar-closed");
+        }
+    });
+
+    //bar chart
+    if (jQuery(".custom-custom-bar-chart")) {
+        jQuery(".bar").each(function () {
+            var i = jQuery(this).find(".value").html();
+            jQuery(this).find(".value").html("");
+            jQuery(this).find(".value").animate({
+                height: i
+            }, 2000)
+        })
+    }
+
+}
+
+jQuery(document).ready(function(){
+    initializeJS();
+    
+});
+/**
+ * jquery.mask.js
+ * @version: v1.14.16
+ * @author: Igor Escobar
+ *
+ * Created by Igor Escobar on 2012-03-10. Please report any bug at github.com/igorescobar/jQuery-Mask-Plugin
+ *
+ * Copyright (c) 2012 Igor Escobar http://igorescobar.com
+ *
+ * The MIT License (http://www.opensource.org/licenses/mit-license.php)
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+/* jshint laxbreak: true */
+/* jshint maxcomplexity:17 */
+/* global define */
+
+// UMD (Universal Module Definition) patterns for JavaScript modules that work everywhere.
+// https://github.com/umdjs/umd/blob/master/templates/jqueryPlugin.js
+(function (factory, jQuery, Zepto) {
+
+    if (typeof define === 'function' && define.amd) {
+        define(['jquery'], factory);
+    } else if (typeof exports === 'object' && typeof Meteor === 'undefined') {
+        module.exports = factory(require('jquery'));
+    } else {
+        factory(jQuery || Zepto);
+    }
+
+}(function ($) {
+    'use strict';
+
+    var Mask = function (el, mask, options) {
+
+        var p = {
+            invalid: [],
+            getCaret: function () {
+                try {
+                    var sel,
+                        pos = 0,
+                        ctrl = el.get(0),
+                        dSel = document.selection,
+                        cSelStart = ctrl.selectionStart;
+
+                    // IE Support
+                    if (dSel && navigator.appVersion.indexOf('MSIE 10') === -1) {
+                        sel = dSel.createRange();
+                        sel.moveStart('character', -p.val().length);
+                        pos = sel.text.length;
+                    }
+                    // Firefox support
+                    else if (cSelStart || cSelStart === '0') {
+                        pos = cSelStart;
+                    }
+
+                    return pos;
+                } catch (e) {}
+            },
+            setCaret: function(pos) {
+                try {
+                    if (el.is(':focus')) {
+                        var range, ctrl = el.get(0);
+
+                        // Firefox, WebKit, etc..
+                        if (ctrl.setSelectionRange) {
+                            ctrl.setSelectionRange(pos, pos);
+                        } else { // IE
+                            range = ctrl.createTextRange();
+                            range.collapse(true);
+                            range.moveEnd('character', pos);
+                            range.moveStart('character', pos);
+                            range.select();
+                        }
+                    }
+                } catch (e) {}
+            },
+            events: function() {
+                el
+                .on('keydown.mask', function(e) {
+                    el.data('mask-keycode', e.keyCode || e.which);
+                    el.data('mask-previus-value', el.val());
+                    el.data('mask-previus-caret-pos', p.getCaret());
+                    p.maskDigitPosMapOld = p.maskDigitPosMap;
+                })
+                .on($.jMaskGlobals.useInput ? 'input.mask' : 'keyup.mask', p.behaviour)
+                .on('paste.mask drop.mask', function() {
+                    setTimeout(function() {
+                        el.keydown().keyup();
+                    }, 100);
+                })
+                .on('change.mask', function(){
+                    el.data('changed', true);
+                })
+                .on('blur.mask', function(){
+                    if (oldValue !== p.val() && !el.data('changed')) {
+                        el.trigger('change');
+                    }
+                    el.data('changed', false);
+                })
+                // it's very important that this callback remains in this position
+                // otherwhise oldValue it's going to work buggy
+                .on('blur.mask', function() {
+                    oldValue = p.val();
+                })
+                // select all text on focus
+                .on('focus.mask', function (e) {
+                    if (options.selectOnFocus === true) {
+                        $(e.target).select();
+                    }
+                })
+                // clear the value if it not complete the mask
+                .on('focusout.mask', function() {
+                    if (options.clearIfNotMatch && !regexMask.test(p.val())) {
+                       p.val('');
+                   }
+                });
+            },
+            getRegexMask: function() {
+                var maskChunks = [], translation, pattern, optional, recursive, oRecursive, r;
+
+                for (var i = 0; i < mask.length; i++) {
+                    translation = jMask.translation[mask.charAt(i)];
+
+                    if (translation) {
+
+                        pattern = translation.pattern.toString().replace(/.{1}$|^.{1}/g, '');
+                        optional = translation.optional;
+                        recursive = translation.recursive;
+
+                        if (recursive) {
+                            maskChunks.push(mask.charAt(i));
+                            oRecursive = {digit: mask.charAt(i), pattern: pattern};
+                        } else {
+                            maskChunks.push(!optional && !recursive ? pattern : (pattern + '?'));
+                        }
+
+                    } else {
+                        maskChunks.push(mask.charAt(i).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
+                    }
+                }
+
+                r = maskChunks.join('');
+
+                if (oRecursive) {
+                    r = r.replace(new RegExp('(' + oRecursive.digit + '(.*' + oRecursive.digit + ')?)'), '($1)?')
+                         .replace(new RegExp(oRecursive.digit, 'g'), oRecursive.pattern);
+                }
+
+                return new RegExp(r);
+            },
+            destroyEvents: function() {
+                el.off(['input', 'keydown', 'keyup', 'paste', 'drop', 'blur', 'focusout', ''].join('.mask '));
+            },
+            val: function(v) {
+                var isInput = el.is('input'),
+                    method = isInput ? 'val' : 'text',
+                    r;
+
+                if (arguments.length > 0) {
+                    if (el[method]() !== v) {
+                        el[method](v);
+                    }
+                    r = el;
+                } else {
+                    r = el[method]();
+                }
+
+                return r;
+            },
+            calculateCaretPosition: function(oldVal) {
+                var newVal = p.getMasked(),
+                    caretPosNew = p.getCaret();
+                if (oldVal !== newVal) {
+                    var caretPosOld = el.data('mask-previus-caret-pos') || 0,
+                        newValL = newVal.length,
+                        oldValL = oldVal.length,
+                        maskDigitsBeforeCaret = 0,
+                        maskDigitsAfterCaret = 0,
+                        maskDigitsBeforeCaretAll = 0,
+                        maskDigitsBeforeCaretAllOld = 0,
+                        i = 0;
+
+                    for (i = caretPosNew; i < newValL; i++) {
+                        if (!p.maskDigitPosMap[i]) {
+                            break;
+                        }
+                        maskDigitsAfterCaret++;
+                    }
+
+                    for (i = caretPosNew - 1; i >= 0; i--) {
+                        if (!p.maskDigitPosMap[i]) {
+                            break;
+                        }
+                        maskDigitsBeforeCaret++;
+                    }
+
+                    for (i = caretPosNew - 1; i >= 0; i--) {
+                        if (p.maskDigitPosMap[i]) {
+                            maskDigitsBeforeCaretAll++;
+                        }
+                    }
+
+                    for (i = caretPosOld - 1; i >= 0; i--) {
+                        if (p.maskDigitPosMapOld[i]) {
+                            maskDigitsBeforeCaretAllOld++;
+                        }
+                    }
+
+                    // if the cursor is at the end keep it there
+                    if (caretPosNew > oldValL) {
+                      caretPosNew = newValL * 10;
+                    } else if (caretPosOld >= caretPosNew && caretPosOld !== oldValL) {
+                        if (!p.maskDigitPosMapOld[caretPosNew])  {
+                          var caretPos = caretPosNew;
+                          caretPosNew -= maskDigitsBeforeCaretAllOld - maskDigitsBeforeCaretAll;
+                          caretPosNew -= maskDigitsBeforeCaret;
+                          if (p.maskDigitPosMap[caretPosNew])  {
+                            caretPosNew = caretPos;
+                          }
+                        }
+                    }
+                    else if (caretPosNew > caretPosOld) {
+                        caretPosNew += maskDigitsBeforeCaretAll - maskDigitsBeforeCaretAllOld;
+                        caretPosNew += maskDigitsAfterCaret;
+                    }
+                }
+                return caretPosNew;
+            },
+            behaviour: function(e) {
+                e = e || window.event;
+                p.invalid = [];
+
+                var keyCode = el.data('mask-keycode');
+
+                if ($.inArray(keyCode, jMask.byPassKeys) === -1) {
+                    var newVal = p.getMasked(),
+                        caretPos = p.getCaret(),
+                        oldVal = el.data('mask-previus-value') || '';
+
+                    // this is a compensation to devices/browsers that don't compensate
+                    // caret positioning the right way
+                    setTimeout(function() {
+                      p.setCaret(p.calculateCaretPosition(oldVal));
+                    }, $.jMaskGlobals.keyStrokeCompensation);
+
+                    p.val(newVal);
+                    p.setCaret(caretPos);
+                    return p.callbacks(e);
+                }
+            },
+            getMasked: function(skipMaskChars, val) {
+                var buf = [],
+                    value = val === undefined ? p.val() : val + '',
+                    m = 0, maskLen = mask.length,
+                    v = 0, valLen = value.length,
+                    offset = 1, addMethod = 'push',
+                    resetPos = -1,
+                    maskDigitCount = 0,
+                    maskDigitPosArr = [],
+                    lastMaskChar,
+                    check;
+
+                if (options.reverse) {
+                    addMethod = 'unshift';
+                    offset = -1;
+                    lastMaskChar = 0;
+                    m = maskLen - 1;
+                    v = valLen - 1;
+                    check = function () {
+                        return m > -1 && v > -1;
+                    };
+                } else {
+                    lastMaskChar = maskLen - 1;
+                    check = function () {
+                        return m < maskLen && v < valLen;
+                    };
+                }
+
+                var lastUntranslatedMaskChar;
+                while (check()) {
+                    var maskDigit = mask.charAt(m),
+                        valDigit = value.charAt(v),
+                        translation = jMask.translation[maskDigit];
+
+                    if (translation) {
+                        if (valDigit.match(translation.pattern)) {
+                            buf[addMethod](valDigit);
+                             if (translation.recursive) {
+                                if (resetPos === -1) {
+                                    resetPos = m;
+                                } else if (m === lastMaskChar && m !== resetPos) {
+                                    m = resetPos - offset;
+                                }
+
+                                if (lastMaskChar === resetPos) {
+                                    m -= offset;
+                                }
+                            }
+                            m += offset;
+                        } else if (valDigit === lastUntranslatedMaskChar) {
+                            // matched the last untranslated (raw) mask character that we encountered
+                            // likely an insert offset the mask character from the last entry; fall
+                            // through and only increment v
+                            maskDigitCount--;
+                            lastUntranslatedMaskChar = undefined;
+                        } else if (translation.optional) {
+                            m += offset;
+                            v -= offset;
+                        } else if (translation.fallback) {
+                            buf[addMethod](translation.fallback);
+                            m += offset;
+                            v -= offset;
+                        } else {
+                          p.invalid.push({p: v, v: valDigit, e: translation.pattern});
+                        }
+                        v += offset;
+                    } else {
+                        if (!skipMaskChars) {
+                            buf[addMethod](maskDigit);
+                        }
+
+                        if (valDigit === maskDigit) {
+                            maskDigitPosArr.push(v);
+                            v += offset;
+                        } else {
+                            lastUntranslatedMaskChar = maskDigit;
+                            maskDigitPosArr.push(v + maskDigitCount);
+                            maskDigitCount++;
+                        }
+
+                        m += offset;
+                    }
+                }
+
+                var lastMaskCharDigit = mask.charAt(lastMaskChar);
+                if (maskLen === valLen + 1 && !jMask.translation[lastMaskCharDigit]) {
+                    buf.push(lastMaskCharDigit);
+                }
+
+                var newVal = buf.join('');
+                p.mapMaskdigitPositions(newVal, maskDigitPosArr, valLen);
+                return newVal;
+            },
+            mapMaskdigitPositions: function(newVal, maskDigitPosArr, valLen) {
+              var maskDiff = options.reverse ? newVal.length - valLen : 0;
+              p.maskDigitPosMap = {};
+              for (var i = 0; i < maskDigitPosArr.length; i++) {
+                p.maskDigitPosMap[maskDigitPosArr[i] + maskDiff] = 1;
+              }
+            },
+            callbacks: function (e) {
+                var val = p.val(),
+                    changed = val !== oldValue,
+                    defaultArgs = [val, e, el, options],
+                    callback = function(name, criteria, args) {
+                        if (typeof options[name] === 'function' && criteria) {
+                            options[name].apply(this, args);
+                        }
+                    };
+
+                callback('onChange', changed === true, defaultArgs);
+                callback('onKeyPress', changed === true, defaultArgs);
+                callback('onComplete', val.length === mask.length, defaultArgs);
+                callback('onInvalid', p.invalid.length > 0, [val, e, el, p.invalid, options]);
+            }
+        };
+
+        el = $(el);
+        var jMask = this, oldValue = p.val(), regexMask;
+
+        mask = typeof mask === 'function' ? mask(p.val(), undefined, el,  options) : mask;
+
+        // public methods
+        jMask.mask = mask;
+        jMask.options = options;
+        jMask.remove = function() {
+            var caret = p.getCaret();
+            if (jMask.options.placeholder) {
+                el.removeAttr('placeholder');
+            }
+            if (el.data('mask-maxlength')) {
+                el.removeAttr('maxlength');
+            }
+            p.destroyEvents();
+            p.val(jMask.getCleanVal());
+            p.setCaret(caret);
+            return el;
+        };
+
+        // get value without mask
+        jMask.getCleanVal = function() {
+           return p.getMasked(true);
+        };
+
+        // get masked value without the value being in the input or element
+        jMask.getMaskedVal = function(val) {
+           return p.getMasked(false, val);
+        };
+
+       jMask.init = function(onlyMask) {
+            onlyMask = onlyMask || false;
+            options = options || {};
+
+            jMask.clearIfNotMatch  = $.jMaskGlobals.clearIfNotMatch;
+            jMask.byPassKeys       = $.jMaskGlobals.byPassKeys;
+            jMask.translation      = $.extend({}, $.jMaskGlobals.translation, options.translation);
+
+            jMask = $.extend(true, {}, jMask, options);
+
+            regexMask = p.getRegexMask();
+
+            if (onlyMask) {
+                p.events();
+                p.val(p.getMasked());
+            } else {
+                if (options.placeholder) {
+                    el.attr('placeholder' , options.placeholder);
+                }
+
+                // this is necessary, otherwise if the user submit the form
+                // and then press the "back" button, the autocomplete will erase
+                // the data. Works fine on IE9+, FF, Opera, Safari.
+                if (el.data('mask')) {
+                  el.attr('autocomplete', 'off');
+                }
+
+                // detect if is necessary let the user type freely.
+                // for is a lot faster than forEach.
+                for (var i = 0, maxlength = true; i < mask.length; i++) {
+                    var translation = jMask.translation[mask.charAt(i)];
+                    if (translation && translation.recursive) {
+                        maxlength = false;
+                        break;
+                    }
+                }
+
+                if (maxlength) {
+                    el.attr('maxlength', mask.length).data('mask-maxlength', true);
+                }
+
+                p.destroyEvents();
+                p.events();
+
+                var caret = p.getCaret();
+                p.val(p.getMasked());
+                p.setCaret(caret);
+            }
+        };
+
+        jMask.init(!el.is('input'));
+    };
+
+    $.maskWatchers = {};
+    var HTMLAttributes = function () {
+        var input = $(this),
+            options = {},
+            prefix = 'data-mask-',
+            mask = input.attr('data-mask');
+
+        if (input.attr(prefix + 'reverse')) {
+            options.reverse = true;
+        }
+
+        if (input.attr(prefix + 'clearifnotmatch')) {
+            options.clearIfNotMatch = true;
+        }
+
+        if (input.attr(prefix + 'selectonfocus') === 'true') {
+           options.selectOnFocus = true;
+        }
+
+        if (notSameMaskObject(input, mask, options)) {
+            return input.data('mask', new Mask(this, mask, options));
+        }
+    },
+    notSameMaskObject = function(field, mask, options) {
+        options = options || {};
+        var maskObject = $(field).data('mask'),
+            stringify = JSON.stringify,
+            value = $(field).val() || $(field).text();
+        try {
+            if (typeof mask === 'function') {
+                mask = mask(value);
+            }
+            return typeof maskObject !== 'object' || stringify(maskObject.options) !== stringify(options) || maskObject.mask !== mask;
+        } catch (e) {}
+    },
+    eventSupported = function(eventName) {
+        var el = document.createElement('div'), isSupported;
+
+        eventName = 'on' + eventName;
+        isSupported = (eventName in el);
+
+        if ( !isSupported ) {
+            el.setAttribute(eventName, 'return;');
+            isSupported = typeof el[eventName] === 'function';
+        }
+        el = null;
+
+        return isSupported;
+    };
+
+    $.fn.mask = function(mask, options) {
+        options = options || {};
+        var selector = this.selector,
+            globals = $.jMaskGlobals,
+            interval = globals.watchInterval,
+            watchInputs = options.watchInputs || globals.watchInputs,
+            maskFunction = function() {
+                if (notSameMaskObject(this, mask, options)) {
+                    return $(this).data('mask', new Mask(this, mask, options));
+                }
+            };
+
+        $(this).each(maskFunction);
+
+        if (selector && selector !== '' && watchInputs) {
+            clearInterval($.maskWatchers[selector]);
+            $.maskWatchers[selector] = setInterval(function(){
+                $(document).find(selector).each(maskFunction);
+            }, interval);
+        }
+        return this;
+    };
+
+    $.fn.masked = function(val) {
+        return this.data('mask').getMaskedVal(val);
+    };
+
+    $.fn.unmask = function() {
+        clearInterval($.maskWatchers[this.selector]);
+        delete $.maskWatchers[this.selector];
+        return this.each(function() {
+            var dataMask = $(this).data('mask');
+            if (dataMask) {
+                dataMask.remove().removeData('mask');
+            }
+        });
+    };
+
+    $.fn.cleanVal = function() {
+        return this.data('mask').getCleanVal();
+    };
+
+    $.applyDataMask = function(selector) {
+        selector = selector || $.jMaskGlobals.maskElements;
+        var $selector = (selector instanceof $) ? selector : $(selector);
+        $selector.filter($.jMaskGlobals.dataMaskAttr).each(HTMLAttributes);
+    };
+
+    var globals = {
+        maskElements: 'input,td,span,div',
+        dataMaskAttr: '*[data-mask]',
+        dataMask: true,
+        watchInterval: 300,
+        watchInputs: true,
+        keyStrokeCompensation: 10,
+        // old versions of chrome dont work great with input event
+        useInput: !/Chrome\/[2-4][0-9]|SamsungBrowser/.test(window.navigator.userAgent) && eventSupported('input'),
+        watchDataMask: false,
+        byPassKeys: [9, 16, 17, 18, 36, 37, 38, 39, 40, 91],
+        translation: {
+            '0': {pattern: /\d/},
+            '9': {pattern: /\d/, optional: true},
+            '#': {pattern: /\d/, recursive: true},
+            'A': {pattern: /[a-zA-Z0-9]/},
+            'S': {pattern: /[a-zA-Z]/}
+        }
+    };
+
+    $.jMaskGlobals = $.jMaskGlobals || {};
+    globals = $.jMaskGlobals = $.extend(true, {}, globals, $.jMaskGlobals);
+
+    // looking for inputs with data-mask attribute
+    if (globals.dataMask) {
+        $.applyDataMask();
+    }
+
+    setInterval(function() {
+        if ($.jMaskGlobals.watchDataMask) {
+            $.applyDataMask();
+        }
+    }, globals.watchInterval);
+}, window.jQuery, window.Zepto));
+
+// ==================================================
+// fancyBox v3.5.7
+//
+// Licensed GPLv3 for open source use
+// or fancyBox Commercial License for commercial use
+//
+// http://fancyapps.com/fancybox/
+// Copyright 2019 fancyApps
+//
+// ==================================================
+(function (window, document, $, undefined) {
+  "use strict";
+
+  window.console = window.console || {
+    info: function (stuff) {}
+  };
+
+  // If there's no jQuery, fancyBox can't work
+  // =========================================
+
+  if (!$) {
+    return;
+  }
+
+  // Check if fancyBox is already initialized
+  // ========================================
+
+  if ($.fn.fancybox) {
+    console.info("fancyBox already initialized");
+
+    return;
+  }
+
+  // Private default settings
+  // ========================
+
+  var defaults = {
+    // Close existing modals
+    // Set this to false if you do not need to stack multiple instances
+    closeExisting: false,
+
+    // Enable infinite gallery navigation
+    loop: false,
+
+    // Horizontal space between slides
+    gutter: 50,
+
+    // Enable keyboard navigation
+    keyboard: true,
+
+    // Should allow caption to overlap the content
+    preventCaptionOverlap: true,
+
+    // Should display navigation arrows at the screen edges
+    arrows: true,
+
+    // Should display counter at the top left corner
+    infobar: true,
+
+    // Should display close button (using `btnTpl.smallBtn` template) over the content
+    // Can be true, false, "auto"
+    // If "auto" - will be automatically enabled for "html", "inline" or "ajax" items
+    smallBtn: "auto",
+
+    // Should display toolbar (buttons at the top)
+    // Can be true, false, "auto"
+    // If "auto" - will be automatically hidden if "smallBtn" is enabled
+    toolbar: "auto",
+
+    // What buttons should appear in the top right corner.
+    // Buttons will be created using templates from `btnTpl` option
+    // and they will be placed into toolbar (class="fancybox-toolbar"` element)
+    buttons: [
+      "zoom",
+      //"share",
+      "slideShow",
+      //"fullScreen",
+      //"download",
+      "thumbs",
+      "close"
+    ],
+
+    // Detect "idle" time in seconds
+    idleTime: 3,
+
+    // Disable right-click and use simple image protection for images
+    protect: false,
+
+    // Shortcut to make content "modal" - disable keyboard navigtion, hide buttons, etc
+    modal: false,
+
+    image: {
+      // Wait for images to load before displaying
+      //   true  - wait for image to load and then display;
+      //   false - display thumbnail and load the full-sized image over top,
+      //           requires predefined image dimensions (`data-width` and `data-height` attributes)
+      preload: false
+    },
+
+    ajax: {
+      // Object containing settings for ajax request
+      settings: {
+        // This helps to indicate that request comes from the modal
+        // Feel free to change naming
+        data: {
+          fancybox: true
+        }
+      }
+    },
+
+    iframe: {
+      // Iframe template
+      tpl: '<iframe id="fancybox-frame{rnd}" name="fancybox-frame{rnd}" class="fancybox-iframe" allowfullscreen="allowfullscreen" allow="autoplay; fullscreen" src=""></iframe>',
+
+      // Preload iframe before displaying it
+      // This allows to calculate iframe content width and height
+      // (note: Due to "Same Origin Policy", you can't get cross domain data).
+      preload: true,
+
+      // Custom CSS styling for iframe wrapping element
+      // You can use this to set custom iframe dimensions
+      css: {},
+
+      // Iframe tag attributes
+      attr: {
+        scrolling: "auto"
+      }
+    },
+
+    // For HTML5 video only
+    video: {
+      tpl: '<video class="fancybox-video" controls controlsList="nodownload" poster="{{poster}}">' +
+        '<source src="{{src}}" type="{{format}}" />' +
+        'Sorry, your browser doesn\'t support embedded videos, <a href="{{src}}">download</a> and watch with your favorite video player!' +
+        "</video>",
+      format: "", // custom video format
+      autoStart: true
+    },
+
+    // Default content type if cannot be detected automatically
+    defaultType: "image",
+
+    // Open/close animation type
+    // Possible values:
+    //   false            - disable
+    //   "zoom"           - zoom images from/to thumbnail
+    //   "fade"
+    //   "zoom-in-out"
+    //
+    animationEffect: "zoom",
+
+    // Duration in ms for open/close animation
+    animationDuration: 366,
+
+    // Should image change opacity while zooming
+    // If opacity is "auto", then opacity will be changed if image and thumbnail have different aspect ratios
+    zoomOpacity: "auto",
+
+    // Transition effect between slides
+    //
+    // Possible values:
+    //   false            - disable
+    //   "fade'
+    //   "slide'
+    //   "circular'
+    //   "tube'
+    //   "zoom-in-out'
+    //   "rotate'
+    //
+    transitionEffect: "fade",
+
+    // Duration in ms for transition animation
+    transitionDuration: 366,
+
+    // Custom CSS class for slide element
+    slideClass: "",
+
+    // Custom CSS class for layout
+    baseClass: "",
+
+    // Base template for layout
+    baseTpl: '<div class="fancybox-container" role="dialog" tabindex="-1">' +
+      '<div class="fancybox-bg"></div>' +
+      '<div class="fancybox-inner">' +
+      '<div class="fancybox-infobar"><span data-fancybox-index></span>&nbsp;/&nbsp;<span data-fancybox-count></span></div>' +
+      '<div class="fancybox-toolbar">{{buttons}}</div>' +
+      '<div class="fancybox-navigation">{{arrows}}</div>' +
+      '<div class="fancybox-stage"></div>' +
+      '<div class="fancybox-caption"><div class="fancybox-caption__body"></div></div>' +
+      "</div>" +
+      "</div>",
+
+    // Loading indicator template
+    spinnerTpl: '<div class="fancybox-loading"></div>',
+
+    // Error message template
+    errorTpl: '<div class="fancybox-error"><p>{{ERROR}}</p></div>',
+
+    btnTpl: {
+      download: '<a download data-fancybox-download class="fancybox-button fancybox-button--download" title="{{DOWNLOAD}}" href="javascript:;">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.62 17.09V19H5.38v-1.91zm-2.97-6.96L17 11.45l-5 4.87-5-4.87 1.36-1.32 2.68 2.64V5h1.92v7.77z"/></svg>' +
+        "</a>",
+
+      zoom: '<button data-fancybox-zoom class="fancybox-button fancybox-button--zoom" title="{{ZOOM}}">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.7 17.3l-3-3a5.9 5.9 0 0 0-.6-7.6 5.9 5.9 0 0 0-8.4 0 5.9 5.9 0 0 0 0 8.4 5.9 5.9 0 0 0 7.7.7l3 3a1 1 0 0 0 1.3 0c.4-.5.4-1 0-1.5zM8.1 13.8a4 4 0 0 1 0-5.7 4 4 0 0 1 5.7 0 4 4 0 0 1 0 5.7 4 4 0 0 1-5.7 0z"/></svg>' +
+        "</button>",
+
+      close: '<button data-fancybox-close class="fancybox-button fancybox-button--close" title="{{CLOSE}}">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10.6L6.6 5.2 5.2 6.6l5.4 5.4-5.4 5.4 1.4 1.4 5.4-5.4 5.4 5.4 1.4-1.4-5.4-5.4 5.4-5.4-1.4-1.4-5.4 5.4z"/></svg>' +
+        "</button>",
+
+      // Arrows
+      arrowLeft: '<button data-fancybox-prev class="fancybox-button fancybox-button--arrow_left" title="{{PREV}}">' +
+        '<div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.28 15.7l-1.34 1.37L5 12l4.94-5.07 1.34 1.38-2.68 2.72H19v1.94H8.6z"/></svg></div>' +
+        "</button>",
+
+      arrowRight: '<button data-fancybox-next class="fancybox-button fancybox-button--arrow_right" title="{{NEXT}}">' +
+        '<div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.4 12.97l-2.68 2.72 1.34 1.38L19 12l-4.94-5.07-1.34 1.38 2.68 2.72H5v1.94z"/></svg></div>' +
+        "</button>",
+
+      // This small close button will be appended to your html/inline/ajax content by default,
+      // if "smallBtn" option is not set to false
+      smallBtn: '<button type="button" data-fancybox-close class="fancybox-button fancybox-close-small" title="{{CLOSE}}">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" version="1" viewBox="0 0 24 24"><path d="M13 12l5-5-1-1-5 5-5-5-1 1 5 5-5 5 1 1 5-5 5 5 1-1z"/></svg>' +
+        "</button>"
+    },
+
+    // Container is injected into this element
+    parentEl: "body",
+
+    // Hide browser vertical scrollbars; use at your own risk
+    hideScrollbar: true,
+
+    // Focus handling
+    // ==============
+
+    // Try to focus on the first focusable element after opening
+    autoFocus: true,
+
+    // Put focus back to active element after closing
+    backFocus: true,
+
+    // Do not let user to focus on element outside modal content
+    trapFocus: true,
+
+    // Module specific options
+    // =======================
+
+    fullScreen: {
+      autoStart: false
+    },
+
+    // Set `touch: false` to disable panning/swiping
+    touch: {
+      vertical: true, // Allow to drag content vertically
+      momentum: true // Continue movement after releasing mouse/touch when panning
+    },
+
+    // Hash value when initializing manually,
+    // set `false` to disable hash change
+    hash: null,
+
+    // Customize or add new media types
+    // Example:
+    /*
+      media : {
+        youtube : {
+          params : {
+            autoplay : 0
+          }
+        }
+      }
+    */
+    media: {},
+
+    slideShow: {
+      autoStart: false,
+      speed: 3000
+    },
+
+    thumbs: {
+      autoStart: false, // Display thumbnails on opening
+      hideOnClose: true, // Hide thumbnail grid when closing animation starts
+      parentEl: ".fancybox-container", // Container is injected into this element
+      axis: "y" // Vertical (y) or horizontal (x) scrolling
+    },
+
+    // Use mousewheel to navigate gallery
+    // If 'auto' - enabled for images only
+    wheel: "auto",
+
+    // Callbacks
+    //==========
+
+    // See Documentation/API/Events for more information
+    // Example:
+    /*
+      afterShow: function( instance, current ) {
+        console.info( 'Clicked element:' );
+        console.info( current.opts.$orig );
+      }
+    */
+
+    onInit: $.noop, // When instance has been initialized
+
+    beforeLoad: $.noop, // Before the content of a slide is being loaded
+    afterLoad: $.noop, // When the content of a slide is done loading
+
+    beforeShow: $.noop, // Before open animation starts
+    afterShow: $.noop, // When content is done loading and animating
+
+    beforeClose: $.noop, // Before the instance attempts to close. Return false to cancel the close.
+    afterClose: $.noop, // After instance has been closed
+
+    onActivate: $.noop, // When instance is brought to front
+    onDeactivate: $.noop, // When other instance has been activated
+
+    // Interaction
+    // ===========
+
+    // Use options below to customize taken action when user clicks or double clicks on the fancyBox area,
+    // each option can be string or method that returns value.
+    //
+    // Possible values:
+    //   "close"           - close instance
+    //   "next"            - move to next gallery item
+    //   "nextOrClose"     - move to next gallery item or close if gallery has only one item
+    //   "toggleControls"  - show/hide controls
+    //   "zoom"            - zoom image (if loaded)
+    //   false             - do nothing
+
+    // Clicked on the content
+    clickContent: function (current, event) {
+      return current.type === "image" ? "zoom" : false;
+    },
+
+    // Clicked on the slide
+    clickSlide: "close",
+
+    // Clicked on the background (backdrop) element;
+    // if you have not changed the layout, then most likely you need to use `clickSlide` option
+    clickOutside: "close",
+
+    // Same as previous two, but for double click
+    dblclickContent: false,
+    dblclickSlide: false,
+    dblclickOutside: false,
+
+    // Custom options when mobile device is detected
+    // =============================================
+
+    mobile: {
+      preventCaptionOverlap: false,
+      idleTime: false,
+      clickContent: function (current, event) {
+        return current.type === "image" ? "toggleControls" : false;
+      },
+      clickSlide: function (current, event) {
+        return current.type === "image" ? "toggleControls" : "close";
+      },
+      dblclickContent: function (current, event) {
+        return current.type === "image" ? "zoom" : false;
+      },
+      dblclickSlide: function (current, event) {
+        return current.type === "image" ? "zoom" : false;
+      }
+    },
+
+    // Internationalization
+    // ====================
+
+    lang: "en",
+    i18n: {
+      en: {
+        CLOSE: "Close",
+        NEXT: "Next",
+        PREV: "Previous",
+        ERROR: "The requested content cannot be loaded. <br/> Please try again later.",
+        PLAY_START: "Start slideshow",
+        PLAY_STOP: "Pause slideshow",
+        FULL_SCREEN: "Full screen",
+        THUMBS: "Thumbnails",
+        DOWNLOAD: "Download",
+        SHARE: "Share",
+        ZOOM: "Zoom"
+      },
+      de: {
+        CLOSE: "Schlie&szlig;en",
+        NEXT: "Weiter",
+        PREV: "Zur&uuml;ck",
+        ERROR: "Die angeforderten Daten konnten nicht geladen werden. <br/> Bitte versuchen Sie es sp&auml;ter nochmal.",
+        PLAY_START: "Diaschau starten",
+        PLAY_STOP: "Diaschau beenden",
+        FULL_SCREEN: "Vollbild",
+        THUMBS: "Vorschaubilder",
+        DOWNLOAD: "Herunterladen",
+        SHARE: "Teilen",
+        ZOOM: "Vergr&ouml;&szlig;ern"
+      }
+    }
+  };
+
+  // Few useful variables and methods
+  // ================================
+
+  var $W = $(window);
+  var $D = $(document);
+
+  var called = 0;
+
+  // Check if an object is a jQuery object and not a native JavaScript object
+  // ========================================================================
+  var isQuery = function (obj) {
+    return obj && obj.hasOwnProperty && obj instanceof $;
+  };
+
+  // Handle multiple browsers for "requestAnimationFrame" and "cancelAnimationFrame"
+  // ===============================================================================
+  var requestAFrame = (function () {
+    return (
+      window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.oRequestAnimationFrame ||
+      // if all else fails, use setTimeout
+      function (callback) {
+        return window.setTimeout(callback, 1000 / 60);
+      }
+    );
+  })();
+
+  var cancelAFrame = (function () {
+    return (
+      window.cancelAnimationFrame ||
+      window.webkitCancelAnimationFrame ||
+      window.mozCancelAnimationFrame ||
+      window.oCancelAnimationFrame ||
+      function (id) {
+        window.clearTimeout(id);
+      }
+    );
+  })();
+
+  // Detect the supported transition-end event property name
+  // =======================================================
+  var transitionEnd = (function () {
+    var el = document.createElement("fakeelement"),
+      t;
+
+    var transitions = {
+      transition: "transitionend",
+      OTransition: "oTransitionEnd",
+      MozTransition: "transitionend",
+      WebkitTransition: "webkitTransitionEnd"
+    };
+
+    for (t in transitions) {
+      if (el.style[t] !== undefined) {
+        return transitions[t];
+      }
+    }
+
+    return "transitionend";
+  })();
+
+  // Force redraw on an element.
+  // This helps in cases where the browser doesn't redraw an updated element properly
+  // ================================================================================
+  var forceRedraw = function ($el) {
+    return $el && $el.length && $el[0].offsetHeight;
+  };
+
+  // Exclude array (`buttons`) options from deep merging
+  // ===================================================
+  var mergeOpts = function (opts1, opts2) {
+    var rez = $.extend(true, {}, opts1, opts2);
+
+    $.each(opts2, function (key, value) {
+      if ($.isArray(value)) {
+        rez[key] = value;
+      }
+    });
+
+    return rez;
+  };
+
+  // How much of an element is visible in viewport
+  // =============================================
+
+  var inViewport = function (elem) {
+    var elemCenter, rez;
+
+    if (!elem || elem.ownerDocument !== document) {
+      return false;
+    }
+
+    $(".fancybox-container").css("pointer-events", "none");
+
+    elemCenter = {
+      x: elem.getBoundingClientRect().left + elem.offsetWidth / 2,
+      y: elem.getBoundingClientRect().top + elem.offsetHeight / 2
+    };
+
+    rez = document.elementFromPoint(elemCenter.x, elemCenter.y) === elem;
+
+    $(".fancybox-container").css("pointer-events", "");
+
+    return rez;
+  };
+
+  // Class definition
+  // ================
+
+  var FancyBox = function (content, opts, index) {
+    var self = this;
+
+    self.opts = mergeOpts({
+      index: index
+    }, $.fancybox.defaults);
+
+    if ($.isPlainObject(opts)) {
+      self.opts = mergeOpts(self.opts, opts);
+    }
+
+    if ($.fancybox.isMobile) {
+      self.opts = mergeOpts(self.opts, self.opts.mobile);
+    }
+
+    self.id = self.opts.id || ++called;
+
+    self.currIndex = parseInt(self.opts.index, 10) || 0;
+    self.prevIndex = null;
+
+    self.prevPos = null;
+    self.currPos = 0;
+
+    self.firstRun = true;
+
+    // All group items
+    self.group = [];
+
+    // Existing slides (for current, next and previous gallery items)
+    self.slides = {};
+
+    // Create group elements
+    self.addContent(content);
+
+    if (!self.group.length) {
+      return;
+    }
+
+    self.init();
+  };
+
+  $.extend(FancyBox.prototype, {
+    // Create DOM structure
+    // ====================
+
+    init: function () {
+      var self = this,
+        firstItem = self.group[self.currIndex],
+        firstItemOpts = firstItem.opts,
+        $container,
+        buttonStr;
+
+      if (firstItemOpts.closeExisting) {
+        $.fancybox.close(true);
+      }
+
+      // Hide scrollbars
+      // ===============
+
+      $("body").addClass("fancybox-active");
+
+      if (
+        !$.fancybox.getInstance() &&
+        firstItemOpts.hideScrollbar !== false &&
+        !$.fancybox.isMobile &&
+        document.body.scrollHeight > window.innerHeight
+      ) {
+        $("head").append(
+          '<style id="fancybox-style-noscroll" type="text/css">.compensate-for-scrollbar{margin-right:' +
+          (window.innerWidth - document.documentElement.clientWidth) +
+          "px;}</style>"
+        );
+
+        $("body").addClass("compensate-for-scrollbar");
+      }
+
+      // Build html markup and set references
+      // ====================================
+
+      // Build html code for buttons and insert into main template
+      buttonStr = "";
+
+      $.each(firstItemOpts.buttons, function (index, value) {
+        buttonStr += firstItemOpts.btnTpl[value] || "";
+      });
+
+      // Create markup from base template, it will be initially hidden to
+      // avoid unnecessary work like painting while initializing is not complete
+      $container = $(
+          self.translate(
+            self,
+            firstItemOpts.baseTpl
+            .replace("{{buttons}}", buttonStr)
+            .replace("{{arrows}}", firstItemOpts.btnTpl.arrowLeft + firstItemOpts.btnTpl.arrowRight)
+          )
+        )
+        .attr("id", "fancybox-container-" + self.id)
+        .addClass(firstItemOpts.baseClass)
+        .data("FancyBox", self)
+        .appendTo(firstItemOpts.parentEl);
+
+      // Create object holding references to jQuery wrapped nodes
+      self.$refs = {
+        container: $container
+      };
+
+      ["bg", "inner", "infobar", "toolbar", "stage", "caption", "navigation"].forEach(function (item) {
+        self.$refs[item] = $container.find(".fancybox-" + item);
+      });
+
+      self.trigger("onInit");
+
+      // Enable events, deactive previous instances
+      self.activate();
+
+      // Build slides, load and reveal content
+      self.jumpTo(self.currIndex);
+    },
+
+    // Simple i18n support - replaces object keys found in template
+    // with corresponding values
+    // ============================================================
+
+    translate: function (obj, str) {
+      var arr = obj.opts.i18n[obj.opts.lang] || obj.opts.i18n.en;
+
+      return str.replace(/\{\{(\w+)\}\}/g, function (match, n) {
+        return arr[n] === undefined ? match : arr[n];
+      });
+    },
+
+    // Populate current group with fresh content
+    // Check if each object has valid type and content
+    // ===============================================
+
+    addContent: function (content) {
+      var self = this,
+        items = $.makeArray(content),
+        thumbs;
+
+      $.each(items, function (i, item) {
+        var obj = {},
+          opts = {},
+          $item,
+          type,
+          found,
+          src,
+          srcParts;
+
+        // Step 1 - Make sure we have an object
+        // ====================================
+
+        if ($.isPlainObject(item)) {
+          // We probably have manual usage here, something like
+          // $.fancybox.open( [ { src : "image.jpg", type : "image" } ] )
+
+          obj = item;
+          opts = item.opts || item;
+        } else if ($.type(item) === "object" && $(item).length) {
+          // Here we probably have jQuery collection returned by some selector
+          $item = $(item);
+
+          // Support attributes like `data-options='{"touch" : false}'` and `data-touch='false'`
+          opts = $item.data() || {};
+          opts = $.extend(true, {}, opts, opts.options);
+
+          // Here we store clicked element
+          opts.$orig = $item;
+
+          obj.src = self.opts.src || opts.src || $item.attr("href");
+
+          // Assume that simple syntax is used, for example:
+          //   `$.fancybox.open( $("#test"), {} );`
+          if (!obj.type && !obj.src) {
+            obj.type = "inline";
+            obj.src = item;
+          }
+        } else {
+          // Assume we have a simple html code, for example:
+          //   $.fancybox.open( '<div><h1>Hi!</h1></div>' );
+          obj = {
+            type: "html",
+            src: item + ""
+          };
+        }
+
+        // Each gallery object has full collection of options
+        obj.opts = $.extend(true, {}, self.opts, opts);
+
+        // Do not merge buttons array
+        if ($.isArray(opts.buttons)) {
+          obj.opts.buttons = opts.buttons;
+        }
+
+        if ($.fancybox.isMobile && obj.opts.mobile) {
+          obj.opts = mergeOpts(obj.opts, obj.opts.mobile);
+        }
+
+        // Step 2 - Make sure we have content type, if not - try to guess
+        // ==============================================================
+
+        type = obj.type || obj.opts.type;
+        src = obj.src || "";
+
+        if (!type && src) {
+          if ((found = src.match(/\.(mp4|mov|ogv|webm)((\?|#).*)?$/i))) {
+            type = "video";
+
+            if (!obj.opts.video.format) {
+              obj.opts.video.format = "video/" + (found[1] === "ogv" ? "ogg" : found[1]);
+            }
+          } else if (src.match(/(^data:image\/[a-z0-9+\/=]*,)|(\.(jp(e|g|eg)|gif|png|bmp|webp|svg|ico)((\?|#).*)?$)/i)) {
+            type = "image";
+          } else if (src.match(/\.(pdf)((\?|#).*)?$/i)) {
+            type = "iframe";
+            obj = $.extend(true, obj, {
+              contentType: "pdf",
+              opts: {
+                iframe: {
+                  preload: false
+                }
+              }
+            });
+          } else if (src.charAt(0) === "#") {
+            type = "inline";
+          }
+        }
+
+        if (type) {
+          obj.type = type;
+        } else {
+          self.trigger("objectNeedsType", obj);
+        }
+
+        if (!obj.contentType) {
+          obj.contentType = $.inArray(obj.type, ["html", "inline", "ajax"]) > -1 ? "html" : obj.type;
+        }
+
+        // Step 3 - Some adjustments
+        // =========================
+
+        obj.index = self.group.length;
+
+        if (obj.opts.smallBtn == "auto") {
+          obj.opts.smallBtn = $.inArray(obj.type, ["html", "inline", "ajax"]) > -1;
+        }
+
+        if (obj.opts.toolbar === "auto") {
+          obj.opts.toolbar = !obj.opts.smallBtn;
+        }
+
+        // Find thumbnail image, check if exists and if is in the viewport
+        obj.$thumb = obj.opts.$thumb || null;
+
+        if (obj.opts.$trigger && obj.index === self.opts.index) {
+          obj.$thumb = obj.opts.$trigger.find("img:first");
+
+          if (obj.$thumb.length) {
+            obj.opts.$orig = obj.opts.$trigger;
+          }
+        }
+
+        if (!(obj.$thumb && obj.$thumb.length) && obj.opts.$orig) {
+          obj.$thumb = obj.opts.$orig.find("img:first");
+        }
+
+        if (obj.$thumb && !obj.$thumb.length) {
+          obj.$thumb = null;
+        }
+
+        obj.thumb = obj.opts.thumb || (obj.$thumb ? obj.$thumb[0].src : null);
+
+        // "caption" is a "special" option, it can be used to customize caption per gallery item
+        if ($.type(obj.opts.caption) === "function") {
+          obj.opts.caption = obj.opts.caption.apply(item, [self, obj]);
+        }
+
+        if ($.type(self.opts.caption) === "function") {
+          obj.opts.caption = self.opts.caption.apply(item, [self, obj]);
+        }
+
+        // Make sure we have caption as a string or jQuery object
+        if (!(obj.opts.caption instanceof $)) {
+          obj.opts.caption = obj.opts.caption === undefined ? "" : obj.opts.caption + "";
+        }
+
+        // Check if url contains "filter" used to filter the content
+        // Example: "ajax.html #something"
+        if (obj.type === "ajax") {
+          srcParts = src.split(/\s+/, 2);
+
+          if (srcParts.length > 1) {
+            obj.src = srcParts.shift();
+
+            obj.opts.filter = srcParts.shift();
+          }
+        }
+
+        // Hide all buttons and disable interactivity for modal items
+        if (obj.opts.modal) {
+          obj.opts = $.extend(true, obj.opts, {
+            trapFocus: true,
+            // Remove buttons
+            infobar: 0,
+            toolbar: 0,
+
+            smallBtn: 0,
+
+            // Disable keyboard navigation
+            keyboard: 0,
+
+            // Disable some modules
+            slideShow: 0,
+            fullScreen: 0,
+            thumbs: 0,
+            touch: 0,
+
+            // Disable click event handlers
+            clickContent: false,
+            clickSlide: false,
+            clickOutside: false,
+            dblclickContent: false,
+            dblclickSlide: false,
+            dblclickOutside: false
+          });
+        }
+
+        // Step 4 - Add processed object to group
+        // ======================================
+
+        self.group.push(obj);
+      });
+
+      // Update controls if gallery is already opened
+      if (Object.keys(self.slides).length) {
+        self.updateControls();
+
+        // Update thumbnails, if needed
+        thumbs = self.Thumbs;
+
+        if (thumbs && thumbs.isActive) {
+          thumbs.create();
+
+          thumbs.focus();
+        }
+      }
+    },
+
+    // Attach an event handler functions for:
+    //   - navigation buttons
+    //   - browser scrolling, resizing;
+    //   - focusing
+    //   - keyboard
+    //   - detecting inactivity
+    // ======================================
+
+    addEvents: function () {
+      var self = this;
+
+      self.removeEvents();
+
+      // Make navigation elements clickable
+      // ==================================
+
+      self.$refs.container
+        .on("click.fb-close", "[data-fancybox-close]", function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          self.close(e);
+        })
+        .on("touchstart.fb-prev click.fb-prev", "[data-fancybox-prev]", function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          self.previous();
+        })
+        .on("touchstart.fb-next click.fb-next", "[data-fancybox-next]", function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          self.next();
+        })
+        .on("click.fb", "[data-fancybox-zoom]", function (e) {
+          // Click handler for zoom button
+          self[self.isScaledDown() ? "scaleToActual" : "scaleToFit"]();
+        });
+
+      // Handle page scrolling and browser resizing
+      // ==========================================
+
+      $W.on("orientationchange.fb resize.fb", function (e) {
+        if (e && e.originalEvent && e.originalEvent.type === "resize") {
+          if (self.requestId) {
+            cancelAFrame(self.requestId);
+          }
+
+          self.requestId = requestAFrame(function () {
+            self.update(e);
+          });
+        } else {
+          if (self.current && self.current.type === "iframe") {
+            self.$refs.stage.hide();
+          }
+
+          setTimeout(
+            function () {
+              self.$refs.stage.show();
+
+              self.update(e);
+            },
+            $.fancybox.isMobile ? 600 : 250
+          );
+        }
+      });
+
+      $D.on("keydown.fb", function (e) {
+        var instance = $.fancybox ? $.fancybox.getInstance() : null,
+          current = instance.current,
+          keycode = e.keyCode || e.which;
+
+        // Trap keyboard focus inside of the modal
+        // =======================================
+
+        if (keycode == 9) {
+          if (current.opts.trapFocus) {
+            self.focus(e);
+          }
+
+          return;
+        }
+
+        // Enable keyboard navigation
+        // ==========================
+
+        if (!current.opts.keyboard || e.ctrlKey || e.altKey || e.shiftKey || $(e.target).is("input,textarea,video,audio,select")) {
+          return;
+        }
+
+        // Backspace and Esc keys
+        if (keycode === 8 || keycode === 27) {
+          e.preventDefault();
+
+          self.close(e);
+
+          return;
+        }
+
+        // Left arrow and Up arrow
+        if (keycode === 37 || keycode === 38) {
+          e.preventDefault();
+
+          self.previous();
+
+          return;
+        }
+
+        // Righ arrow and Down arrow
+        if (keycode === 39 || keycode === 40) {
+          e.preventDefault();
+
+          self.next();
+
+          return;
+        }
+
+        self.trigger("afterKeydown", e, keycode);
+      });
+
+      // Hide controls after some inactivity period
+      if (self.group[self.currIndex].opts.idleTime) {
+        self.idleSecondsCounter = 0;
+
+        $D.on(
+          "mousemove.fb-idle mouseleave.fb-idle mousedown.fb-idle touchstart.fb-idle touchmove.fb-idle scroll.fb-idle keydown.fb-idle",
+          function (e) {
+            self.idleSecondsCounter = 0;
+
+            if (self.isIdle) {
+              self.showControls();
+            }
+
+            self.isIdle = false;
+          }
+        );
+
+        self.idleInterval = window.setInterval(function () {
+          self.idleSecondsCounter++;
+
+          if (self.idleSecondsCounter >= self.group[self.currIndex].opts.idleTime && !self.isDragging) {
+            self.isIdle = true;
+            self.idleSecondsCounter = 0;
+
+            self.hideControls();
+          }
+        }, 1000);
+      }
+    },
+
+    // Remove events added by the core
+    // ===============================
+
+    removeEvents: function () {
+      var self = this;
+
+      $W.off("orientationchange.fb resize.fb");
+      $D.off("keydown.fb .fb-idle");
+
+      this.$refs.container.off(".fb-close .fb-prev .fb-next");
+
+      if (self.idleInterval) {
+        window.clearInterval(self.idleInterval);
+
+        self.idleInterval = null;
+      }
+    },
+
+    // Change to previous gallery item
+    // ===============================
+
+    previous: function (duration) {
+      return this.jumpTo(this.currPos - 1, duration);
+    },
+
+    // Change to next gallery item
+    // ===========================
+
+    next: function (duration) {
+      return this.jumpTo(this.currPos + 1, duration);
+    },
+
+    // Switch to selected gallery item
+    // ===============================
+
+    jumpTo: function (pos, duration) {
+      var self = this,
+        groupLen = self.group.length,
+        firstRun,
+        isMoved,
+        loop,
+        current,
+        previous,
+        slidePos,
+        stagePos,
+        prop,
+        diff;
+
+      if (self.isDragging || self.isClosing || (self.isAnimating && self.firstRun)) {
+        return;
+      }
+
+      // Should loop?
+      pos = parseInt(pos, 10);
+      loop = self.current ? self.current.opts.loop : self.opts.loop;
+
+      if (!loop && (pos < 0 || pos >= groupLen)) {
+        return false;
+      }
+
+      // Check if opening for the first time; this helps to speed things up
+      firstRun = self.firstRun = !Object.keys(self.slides).length;
+
+      // Create slides
+      previous = self.current;
+
+      self.prevIndex = self.currIndex;
+      self.prevPos = self.currPos;
+
+      current = self.createSlide(pos);
+
+      if (groupLen > 1) {
+        if (loop || current.index < groupLen - 1) {
+          self.createSlide(pos + 1);
+        }
+
+        if (loop || current.index > 0) {
+          self.createSlide(pos - 1);
+        }
+      }
+
+      self.current = current;
+      self.currIndex = current.index;
+      self.currPos = current.pos;
+
+      self.trigger("beforeShow", firstRun);
+
+      self.updateControls();
+
+      // Validate duration length
+      current.forcedDuration = undefined;
+
+      if ($.isNumeric(duration)) {
+        current.forcedDuration = duration;
+      } else {
+        duration = current.opts[firstRun ? "animationDuration" : "transitionDuration"];
+      }
+
+      duration = parseInt(duration, 10);
+
+      // Check if user has swiped the slides or if still animating
+      isMoved = self.isMoved(current);
+
+      // Make sure current slide is visible
+      current.$slide.addClass("fancybox-slide--current");
+
+      // Fresh start - reveal container, current slide and start loading content
+      if (firstRun) {
+        if (current.opts.animationEffect && duration) {
+          self.$refs.container.css("transition-duration", duration + "ms");
+        }
+
+        self.$refs.container.addClass("fancybox-is-open").trigger("focus");
+
+        // Attempt to load content into slide
+        // This will later call `afterLoad` -> `revealContent`
+        self.loadSlide(current);
+
+        self.preload("image");
+
+        return;
+      }
+
+      // Get actual slide/stage positions (before cleaning up)
+      slidePos = $.fancybox.getTranslate(previous.$slide);
+      stagePos = $.fancybox.getTranslate(self.$refs.stage);
+
+      // Clean up all slides
+      $.each(self.slides, function (index, slide) {
+        $.fancybox.stop(slide.$slide, true);
+      });
+
+      if (previous.pos !== current.pos) {
+        previous.isComplete = false;
+      }
+
+      previous.$slide.removeClass("fancybox-slide--complete fancybox-slide--current");
+
+      // If slides are out of place, then animate them to correct position
+      if (isMoved) {
+        // Calculate horizontal swipe distance
+        diff = slidePos.left - (previous.pos * slidePos.width + previous.pos * previous.opts.gutter);
+
+        $.each(self.slides, function (index, slide) {
+          slide.$slide.removeClass("fancybox-animated").removeClass(function (index, className) {
+            return (className.match(/(^|\s)fancybox-fx-\S+/g) || []).join(" ");
+          });
+
+          // Make sure that each slide is in equal distance
+          // This is mostly needed for freshly added slides, because they are not yet positioned
+          var leftPos = slide.pos * slidePos.width + slide.pos * slide.opts.gutter;
+
+          $.fancybox.setTranslate(slide.$slide, {
+            top: 0,
+            left: leftPos - stagePos.left + diff
+          });
+
+          if (slide.pos !== current.pos) {
+            slide.$slide.addClass("fancybox-slide--" + (slide.pos > current.pos ? "next" : "previous"));
+          }
+
+          // Redraw to make sure that transition will start
+          forceRedraw(slide.$slide);
+
+          // Animate the slide
+          $.fancybox.animate(
+            slide.$slide, {
+              top: 0,
+              left: (slide.pos - current.pos) * slidePos.width + (slide.pos - current.pos) * slide.opts.gutter
+            },
+            duration,
+            function () {
+              slide.$slide
+                .css({
+                  transform: "",
+                  opacity: ""
+                })
+                .removeClass("fancybox-slide--next fancybox-slide--previous");
+
+              if (slide.pos === self.currPos) {
+                self.complete();
+              }
+            }
+          );
+        });
+      } else if (duration && current.opts.transitionEffect) {
+        // Set transition effect for previously active slide
+        prop = "fancybox-animated fancybox-fx-" + current.opts.transitionEffect;
+
+        previous.$slide.addClass("fancybox-slide--" + (previous.pos > current.pos ? "next" : "previous"));
+
+        $.fancybox.animate(
+          previous.$slide,
+          prop,
+          duration,
+          function () {
+            previous.$slide.removeClass(prop).removeClass("fancybox-slide--next fancybox-slide--previous");
+          },
+          false
+        );
+      }
+
+      if (current.isLoaded) {
+        self.revealContent(current);
+      } else {
+        self.loadSlide(current);
+      }
+
+      self.preload("image");
+    },
+
+    // Create new "slide" element
+    // These are gallery items  that are actually added to DOM
+    // =======================================================
+
+    createSlide: function (pos) {
+      var self = this,
+        $slide,
+        index;
+
+      index = pos % self.group.length;
+      index = index < 0 ? self.group.length + index : index;
+
+      if (!self.slides[pos] && self.group[index]) {
+        $slide = $('<div class="fancybox-slide"></div>').appendTo(self.$refs.stage);
+
+        self.slides[pos] = $.extend(true, {}, self.group[index], {
+          pos: pos,
+          $slide: $slide,
+          isLoaded: false
+        });
+
+        self.updateSlide(self.slides[pos]);
+      }
+
+      return self.slides[pos];
+    },
+
+    // Scale image to the actual size of the image;
+    // x and y values should be relative to the slide
+    // ==============================================
+
+    scaleToActual: function (x, y, duration) {
+      var self = this,
+        current = self.current,
+        $content = current.$content,
+        canvasWidth = $.fancybox.getTranslate(current.$slide).width,
+        canvasHeight = $.fancybox.getTranslate(current.$slide).height,
+        newImgWidth = current.width,
+        newImgHeight = current.height,
+        imgPos,
+        posX,
+        posY,
+        scaleX,
+        scaleY;
+
+      if (self.isAnimating || self.isMoved() || !$content || !(current.type == "image" && current.isLoaded && !current.hasError)) {
+        return;
+      }
+
+      self.isAnimating = true;
+
+      $.fancybox.stop($content);
+
+      x = x === undefined ? canvasWidth * 0.5 : x;
+      y = y === undefined ? canvasHeight * 0.5 : y;
+
+      imgPos = $.fancybox.getTranslate($content);
+
+      imgPos.top -= $.fancybox.getTranslate(current.$slide).top;
+      imgPos.left -= $.fancybox.getTranslate(current.$slide).left;
+
+      scaleX = newImgWidth / imgPos.width;
+      scaleY = newImgHeight / imgPos.height;
+
+      // Get center position for original image
+      posX = canvasWidth * 0.5 - newImgWidth * 0.5;
+      posY = canvasHeight * 0.5 - newImgHeight * 0.5;
+
+      // Make sure image does not move away from edges
+      if (newImgWidth > canvasWidth) {
+        posX = imgPos.left * scaleX - (x * scaleX - x);
+
+        if (posX > 0) {
+          posX = 0;
+        }
+
+        if (posX < canvasWidth - newImgWidth) {
+          posX = canvasWidth - newImgWidth;
+        }
+      }
+
+      if (newImgHeight > canvasHeight) {
+        posY = imgPos.top * scaleY - (y * scaleY - y);
+
+        if (posY > 0) {
+          posY = 0;
+        }
+
+        if (posY < canvasHeight - newImgHeight) {
+          posY = canvasHeight - newImgHeight;
+        }
+      }
+
+      self.updateCursor(newImgWidth, newImgHeight);
+
+      $.fancybox.animate(
+        $content, {
+          top: posY,
+          left: posX,
+          scaleX: scaleX,
+          scaleY: scaleY
+        },
+        duration || 366,
+        function () {
+          self.isAnimating = false;
+        }
+      );
+
+      // Stop slideshow
+      if (self.SlideShow && self.SlideShow.isActive) {
+        self.SlideShow.stop();
+      }
+    },
+
+    // Scale image to fit inside parent element
+    // ========================================
+
+    scaleToFit: function (duration) {
+      var self = this,
+        current = self.current,
+        $content = current.$content,
+        end;
+
+      if (self.isAnimating || self.isMoved() || !$content || !(current.type == "image" && current.isLoaded && !current.hasError)) {
+        return;
+      }
+
+      self.isAnimating = true;
+
+      $.fancybox.stop($content);
+
+      end = self.getFitPos(current);
+
+      self.updateCursor(end.width, end.height);
+
+      $.fancybox.animate(
+        $content, {
+          top: end.top,
+          left: end.left,
+          scaleX: end.width / $content.width(),
+          scaleY: end.height / $content.height()
+        },
+        duration || 366,
+        function () {
+          self.isAnimating = false;
+        }
+      );
+    },
+
+    // Calculate image size to fit inside viewport
+    // ===========================================
+
+    getFitPos: function (slide) {
+      var self = this,
+        $content = slide.$content,
+        $slide = slide.$slide,
+        width = slide.width || slide.opts.width,
+        height = slide.height || slide.opts.height,
+        maxWidth,
+        maxHeight,
+        minRatio,
+        aspectRatio,
+        rez = {};
+
+      if (!slide.isLoaded || !$content || !$content.length) {
+        return false;
+      }
+
+      maxWidth = $.fancybox.getTranslate(self.$refs.stage).width;
+      maxHeight = $.fancybox.getTranslate(self.$refs.stage).height;
+
+      maxWidth -=
+        parseFloat($slide.css("paddingLeft")) +
+        parseFloat($slide.css("paddingRight")) +
+        parseFloat($content.css("marginLeft")) +
+        parseFloat($content.css("marginRight"));
+
+      maxHeight -=
+        parseFloat($slide.css("paddingTop")) +
+        parseFloat($slide.css("paddingBottom")) +
+        parseFloat($content.css("marginTop")) +
+        parseFloat($content.css("marginBottom"));
+
+      if (!width || !height) {
+        width = maxWidth;
+        height = maxHeight;
+      }
+
+      minRatio = Math.min(1, maxWidth / width, maxHeight / height);
+
+      width = minRatio * width;
+      height = minRatio * height;
+
+      // Adjust width/height to precisely fit into container
+      if (width > maxWidth - 0.5) {
+        width = maxWidth;
+      }
+
+      if (height > maxHeight - 0.5) {
+        height = maxHeight;
+      }
+
+      if (slide.type === "image") {
+        rez.top = Math.floor((maxHeight - height) * 0.5) + parseFloat($slide.css("paddingTop"));
+        rez.left = Math.floor((maxWidth - width) * 0.5) + parseFloat($slide.css("paddingLeft"));
+      } else if (slide.contentType === "video") {
+        // Force aspect ratio for the video
+        // "I say the whole world must learn of our peaceful ways… by force!"
+        aspectRatio = slide.opts.width && slide.opts.height ? width / height : slide.opts.ratio || 16 / 9;
+
+        if (height > width / aspectRatio) {
+          height = width / aspectRatio;
+        } else if (width > height * aspectRatio) {
+          width = height * aspectRatio;
+        }
+      }
+
+      rez.width = width;
+      rez.height = height;
+
+      return rez;
+    },
+
+    // Update content size and position for all slides
+    // ==============================================
+
+    update: function (e) {
+      var self = this;
+
+      $.each(self.slides, function (key, slide) {
+        self.updateSlide(slide, e);
+      });
+    },
+
+    // Update slide content position and size
+    // ======================================
+
+    updateSlide: function (slide, e) {
+      var self = this,
+        $content = slide && slide.$content,
+        width = slide.width || slide.opts.width,
+        height = slide.height || slide.opts.height,
+        $slide = slide.$slide;
+
+      // First, prevent caption overlap, if needed
+      self.adjustCaption(slide);
+
+      // Then resize content to fit inside the slide
+      if ($content && (width || height || slide.contentType === "video") && !slide.hasError) {
+        $.fancybox.stop($content);
+
+        $.fancybox.setTranslate($content, self.getFitPos(slide));
+
+        if (slide.pos === self.currPos) {
+          self.isAnimating = false;
+
+          self.updateCursor();
+        }
+      }
+
+      // Then some adjustments
+      self.adjustLayout(slide);
+
+      if ($slide.length) {
+        $slide.trigger("refresh");
+
+        if (slide.pos === self.currPos) {
+          self.$refs.toolbar
+            .add(self.$refs.navigation.find(".fancybox-button--arrow_right"))
+            .toggleClass("compensate-for-scrollbar", $slide.get(0).scrollHeight > $slide.get(0).clientHeight);
+        }
+      }
+
+      self.trigger("onUpdate", slide, e);
+    },
+
+    // Horizontally center slide
+    // =========================
+
+    centerSlide: function (duration) {
+      var self = this,
+        current = self.current,
+        $slide = current.$slide;
+
+      if (self.isClosing || !current) {
+        return;
+      }
+
+      $slide.siblings().css({
+        transform: "",
+        opacity: ""
+      });
+
+      $slide
+        .parent()
+        .children()
+        .removeClass("fancybox-slide--previous fancybox-slide--next");
+
+      $.fancybox.animate(
+        $slide, {
+          top: 0,
+          left: 0,
+          opacity: 1
+        },
+        duration === undefined ? 0 : duration,
+        function () {
+          // Clean up
+          $slide.css({
+            transform: "",
+            opacity: ""
+          });
+
+          if (!current.isComplete) {
+            self.complete();
+          }
+        },
+        false
+      );
+    },
+
+    // Check if current slide is moved (swiped)
+    // ========================================
+
+    isMoved: function (slide) {
+      var current = slide || this.current,
+        slidePos,
+        stagePos;
+
+      if (!current) {
+        return false;
+      }
+
+      stagePos = $.fancybox.getTranslate(this.$refs.stage);
+      slidePos = $.fancybox.getTranslate(current.$slide);
+
+      return (
+        !current.$slide.hasClass("fancybox-animated") &&
+        (Math.abs(slidePos.top - stagePos.top) > 0.5 || Math.abs(slidePos.left - stagePos.left) > 0.5)
+      );
+    },
+
+    // Update cursor style depending if content can be zoomed
+    // ======================================================
+
+    updateCursor: function (nextWidth, nextHeight) {
+      var self = this,
+        current = self.current,
+        $container = self.$refs.container,
+        canPan,
+        isZoomable;
+
+      if (!current || self.isClosing || !self.Guestures) {
+        return;
+      }
+
+      $container.removeClass("fancybox-is-zoomable fancybox-can-zoomIn fancybox-can-zoomOut fancybox-can-swipe fancybox-can-pan");
+
+      canPan = self.canPan(nextWidth, nextHeight);
+
+      isZoomable = canPan ? true : self.isZoomable();
+
+      $container.toggleClass("fancybox-is-zoomable", isZoomable);
+
+      $("[data-fancybox-zoom]").prop("disabled", !isZoomable);
+
+      if (canPan) {
+        $container.addClass("fancybox-can-pan");
+      } else if (
+        isZoomable &&
+        (current.opts.clickContent === "zoom" || ($.isFunction(current.opts.clickContent) && current.opts.clickContent(current) == "zoom"))
+      ) {
+        $container.addClass("fancybox-can-zoomIn");
+      } else if (current.opts.touch && (current.opts.touch.vertical || self.group.length > 1) && current.contentType !== "video") {
+        $container.addClass("fancybox-can-swipe");
+      }
+    },
+
+    // Check if current slide is zoomable
+    // ==================================
+
+    isZoomable: function () {
+      var self = this,
+        current = self.current,
+        fitPos;
+
+      // Assume that slide is zoomable if:
+      //   - image is still loading
+      //   - actual size of the image is smaller than available area
+      if (current && !self.isClosing && current.type === "image" && !current.hasError) {
+        if (!current.isLoaded) {
+          return true;
+        }
+
+        fitPos = self.getFitPos(current);
+
+        if (fitPos && (current.width > fitPos.width || current.height > fitPos.height)) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+
+    // Check if current image dimensions are smaller than actual
+    // =========================================================
+
+    isScaledDown: function (nextWidth, nextHeight) {
+      var self = this,
+        rez = false,
+        current = self.current,
+        $content = current.$content;
+
+      if (nextWidth !== undefined && nextHeight !== undefined) {
+        rez = nextWidth < current.width && nextHeight < current.height;
+      } else if ($content) {
+        rez = $.fancybox.getTranslate($content);
+        rez = rez.width < current.width && rez.height < current.height;
+      }
+
+      return rez;
+    },
+
+    // Check if image dimensions exceed parent element
+    // ===============================================
+
+    canPan: function (nextWidth, nextHeight) {
+      var self = this,
+        current = self.current,
+        pos = null,
+        rez = false;
+
+      if (current.type === "image" && (current.isComplete || (nextWidth && nextHeight)) && !current.hasError) {
+        rez = self.getFitPos(current);
+
+        if (nextWidth !== undefined && nextHeight !== undefined) {
+          pos = {
+            width: nextWidth,
+            height: nextHeight
+          };
+        } else if (current.isComplete) {
+          pos = $.fancybox.getTranslate(current.$content);
+        }
+
+        if (pos && rez) {
+          rez = Math.abs(pos.width - rez.width) > 1.5 || Math.abs(pos.height - rez.height) > 1.5;
+        }
+      }
+
+      return rez;
+    },
+
+    // Load content into the slide
+    // ===========================
+
+    loadSlide: function (slide) {
+      var self = this,
+        type,
+        $slide,
+        ajaxLoad;
+
+      if (slide.isLoading || slide.isLoaded) {
+        return;
+      }
+
+      slide.isLoading = true;
+
+      if (self.trigger("beforeLoad", slide) === false) {
+        slide.isLoading = false;
+
+        return false;
+      }
+
+      type = slide.type;
+      $slide = slide.$slide;
+
+      $slide
+        .off("refresh")
+        .trigger("onReset")
+        .addClass(slide.opts.slideClass);
+
+      // Create content depending on the type
+      switch (type) {
+        case "image":
+          self.setImage(slide);
+
+          break;
+
+        case "iframe":
+          self.setIframe(slide);
+
+          break;
+
+        case "html":
+          self.setContent(slide, slide.src || slide.content);
+
+          break;
+
+        case "video":
+          self.setContent(
+            slide,
+            slide.opts.video.tpl
+            .replace(/\{\{src\}\}/gi, slide.src)
+            .replace("{{format}}", slide.opts.videoFormat || slide.opts.video.format || "")
+            .replace("{{poster}}", slide.thumb || "")
+          );
+
+          break;
+
+        case "inline":
+          if ($(slide.src).length) {
+            self.setContent(slide, $(slide.src));
+          } else {
+            self.setError(slide);
+          }
+
+          break;
+
+        case "ajax":
+          self.showLoading(slide);
+
+          ajaxLoad = $.ajax(
+            $.extend({}, slide.opts.ajax.settings, {
+              url: slide.src,
+              success: function (data, textStatus) {
+                if (textStatus === "success") {
+                  self.setContent(slide, data);
+                }
+              },
+              error: function (jqXHR, textStatus) {
+                if (jqXHR && textStatus !== "abort") {
+                  self.setError(slide);
+                }
+              }
+            })
+          );
+
+          $slide.one("onReset", function () {
+            ajaxLoad.abort();
+          });
+
+          break;
+
+        default:
+          self.setError(slide);
+
+          break;
+      }
+
+      return true;
+    },
+
+    // Use thumbnail image, if possible
+    // ================================
+
+    setImage: function (slide) {
+      var self = this,
+        ghost;
+
+      // Check if need to show loading icon
+      setTimeout(function () {
+        var $img = slide.$image;
+
+        if (!self.isClosing && slide.isLoading && (!$img || !$img.length || !$img[0].complete) && !slide.hasError) {
+          self.showLoading(slide);
+        }
+      }, 50);
+
+      //Check if image has srcset
+      self.checkSrcset(slide);
+
+      // This will be wrapper containing both ghost and actual image
+      slide.$content = $('<div class="fancybox-content"></div>')
+        .addClass("fancybox-is-hidden")
+        .appendTo(slide.$slide.addClass("fancybox-slide--image"));
+
+      // If we have a thumbnail, we can display it while actual image is loading
+      // Users will not stare at black screen and actual image will appear gradually
+      if (slide.opts.preload !== false && slide.opts.width && slide.opts.height && slide.thumb) {
+        slide.width = slide.opts.width;
+        slide.height = slide.opts.height;
+
+        ghost = document.createElement("img");
+
+        ghost.onerror = function () {
+          $(this).remove();
+
+          slide.$ghost = null;
+        };
+
+        ghost.onload = function () {
+          self.afterLoad(slide);
+        };
+
+        slide.$ghost = $(ghost)
+          .addClass("fancybox-image")
+          .appendTo(slide.$content)
+          .attr("src", slide.thumb);
+      }
+
+      // Start loading actual image
+      self.setBigImage(slide);
+    },
+
+    // Check if image has srcset and get the source
+    // ============================================
+    checkSrcset: function (slide) {
+      var srcset = slide.opts.srcset || slide.opts.image.srcset,
+        found,
+        temp,
+        pxRatio,
+        windowWidth;
+
+      // If we have "srcset", then we need to find first matching "src" value.
+      // This is necessary, because when you set an src attribute, the browser will preload the image
+      // before any javascript or even CSS is applied.
+      if (srcset) {
+        pxRatio = window.devicePixelRatio || 1;
+        windowWidth = window.innerWidth * pxRatio;
+
+        temp = srcset.split(",").map(function (el) {
+          var ret = {};
+
+          el.trim()
+            .split(/\s+/)
+            .forEach(function (el, i) {
+              var value = parseInt(el.substring(0, el.length - 1), 10);
+
+              if (i === 0) {
+                return (ret.url = el);
+              }
+
+              if (value) {
+                ret.value = value;
+                ret.postfix = el[el.length - 1];
+              }
+            });
+
+          return ret;
+        });
+
+        // Sort by value
+        temp.sort(function (a, b) {
+          return a.value - b.value;
+        });
+
+        // Ok, now we have an array of all srcset values
+        for (var j = 0; j < temp.length; j++) {
+          var el = temp[j];
+
+          if ((el.postfix === "w" && el.value >= windowWidth) || (el.postfix === "x" && el.value >= pxRatio)) {
+            found = el;
+            break;
+          }
+        }
+
+        // If not found, take the last one
+        if (!found && temp.length) {
+          found = temp[temp.length - 1];
+        }
+
+        if (found) {
+          slide.src = found.url;
+
+          // If we have default width/height values, we can calculate height for matching source
+          if (slide.width && slide.height && found.postfix == "w") {
+            slide.height = (slide.width / slide.height) * found.value;
+            slide.width = found.value;
+          }
+
+          slide.opts.srcset = srcset;
+        }
+      }
+    },
+
+    // Create full-size image
+    // ======================
+
+    setBigImage: function (slide) {
+      var self = this,
+        img = document.createElement("img"),
+        $img = $(img);
+
+      slide.$image = $img
+        .one("error", function () {
+          self.setError(slide);
+        })
+        .one("load", function () {
+          var sizes;
+
+          if (!slide.$ghost) {
+            self.resolveImageSlideSize(slide, this.naturalWidth, this.naturalHeight);
+
+            self.afterLoad(slide);
+          }
+
+          if (self.isClosing) {
+            return;
+          }
+
+          if (slide.opts.srcset) {
+            sizes = slide.opts.sizes;
+
+            if (!sizes || sizes === "auto") {
+              sizes =
+                (slide.width / slide.height > 1 && $W.width() / $W.height() > 1 ? "100" : Math.round((slide.width / slide.height) * 100)) +
+                "vw";
+            }
+
+            $img.attr("sizes", sizes).attr("srcset", slide.opts.srcset);
+          }
+
+          // Hide temporary image after some delay
+          if (slide.$ghost) {
+            setTimeout(function () {
+              if (slide.$ghost && !self.isClosing) {
+                slide.$ghost.hide();
+              }
+            }, Math.min(300, Math.max(1000, slide.height / 1600)));
+          }
+
+          self.hideLoading(slide);
+        })
+        .addClass("fancybox-image")
+        .attr("src", slide.src)
+        .appendTo(slide.$content);
+
+      if ((img.complete || img.readyState == "complete") && $img.naturalWidth && $img.naturalHeight) {
+        $img.trigger("load");
+      } else if (img.error) {
+        $img.trigger("error");
+      }
+    },
+
+    // Computes the slide size from image size and maxWidth/maxHeight
+    // ==============================================================
+
+    resolveImageSlideSize: function (slide, imgWidth, imgHeight) {
+      var maxWidth = parseInt(slide.opts.width, 10),
+        maxHeight = parseInt(slide.opts.height, 10);
+
+      // Sets the default values from the image
+      slide.width = imgWidth;
+      slide.height = imgHeight;
+
+      if (maxWidth > 0) {
+        slide.width = maxWidth;
+        slide.height = Math.floor((maxWidth * imgHeight) / imgWidth);
+      }
+
+      if (maxHeight > 0) {
+        slide.width = Math.floor((maxHeight * imgWidth) / imgHeight);
+        slide.height = maxHeight;
+      }
+    },
+
+    // Create iframe wrapper, iframe and bindings
+    // ==========================================
+
+    setIframe: function (slide) {
+      var self = this,
+        opts = slide.opts.iframe,
+        $slide = slide.$slide,
+        $iframe;
+
+      slide.$content = $('<div class="fancybox-content' + (opts.preload ? " fancybox-is-hidden" : "") + '"></div>')
+        .css(opts.css)
+        .appendTo($slide);
+
+      $slide.addClass("fancybox-slide--" + slide.contentType);
+
+      slide.$iframe = $iframe = $(opts.tpl.replace(/\{rnd\}/g, new Date().getTime()))
+        .attr(opts.attr)
+        .appendTo(slide.$content);
+
+      if (opts.preload) {
+        self.showLoading(slide);
+
+        // Unfortunately, it is not always possible to determine if iframe is successfully loaded
+        // (due to browser security policy)
+
+        $iframe.on("load.fb error.fb", function (e) {
+          this.isReady = 1;
+
+          slide.$slide.trigger("refresh");
+
+          self.afterLoad(slide);
+        });
+
+        // Recalculate iframe content size
+        // ===============================
+
+        $slide.on("refresh.fb", function () {
+          var $content = slide.$content,
+            frameWidth = opts.css.width,
+            frameHeight = opts.css.height,
+            $contents,
+            $body;
+
+          if ($iframe[0].isReady !== 1) {
+            return;
+          }
+
+          try {
+            $contents = $iframe.contents();
+            $body = $contents.find("body");
+          } catch (ignore) {}
+
+          // Calculate content dimensions, if it is accessible
+          if ($body && $body.length && $body.children().length) {
+            // Avoid scrolling to top (if multiple instances)
+            $slide.css("overflow", "visible");
+
+            $content.css({
+              width: "100%",
+              "max-width": "100%",
+              height: "9999px"
+            });
+
+            if (frameWidth === undefined) {
+              frameWidth = Math.ceil(Math.max($body[0].clientWidth, $body.outerWidth(true)));
+            }
+
+            $content.css("width", frameWidth ? frameWidth : "").css("max-width", "");
+
+            if (frameHeight === undefined) {
+              frameHeight = Math.ceil(Math.max($body[0].clientHeight, $body.outerHeight(true)));
+            }
+
+            $content.css("height", frameHeight ? frameHeight : "");
+
+            $slide.css("overflow", "auto");
+          }
+
+          $content.removeClass("fancybox-is-hidden");
+        });
+      } else {
+        self.afterLoad(slide);
+      }
+
+      $iframe.attr("src", slide.src);
+
+      // Remove iframe if closing or changing gallery item
+      $slide.one("onReset", function () {
+        // This helps IE not to throw errors when closing
+        try {
+          $(this)
+            .find("iframe")
+            .hide()
+            .unbind()
+            .attr("src", "//about:blank");
+        } catch (ignore) {}
+
+        $(this)
+          .off("refresh.fb")
+          .empty();
+
+        slide.isLoaded = false;
+        slide.isRevealed = false;
+      });
+    },
+
+    // Wrap and append content to the slide
+    // ======================================
+
+    setContent: function (slide, content) {
+      var self = this;
+
+      if (self.isClosing) {
+        return;
+      }
+
+      self.hideLoading(slide);
+
+      if (slide.$content) {
+        $.fancybox.stop(slide.$content);
+      }
+
+      slide.$slide.empty();
+
+      // If content is a jQuery object, then it will be moved to the slide.
+      // The placeholder is created so we will know where to put it back.
+      if (isQuery(content) && content.parent().length) {
+        // Make sure content is not already moved to fancyBox
+        if (content.hasClass("fancybox-content") || content.parent().hasClass("fancybox-content")) {
+          content.parents(".fancybox-slide").trigger("onReset");
+        }
+
+        // Create temporary element marking original place of the content
+        slide.$placeholder = $("<div>")
+          .hide()
+          .insertAfter(content);
+
+        // Make sure content is visible
+        content.css("display", "inline-block");
+      } else if (!slide.hasError) {
+        // If content is just a plain text, try to convert it to html
+        if ($.type(content) === "string") {
+          content = $("<div>")
+            .append($.trim(content))
+            .contents();
+        }
+
+        // If "filter" option is provided, then filter content
+        if (slide.opts.filter) {
+          content = $("<div>")
+            .html(content)
+            .find(slide.opts.filter);
+        }
+      }
+
+      slide.$slide.one("onReset", function () {
+        // Pause all html5 video/audio
+        $(this)
+          .find("video,audio")
+          .trigger("pause");
+
+        // Put content back
+        if (slide.$placeholder) {
+          slide.$placeholder.after(content.removeClass("fancybox-content").hide()).remove();
+
+          slide.$placeholder = null;
+        }
+
+        // Remove custom close button
+        if (slide.$smallBtn) {
+          slide.$smallBtn.remove();
+
+          slide.$smallBtn = null;
+        }
+
+        // Remove content and mark slide as not loaded
+        if (!slide.hasError) {
+          $(this).empty();
+
+          slide.isLoaded = false;
+          slide.isRevealed = false;
+        }
+      });
+
+      $(content).appendTo(slide.$slide);
+
+      if ($(content).is("video,audio")) {
+        $(content).addClass("fancybox-video");
+
+        $(content).wrap("<div></div>");
+
+        slide.contentType = "video";
+
+        slide.opts.width = slide.opts.width || $(content).attr("width");
+        slide.opts.height = slide.opts.height || $(content).attr("height");
+      }
+
+      slide.$content = slide.$slide
+        .children()
+        .filter("div,form,main,video,audio,article,.fancybox-content")
+        .first();
+
+      slide.$content.siblings().hide();
+
+      // Re-check if there is a valid content
+      // (in some cases, ajax response can contain various elements or plain text)
+      if (!slide.$content.length) {
+        slide.$content = slide.$slide
+          .wrapInner("<div></div>")
+          .children()
+          .first();
+      }
+
+      slide.$content.addClass("fancybox-content");
+
+      slide.$slide.addClass("fancybox-slide--" + slide.contentType);
+
+      self.afterLoad(slide);
+    },
+
+    // Display error message
+    // =====================
+
+    setError: function (slide) {
+      slide.hasError = true;
+
+      slide.$slide
+        .trigger("onReset")
+        .removeClass("fancybox-slide--" + slide.contentType)
+        .addClass("fancybox-slide--error");
+
+      slide.contentType = "html";
+
+      this.setContent(slide, this.translate(slide, slide.opts.errorTpl));
+
+      if (slide.pos === this.currPos) {
+        this.isAnimating = false;
+      }
+    },
+
+    // Show loading icon inside the slide
+    // ==================================
+
+    showLoading: function (slide) {
+      var self = this;
+
+      slide = slide || self.current;
+
+      if (slide && !slide.$spinner) {
+        slide.$spinner = $(self.translate(self, self.opts.spinnerTpl))
+          .appendTo(slide.$slide)
+          .hide()
+          .fadeIn("fast");
+      }
+    },
+
+    // Remove loading icon from the slide
+    // ==================================
+
+    hideLoading: function (slide) {
+      var self = this;
+
+      slide = slide || self.current;
+
+      if (slide && slide.$spinner) {
+        slide.$spinner.stop().remove();
+
+        delete slide.$spinner;
+      }
+    },
+
+    // Adjustments after slide content has been loaded
+    // ===============================================
+
+    afterLoad: function (slide) {
+      var self = this;
+
+      if (self.isClosing) {
+        return;
+      }
+
+      slide.isLoading = false;
+      slide.isLoaded = true;
+
+      self.trigger("afterLoad", slide);
+
+      self.hideLoading(slide);
+
+      // Add small close button
+      if (slide.opts.smallBtn && (!slide.$smallBtn || !slide.$smallBtn.length)) {
+        slide.$smallBtn = $(self.translate(slide, slide.opts.btnTpl.smallBtn)).appendTo(slide.$content);
+      }
+
+      // Disable right click
+      if (slide.opts.protect && slide.$content && !slide.hasError) {
+        slide.$content.on("contextmenu.fb", function (e) {
+          if (e.button == 2) {
+            e.preventDefault();
+          }
+
+          return true;
+        });
+
+        // Add fake element on top of the image
+        // This makes a bit harder for user to select image
+        if (slide.type === "image") {
+          $('<div class="fancybox-spaceball"></div>').appendTo(slide.$content);
+        }
+      }
+
+      self.adjustCaption(slide);
+
+      self.adjustLayout(slide);
+
+      if (slide.pos === self.currPos) {
+        self.updateCursor();
+      }
+
+      self.revealContent(slide);
+    },
+
+    // Prevent caption overlap,
+    // fix css inconsistency across browsers
+    // =====================================
+
+    adjustCaption: function (slide) {
+      var self = this,
+        current = slide || self.current,
+        caption = current.opts.caption,
+        preventOverlap = current.opts.preventCaptionOverlap,
+        $caption = self.$refs.caption,
+        $clone,
+        captionH = false;
+
+      $caption.toggleClass("fancybox-caption--separate", preventOverlap);
+
+      if (preventOverlap && caption && caption.length) {
+        if (current.pos !== self.currPos) {
+          $clone = $caption.clone().appendTo($caption.parent());
+
+          $clone
+            .children()
+            .eq(0)
+            .empty()
+            .html(caption);
+
+          captionH = $clone.outerHeight(true);
+
+          $clone.empty().remove();
+        } else if (self.$caption) {
+          captionH = self.$caption.outerHeight(true);
+        }
+
+        current.$slide.css("padding-bottom", captionH || "");
+      }
+    },
+
+    // Simple hack to fix inconsistency across browsers, described here (affects Edge, too):
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=748518
+    // ====================================================================================
+
+    adjustLayout: function (slide) {
+      var self = this,
+        current = slide || self.current,
+        scrollHeight,
+        marginBottom,
+        inlinePadding,
+        actualPadding;
+
+      if (current.isLoaded && current.opts.disableLayoutFix !== true) {
+        current.$content.css("margin-bottom", "");
+
+        // If we would always set margin-bottom for the content,
+        // then it would potentially break vertical align
+        if (current.$content.outerHeight() > current.$slide.height() + 0.5) {
+          inlinePadding = current.$slide[0].style["padding-bottom"];
+          actualPadding = current.$slide.css("padding-bottom");
+
+          if (parseFloat(actualPadding) > 0) {
+            scrollHeight = current.$slide[0].scrollHeight;
+
+            current.$slide.css("padding-bottom", 0);
+
+            if (Math.abs(scrollHeight - current.$slide[0].scrollHeight) < 1) {
+              marginBottom = actualPadding;
+            }
+
+            current.$slide.css("padding-bottom", inlinePadding);
+          }
+        }
+
+        current.$content.css("margin-bottom", marginBottom);
+      }
+    },
+
+    // Make content visible
+    // This method is called right after content has been loaded or
+    // user navigates gallery and transition should start
+    // ============================================================
+
+    revealContent: function (slide) {
+      var self = this,
+        $slide = slide.$slide,
+        end = false,
+        start = false,
+        isMoved = self.isMoved(slide),
+        isRevealed = slide.isRevealed,
+        effect,
+        effectClassName,
+        duration,
+        opacity;
+
+      slide.isRevealed = true;
+
+      effect = slide.opts[self.firstRun ? "animationEffect" : "transitionEffect"];
+      duration = slide.opts[self.firstRun ? "animationDuration" : "transitionDuration"];
+
+      duration = parseInt(slide.forcedDuration === undefined ? duration : slide.forcedDuration, 10);
+
+      if (isMoved || slide.pos !== self.currPos || !duration) {
+        effect = false;
+      }
+
+      // Check if can zoom
+      if (effect === "zoom") {
+        if (slide.pos === self.currPos && duration && slide.type === "image" && !slide.hasError && (start = self.getThumbPos(slide))) {
+          end = self.getFitPos(slide);
+        } else {
+          effect = "fade";
+        }
+      }
+
+      // Zoom animation
+      // ==============
+      if (effect === "zoom") {
+        self.isAnimating = true;
+
+        end.scaleX = end.width / start.width;
+        end.scaleY = end.height / start.height;
+
+        // Check if we need to animate opacity
+        opacity = slide.opts.zoomOpacity;
+
+        if (opacity == "auto") {
+          opacity = Math.abs(slide.width / slide.height - start.width / start.height) > 0.1;
+        }
+
+        if (opacity) {
+          start.opacity = 0.1;
+          end.opacity = 1;
+        }
+
+        // Draw image at start position
+        $.fancybox.setTranslate(slide.$content.removeClass("fancybox-is-hidden"), start);
+
+        forceRedraw(slide.$content);
+
+        // Start animation
+        $.fancybox.animate(slide.$content, end, duration, function () {
+          self.isAnimating = false;
+
+          self.complete();
+        });
+
+        return;
+      }
+
+      self.updateSlide(slide);
+
+      // Simply show content if no effect
+      // ================================
+      if (!effect) {
+        slide.$content.removeClass("fancybox-is-hidden");
+
+        if (!isRevealed && isMoved && slide.type === "image" && !slide.hasError) {
+          slide.$content.hide().fadeIn("fast");
+        }
+
+        if (slide.pos === self.currPos) {
+          self.complete();
+        }
+
+        return;
+      }
+
+      // Prepare for CSS transiton
+      // =========================
+      $.fancybox.stop($slide);
+
+      //effectClassName = "fancybox-animated fancybox-slide--" + (slide.pos >= self.prevPos ? "next" : "previous") + " fancybox-fx-" + effect;
+      effectClassName = "fancybox-slide--" + (slide.pos >= self.prevPos ? "next" : "previous") + " fancybox-animated fancybox-fx-" + effect;
+
+      $slide.addClass(effectClassName).removeClass("fancybox-slide--current"); //.addClass(effectClassName);
+
+      slide.$content.removeClass("fancybox-is-hidden");
+
+      // Force reflow
+      forceRedraw($slide);
+
+      if (slide.type !== "image") {
+        slide.$content.hide().show(0);
+      }
+
+      $.fancybox.animate(
+        $slide,
+        "fancybox-slide--current",
+        duration,
+        function () {
+          $slide.removeClass(effectClassName).css({
+            transform: "",
+            opacity: ""
+          });
+
+          if (slide.pos === self.currPos) {
+            self.complete();
+          }
+        },
+        true
+      );
+    },
+
+    // Check if we can and have to zoom from thumbnail
+    //================================================
+
+    getThumbPos: function (slide) {
+      var rez = false,
+        $thumb = slide.$thumb,
+        thumbPos,
+        btw,
+        brw,
+        bbw,
+        blw;
+
+      if (!$thumb || !inViewport($thumb[0])) {
+        return false;
+      }
+
+      thumbPos = $.fancybox.getTranslate($thumb);
+
+      btw = parseFloat($thumb.css("border-top-width") || 0);
+      brw = parseFloat($thumb.css("border-right-width") || 0);
+      bbw = parseFloat($thumb.css("border-bottom-width") || 0);
+      blw = parseFloat($thumb.css("border-left-width") || 0);
+
+      rez = {
+        top: thumbPos.top + btw,
+        left: thumbPos.left + blw,
+        width: thumbPos.width - brw - blw,
+        height: thumbPos.height - btw - bbw,
+        scaleX: 1,
+        scaleY: 1
+      };
+
+      return thumbPos.width > 0 && thumbPos.height > 0 ? rez : false;
+    },
+
+    // Final adjustments after current gallery item is moved to position
+    // and it`s content is loaded
+    // ==================================================================
+
+    complete: function () {
+      var self = this,
+        current = self.current,
+        slides = {},
+        $el;
+
+      if (self.isMoved() || !current.isLoaded) {
+        return;
+      }
+
+      if (!current.isComplete) {
+        current.isComplete = true;
+
+        current.$slide.siblings().trigger("onReset");
+
+        self.preload("inline");
+
+        // Trigger any CSS transiton inside the slide
+        forceRedraw(current.$slide);
+
+        current.$slide.addClass("fancybox-slide--complete");
+
+        // Remove unnecessary slides
+        $.each(self.slides, function (key, slide) {
+          if (slide.pos >= self.currPos - 1 && slide.pos <= self.currPos + 1) {
+            slides[slide.pos] = slide;
+          } else if (slide) {
+            $.fancybox.stop(slide.$slide);
+
+            slide.$slide.off().remove();
+          }
+        });
+
+        self.slides = slides;
+      }
+
+      self.isAnimating = false;
+
+      self.updateCursor();
+
+      self.trigger("afterShow");
+
+      // Autoplay first html5 video/audio
+      if (!!current.opts.video.autoStart) {
+        current.$slide
+          .find("video,audio")
+          .filter(":visible:first")
+          .trigger("play")
+          .one("ended", function () {
+            if (Document.exitFullscreen) {
+              Document.exitFullscreen();
+            } else if (this.webkitExitFullscreen) {
+              this.webkitExitFullscreen();
+            }
+
+            self.next();
+          });
+      }
+
+      // Try to focus on the first focusable element
+      if (current.opts.autoFocus && current.contentType === "html") {
+        // Look for the first input with autofocus attribute
+        $el = current.$content.find("input[autofocus]:enabled:visible:first");
+
+        if ($el.length) {
+          $el.trigger("focus");
+        } else {
+          self.focus(null, true);
+        }
+      }
+
+      // Avoid jumping
+      current.$slide.scrollTop(0).scrollLeft(0);
+    },
+
+    // Preload next and previous slides
+    // ================================
+
+    preload: function (type) {
+      var self = this,
+        prev,
+        next;
+
+      if (self.group.length < 2) {
+        return;
+      }
+
+      next = self.slides[self.currPos + 1];
+      prev = self.slides[self.currPos - 1];
+
+      if (prev && prev.type === type) {
+        self.loadSlide(prev);
+      }
+
+      if (next && next.type === type) {
+        self.loadSlide(next);
+      }
+    },
+
+    // Try to find and focus on the first focusable element
+    // ====================================================
+
+    focus: function (e, firstRun) {
+      var self = this,
+        focusableStr = [
+          "a[href]",
+          "area[href]",
+          'input:not([disabled]):not([type="hidden"]):not([aria-hidden])',
+          "select:not([disabled]):not([aria-hidden])",
+          "textarea:not([disabled]):not([aria-hidden])",
+          "button:not([disabled]):not([aria-hidden])",
+          "iframe",
+          "object",
+          "embed",
+          "video",
+          "audio",
+          "[contenteditable]",
+          '[tabindex]:not([tabindex^="-"])'
+        ].join(","),
+        focusableItems,
+        focusedItemIndex;
+
+      if (self.isClosing) {
+        return;
+      }
+
+      if (e || !self.current || !self.current.isComplete) {
+        // Focus on any element inside fancybox
+        focusableItems = self.$refs.container.find("*:visible");
+      } else {
+        // Focus inside current slide
+        focusableItems = self.current.$slide.find("*:visible" + (firstRun ? ":not(.fancybox-close-small)" : ""));
+      }
+
+      focusableItems = focusableItems.filter(focusableStr).filter(function () {
+        return $(this).css("visibility") !== "hidden" && !$(this).hasClass("disabled");
+      });
+
+      if (focusableItems.length) {
+        focusedItemIndex = focusableItems.index(document.activeElement);
+
+        if (e && e.shiftKey) {
+          // Back tab
+          if (focusedItemIndex < 0 || focusedItemIndex == 0) {
+            e.preventDefault();
+
+            focusableItems.eq(focusableItems.length - 1).trigger("focus");
+          }
+        } else {
+          // Outside or Forward tab
+          if (focusedItemIndex < 0 || focusedItemIndex == focusableItems.length - 1) {
+            if (e) {
+              e.preventDefault();
+            }
+
+            focusableItems.eq(0).trigger("focus");
+          }
+        }
+      } else {
+        self.$refs.container.trigger("focus");
+      }
+    },
+
+    // Activates current instance - brings container to the front and enables keyboard,
+    // notifies other instances about deactivating
+    // =================================================================================
+
+    activate: function () {
+      var self = this;
+
+      // Deactivate all instances
+      $(".fancybox-container").each(function () {
+        var instance = $(this).data("FancyBox");
+
+        // Skip self and closing instances
+        if (instance && instance.id !== self.id && !instance.isClosing) {
+          instance.trigger("onDeactivate");
+
+          instance.removeEvents();
+
+          instance.isVisible = false;
+        }
+      });
+
+      self.isVisible = true;
+
+      if (self.current || self.isIdle) {
+        self.update();
+
+        self.updateControls();
+      }
+
+      self.trigger("onActivate");
+
+      self.addEvents();
+    },
+
+    // Start closing procedure
+    // This will start "zoom-out" animation if needed and clean everything up afterwards
+    // =================================================================================
+
+    close: function (e, d) {
+      var self = this,
+        current = self.current,
+        effect,
+        duration,
+        $content,
+        domRect,
+        opacity,
+        start,
+        end;
+
+      var done = function () {
+        self.cleanUp(e);
+      };
+
+      if (self.isClosing) {
+        return false;
+      }
+
+      self.isClosing = true;
+
+      // If beforeClose callback prevents closing, make sure content is centered
+      if (self.trigger("beforeClose", e) === false) {
+        self.isClosing = false;
+
+        requestAFrame(function () {
+          self.update();
+        });
+
+        return false;
+      }
+
+      // Remove all events
+      // If there are multiple instances, they will be set again by "activate" method
+      self.removeEvents();
+
+      $content = current.$content;
+      effect = current.opts.animationEffect;
+      duration = $.isNumeric(d) ? d : effect ? current.opts.animationDuration : 0;
+
+      current.$slide.removeClass("fancybox-slide--complete fancybox-slide--next fancybox-slide--previous fancybox-animated");
+
+      if (e !== true) {
+        $.fancybox.stop(current.$slide);
+      } else {
+        effect = false;
+      }
+
+      // Remove other slides
+      current.$slide
+        .siblings()
+        .trigger("onReset")
+        .remove();
+
+      // Trigger animations
+      if (duration) {
+        self.$refs.container
+          .removeClass("fancybox-is-open")
+          .addClass("fancybox-is-closing")
+          .css("transition-duration", duration + "ms");
+      }
+
+      // Clean up
+      self.hideLoading(current);
+
+      self.hideControls(true);
+
+      self.updateCursor();
+
+      // Check if possible to zoom-out
+      if (
+        effect === "zoom" &&
+        !($content && duration && current.type === "image" && !self.isMoved() && !current.hasError && (end = self.getThumbPos(current)))
+      ) {
+        effect = "fade";
+      }
+
+      if (effect === "zoom") {
+        $.fancybox.stop($content);
+
+        domRect = $.fancybox.getTranslate($content);
+
+        start = {
+          top: domRect.top,
+          left: domRect.left,
+          scaleX: domRect.width / end.width,
+          scaleY: domRect.height / end.height,
+          width: end.width,
+          height: end.height
+        };
+
+        // Check if we need to animate opacity
+        opacity = current.opts.zoomOpacity;
+
+        if (opacity == "auto") {
+          opacity = Math.abs(current.width / current.height - end.width / end.height) > 0.1;
+        }
+
+        if (opacity) {
+          end.opacity = 0;
+        }
+
+        $.fancybox.setTranslate($content, start);
+
+        forceRedraw($content);
+
+        $.fancybox.animate($content, end, duration, done);
+
+        return true;
+      }
+
+      if (effect && duration) {
+        $.fancybox.animate(
+          current.$slide.addClass("fancybox-slide--previous").removeClass("fancybox-slide--current"),
+          "fancybox-animated fancybox-fx-" + effect,
+          duration,
+          done
+        );
+      } else {
+        // If skip animation
+        if (e === true) {
+          setTimeout(done, duration);
+        } else {
+          done();
+        }
+      }
+
+      return true;
+    },
+
+    // Final adjustments after removing the instance
+    // =============================================
+
+    cleanUp: function (e) {
+      var self = this,
+        instance,
+        $focus = self.current.opts.$orig,
+        x,
+        y;
+
+      self.current.$slide.trigger("onReset");
+
+      self.$refs.container.empty().remove();
+
+      self.trigger("afterClose", e);
+
+      // Place back focus
+      if (!!self.current.opts.backFocus) {
+        if (!$focus || !$focus.length || !$focus.is(":visible")) {
+          $focus = self.$trigger;
+        }
+
+        if ($focus && $focus.length) {
+          x = window.scrollX;
+          y = window.scrollY;
+
+          $focus.trigger("focus");
+
+          $("html, body")
+            .scrollTop(y)
+            .scrollLeft(x);
+        }
+      }
+
+      self.current = null;
+
+      // Check if there are other instances
+      instance = $.fancybox.getInstance();
+
+      if (instance) {
+        instance.activate();
+      } else {
+        $("body").removeClass("fancybox-active compensate-for-scrollbar");
+
+        $("#fancybox-style-noscroll").remove();
+      }
+    },
+
+    // Call callback and trigger an event
+    // ==================================
+
+    trigger: function (name, slide) {
+      var args = Array.prototype.slice.call(arguments, 1),
+        self = this,
+        obj = slide && slide.opts ? slide : self.current,
+        rez;
+
+      if (obj) {
+        args.unshift(obj);
+      } else {
+        obj = self;
+      }
+
+      args.unshift(self);
+
+      if ($.isFunction(obj.opts[name])) {
+        rez = obj.opts[name].apply(obj, args);
+      }
+
+      if (rez === false) {
+        return rez;
+      }
+
+      if (name === "afterClose" || !self.$refs) {
+        $D.trigger(name + ".fb", args);
+      } else {
+        self.$refs.container.trigger(name + ".fb", args);
+      }
+    },
+
+    // Update infobar values, navigation button states and reveal caption
+    // ==================================================================
+
+    updateControls: function () {
+      var self = this,
+        current = self.current,
+        index = current.index,
+        $container = self.$refs.container,
+        $caption = self.$refs.caption,
+        caption = current.opts.caption;
+
+      // Recalculate content dimensions
+      current.$slide.trigger("refresh");
+
+      // Set caption
+      if (caption && caption.length) {
+        self.$caption = $caption;
+
+        $caption
+          .children()
+          .eq(0)
+          .html(caption);
+      } else {
+        self.$caption = null;
+      }
+
+      if (!self.hasHiddenControls && !self.isIdle) {
+        self.showControls();
+      }
+
+      // Update info and navigation elements
+      $container.find("[data-fancybox-count]").html(self.group.length);
+      $container.find("[data-fancybox-index]").html(index + 1);
+
+      $container.find("[data-fancybox-prev]").prop("disabled", !current.opts.loop && index <= 0);
+      $container.find("[data-fancybox-next]").prop("disabled", !current.opts.loop && index >= self.group.length - 1);
+
+      if (current.type === "image") {
+        // Re-enable buttons; update download button source
+        $container
+          .find("[data-fancybox-zoom]")
+          .show()
+          .end()
+          .find("[data-fancybox-download]")
+          .attr("href", current.opts.image.src || current.src)
+          .show();
+      } else if (current.opts.toolbar) {
+        $container.find("[data-fancybox-download],[data-fancybox-zoom]").hide();
+      }
+
+      // Make sure focus is not on disabled button/element
+      if ($(document.activeElement).is(":hidden,[disabled]")) {
+        self.$refs.container.trigger("focus");
+      }
+    },
+
+    // Hide toolbar and caption
+    // ========================
+
+    hideControls: function (andCaption) {
+      var self = this,
+        arr = ["infobar", "toolbar", "nav"];
+
+      if (andCaption || !self.current.opts.preventCaptionOverlap) {
+        arr.push("caption");
+      }
+
+      this.$refs.container.removeClass(
+        arr
+        .map(function (i) {
+          return "fancybox-show-" + i;
+        })
+        .join(" ")
+      );
+
+      this.hasHiddenControls = true;
+    },
+
+    showControls: function () {
+      var self = this,
+        opts = self.current ? self.current.opts : self.opts,
+        $container = self.$refs.container;
+
+      self.hasHiddenControls = false;
+      self.idleSecondsCounter = 0;
+
+      $container
+        .toggleClass("fancybox-show-toolbar", !!(opts.toolbar && opts.buttons))
+        .toggleClass("fancybox-show-infobar", !!(opts.infobar && self.group.length > 1))
+        .toggleClass("fancybox-show-caption", !!self.$caption)
+        .toggleClass("fancybox-show-nav", !!(opts.arrows && self.group.length > 1))
+        .toggleClass("fancybox-is-modal", !!opts.modal);
+    },
+
+    // Toggle toolbar and caption
+    // ==========================
+
+    toggleControls: function () {
+      if (this.hasHiddenControls) {
+        this.showControls();
+      } else {
+        this.hideControls();
+      }
+    }
+  });
+
+  $.fancybox = {
+    version: "3.5.7",
+    defaults: defaults,
+
+    // Get current instance and execute a command.
+    //
+    // Examples of usage:
+    //
+    //   $instance = $.fancybox.getInstance();
+    //   $.fancybox.getInstance().jumpTo( 1 );
+    //   $.fancybox.getInstance( 'jumpTo', 1 );
+    //   $.fancybox.getInstance( function() {
+    //       console.info( this.currIndex );
+    //   });
+    // ======================================================
+
+    getInstance: function (command) {
+      var instance = $('.fancybox-container:not(".fancybox-is-closing"):last').data("FancyBox"),
+        args = Array.prototype.slice.call(arguments, 1);
+
+      if (instance instanceof FancyBox) {
+        if ($.type(command) === "string") {
+          instance[command].apply(instance, args);
+        } else if ($.type(command) === "function") {
+          command.apply(instance, args);
+        }
+
+        return instance;
+      }
+
+      return false;
+    },
+
+    // Create new instance
+    // ===================
+
+    open: function (items, opts, index) {
+      return new FancyBox(items, opts, index);
+    },
+
+    // Close current or all instances
+    // ==============================
+
+    close: function (all) {
+      var instance = this.getInstance();
+
+      if (instance) {
+        instance.close();
+
+        // Try to find and close next instance
+        if (all === true) {
+          this.close(all);
+        }
+      }
+    },
+
+    // Close all instances and unbind all events
+    // =========================================
+
+    destroy: function () {
+      this.close(true);
+
+      $D.add("body").off("click.fb-start", "**");
+    },
+
+    // Try to detect mobile devices
+    // ============================
+
+    isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+
+    // Detect if 'translate3d' support is available
+    // ============================================
+
+    use3d: (function () {
+      var div = document.createElement("div");
+
+      return (
+        window.getComputedStyle &&
+        window.getComputedStyle(div) &&
+        window.getComputedStyle(div).getPropertyValue("transform") &&
+        !(document.documentMode && document.documentMode < 11)
+      );
+    })(),
+
+    // Helper function to get current visual state of an element
+    // returns array[ top, left, horizontal-scale, vertical-scale, opacity ]
+    // =====================================================================
+
+    getTranslate: function ($el) {
+      var domRect;
+
+      if (!$el || !$el.length) {
+        return false;
+      }
+
+      domRect = $el[0].getBoundingClientRect();
+
+      return {
+        top: domRect.top || 0,
+        left: domRect.left || 0,
+        width: domRect.width,
+        height: domRect.height,
+        opacity: parseFloat($el.css("opacity"))
+      };
+    },
+
+    // Shortcut for setting "translate3d" properties for element
+    // Can set be used to set opacity, too
+    // ========================================================
+
+    setTranslate: function ($el, props) {
+      var str = "",
+        css = {};
+
+      if (!$el || !props) {
+        return;
+      }
+
+      if (props.left !== undefined || props.top !== undefined) {
+        str =
+          (props.left === undefined ? $el.position().left : props.left) +
+          "px, " +
+          (props.top === undefined ? $el.position().top : props.top) +
+          "px";
+
+        if (this.use3d) {
+          str = "translate3d(" + str + ", 0px)";
+        } else {
+          str = "translate(" + str + ")";
+        }
+      }
+
+      if (props.scaleX !== undefined && props.scaleY !== undefined) {
+        str += " scale(" + props.scaleX + ", " + props.scaleY + ")";
+      } else if (props.scaleX !== undefined) {
+        str += " scaleX(" + props.scaleX + ")";
+      }
+
+      if (str.length) {
+        css.transform = str;
+      }
+
+      if (props.opacity !== undefined) {
+        css.opacity = props.opacity;
+      }
+
+      if (props.width !== undefined) {
+        css.width = props.width;
+      }
+
+      if (props.height !== undefined) {
+        css.height = props.height;
+      }
+
+      return $el.css(css);
+    },
+
+    // Simple CSS transition handler
+    // =============================
+
+    animate: function ($el, to, duration, callback, leaveAnimationName) {
+      var self = this,
+        from;
+
+      if ($.isFunction(duration)) {
+        callback = duration;
+        duration = null;
+      }
+
+      self.stop($el);
+
+      from = self.getTranslate($el);
+
+      $el.on(transitionEnd, function (e) {
+        // Skip events from child elements and z-index change
+        if (e && e.originalEvent && (!$el.is(e.originalEvent.target) || e.originalEvent.propertyName == "z-index")) {
+          return;
+        }
+
+        self.stop($el);
+
+        if ($.isNumeric(duration)) {
+          $el.css("transition-duration", "");
+        }
+
+        if ($.isPlainObject(to)) {
+          if (to.scaleX !== undefined && to.scaleY !== undefined) {
+            self.setTranslate($el, {
+              top: to.top,
+              left: to.left,
+              width: from.width * to.scaleX,
+              height: from.height * to.scaleY,
+              scaleX: 1,
+              scaleY: 1
+            });
+          }
+        } else if (leaveAnimationName !== true) {
+          $el.removeClass(to);
+        }
+
+        if ($.isFunction(callback)) {
+          callback(e);
+        }
+      });
+
+      if ($.isNumeric(duration)) {
+        $el.css("transition-duration", duration + "ms");
+      }
+
+      // Start animation by changing CSS properties or class name
+      if ($.isPlainObject(to)) {
+        if (to.scaleX !== undefined && to.scaleY !== undefined) {
+          delete to.width;
+          delete to.height;
+
+          if ($el.parent().hasClass("fancybox-slide--image")) {
+            $el.parent().addClass("fancybox-is-scaling");
+          }
+        }
+
+        $.fancybox.setTranslate($el, to);
+      } else {
+        $el.addClass(to);
+      }
+
+      // Make sure that `transitionend` callback gets fired
+      $el.data(
+        "timer",
+        setTimeout(function () {
+          $el.trigger(transitionEnd);
+        }, duration + 33)
+      );
+    },
+
+    stop: function ($el, callCallback) {
+      if ($el && $el.length) {
+        clearTimeout($el.data("timer"));
+
+        if (callCallback) {
+          $el.trigger(transitionEnd);
+        }
+
+        $el.off(transitionEnd).css("transition-duration", "");
+
+        $el.parent().removeClass("fancybox-is-scaling");
+      }
+    }
+  };
+
+  // Default click handler for "fancyboxed" links
+  // ============================================
+
+  function _run(e, opts) {
+    var items = [],
+      index = 0,
+      $target,
+      value,
+      instance;
+
+    // Avoid opening multiple times
+    if (e && e.isDefaultPrevented()) {
+      return;
+    }
+
+    e.preventDefault();
+
+    opts = opts || {};
+
+    if (e && e.data) {
+      opts = mergeOpts(e.data.options, opts);
+    }
+
+    $target = opts.$target || $(e.currentTarget).trigger("blur");
+    instance = $.fancybox.getInstance();
+
+    if (instance && instance.$trigger && instance.$trigger.is($target)) {
+      return;
+    }
+
+    if (opts.selector) {
+      items = $(opts.selector);
+    } else {
+      // Get all related items and find index for clicked one
+      value = $target.attr("data-fancybox") || "";
+
+      if (value) {
+        items = e.data ? e.data.items : [];
+        items = items.length ? items.filter('[data-fancybox="' + value + '"]') : $('[data-fancybox="' + value + '"]');
+      } else {
+        items = [$target];
+      }
+    }
+
+    index = $(items).index($target);
+
+    // Sometimes current item can not be found
+    if (index < 0) {
+      index = 0;
+    }
+
+    instance = $.fancybox.open(items, opts, index);
+
+    // Save last active element
+    instance.$trigger = $target;
+  }
+
+  // Create a jQuery plugin
+  // ======================
+
+  $.fn.fancybox = function (options) {
+    var selector;
+
+    options = options || {};
+    selector = options.selector || false;
+
+    if (selector) {
+      // Use body element instead of document so it executes first
+      $("body")
+        .off("click.fb-start", selector)
+        .on("click.fb-start", selector, {
+          options: options
+        }, _run);
+    } else {
+      this.off("click.fb-start").on(
+        "click.fb-start", {
+          items: this,
+          options: options
+        },
+        _run
+      );
+    }
+
+    return this;
+  };
+
+  // Self initializing plugin for all elements having `data-fancybox` attribute
+  // ==========================================================================
+
+  $D.on("click.fb-start", "[data-fancybox]", _run);
+
+  // Enable "trigger elements"
+  // =========================
+
+  $D.on("click.fb-start", "[data-fancybox-trigger]", function (e) {
+    $('[data-fancybox="' + $(this).attr("data-fancybox-trigger") + '"]')
+      .eq($(this).attr("data-fancybox-index") || 0)
+      .trigger("click.fb-start", {
+        $trigger: $(this)
+      });
+  });
+
+  // Track focus event for better accessibility styling
+  // ==================================================
+  (function () {
+    var buttonStr = ".fancybox-button",
+      focusStr = "fancybox-focus",
+      $pressed = null;
+
+    $D.on("mousedown mouseup focus blur", buttonStr, function (e) {
+      switch (e.type) {
+        case "mousedown":
+          $pressed = $(this);
+          break;
+        case "mouseup":
+          $pressed = null;
+          break;
+        case "focusin":
+          $(buttonStr).removeClass(focusStr);
+
+          if (!$(this).is($pressed) && !$(this).is("[disabled]")) {
+            $(this).addClass(focusStr);
+          }
+          break;
+        case "focusout":
+          $(buttonStr).removeClass(focusStr);
+          break;
+      }
+    });
+  })();
+})(window, document, jQuery);
+// ==========================================================================
+//
+// Media
+// Adds additional media type support
+//
+// ==========================================================================
+(function ($) {
+  "use strict";
+
+  // Object containing properties for each media type
+  var defaults = {
+    youtube: {
+      matcher: /(youtube\.com|youtu\.be|youtube\-nocookie\.com)\/(watch\?(.*&)?v=|v\/|u\/|embed\/?)?(videoseries\?list=(.*)|[\w-]{11}|\?listType=(.*)&list=(.*))(.*)/i,
+      params: {
+        autoplay: 1,
+        autohide: 1,
+        fs: 1,
+        rel: 0,
+        hd: 1,
+        wmode: "transparent",
+        enablejsapi: 1,
+        html5: 1
+      },
+      paramPlace: 8,
+      type: "iframe",
+      url: "https://www.youtube-nocookie.com/embed/$4",
+      thumb: "https://img.youtube.com/vi/$4/hqdefault.jpg"
+    },
+
+    vimeo: {
+      matcher: /^.+vimeo.com\/(.*\/)?([\d]+)(.*)?/,
+      params: {
+        autoplay: 1,
+        hd: 1,
+        show_title: 1,
+        show_byline: 1,
+        show_portrait: 0,
+        fullscreen: 1
+      },
+      paramPlace: 3,
+      type: "iframe",
+      url: "//player.vimeo.com/video/$2"
+    },
+
+    instagram: {
+      matcher: /(instagr\.am|instagram\.com)\/p\/([a-zA-Z0-9_\-]+)\/?/i,
+      type: "image",
+      url: "//$1/p/$2/media/?size=l"
+    },
+
+    // Examples:
+    // http://maps.google.com/?ll=48.857995,2.294297&spn=0.007666,0.021136&t=m&z=16
+    // https://www.google.com/maps/@37.7852006,-122.4146355,14.65z
+    // https://www.google.com/maps/@52.2111123,2.9237542,6.61z?hl=en
+    // https://www.google.com/maps/place/Googleplex/@37.4220041,-122.0833494,17z/data=!4m5!3m4!1s0x0:0x6c296c66619367e0!8m2!3d37.4219998!4d-122.0840572
+    gmap_place: {
+      matcher: /(maps\.)?google\.([a-z]{2,3}(\.[a-z]{2})?)\/(((maps\/(place\/(.*)\/)?\@(.*),(\d+.?\d+?)z))|(\?ll=))(.*)?/i,
+      type: "iframe",
+      url: function (rez) {
+        return (
+          "//maps.google." +
+          rez[2] +
+          "/?ll=" +
+          (rez[9] ? rez[9] + "&z=" + Math.floor(rez[10]) + (rez[12] ? rez[12].replace(/^\//, "&") : "") : rez[12] + "").replace(/\?/, "&") +
+          "&output=" +
+          (rez[12] && rez[12].indexOf("layer=c") > 0 ? "svembed" : "embed")
+        );
+      }
+    },
+
+    // Examples:
+    // https://www.google.com/maps/search/Empire+State+Building/
+    // https://www.google.com/maps/search/?api=1&query=centurylink+field
+    // https://www.google.com/maps/search/?api=1&query=47.5951518,-122.3316393
+    gmap_search: {
+      matcher: /(maps\.)?google\.([a-z]{2,3}(\.[a-z]{2})?)\/(maps\/search\/)(.*)/i,
+      type: "iframe",
+      url: function (rez) {
+        return "//maps.google." + rez[2] + "/maps?q=" + rez[5].replace("query=", "q=").replace("api=1", "") + "&output=embed";
+      }
+    }
+  };
+
+  // Formats matching url to final form
+  var format = function (url, rez, params) {
+    if (!url) {
+      return;
+    }
+
+    params = params || "";
+
+    if ($.type(params) === "object") {
+      params = $.param(params, true);
+    }
+
+    $.each(rez, function (key, value) {
+      url = url.replace("$" + key, value || "");
+    });
+
+    if (params.length) {
+      url += (url.indexOf("?") > 0 ? "&" : "?") + params;
+    }
+
+    return url;
+  };
+
+  $(document).on("objectNeedsType.fb", function (e, instance, item) {
+    var url = item.src || "",
+      type = false,
+      media,
+      thumb,
+      rez,
+      params,
+      urlParams,
+      paramObj,
+      provider;
+
+    media = $.extend(true, {}, defaults, item.opts.media);
+
+    // Look for any matching media type
+    $.each(media, function (providerName, providerOpts) {
+      rez = url.match(providerOpts.matcher);
+
+      if (!rez) {
+        return;
+      }
+
+      type = providerOpts.type;
+      provider = providerName;
+      paramObj = {};
+
+      if (providerOpts.paramPlace && rez[providerOpts.paramPlace]) {
+        urlParams = rez[providerOpts.paramPlace];
+
+        if (urlParams[0] == "?") {
+          urlParams = urlParams.substring(1);
+        }
+
+        urlParams = urlParams.split("&");
+
+        for (var m = 0; m < urlParams.length; ++m) {
+          var p = urlParams[m].split("=", 2);
+
+          if (p.length == 2) {
+            paramObj[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+          }
+        }
+      }
+
+      params = $.extend(true, {}, providerOpts.params, item.opts[providerName], paramObj);
+
+      url =
+        $.type(providerOpts.url) === "function" ? providerOpts.url.call(this, rez, params, item) : format(providerOpts.url, rez, params);
+
+      thumb =
+        $.type(providerOpts.thumb) === "function" ? providerOpts.thumb.call(this, rez, params, item) : format(providerOpts.thumb, rez);
+
+      if (providerName === "youtube") {
+        url = url.replace(/&t=((\d+)m)?(\d+)s/, function (match, p1, m, s) {
+          return "&start=" + ((m ? parseInt(m, 10) * 60 : 0) + parseInt(s, 10));
+        });
+      } else if (providerName === "vimeo") {
+        url = url.replace("&%23", "#");
+      }
+
+      return false;
+    });
+
+    // If it is found, then change content type and update the url
+
+    if (type) {
+      if (!item.opts.thumb && !(item.opts.$thumb && item.opts.$thumb.length)) {
+        item.opts.thumb = thumb;
+      }
+
+      if (type === "iframe") {
+        item.opts = $.extend(true, item.opts, {
+          iframe: {
+            preload: false,
+            attr: {
+              scrolling: "no"
+            }
+          }
+        });
+      }
+
+      $.extend(item, {
+        type: type,
+        src: url,
+        origSrc: item.src,
+        contentSource: provider,
+        contentType: type === "image" ? "image" : provider == "gmap_place" || provider == "gmap_search" ? "map" : "video"
+      });
+    } else if (url) {
+      item.type = item.opts.defaultType;
+    }
+  });
+
+  // Load YouTube/Video API on request to detect when video finished playing
+  var VideoAPILoader = {
+    youtube: {
+      src: "https://www.youtube.com/iframe_api",
+      class: "YT",
+      loading: false,
+      loaded: false
+    },
+
+    vimeo: {
+      src: "https://player.vimeo.com/api/player.js",
+      class: "Vimeo",
+      loading: false,
+      loaded: false
+    },
+
+    load: function (vendor) {
+      var _this = this,
+        script;
+
+      if (this[vendor].loaded) {
+        setTimeout(function () {
+          _this.done(vendor);
+        });
+        return;
+      }
+
+      if (this[vendor].loading) {
+        return;
+      }
+
+      this[vendor].loading = true;
+
+      script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = this[vendor].src;
+
+      if (vendor === "youtube") {
+        window.onYouTubeIframeAPIReady = function () {
+          _this[vendor].loaded = true;
+          _this.done(vendor);
+        };
+      } else {
+        script.onload = function () {
+          _this[vendor].loaded = true;
+          _this.done(vendor);
+        };
+      }
+
+      document.body.appendChild(script);
+    },
+    done: function (vendor) {
+      var instance, $el, player;
+
+      if (vendor === "youtube") {
+        delete window.onYouTubeIframeAPIReady;
+      }
+
+      instance = $.fancybox.getInstance();
+
+      if (instance) {
+        $el = instance.current.$content.find("iframe");
+
+        if (vendor === "youtube" && YT !== undefined && YT) {
+          player = new YT.Player($el.attr("id"), {
+            events: {
+              onStateChange: function (e) {
+                if (e.data == 0) {
+                  instance.next();
+                }
+              }
+            }
+          });
+        } else if (vendor === "vimeo" && Vimeo !== undefined && Vimeo) {
+          player = new Vimeo.Player($el);
+
+          player.on("ended", function () {
+            instance.next();
+          });
+        }
+      }
+    }
+  };
+
+  $(document).on({
+    "afterShow.fb": function (e, instance, current) {
+      if (instance.group.length > 1 && (current.contentSource === "youtube" || current.contentSource === "vimeo")) {
+        VideoAPILoader.load(current.contentSource);
+      }
+    }
+  });
+})(jQuery);
+// ==========================================================================
+//
+// Guestures
+// Adds touch guestures, handles click and tap events
+//
+// ==========================================================================
+(function (window, document, $) {
+  "use strict";
+
+  var requestAFrame = (function () {
+    return (
+      window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.oRequestAnimationFrame ||
+      // if all else fails, use setTimeout
+      function (callback) {
+        return window.setTimeout(callback, 1000 / 60);
+      }
+    );
+  })();
+
+  var cancelAFrame = (function () {
+    return (
+      window.cancelAnimationFrame ||
+      window.webkitCancelAnimationFrame ||
+      window.mozCancelAnimationFrame ||
+      window.oCancelAnimationFrame ||
+      function (id) {
+        window.clearTimeout(id);
+      }
+    );
+  })();
+
+  var getPointerXY = function (e) {
+    var result = [];
+
+    e = e.originalEvent || e || window.e;
+    e = e.touches && e.touches.length ? e.touches : e.changedTouches && e.changedTouches.length ? e.changedTouches : [e];
+
+    for (var key in e) {
+      if (e[key].pageX) {
+        result.push({
+          x: e[key].pageX,
+          y: e[key].pageY
+        });
+      } else if (e[key].clientX) {
+        result.push({
+          x: e[key].clientX,
+          y: e[key].clientY
+        });
+      }
+    }
+
+    return result;
+  };
+
+  var distance = function (point2, point1, what) {
+    if (!point1 || !point2) {
+      return 0;
+    }
+
+    if (what === "x") {
+      return point2.x - point1.x;
+    } else if (what === "y") {
+      return point2.y - point1.y;
+    }
+
+    return Math.sqrt(Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2));
+  };
+
+  var isClickable = function ($el) {
+    if (
+      $el.is('a,area,button,[role="button"],input,label,select,summary,textarea,video,audio,iframe') ||
+      $.isFunction($el.get(0).onclick) ||
+      $el.data("selectable")
+    ) {
+      return true;
+    }
+
+    // Check for attributes like data-fancybox-next or data-fancybox-close
+    for (var i = 0, atts = $el[0].attributes, n = atts.length; i < n; i++) {
+      if (atts[i].nodeName.substr(0, 14) === "data-fancybox-") {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  var hasScrollbars = function (el) {
+    var overflowY = window.getComputedStyle(el)["overflow-y"],
+      overflowX = window.getComputedStyle(el)["overflow-x"],
+      vertical = (overflowY === "scroll" || overflowY === "auto") && el.scrollHeight > el.clientHeight,
+      horizontal = (overflowX === "scroll" || overflowX === "auto") && el.scrollWidth > el.clientWidth;
+
+    return vertical || horizontal;
+  };
+
+  var isScrollable = function ($el) {
+    var rez = false;
+
+    while (true) {
+      rez = hasScrollbars($el.get(0));
+
+      if (rez) {
+        break;
+      }
+
+      $el = $el.parent();
+
+      if (!$el.length || $el.hasClass("fancybox-stage") || $el.is("body")) {
+        break;
+      }
+    }
+
+    return rez;
+  };
+
+  var Guestures = function (instance) {
+    var self = this;
+
+    self.instance = instance;
+
+    self.$bg = instance.$refs.bg;
+    self.$stage = instance.$refs.stage;
+    self.$container = instance.$refs.container;
+
+    self.destroy();
+
+    self.$container.on("touchstart.fb.touch mousedown.fb.touch", $.proxy(self, "ontouchstart"));
+  };
+
+  Guestures.prototype.destroy = function () {
+    var self = this;
+
+    self.$container.off(".fb.touch");
+
+    $(document).off(".fb.touch");
+
+    if (self.requestId) {
+      cancelAFrame(self.requestId);
+      self.requestId = null;
+    }
+
+    if (self.tapped) {
+      clearTimeout(self.tapped);
+      self.tapped = null;
+    }
+  };
+
+  Guestures.prototype.ontouchstart = function (e) {
+    var self = this,
+      $target = $(e.target),
+      instance = self.instance,
+      current = instance.current,
+      $slide = current.$slide,
+      $content = current.$content,
+      isTouchDevice = e.type == "touchstart";
+
+    // Do not respond to both (touch and mouse) events
+    if (isTouchDevice) {
+      self.$container.off("mousedown.fb.touch");
+    }
+
+    // Ignore right click
+    if (e.originalEvent && e.originalEvent.button == 2) {
+      return;
+    }
+
+    // Ignore taping on links, buttons, input elements
+    if (!$slide.length || !$target.length || isClickable($target) || isClickable($target.parent())) {
+      return;
+    }
+    // Ignore clicks on the scrollbar
+    if (!$target.is("img") && e.originalEvent.clientX > $target[0].clientWidth + $target.offset().left) {
+      return;
+    }
+
+    // Ignore clicks while zooming or closing
+    if (!current || instance.isAnimating || current.$slide.hasClass("fancybox-animated")) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      return;
+    }
+
+    self.realPoints = self.startPoints = getPointerXY(e);
+
+    if (!self.startPoints.length) {
+      return;
+    }
+
+    // Allow other scripts to catch touch event if "touch" is set to false
+    if (current.touch) {
+      e.stopPropagation();
+    }
+
+    self.startEvent = e;
+
+    self.canTap = true;
+    self.$target = $target;
+    self.$content = $content;
+    self.opts = current.opts.touch;
+
+    self.isPanning = false;
+    self.isSwiping = false;
+    self.isZooming = false;
+    self.isScrolling = false;
+    self.canPan = instance.canPan();
+
+    self.startTime = new Date().getTime();
+    self.distanceX = self.distanceY = self.distance = 0;
+
+    self.canvasWidth = Math.round($slide[0].clientWidth);
+    self.canvasHeight = Math.round($slide[0].clientHeight);
+
+    self.contentLastPos = null;
+    self.contentStartPos = $.fancybox.getTranslate(self.$content) || {
+      top: 0,
+      left: 0
+    };
+    self.sliderStartPos = $.fancybox.getTranslate($slide);
+
+    // Since position will be absolute, but we need to make it relative to the stage
+    self.stagePos = $.fancybox.getTranslate(instance.$refs.stage);
+
+    self.sliderStartPos.top -= self.stagePos.top;
+    self.sliderStartPos.left -= self.stagePos.left;
+
+    self.contentStartPos.top -= self.stagePos.top;
+    self.contentStartPos.left -= self.stagePos.left;
+
+    $(document)
+      .off(".fb.touch")
+      .on(isTouchDevice ? "touchend.fb.touch touchcancel.fb.touch" : "mouseup.fb.touch mouseleave.fb.touch", $.proxy(self, "ontouchend"))
+      .on(isTouchDevice ? "touchmove.fb.touch" : "mousemove.fb.touch", $.proxy(self, "ontouchmove"));
+
+    if ($.fancybox.isMobile) {
+      document.addEventListener("scroll", self.onscroll, true);
+    }
+
+    // Skip if clicked outside the sliding area
+    if (!(self.opts || self.canPan) || !($target.is(self.$stage) || self.$stage.find($target).length)) {
+      if ($target.is(".fancybox-image")) {
+        e.preventDefault();
+      }
+
+      if (!($.fancybox.isMobile && $target.parents(".fancybox-caption").length)) {
+        return;
+      }
+    }
+
+    self.isScrollable = isScrollable($target) || isScrollable($target.parent());
+
+    // Check if element is scrollable and try to prevent default behavior (scrolling)
+    if (!($.fancybox.isMobile && self.isScrollable)) {
+      e.preventDefault();
+    }
+
+    // One finger or mouse click - swipe or pan an image
+    if (self.startPoints.length === 1 || current.hasError) {
+      if (self.canPan) {
+        $.fancybox.stop(self.$content);
+
+        self.isPanning = true;
+      } else {
+        self.isSwiping = true;
+      }
+
+      self.$container.addClass("fancybox-is-grabbing");
+    }
+
+    // Two fingers - zoom image
+    if (self.startPoints.length === 2 && current.type === "image" && (current.isLoaded || current.$ghost)) {
+      self.canTap = false;
+      self.isSwiping = false;
+      self.isPanning = false;
+
+      self.isZooming = true;
+
+      $.fancybox.stop(self.$content);
+
+      self.centerPointStartX = (self.startPoints[0].x + self.startPoints[1].x) * 0.5 - $(window).scrollLeft();
+      self.centerPointStartY = (self.startPoints[0].y + self.startPoints[1].y) * 0.5 - $(window).scrollTop();
+
+      self.percentageOfImageAtPinchPointX = (self.centerPointStartX - self.contentStartPos.left) / self.contentStartPos.width;
+      self.percentageOfImageAtPinchPointY = (self.centerPointStartY - self.contentStartPos.top) / self.contentStartPos.height;
+
+      self.startDistanceBetweenFingers = distance(self.startPoints[0], self.startPoints[1]);
+    }
+  };
+
+  Guestures.prototype.onscroll = function (e) {
+    var self = this;
+
+    self.isScrolling = true;
+
+    document.removeEventListener("scroll", self.onscroll, true);
+  };
+
+  Guestures.prototype.ontouchmove = function (e) {
+    var self = this;
+
+    // Make sure user has not released over iframe or disabled element
+    if (e.originalEvent.buttons !== undefined && e.originalEvent.buttons === 0) {
+      self.ontouchend(e);
+      return;
+    }
+
+    if (self.isScrolling) {
+      self.canTap = false;
+      return;
+    }
+
+    self.newPoints = getPointerXY(e);
+
+    if (!(self.opts || self.canPan) || !self.newPoints.length || !self.newPoints.length) {
+      return;
+    }
+
+    if (!(self.isSwiping && self.isSwiping === true)) {
+      e.preventDefault();
+    }
+
+    self.distanceX = distance(self.newPoints[0], self.startPoints[0], "x");
+    self.distanceY = distance(self.newPoints[0], self.startPoints[0], "y");
+
+    self.distance = distance(self.newPoints[0], self.startPoints[0]);
+
+    // Skip false ontouchmove events (Chrome)
+    if (self.distance > 0) {
+      if (self.isSwiping) {
+        self.onSwipe(e);
+      } else if (self.isPanning) {
+        self.onPan();
+      } else if (self.isZooming) {
+        self.onZoom();
+      }
+    }
+  };
+
+  Guestures.prototype.onSwipe = function (e) {
+    var self = this,
+      instance = self.instance,
+      swiping = self.isSwiping,
+      left = self.sliderStartPos.left || 0,
+      angle;
+
+    // If direction is not yet determined
+    if (swiping === true) {
+      // We need at least 10px distance to correctly calculate an angle
+      if (Math.abs(self.distance) > 10) {
+        self.canTap = false;
+
+        if (instance.group.length < 2 && self.opts.vertical) {
+          self.isSwiping = "y";
+        } else if (instance.isDragging || self.opts.vertical === false || (self.opts.vertical === "auto" && $(window).width() > 800)) {
+          self.isSwiping = "x";
+        } else {
+          angle = Math.abs((Math.atan2(self.distanceY, self.distanceX) * 180) / Math.PI);
+
+          self.isSwiping = angle > 45 && angle < 135 ? "y" : "x";
+        }
+
+        if (self.isSwiping === "y" && $.fancybox.isMobile && self.isScrollable) {
+          self.isScrolling = true;
+
+          return;
+        }
+
+        instance.isDragging = self.isSwiping;
+
+        // Reset points to avoid jumping, because we dropped first swipes to calculate the angle
+        self.startPoints = self.newPoints;
+
+        $.each(instance.slides, function (index, slide) {
+          var slidePos, stagePos;
+
+          $.fancybox.stop(slide.$slide);
+
+          slidePos = $.fancybox.getTranslate(slide.$slide);
+          stagePos = $.fancybox.getTranslate(instance.$refs.stage);
+
+          slide.$slide
+            .css({
+              transform: "",
+              opacity: "",
+              "transition-duration": ""
+            })
+            .removeClass("fancybox-animated")
+            .removeClass(function (index, className) {
+              return (className.match(/(^|\s)fancybox-fx-\S+/g) || []).join(" ");
+            });
+
+          if (slide.pos === instance.current.pos) {
+            self.sliderStartPos.top = slidePos.top - stagePos.top;
+            self.sliderStartPos.left = slidePos.left - stagePos.left;
+          }
+
+          $.fancybox.setTranslate(slide.$slide, {
+            top: slidePos.top - stagePos.top,
+            left: slidePos.left - stagePos.left
+          });
+        });
+
+        // Stop slideshow
+        if (instance.SlideShow && instance.SlideShow.isActive) {
+          instance.SlideShow.stop();
+        }
+      }
+
+      return;
+    }
+
+    // Sticky edges
+    if (swiping == "x") {
+      if (
+        self.distanceX > 0 &&
+        (self.instance.group.length < 2 || (self.instance.current.index === 0 && !self.instance.current.opts.loop))
+      ) {
+        left = left + Math.pow(self.distanceX, 0.8);
+      } else if (
+        self.distanceX < 0 &&
+        (self.instance.group.length < 2 ||
+          (self.instance.current.index === self.instance.group.length - 1 && !self.instance.current.opts.loop))
+      ) {
+        left = left - Math.pow(-self.distanceX, 0.8);
+      } else {
+        left = left + self.distanceX;
+      }
+    }
+
+    self.sliderLastPos = {
+      top: swiping == "x" ? 0 : self.sliderStartPos.top + self.distanceY,
+      left: left
+    };
+
+    if (self.requestId) {
+      cancelAFrame(self.requestId);
+
+      self.requestId = null;
+    }
+
+    self.requestId = requestAFrame(function () {
+      if (self.sliderLastPos) {
+        $.each(self.instance.slides, function (index, slide) {
+          var pos = slide.pos - self.instance.currPos;
+
+          $.fancybox.setTranslate(slide.$slide, {
+            top: self.sliderLastPos.top,
+            left: self.sliderLastPos.left + pos * self.canvasWidth + pos * slide.opts.gutter
+          });
+        });
+
+        self.$container.addClass("fancybox-is-sliding");
+      }
+    });
+  };
+
+  Guestures.prototype.onPan = function () {
+    var self = this;
+
+    // Prevent accidental movement (sometimes, when tapping casually, finger can move a bit)
+    if (distance(self.newPoints[0], self.realPoints[0]) < ($.fancybox.isMobile ? 10 : 5)) {
+      self.startPoints = self.newPoints;
+      return;
+    }
+
+    self.canTap = false;
+
+    self.contentLastPos = self.limitMovement();
+
+    if (self.requestId) {
+      cancelAFrame(self.requestId);
+    }
+
+    self.requestId = requestAFrame(function () {
+      $.fancybox.setTranslate(self.$content, self.contentLastPos);
+    });
+  };
+
+  // Make panning sticky to the edges
+  Guestures.prototype.limitMovement = function () {
+    var self = this;
+
+    var canvasWidth = self.canvasWidth;
+    var canvasHeight = self.canvasHeight;
+
+    var distanceX = self.distanceX;
+    var distanceY = self.distanceY;
+
+    var contentStartPos = self.contentStartPos;
+
+    var currentOffsetX = contentStartPos.left;
+    var currentOffsetY = contentStartPos.top;
+
+    var currentWidth = contentStartPos.width;
+    var currentHeight = contentStartPos.height;
+
+    var minTranslateX, minTranslateY, maxTranslateX, maxTranslateY, newOffsetX, newOffsetY;
+
+    if (currentWidth > canvasWidth) {
+      newOffsetX = currentOffsetX + distanceX;
+    } else {
+      newOffsetX = currentOffsetX;
+    }
+
+    newOffsetY = currentOffsetY + distanceY;
+
+    // Slow down proportionally to traveled distance
+    minTranslateX = Math.max(0, canvasWidth * 0.5 - currentWidth * 0.5);
+    minTranslateY = Math.max(0, canvasHeight * 0.5 - currentHeight * 0.5);
+
+    maxTranslateX = Math.min(canvasWidth - currentWidth, canvasWidth * 0.5 - currentWidth * 0.5);
+    maxTranslateY = Math.min(canvasHeight - currentHeight, canvasHeight * 0.5 - currentHeight * 0.5);
+
+    //   ->
+    if (distanceX > 0 && newOffsetX > minTranslateX) {
+      newOffsetX = minTranslateX - 1 + Math.pow(-minTranslateX + currentOffsetX + distanceX, 0.8) || 0;
+    }
+
+    //    <-
+    if (distanceX < 0 && newOffsetX < maxTranslateX) {
+      newOffsetX = maxTranslateX + 1 - Math.pow(maxTranslateX - currentOffsetX - distanceX, 0.8) || 0;
+    }
+
+    //   \/
+    if (distanceY > 0 && newOffsetY > minTranslateY) {
+      newOffsetY = minTranslateY - 1 + Math.pow(-minTranslateY + currentOffsetY + distanceY, 0.8) || 0;
+    }
+
+    //   /\
+    if (distanceY < 0 && newOffsetY < maxTranslateY) {
+      newOffsetY = maxTranslateY + 1 - Math.pow(maxTranslateY - currentOffsetY - distanceY, 0.8) || 0;
+    }
+
+    return {
+      top: newOffsetY,
+      left: newOffsetX
+    };
+  };
+
+  Guestures.prototype.limitPosition = function (newOffsetX, newOffsetY, newWidth, newHeight) {
+    var self = this;
+
+    var canvasWidth = self.canvasWidth;
+    var canvasHeight = self.canvasHeight;
+
+    if (newWidth > canvasWidth) {
+      newOffsetX = newOffsetX > 0 ? 0 : newOffsetX;
+      newOffsetX = newOffsetX < canvasWidth - newWidth ? canvasWidth - newWidth : newOffsetX;
+    } else {
+      // Center horizontally
+      newOffsetX = Math.max(0, canvasWidth / 2 - newWidth / 2);
+    }
+
+    if (newHeight > canvasHeight) {
+      newOffsetY = newOffsetY > 0 ? 0 : newOffsetY;
+      newOffsetY = newOffsetY < canvasHeight - newHeight ? canvasHeight - newHeight : newOffsetY;
+    } else {
+      // Center vertically
+      newOffsetY = Math.max(0, canvasHeight / 2 - newHeight / 2);
+    }
+
+    return {
+      top: newOffsetY,
+      left: newOffsetX
+    };
+  };
+
+  Guestures.prototype.onZoom = function () {
+    var self = this;
+
+    // Calculate current distance between points to get pinch ratio and new width and height
+    var contentStartPos = self.contentStartPos;
+
+    var currentWidth = contentStartPos.width;
+    var currentHeight = contentStartPos.height;
+
+    var currentOffsetX = contentStartPos.left;
+    var currentOffsetY = contentStartPos.top;
+
+    var endDistanceBetweenFingers = distance(self.newPoints[0], self.newPoints[1]);
+
+    var pinchRatio = endDistanceBetweenFingers / self.startDistanceBetweenFingers;
+
+    var newWidth = Math.floor(currentWidth * pinchRatio);
+    var newHeight = Math.floor(currentHeight * pinchRatio);
+
+    // This is the translation due to pinch-zooming
+    var translateFromZoomingX = (currentWidth - newWidth) * self.percentageOfImageAtPinchPointX;
+    var translateFromZoomingY = (currentHeight - newHeight) * self.percentageOfImageAtPinchPointY;
+
+    // Point between the two touches
+    var centerPointEndX = (self.newPoints[0].x + self.newPoints[1].x) / 2 - $(window).scrollLeft();
+    var centerPointEndY = (self.newPoints[0].y + self.newPoints[1].y) / 2 - $(window).scrollTop();
+
+    // And this is the translation due to translation of the centerpoint
+    // between the two fingers
+    var translateFromTranslatingX = centerPointEndX - self.centerPointStartX;
+    var translateFromTranslatingY = centerPointEndY - self.centerPointStartY;
+
+    // The new offset is the old/current one plus the total translation
+    var newOffsetX = currentOffsetX + (translateFromZoomingX + translateFromTranslatingX);
+    var newOffsetY = currentOffsetY + (translateFromZoomingY + translateFromTranslatingY);
+
+    var newPos = {
+      top: newOffsetY,
+      left: newOffsetX,
+      scaleX: pinchRatio,
+      scaleY: pinchRatio
+    };
+
+    self.canTap = false;
+
+    self.newWidth = newWidth;
+    self.newHeight = newHeight;
+
+    self.contentLastPos = newPos;
+
+    if (self.requestId) {
+      cancelAFrame(self.requestId);
+    }
+
+    self.requestId = requestAFrame(function () {
+      $.fancybox.setTranslate(self.$content, self.contentLastPos);
+    });
+  };
+
+  Guestures.prototype.ontouchend = function (e) {
+    var self = this;
+
+    var swiping = self.isSwiping;
+    var panning = self.isPanning;
+    var zooming = self.isZooming;
+    var scrolling = self.isScrolling;
+
+    self.endPoints = getPointerXY(e);
+    self.dMs = Math.max(new Date().getTime() - self.startTime, 1);
+
+    self.$container.removeClass("fancybox-is-grabbing");
+
+    $(document).off(".fb.touch");
+
+    document.removeEventListener("scroll", self.onscroll, true);
+
+    if (self.requestId) {
+      cancelAFrame(self.requestId);
+
+      self.requestId = null;
+    }
+
+    self.isSwiping = false;
+    self.isPanning = false;
+    self.isZooming = false;
+    self.isScrolling = false;
+
+    self.instance.isDragging = false;
+
+    if (self.canTap) {
+      return self.onTap(e);
+    }
+
+    self.speed = 100;
+
+    // Speed in px/ms
+    self.velocityX = (self.distanceX / self.dMs) * 0.5;
+    self.velocityY = (self.distanceY / self.dMs) * 0.5;
+
+    if (panning) {
+      self.endPanning();
+    } else if (zooming) {
+      self.endZooming();
+    } else {
+      self.endSwiping(swiping, scrolling);
+    }
+
+    return;
+  };
+
+  Guestures.prototype.endSwiping = function (swiping, scrolling) {
+    var self = this,
+      ret = false,
+      len = self.instance.group.length,
+      distanceX = Math.abs(self.distanceX),
+      canAdvance = swiping == "x" && len > 1 && ((self.dMs > 130 && distanceX > 10) || distanceX > 50),
+      speedX = 300;
+
+    self.sliderLastPos = null;
+
+    // Close if swiped vertically / navigate if horizontally
+    if (swiping == "y" && !scrolling && Math.abs(self.distanceY) > 50) {
+      // Continue vertical movement
+      $.fancybox.animate(
+        self.instance.current.$slide, {
+          top: self.sliderStartPos.top + self.distanceY + self.velocityY * 150,
+          opacity: 0
+        },
+        200
+      );
+      ret = self.instance.close(true, 250);
+    } else if (canAdvance && self.distanceX > 0) {
+      ret = self.instance.previous(speedX);
+    } else if (canAdvance && self.distanceX < 0) {
+      ret = self.instance.next(speedX);
+    }
+
+    if (ret === false && (swiping == "x" || swiping == "y")) {
+      self.instance.centerSlide(200);
+    }
+
+    self.$container.removeClass("fancybox-is-sliding");
+  };
+
+  // Limit panning from edges
+  // ========================
+  Guestures.prototype.endPanning = function () {
+    var self = this,
+      newOffsetX,
+      newOffsetY,
+      newPos;
+
+    if (!self.contentLastPos) {
+      return;
+    }
+
+    if (self.opts.momentum === false || self.dMs > 350) {
+      newOffsetX = self.contentLastPos.left;
+      newOffsetY = self.contentLastPos.top;
+    } else {
+      // Continue movement
+      newOffsetX = self.contentLastPos.left + self.velocityX * 500;
+      newOffsetY = self.contentLastPos.top + self.velocityY * 500;
+    }
+
+    newPos = self.limitPosition(newOffsetX, newOffsetY, self.contentStartPos.width, self.contentStartPos.height);
+
+    newPos.width = self.contentStartPos.width;
+    newPos.height = self.contentStartPos.height;
+
+    $.fancybox.animate(self.$content, newPos, 366);
+  };
+
+  Guestures.prototype.endZooming = function () {
+    var self = this;
+
+    var current = self.instance.current;
+
+    var newOffsetX, newOffsetY, newPos, reset;
+
+    var newWidth = self.newWidth;
+    var newHeight = self.newHeight;
+
+    if (!self.contentLastPos) {
+      return;
+    }
+
+    newOffsetX = self.contentLastPos.left;
+    newOffsetY = self.contentLastPos.top;
+
+    reset = {
+      top: newOffsetY,
+      left: newOffsetX,
+      width: newWidth,
+      height: newHeight,
+      scaleX: 1,
+      scaleY: 1
+    };
+
+    // Reset scalex/scaleY values; this helps for perfomance and does not break animation
+    $.fancybox.setTranslate(self.$content, reset);
+
+    if (newWidth < self.canvasWidth && newHeight < self.canvasHeight) {
+      self.instance.scaleToFit(150);
+    } else if (newWidth > current.width || newHeight > current.height) {
+      self.instance.scaleToActual(self.centerPointStartX, self.centerPointStartY, 150);
+    } else {
+      newPos = self.limitPosition(newOffsetX, newOffsetY, newWidth, newHeight);
+
+      $.fancybox.animate(self.$content, newPos, 150);
+    }
+  };
+
+  Guestures.prototype.onTap = function (e) {
+    var self = this;
+    var $target = $(e.target);
+
+    var instance = self.instance;
+    var current = instance.current;
+
+    var endPoints = (e && getPointerXY(e)) || self.startPoints;
+
+    var tapX = endPoints[0] ? endPoints[0].x - $(window).scrollLeft() - self.stagePos.left : 0;
+    var tapY = endPoints[0] ? endPoints[0].y - $(window).scrollTop() - self.stagePos.top : 0;
+
+    var where;
+
+    var process = function (prefix) {
+      var action = current.opts[prefix];
+
+      if ($.isFunction(action)) {
+        action = action.apply(instance, [current, e]);
+      }
+
+      if (!action) {
+        return;
+      }
+
+      switch (action) {
+        case "close":
+          instance.close(self.startEvent);
+
+          break;
+
+        case "toggleControls":
+          instance.toggleControls();
+
+          break;
+
+        case "next":
+          instance.next();
+
+          break;
+
+        case "nextOrClose":
+          if (instance.group.length > 1) {
+            instance.next();
+          } else {
+            instance.close(self.startEvent);
+          }
+
+          break;
+
+        case "zoom":
+          if (current.type == "image" && (current.isLoaded || current.$ghost)) {
+            if (instance.canPan()) {
+              instance.scaleToFit();
+            } else if (instance.isScaledDown()) {
+              instance.scaleToActual(tapX, tapY);
+            } else if (instance.group.length < 2) {
+              instance.close(self.startEvent);
+            }
+          }
+
+          break;
+      }
+    };
+
+    // Ignore right click
+    if (e.originalEvent && e.originalEvent.button == 2) {
+      return;
+    }
+
+    // Skip if clicked on the scrollbar
+    if (!$target.is("img") && tapX > $target[0].clientWidth + $target.offset().left) {
+      return;
+    }
+
+    // Check where is clicked
+    if ($target.is(".fancybox-bg,.fancybox-inner,.fancybox-outer,.fancybox-container")) {
+      where = "Outside";
+    } else if ($target.is(".fancybox-slide")) {
+      where = "Slide";
+    } else if (
+      instance.current.$content &&
+      instance.current.$content
+      .find($target)
+      .addBack()
+      .filter($target).length
+    ) {
+      where = "Content";
+    } else {
+      return;
+    }
+
+    // Check if this is a double tap
+    if (self.tapped) {
+      // Stop previously created single tap
+      clearTimeout(self.tapped);
+      self.tapped = null;
+
+      // Skip if distance between taps is too big
+      if (Math.abs(tapX - self.tapX) > 50 || Math.abs(tapY - self.tapY) > 50) {
+        return this;
+      }
+
+      // OK, now we assume that this is a double-tap
+      process("dblclick" + where);
+    } else {
+      // Single tap will be processed if user has not clicked second time within 300ms
+      // or there is no need to wait for double-tap
+      self.tapX = tapX;
+      self.tapY = tapY;
+
+      if (current.opts["dblclick" + where] && current.opts["dblclick" + where] !== current.opts["click" + where]) {
+        self.tapped = setTimeout(function () {
+          self.tapped = null;
+
+          if (!instance.isAnimating) {
+            process("click" + where);
+          }
+        }, 500);
+      } else {
+        process("click" + where);
+      }
+    }
+
+    return this;
+  };
+
+  $(document)
+    .on("onActivate.fb", function (e, instance) {
+      if (instance && !instance.Guestures) {
+        instance.Guestures = new Guestures(instance);
+      }
+    })
+    .on("beforeClose.fb", function (e, instance) {
+      if (instance && instance.Guestures) {
+        instance.Guestures.destroy();
+      }
+    });
+})(window, document, jQuery);
+// ==========================================================================
+//
+// SlideShow
+// Enables slideshow functionality
+//
+// Example of usage:
+// $.fancybox.getInstance().SlideShow.start()
+//
+// ==========================================================================
+(function (document, $) {
+  "use strict";
+
+  $.extend(true, $.fancybox.defaults, {
+    btnTpl: {
+      slideShow: '<button data-fancybox-play class="fancybox-button fancybox-button--play" title="{{PLAY_START}}">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.5 5.4v13.2l11-6.6z"/></svg>' +
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.33 5.75h2.2v12.5h-2.2V5.75zm5.15 0h2.2v12.5h-2.2V5.75z"/></svg>' +
+        "</button>"
+    },
+    slideShow: {
+      autoStart: false,
+      speed: 3000,
+      progress: true
+    }
+  });
+
+  var SlideShow = function (instance) {
+    this.instance = instance;
+    this.init();
+  };
+
+  $.extend(SlideShow.prototype, {
+    timer: null,
+    isActive: false,
+    $button: null,
+
+    init: function () {
+      var self = this,
+        instance = self.instance,
+        opts = instance.group[instance.currIndex].opts.slideShow;
+
+      self.$button = instance.$refs.toolbar.find("[data-fancybox-play]").on("click", function () {
+        self.toggle();
+      });
+
+      if (instance.group.length < 2 || !opts) {
+        self.$button.hide();
+      } else if (opts.progress) {
+        self.$progress = $('<div class="fancybox-progress"></div>').appendTo(instance.$refs.inner);
+      }
+    },
+
+    set: function (force) {
+      var self = this,
+        instance = self.instance,
+        current = instance.current;
+
+      // Check if reached last element
+      if (current && (force === true || current.opts.loop || instance.currIndex < instance.group.length - 1)) {
+        if (self.isActive && current.contentType !== "video") {
+          if (self.$progress) {
+            $.fancybox.animate(self.$progress.show(), {
+              scaleX: 1
+            }, current.opts.slideShow.speed);
+          }
+
+          self.timer = setTimeout(function () {
+            if (!instance.current.opts.loop && instance.current.index == instance.group.length - 1) {
+              instance.jumpTo(0);
+            } else {
+              instance.next();
+            }
+          }, current.opts.slideShow.speed);
+        }
+      } else {
+        self.stop();
+        instance.idleSecondsCounter = 0;
+        instance.showControls();
+      }
+    },
+
+    clear: function () {
+      var self = this;
+
+      clearTimeout(self.timer);
+
+      self.timer = null;
+
+      if (self.$progress) {
+        self.$progress.removeAttr("style").hide();
+      }
+    },
+
+    start: function () {
+      var self = this,
+        current = self.instance.current;
+
+      if (current) {
+        self.$button
+          .attr("title", (current.opts.i18n[current.opts.lang] || current.opts.i18n.en).PLAY_STOP)
+          .removeClass("fancybox-button--play")
+          .addClass("fancybox-button--pause");
+
+        self.isActive = true;
+
+        if (current.isComplete) {
+          self.set(true);
+        }
+
+        self.instance.trigger("onSlideShowChange", true);
+      }
+    },
+
+    stop: function () {
+      var self = this,
+        current = self.instance.current;
+
+      self.clear();
+
+      self.$button
+        .attr("title", (current.opts.i18n[current.opts.lang] || current.opts.i18n.en).PLAY_START)
+        .removeClass("fancybox-button--pause")
+        .addClass("fancybox-button--play");
+
+      self.isActive = false;
+
+      self.instance.trigger("onSlideShowChange", false);
+
+      if (self.$progress) {
+        self.$progress.removeAttr("style").hide();
+      }
+    },
+
+    toggle: function () {
+      var self = this;
+
+      if (self.isActive) {
+        self.stop();
+      } else {
+        self.start();
+      }
+    }
+  });
+
+  $(document).on({
+    "onInit.fb": function (e, instance) {
+      if (instance && !instance.SlideShow) {
+        instance.SlideShow = new SlideShow(instance);
+      }
+    },
+
+    "beforeShow.fb": function (e, instance, current, firstRun) {
+      var SlideShow = instance && instance.SlideShow;
+
+      if (firstRun) {
+        if (SlideShow && current.opts.slideShow.autoStart) {
+          SlideShow.start();
+        }
+      } else if (SlideShow && SlideShow.isActive) {
+        SlideShow.clear();
+      }
+    },
+
+    "afterShow.fb": function (e, instance, current) {
+      var SlideShow = instance && instance.SlideShow;
+
+      if (SlideShow && SlideShow.isActive) {
+        SlideShow.set();
+      }
+    },
+
+    "afterKeydown.fb": function (e, instance, current, keypress, keycode) {
+      var SlideShow = instance && instance.SlideShow;
+
+      // "P" or Spacebar
+      if (SlideShow && current.opts.slideShow && (keycode === 80 || keycode === 32) && !$(document.activeElement).is("button,a,input")) {
+        keypress.preventDefault();
+
+        SlideShow.toggle();
+      }
+    },
+
+    "beforeClose.fb onDeactivate.fb": function (e, instance) {
+      var SlideShow = instance && instance.SlideShow;
+
+      if (SlideShow) {
+        SlideShow.stop();
+      }
+    }
+  });
+
+  // Page Visibility API to pause slideshow when window is not active
+  $(document).on("visibilitychange", function () {
+    var instance = $.fancybox.getInstance(),
+      SlideShow = instance && instance.SlideShow;
+
+    if (SlideShow && SlideShow.isActive) {
+      if (document.hidden) {
+        SlideShow.clear();
+      } else {
+        SlideShow.set();
+      }
+    }
+  });
+})(document, jQuery);
+// ==========================================================================
+//
+// FullScreen
+// Adds fullscreen functionality
+//
+// ==========================================================================
+(function (document, $) {
+  "use strict";
+
+  // Collection of methods supported by user browser
+  var fn = (function () {
+    var fnMap = [
+      ["requestFullscreen", "exitFullscreen", "fullscreenElement", "fullscreenEnabled", "fullscreenchange", "fullscreenerror"],
+      // new WebKit
+      [
+        "webkitRequestFullscreen",
+        "webkitExitFullscreen",
+        "webkitFullscreenElement",
+        "webkitFullscreenEnabled",
+        "webkitfullscreenchange",
+        "webkitfullscreenerror"
+      ],
+      // old WebKit (Safari 5.1)
+      [
+        "webkitRequestFullScreen",
+        "webkitCancelFullScreen",
+        "webkitCurrentFullScreenElement",
+        "webkitCancelFullScreen",
+        "webkitfullscreenchange",
+        "webkitfullscreenerror"
+      ],
+      [
+        "mozRequestFullScreen",
+        "mozCancelFullScreen",
+        "mozFullScreenElement",
+        "mozFullScreenEnabled",
+        "mozfullscreenchange",
+        "mozfullscreenerror"
+      ],
+      ["msRequestFullscreen", "msExitFullscreen", "msFullscreenElement", "msFullscreenEnabled", "MSFullscreenChange", "MSFullscreenError"]
+    ];
+
+    var ret = {};
+
+    for (var i = 0; i < fnMap.length; i++) {
+      var val = fnMap[i];
+
+      if (val && val[1] in document) {
+        for (var j = 0; j < val.length; j++) {
+          ret[fnMap[0][j]] = val[j];
+        }
+
+        return ret;
+      }
+    }
+
+    return false;
+  })();
+
+  if (fn) {
+    var FullScreen = {
+      request: function (elem) {
+        elem = elem || document.documentElement;
+
+        elem[fn.requestFullscreen](elem.ALLOW_KEYBOARD_INPUT);
+      },
+      exit: function () {
+        document[fn.exitFullscreen]();
+      },
+      toggle: function (elem) {
+        elem = elem || document.documentElement;
+
+        if (this.isFullscreen()) {
+          this.exit();
+        } else {
+          this.request(elem);
+        }
+      },
+      isFullscreen: function () {
+        return Boolean(document[fn.fullscreenElement]);
+      },
+      enabled: function () {
+        return Boolean(document[fn.fullscreenEnabled]);
+      }
+    };
+
+    $.extend(true, $.fancybox.defaults, {
+      btnTpl: {
+        fullScreen: '<button data-fancybox-fullscreen class="fancybox-button fancybox-button--fsenter" title="{{FULL_SCREEN}}">' +
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>' +
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 16h3v3h2v-5H5zm3-8H5v2h5V5H8zm6 11h2v-3h3v-2h-5zm2-11V5h-2v5h5V8z"/></svg>' +
+          "</button>"
+      },
+      fullScreen: {
+        autoStart: false
+      }
+    });
+
+    $(document).on(fn.fullscreenchange, function () {
+      var isFullscreen = FullScreen.isFullscreen(),
+        instance = $.fancybox.getInstance();
+
+      if (instance) {
+        // If image is zooming, then force to stop and reposition properly
+        if (instance.current && instance.current.type === "image" && instance.isAnimating) {
+          instance.isAnimating = false;
+
+          instance.update(true, true, 0);
+
+          if (!instance.isComplete) {
+            instance.complete();
+          }
+        }
+
+        instance.trigger("onFullscreenChange", isFullscreen);
+
+        instance.$refs.container.toggleClass("fancybox-is-fullscreen", isFullscreen);
+
+        instance.$refs.toolbar
+          .find("[data-fancybox-fullscreen]")
+          .toggleClass("fancybox-button--fsenter", !isFullscreen)
+          .toggleClass("fancybox-button--fsexit", isFullscreen);
+      }
+    });
+  }
+
+  $(document).on({
+    "onInit.fb": function (e, instance) {
+      var $container;
+
+      if (!fn) {
+        instance.$refs.toolbar.find("[data-fancybox-fullscreen]").remove();
+
+        return;
+      }
+
+      if (instance && instance.group[instance.currIndex].opts.fullScreen) {
+        $container = instance.$refs.container;
+
+        $container.on("click.fb-fullscreen", "[data-fancybox-fullscreen]", function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          FullScreen.toggle();
+        });
+
+        if (instance.opts.fullScreen && instance.opts.fullScreen.autoStart === true) {
+          FullScreen.request();
+        }
+
+        // Expose API
+        instance.FullScreen = FullScreen;
+      } else if (instance) {
+        instance.$refs.toolbar.find("[data-fancybox-fullscreen]").hide();
+      }
+    },
+
+    "afterKeydown.fb": function (e, instance, current, keypress, keycode) {
+      // "F"
+      if (instance && instance.FullScreen && keycode === 70) {
+        keypress.preventDefault();
+
+        instance.FullScreen.toggle();
+      }
+    },
+
+    "beforeClose.fb": function (e, instance) {
+      if (instance && instance.FullScreen && instance.$refs.container.hasClass("fancybox-is-fullscreen")) {
+        FullScreen.exit();
+      }
+    }
+  });
+})(document, jQuery);
+// ==========================================================================
+//
+// Thumbs
+// Displays thumbnails in a grid
+//
+// ==========================================================================
+(function (document, $) {
+  "use strict";
+
+  var CLASS = "fancybox-thumbs",
+    CLASS_ACTIVE = CLASS + "-active";
+
+  // Make sure there are default values
+  $.fancybox.defaults = $.extend(
+    true, {
+      btnTpl: {
+        thumbs: '<button data-fancybox-thumbs class="fancybox-button fancybox-button--thumbs" title="{{THUMBS}}">' +
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.59 14.59h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76H5.65v-3.76zm8.94-4.47h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76h-3.76v-3.76zm-4.47 0h3.76v3.76H5.65v-3.76zm8.94-4.47h3.76v3.76h-3.76V5.65zm-4.47 0h3.76v3.76h-3.76V5.65zm-4.47 0h3.76v3.76H5.65V5.65z"/></svg>' +
+          "</button>"
+      },
+      thumbs: {
+        autoStart: false, // Display thumbnails on opening
+        hideOnClose: true, // Hide thumbnail grid when closing animation starts
+        parentEl: ".fancybox-container", // Container is injected into this element
+        axis: "y" // Vertical (y) or horizontal (x) scrolling
+      }
+    },
+    $.fancybox.defaults
+  );
+
+  var FancyThumbs = function (instance) {
+    this.init(instance);
+  };
+
+  $.extend(FancyThumbs.prototype, {
+    $button: null,
+    $grid: null,
+    $list: null,
+    isVisible: false,
+    isActive: false,
+
+    init: function (instance) {
+      var self = this,
+        group = instance.group,
+        enabled = 0;
+
+      self.instance = instance;
+      self.opts = group[instance.currIndex].opts.thumbs;
+
+      instance.Thumbs = self;
+
+      self.$button = instance.$refs.toolbar.find("[data-fancybox-thumbs]");
+
+      // Enable thumbs if at least two group items have thumbnails
+      for (var i = 0, len = group.length; i < len; i++) {
+        if (group[i].thumb) {
+          enabled++;
+        }
+
+        if (enabled > 1) {
+          break;
+        }
+      }
+
+      if (enabled > 1 && !!self.opts) {
+        self.$button.removeAttr("style").on("click", function () {
+          self.toggle();
+        });
+
+        self.isActive = true;
+      } else {
+        self.$button.hide();
+      }
+    },
+
+    create: function () {
+      var self = this,
+        instance = self.instance,
+        parentEl = self.opts.parentEl,
+        list = [],
+        src;
+
+      if (!self.$grid) {
+        // Create main element
+        self.$grid = $('<div class="' + CLASS + " " + CLASS + "-" + self.opts.axis + '"></div>').appendTo(
+          instance.$refs.container
+          .find(parentEl)
+          .addBack()
+          .filter(parentEl)
+        );
+
+        // Add "click" event that performs gallery navigation
+        self.$grid.on("click", "a", function () {
+          instance.jumpTo($(this).attr("data-index"));
+        });
+      }
+
+      // Build the list
+      if (!self.$list) {
+        self.$list = $('<div class="' + CLASS + '__list">').appendTo(self.$grid);
+      }
+
+      $.each(instance.group, function (i, item) {
+        src = item.thumb;
+
+        if (!src && item.type === "image") {
+          src = item.src;
+        }
+
+        list.push(
+          '<a href="javascript:;" tabindex="0" data-index="' +
+          i +
+          '"' +
+          (src && src.length ? ' style="background-image:url(' + src + ')"' : 'class="fancybox-thumbs-missing"') +
+          "></a>"
+        );
+      });
+
+      self.$list[0].innerHTML = list.join("");
+
+      if (self.opts.axis === "x") {
+        // Set fixed width for list element to enable horizontal scrolling
+        self.$list.width(
+          parseInt(self.$grid.css("padding-right"), 10) +
+          instance.group.length *
+          self.$list
+          .children()
+          .eq(0)
+          .outerWidth(true)
+        );
+      }
+    },
+
+    focus: function (duration) {
+      var self = this,
+        $list = self.$list,
+        $grid = self.$grid,
+        thumb,
+        thumbPos;
+
+      if (!self.instance.current) {
+        return;
+      }
+
+      thumb = $list
+        .children()
+        .removeClass(CLASS_ACTIVE)
+        .filter('[data-index="' + self.instance.current.index + '"]')
+        .addClass(CLASS_ACTIVE);
+
+      thumbPos = thumb.position();
+
+      // Check if need to scroll to make current thumb visible
+      if (self.opts.axis === "y" && (thumbPos.top < 0 || thumbPos.top > $list.height() - thumb.outerHeight())) {
+        $list.stop().animate({
+            scrollTop: $list.scrollTop() + thumbPos.top
+          },
+          duration
+        );
+      } else if (
+        self.opts.axis === "x" &&
+        (thumbPos.left < $grid.scrollLeft() || thumbPos.left > $grid.scrollLeft() + ($grid.width() - thumb.outerWidth()))
+      ) {
+        $list
+          .parent()
+          .stop()
+          .animate({
+              scrollLeft: thumbPos.left
+            },
+            duration
+          );
+      }
+    },
+
+    update: function () {
+      var that = this;
+      that.instance.$refs.container.toggleClass("fancybox-show-thumbs", this.isVisible);
+
+      if (that.isVisible) {
+        if (!that.$grid) {
+          that.create();
+        }
+
+        that.instance.trigger("onThumbsShow");
+
+        that.focus(0);
+      } else if (that.$grid) {
+        that.instance.trigger("onThumbsHide");
+      }
+
+      // Update content position
+      that.instance.update();
+    },
+
+    hide: function () {
+      this.isVisible = false;
+      this.update();
+    },
+
+    show: function () {
+      this.isVisible = true;
+      this.update();
+    },
+
+    toggle: function () {
+      this.isVisible = !this.isVisible;
+      this.update();
+    }
+  });
+
+  $(document).on({
+    "onInit.fb": function (e, instance) {
+      var Thumbs;
+
+      if (instance && !instance.Thumbs) {
+        Thumbs = new FancyThumbs(instance);
+
+        if (Thumbs.isActive && Thumbs.opts.autoStart === true) {
+          Thumbs.show();
+        }
+      }
+    },
+
+    "beforeShow.fb": function (e, instance, item, firstRun) {
+      var Thumbs = instance && instance.Thumbs;
+
+      if (Thumbs && Thumbs.isVisible) {
+        Thumbs.focus(firstRun ? 0 : 250);
+      }
+    },
+
+    "afterKeydown.fb": function (e, instance, current, keypress, keycode) {
+      var Thumbs = instance && instance.Thumbs;
+
+      // "G"
+      if (Thumbs && Thumbs.isActive && keycode === 71) {
+        keypress.preventDefault();
+
+        Thumbs.toggle();
+      }
+    },
+
+    "beforeClose.fb": function (e, instance) {
+      var Thumbs = instance && instance.Thumbs;
+
+      if (Thumbs && Thumbs.isVisible && Thumbs.opts.hideOnClose !== false) {
+        Thumbs.$grid.hide();
+      }
+    }
+  });
+})(document, jQuery);
+//// ==========================================================================
+//
+// Share
+// Displays simple form for sharing current url
+//
+// ==========================================================================
+(function (document, $) {
+  "use strict";
+
+  $.extend(true, $.fancybox.defaults, {
+    btnTpl: {
+      share: '<button data-fancybox-share class="fancybox-button fancybox-button--share" title="{{SHARE}}">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2.55 19c1.4-8.4 9.1-9.8 11.9-9.8V5l7 7-7 6.3v-3.5c-2.8 0-10.5 2.1-11.9 4.2z"/></svg>' +
+        "</button>"
+    },
+    share: {
+      url: function (instance, item) {
+        return (
+          (!instance.currentHash && !(item.type === "inline" || item.type === "html") ? item.origSrc || item.src : false) || window.location
+        );
+      },
+      tpl: '<div class="fancybox-share">' +
+        "<h1>{{SHARE}}</h1>" +
+        "<p>" +
+        '<a class="fancybox-share__button fancybox-share__button--fb" href="https://www.facebook.com/sharer/sharer.php?u={{url}}">' +
+        '<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="m287 456v-299c0-21 6-35 35-35h38v-63c-7-1-29-3-55-3-54 0-91 33-91 94v306m143-254h-205v72h196" /></svg>' +
+        "<span>Facebook</span>" +
+        "</a>" +
+        '<a class="fancybox-share__button fancybox-share__button--tw" href="https://twitter.com/intent/tweet?url={{url}}&text={{descr}}">' +
+        '<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="m456 133c-14 7-31 11-47 13 17-10 30-27 37-46-15 10-34 16-52 20-61-62-157-7-141 75-68-3-129-35-169-85-22 37-11 86 26 109-13 0-26-4-37-9 0 39 28 72 65 80-12 3-25 4-37 2 10 33 41 57 77 57-42 30-77 38-122 34 170 111 378-32 359-208 16-11 30-25 41-42z" /></svg>' +
+        "<span>Twitter</span>" +
+        "</a>" +
+        '<a class="fancybox-share__button fancybox-share__button--pt" href="https://www.pinterest.com/pin/create/button/?url={{url}}&description={{descr}}&media={{media}}">' +
+        '<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="m265 56c-109 0-164 78-164 144 0 39 15 74 47 87 5 2 10 0 12-5l4-19c2-6 1-8-3-13-9-11-15-25-15-45 0-58 43-110 113-110 62 0 96 38 96 88 0 67-30 122-73 122-24 0-42-19-36-44 6-29 20-60 20-81 0-19-10-35-31-35-25 0-44 26-44 60 0 21 7 36 7 36l-30 125c-8 37-1 83 0 87 0 3 4 4 5 2 2-3 32-39 42-75l16-64c8 16 31 29 56 29 74 0 124-67 124-157 0-69-58-132-146-132z" fill="#fff"/></svg>' +
+        "<span>Pinterest</span>" +
+        "</a>" +
+        "</p>" +
+        '<p><input class="fancybox-share__input" type="text" value="{{url_raw}}" onclick="select()" /></p>' +
+        "</div>"
+    }
+  });
+
+  function escapeHtml(string) {
+    var entityMap = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+      "/": "&#x2F;",
+      "`": "&#x60;",
+      "=": "&#x3D;"
+    };
+
+    return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+      return entityMap[s];
+    });
+  }
+
+  $(document).on("click", "[data-fancybox-share]", function () {
+    var instance = $.fancybox.getInstance(),
+      current = instance.current || null,
+      url,
+      tpl;
+
+    if (!current) {
+      return;
+    }
+
+    if ($.type(current.opts.share.url) === "function") {
+      url = current.opts.share.url.apply(current, [instance, current]);
+    }
+
+    tpl = current.opts.share.tpl
+      .replace(/\{\{media\}\}/g, current.type === "image" ? encodeURIComponent(current.src) : "")
+      .replace(/\{\{url\}\}/g, encodeURIComponent(url))
+      .replace(/\{\{url_raw\}\}/g, escapeHtml(url))
+      .replace(/\{\{descr\}\}/g, instance.$caption ? encodeURIComponent(instance.$caption.text()) : "");
+
+    $.fancybox.open({
+      src: instance.translate(instance, tpl),
+      type: "html",
+      opts: {
+        touch: false,
+        animationEffect: false,
+        afterLoad: function (shareInstance, shareCurrent) {
+          // Close self if parent instance is closing
+          instance.$refs.container.one("beforeClose.fb", function () {
+            shareInstance.close(null, 0);
+          });
+
+          // Opening links in a popup window
+          shareCurrent.$content.find(".fancybox-share__button").click(function () {
+            window.open(this.href, "Share", "width=550, height=450");
+            return false;
+          });
+        },
+        mobile: {
+          autoFocus: false
+        }
+      }
+    });
+  });
+})(document, jQuery);
+// ==========================================================================
+//
+// Hash
+// Enables linking to each modal
+//
+// ==========================================================================
+(function (window, document, $) {
+  "use strict";
+
+  // Simple $.escapeSelector polyfill (for jQuery prior v3)
+  if (!$.escapeSelector) {
+    $.escapeSelector = function (sel) {
+      var rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\x80-\uFFFF\w-]/g;
+      var fcssescape = function (ch, asCodePoint) {
+        if (asCodePoint) {
+          // U+0000 NULL becomes U+FFFD REPLACEMENT CHARACTER
+          if (ch === "\0") {
+            return "\uFFFD";
+          }
+
+          // Control characters and (dependent upon position) numbers get escaped as code points
+          return ch.slice(0, -1) + "\\" + ch.charCodeAt(ch.length - 1).toString(16) + " ";
+        }
+
+        // Other potentially-special ASCII characters get backslash-escaped
+        return "\\" + ch;
+      };
+
+      return (sel + "").replace(rcssescape, fcssescape);
+    };
+  }
+
+  // Get info about gallery name and current index from url
+  function parseUrl() {
+    var hash = window.location.hash.substr(1),
+      rez = hash.split("-"),
+      index = rez.length > 1 && /^\+?\d+$/.test(rez[rez.length - 1]) ? parseInt(rez.pop(-1), 10) || 1 : 1,
+      gallery = rez.join("-");
+
+    return {
+      hash: hash,
+      /* Index is starting from 1 */
+      index: index < 1 ? 1 : index,
+      gallery: gallery
+    };
+  }
+
+  // Trigger click evnt on links to open new fancyBox instance
+  function triggerFromUrl(url) {
+    if (url.gallery !== "") {
+      // If we can find element matching 'data-fancybox' atribute,
+      // then triggering click event should start fancyBox
+      $("[data-fancybox='" + $.escapeSelector(url.gallery) + "']")
+        .eq(url.index - 1)
+        .focus()
+        .trigger("click.fb-start");
+    }
+  }
+
+  // Get gallery name from current instance
+  function getGalleryID(instance) {
+    var opts, ret;
+
+    if (!instance) {
+      return false;
+    }
+
+    opts = instance.current ? instance.current.opts : instance.opts;
+    ret = opts.hash || (opts.$orig ? opts.$orig.data("fancybox") || opts.$orig.data("fancybox-trigger") : "");
+
+    return ret === "" ? false : ret;
+  }
+
+  // Start when DOM becomes ready
+  $(function () {
+    // Check if user has disabled this module
+    if ($.fancybox.defaults.hash === false) {
+      return;
+    }
+
+    // Update hash when opening/closing fancyBox
+    $(document).on({
+      "onInit.fb": function (e, instance) {
+        var url, gallery;
+
+        if (instance.group[instance.currIndex].opts.hash === false) {
+          return;
+        }
+
+        url = parseUrl();
+        gallery = getGalleryID(instance);
+
+        // Make sure gallery start index matches index from hash
+        if (gallery && url.gallery && gallery == url.gallery) {
+          instance.currIndex = url.index - 1;
+        }
+      },
+
+      "beforeShow.fb": function (e, instance, current, firstRun) {
+        var gallery;
+
+        if (!current || current.opts.hash === false) {
+          return;
+        }
+
+        // Check if need to update window hash
+        gallery = getGalleryID(instance);
+
+        if (!gallery) {
+          return;
+        }
+
+        // Variable containing last hash value set by fancyBox
+        // It will be used to determine if fancyBox needs to close after hash change is detected
+        instance.currentHash = gallery + (instance.group.length > 1 ? "-" + (current.index + 1) : "");
+
+        // If current hash is the same (this instance most likely is opened by hashchange), then do nothing
+        if (window.location.hash === "#" + instance.currentHash) {
+          return;
+        }
+
+        if (firstRun && !instance.origHash) {
+          instance.origHash = window.location.hash;
+        }
+
+        if (instance.hashTimer) {
+          clearTimeout(instance.hashTimer);
+        }
+
+        // Update hash
+        instance.hashTimer = setTimeout(function () {
+          if ("replaceState" in window.history) {
+            window.history[firstRun ? "pushState" : "replaceState"]({},
+              document.title,
+              window.location.pathname + window.location.search + "#" + instance.currentHash
+            );
+
+            if (firstRun) {
+              instance.hasCreatedHistory = true;
+            }
+          } else {
+            window.location.hash = instance.currentHash;
+          }
+
+          instance.hashTimer = null;
+        }, 300);
+      },
+
+      "beforeClose.fb": function (e, instance, current) {
+        if (!current || current.opts.hash === false) {
+          return;
+        }
+
+        clearTimeout(instance.hashTimer);
+
+        // Goto previous history entry
+        if (instance.currentHash && instance.hasCreatedHistory) {
+          window.history.back();
+        } else if (instance.currentHash) {
+          if ("replaceState" in window.history) {
+            window.history.replaceState({}, document.title, window.location.pathname + window.location.search + (instance.origHash || ""));
+          } else {
+            window.location.hash = instance.origHash;
+          }
+        }
+
+        instance.currentHash = null;
+      }
+    });
+
+    // Check if need to start/close after url has changed
+    $(window).on("hashchange.fb", function () {
+      var url = parseUrl(),
+        fb = null;
+
+      // Find last fancyBox instance that has "hash"
+      $.each(
+        $(".fancybox-container")
+        .get()
+        .reverse(),
+        function (index, value) {
+          var tmp = $(value).data("FancyBox");
+
+          if (tmp && tmp.currentHash) {
+            fb = tmp;
+            return false;
+          }
+        }
+      );
+
+      if (fb) {
+        // Now, compare hash values
+        if (fb.currentHash !== url.gallery + "-" + url.index && !(url.index === 1 && fb.currentHash == url.gallery)) {
+          fb.currentHash = null;
+
+          fb.close();
+        }
+      } else if (url.gallery !== "") {
+        triggerFromUrl(url);
+      }
+    });
+
+    // Check current hash and trigger click event on matching element to start fancyBox, if needed
+    setTimeout(function () {
+      if (!$.fancybox.getInstance()) {
+        triggerFromUrl(parseUrl());
+      }
+    }, 50);
+  });
+})(window, document, jQuery);
+// ==========================================================================
+//
+// Wheel
+// Basic mouse weheel support for gallery navigation
+//
+// ==========================================================================
+(function (document, $) {
+  "use strict";
+
+  var prevTime = new Date().getTime();
+
+  $(document).on({
+    "onInit.fb": function (e, instance, current) {
+      instance.$refs.stage.on("mousewheel DOMMouseScroll wheel MozMousePixelScroll", function (e) {
+        var current = instance.current,
+          currTime = new Date().getTime();
+
+        if (instance.group.length < 2 || current.opts.wheel === false || (current.opts.wheel === "auto" && current.type !== "image")) {
+          return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (current.$slide.hasClass("fancybox-animated")) {
+          return;
+        }
+
+        e = e.originalEvent || e;
+
+        if (currTime - prevTime < 250) {
+          return;
+        }
+
+        prevTime = currTime;
+
+        instance[(-e.deltaY || -e.deltaX || e.wheelDelta || -e.detail) < 0 ? "next" : "previous"]();
+      });
+    }
+  });
+})(document, jQuery);
+$(document).ready(function() {
+	$('.show_next').click(function () {
+
+		$(this).next().toggle();
+	});
+
+	if ( $('#car_from_europe').is(':checked') ) {
+		$('.form-group-europe').fadeIn();
+	}else{
+		$('.form-group-europe').fadeOut();
+	}
+		
+	$('.switch ').on('click', function () {
+		if ( $('#car_from_europe').is(':checked') ) {
+			$('.form-group-europe').fadeIn();
+		}else{
+			$('.form-group-europe').fadeOut();
+		}
+	});
+	
+});
+
+function readURL(input) {
+
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			$(input).parent().prev().attr('src', e.target.result);
+		};
+
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
+$(".preview_img").change(function(){
+	readURL(this);
+});
+
+
+//Поиск скрываем на клик в любое место
+$(document).mouseup(function (e){ // событие клика по веб-документу
+	var div = $("#search_result .results"); // тут указываем ID элемента
+	if (!div.is(e.target) // если клик был не по нашему блоку
+		&& div.has(e.target).length === 0) { // и не по его дочерним элементам
+		div.hide(); // скрываем его
+	}
+});
+//Сам поиск
+$('#search_form').submit(function () {
+	var data = $(this).serialize();
+	$.ajax({
+		url: '/admin/search',
+		type: "POST",
+		data: data,
+		success: function (data) {
+			$('#search_result').html(data);
+		}
+	});
+	return false;
+});
+
+$('#search_form .form-control').on('input',function () {
+	var data = $('#search_form').serialize();
+	if ($(this).val()) {
+		$.ajax({
+			url: '/admin/search',
+			type: "POST",
+			data: data,
+			success: function (data) {
+				$('#search_result').html(data);
+			}
+		});
+	}
+	return false;
+
+});
+
+// jQuery.datetimepicker.setLocale('ru');
+
+// $('[name="lot_start"]').datetimepicker({
+// 	format: 'Y-m-d H:i:s'
+// });
+
+// $('[name="lot_time"]').datetimepicker({
+//     format: 'y-m-d H:i:s'
+// });
+
+$('input[name="lot_start"]').mask('0000-00-00', {placeholder: '2000-12-30'});
+$('input[name="lot_time"]').mask('0000-00-00 00:00:00', {placeholder: '2000-12-30 00:00:00'});
+$(function() {
+    // Multiple images preview in browser
+    function imagesPreview(input, placeToInsertImagePreview) {
+        if (input.files) {
+            var filesAmount = input.files.length;
+            for (var i = 0; i < filesAmount; i++) {
+                var parth = upload_image(input.files[i],'lots', true);
+                if (parth) {
+                    // console.log(parth);
+                    $('.gallery.gallery__images').append('<div class="uploadedImage">' +
+                        '<div class="img">' +
+                        '<img src="/' +parth + '"></div>' +
+                        '<input type="text" placeholder="Название (alt)" name="images[alt][]">' +
+                        '<input type="text" placeholder="Заголовок (title)" name="images[title][]">' +
+                        '<input type="text" placeholder="Описание (description)" name="images[descr][]">' +
+                        '<input type="hidden" name="images[src][]" value="' + parth + '">' +
+                        '<a href="javascript:void(0);" class="btn btn-info btn-remove">Удалить</a></div>');
+                        $('.uploadedImage a.btn-remove').on('click', function () {
+                            $(this).closest('.uploadedImage').remove();
+                        });
+                }
+            }
+        }
+    }
+    $('#gallery-photo-add').on('change', function () {
+        imagesPreview(this, 'div.gallery');
+    });
+
+    $('.uploadedImage a.btn-remove').on('click', function () {
+        $(this).closest('.uploadedImage').remove();
+    });
+});
+//Загрузка файлов, функция вернет урл до картинки который положила на сервер
+function upload_image(image, folder = false, seo_url = false) {
+    //Собираем данные
+    var parth = false;
+    var form_data = new FormData();
+    form_data.append('file', image);
+    if (folder) form_data.append('folder', folder);
+    if (seo_url) form_data.append('seo_url', seo_url);
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: $('meta[name="upload_image"]').attr('content'),
+        data: form_data,
+        dataType: 'text',
+        cache: false,
+        async: false,
+        contentType: false,
+        processData: false,
+        type: 'post',
+        success: function (result) {
+            parth = result;
+        }
+    });
+    return parth;
+}
